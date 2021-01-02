@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+headerApp(BuildContext context) {
+  Size screenSize = MediaQuery.of(context).size;
+
+  return Center(
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 4),
+      child: RichText(
+          text: TextSpan(
+        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: screenSize.width / 4),
+        children: [
+          TextSpan(
+            text: 'Fit',
+            style: GoogleFonts.markaziText(color: Colors.black87, fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: 'able',
+            // style: GoogleFonts.markaziText(color: Color(0xDD334D92), fontWeight: FontWeight.bold),
+            style: GoogleFonts.markaziText(color: Colors.indigo, fontWeight: FontWeight.bold),
+          ),
+        ],
+      )),
+    ),
+  );
+}

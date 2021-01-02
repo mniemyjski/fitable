@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "114007149746",
+    "project_id": "fitable-76dce",
+    "storage_bucket": "fitable-76dce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114007149746:android:28ccfddbc8deac607dcdab",
+        "android_client_info": {
+          "package_name": "pl.fitable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114007149746-plpqeks2vkfhh05gvsp9kf9djmva0jtd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.fitable",
+            "certificate_hash": "04fbd52b90c44a2498e9b31b0a029169d91ce8d3"
+          }
+        },
+        {
+          "client_id": "114007149746-f3rn8dvc829bhd8h2sk1uuge63mg8c75.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcP2kqjb4JRlm4s4Yb3VKwCMYVo7drStg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114007149746-f3rn8dvc829bhd8h2sk1uuge63mg8c75.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

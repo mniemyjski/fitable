@@ -1,0 +1,8 @@
+<resources>
+
+<string name="app_name">Fitable</string>
+
+    <string name="facebook_app_id">1702573979885489</string>
+    <string name="fb_login_protocol_scheme">6dffafcee705c135e6a04a9b41b45686</string>
+
+</resources>
