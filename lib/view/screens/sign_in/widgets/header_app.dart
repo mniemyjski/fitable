@@ -17,8 +17,7 @@ headerApp(BuildContext context) {
           ),
           TextSpan(
             text: 'able',
-            // style: GoogleFonts.markaziText(color: Color(0xDD334D92), fontWeight: FontWeight.bold),
-            style: GoogleFonts.markaziText(color: Colors.indigo, fontWeight: FontWeight.bold),
+            style: GoogleFonts.markaziText(color: Colors.blue[800], fontWeight: FontWeight.bold),
           ),
         ],
       )),

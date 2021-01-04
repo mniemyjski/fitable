@@ -1,16 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:fitable/models/sign_in_model.dart';
 import 'package:fitable/services/auth.dart';
 import 'package:fitable/view/Screens/sign_in/widgets/sign_in_button.dart';
 import 'package:fitable/view/screens/sign_in/widgets/email_field.dart';
-import 'package:fitable/view/widgets/show_exception_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import 'widgets/header_app.dart';
 
 class SignInScreen extends StatefulWidget {
+  static const route = '/SignInScreen';
+
+  final SignInModel model;
+  const SignInScreen({Key key, this.model}) : super(key: key);
+
+  static Widget create(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    return ChangeNotifierProvider<SignInModel>(
+      create: (_) => SignInModel(auth: auth),
+      child: Consumer<SignInModel>(
+        builder: (_, model, __) => SignInScreen(model: model),
+      ),
+    );
+  }
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -21,63 +34,61 @@ class _SignInScreenState extends State<SignInScreen> {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
 
-  String get _email => _emailController.text;
-  String get _password => _passwordController.text;
+  SignInModel get model => widget.model;
 
-  bool _isLoading = false;
-  bool _emailSignIn = false;
-  bool _register = false;
-
-  void _showSignInError(BuildContext context, Exception exception) {
-    if (exception is FirebaseException && exception.code == 'ERROR_ABORTED_BY_USER') {
-      return;
-    }
-    print(exception);
-    showExceptionAlertDialog(
-      context,
-      title: 'Sign in failed',
-      exception: exception,
-    );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
   }
 
-  Future<void> signInWithGoogle(BuildContext context) async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      setState(() => _isLoading = true);
-      final auth = Provider.of<AuthBase>(context, listen: false);
-
-      await auth.signInWithGoogle();
+      await model.signInWithGoogle();
     } on Exception catch (e) {
-      _showSignInError(context, e);
-    } finally {
-      setState(() => _isLoading = false);
+      model.showSignInError(context, e);
     }
   }
 
   void _toggleRegister() {
-    setState(() {
-      _register ? _register = false : _register = true;
-    });
+    model.toggleFormType();
     _emailController.clear();
     _passwordController.clear();
   }
 
   void _toggleEmailSignIn() {
-    setState(() {
-      if (_emailSignIn) {
-        _emailSignIn = false;
-        _register = false;
-        _emailController.clear();
-        _passwordController.clear();
-      } else {
-        _emailSignIn = true;
-      }
-    });
+    model.toggleSignInType();
+  }
+
+  Future<void> _submit() async {
+    try {
+      await widget.model.submit();
+    } on FirebaseAuthException catch (e) {
+      model.showSignInError(context, e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
+      appBar: model.signInType == SignInType.email
+          ? AppBar(
+              actions: [
+                IconButton(
+                  icon: FaIcon(
+                    Icons.cancel_outlined,
+                    size: 25,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _toggleEmailSignIn(),
+                )
+              ],
+            )
+          : null,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -85,47 +96,23 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               children: [
                 headerApp(context),
-                if (!_emailSignIn) SignInButton(social: Social.google, onPressed: () => signInWithGoogle(context)),
-                if (!_emailSignIn) SignInButton(social: Social.mail, onPressed: () => _toggleEmailSignIn()),
-                if (_emailSignIn)
+                if (model.signInType == SignInType.main) SignInButton(social: Social.google, onPressed: () => _signInWithGoogle(context)),
+                if (model.signInType == SignInType.main) SignInButton(social: Social.mail, onPressed: () => _toggleEmailSignIn()),
+                if (model.signInType == SignInType.email)
                   EmailField(
-                    register: _register,
+                    model: model,
                     emailController: _emailController,
                     emailFocusNode: _emailFocusNode,
                     passwordController: _passwordController,
                     passwordFocusNode: _passwordFocusNode,
-                    onPressed: () => _toggleRegister(),
+                    onPressedSubmit: () => _submit(),
+                    onPressedRegister: () => _toggleRegister(),
                   ),
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: _emailSignIn
-          ? BottomAppBar(
-              color: Colors.indigo,
-              child: Container(
-                height: 48,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FaIcon(
-                      Icons.arrow_back_ios,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                    FlatButton(
-                        onPressed: () => _toggleEmailSignIn(),
-                        child: Text(
-                          "Back to other sign in",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    Container()
-                  ],
-                ),
-              ),
-            )
-          : null,
     );
   }
 }

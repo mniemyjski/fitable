@@ -34,6 +34,8 @@ class Auth implements AuthBase {
       email: email,
       password: password,
     );
+
+    print(userCredential.user);
     return userCredential.user;
   }
 

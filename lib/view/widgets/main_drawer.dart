@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/services/auth.dart';
+import 'package:fitable/view/screens/home/home_screen.dart';
+import 'package:fitable/view/screens/landing/landing_screen.dart';
+import 'package:fitable/view/screens/settings/settings_screen.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -46,7 +49,7 @@ class _State extends State<MainDrawer> {
             icon: Icons.home,
             text: 'home'.tr(),
             onTap: () {
-              // Navigator.pushNamedAndRemoveUntil(context, HomeScreen.route, (_) => false);
+              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.route, (_) => false);
             },
           ),
           Divider(),
@@ -105,7 +108,7 @@ class _State extends State<MainDrawer> {
               icon: Icons.settings,
               text: 'settings'.tr(),
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, SettingsScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, SettingsScreen.route, (_) => false);
               }),
           _createDrawerItem(
             icon: Icons.exit_to_app,
@@ -114,6 +117,7 @@ class _State extends State<MainDrawer> {
               final auth = Provider.of<AuthBase>(context, listen: false);
               try {
                 await auth.signOut();
+                Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
               } catch (e) {}
             },
           ),

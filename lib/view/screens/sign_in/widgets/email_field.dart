@@ -1,22 +1,30 @@
+import 'package:fitable/models/sign_in_model.dart';
 import 'package:flutter/material.dart';
 
 class EmailField extends StatelessWidget {
-  final bool register;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final FocusNode emailFocusNode;
   final FocusNode passwordFocusNode;
-  final VoidCallback onPressed;
+  final SignInModel model;
+  final VoidCallback onPressedSubmit;
+  final VoidCallback onPressedRegister;
 
   const EmailField({
     Key key,
-    this.register,
-    this.emailController,
-    this.passwordController,
-    this.emailFocusNode,
-    this.passwordFocusNode,
-    this.onPressed,
+    @required this.emailController,
+    @required this.passwordController,
+    @required this.emailFocusNode,
+    @required this.passwordFocusNode,
+    @required this.model,
+    @required this.onPressedSubmit,
+    @required this.onPressedRegister,
   }) : super(key: key);
+
+  void _emailEditingComplete(BuildContext context) {
+    final newFocus = model.emailValidator.isValid(model.email) ? passwordFocusNode : emailFocusNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +41,8 @@ class EmailField extends StatelessWidget {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
+              onEditingComplete: () => _emailEditingComplete(context),
+              onChanged: model.updateEmail,
             ),
             SizedBox(height: 8.0),
             TextField(
@@ -41,6 +51,8 @@ class EmailField extends StatelessWidget {
               decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
               textInputAction: TextInputAction.done,
+              onEditingComplete: onPressedSubmit,
+              onChanged: model.updatePassword,
             ),
             SizedBox(height: 8.0),
             Container(
@@ -51,12 +63,15 @@ class EmailField extends StatelessWidget {
                 color: Colors.indigo,
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: !register ? Text("Sign in") : Text("Create an account"),
-                onPressed: () {},
+                child: Text(model.primaryButtonText),
+                onPressed: onPressedSubmit,
               ),
             ),
-            if (!register) FlatButton(onPressed: () {}, child: Text("Forgot your password?")),
-            FlatButton(onPressed: onPressed, child: !register ? Text("Need an account? Register") : Text("Have an account? Sign in")),
+            if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text("Forgot your password?")),
+            FlatButton(
+              onPressed: onPressedRegister,
+              child: Text(model.secondaryButtonText),
+            ),
           ],
         ),
       ),

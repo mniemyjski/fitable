@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitable/services/auth.dart';
-import 'package:fitable/view/Screens/sign_in/sign_in_screen.dart';
+import 'package:fitable/services/database.dart';
 import 'package:fitable/view/screens/home/home_screen.dart';
+import 'package:fitable/view/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
+  static const route = '/';
+
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -14,6 +17,10 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final db = context.watch<Database>();
+
+    // Account a = new Account(uid: auth.currentUser.uid);
+    // db.setAccount(a);
 
     return StreamBuilder<User>(
       stream: auth.authStateChanges(),
@@ -22,7 +29,7 @@ class _LandingScreenState extends State<LandingScreen> {
           if (snapshot.hasData) {
             return HomeScreen();
           }
-          return SignInScreen();
+          return SignInScreen.create(context);
         }
         return Scaffold(
           body: Center(
