@@ -1,5 +1,7 @@
+import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum Social { google, facebook, mail }
 
@@ -26,7 +28,7 @@ class SignInButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Image.asset("resources/images/google-logo.png"),
               ),
-              Text("Sign in with Google"),
+              Text(Constants.sign_in_with_google.tr()),
               Container(),
             ],
           ),
@@ -49,7 +51,7 @@ class SignInButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Image.asset("resources/images/facebook-logo.png"),
               ),
-              Text("Sign in with Facebook"),
+              Text(Constants.sign_in_with_facebook.tr()),
               Container(),
             ],
           ),
@@ -72,7 +74,7 @@ class SignInButton extends StatelessWidget {
                 Icons.mail,
                 size: 40,
               ),
-              Text("Sign in with Email"),
+              Text(Constants.sign_in_with_email.tr()),
               Container(),
             ],
           ),

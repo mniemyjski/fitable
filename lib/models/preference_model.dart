@@ -1,5 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final providerPreference = StreamProvider.autoDispose<Preference>((ref) {
+  final db = ref.watch(providerDatabase);
+
+  return db.preferenceStream();
+});
 
 class Preference {
   final String uid;
@@ -64,41 +71,75 @@ class Preference {
     @required this.trainings,
   });
 
-  // factory Preference.fromFirestore(DocumentSnapshot document) {
-  //   try {
-  //     return Preference(
-  //       uid: document.documentID,
-  //       healthSync: document.data['healthSync'],
-  //       autoPlay: document.data['autoPlay'],
-  //       mute: document.data['mute'],
-  //       localeApp: document.data['localeApp'],
-  //       localeBase: document.data['localeBase'],
-  //       goalCaloriesDefault: document.data['goalCaloriesDefault'],
-  //       goalMacroDefault: document.data['goalMacroDefault'],
-  //       goalCalories: document.data['goalCalories'],
-  //       goalProteins: document.data['goalProteins'],
-  //       goalCarbs: document.data['goalCarbs'],
-  //       goalFats: document.data['goalFats'],
-  //       formulaBMR: document.data['formulaBMR'],
-  //       speedChangeWeight: document.data['speedChangeWeight'],
-  //       lastBodyWeightValue: document.data['lastBodyWeightValue'],
-  //       lastBodyWeightDate: document.data['lastBodyWeightDate'].toDate(),
-  //       lastBodyMuscleValue: document.data['lastBodyMuscleValue'],
-  //       lastBodyMuscleDate: document.data['lastBodyMuscleDate'].toDate(),
-  //       lastBodyFatValue: document.data['lastBodyFatValue'],
-  //       lastBodyFatDate: document.data['lastBodyFatDate'].toDate(),
-  //       dayTimeActivities: document.data['dayTimeActivities'],
-  //       targetWeight: document.data['targetWeight'],
-  //       targetFat: document.data['targetFat'],
-  //       targetSteps: document.data['targetSteps'],
-  //       targetBurnCalories: document.data['targetBurnCalories'],
-  //       products: document.data['products'],
-  //       recipes: document.data['recipes'],
-  //       exercises: document.data['exercises'],
-  //       trainings: document.data['trainings'],
-  //     );
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': uid,
+      'healthSync': healthSync,
+      'autoPlay': autoPlay,
+      'mute': mute,
+      'localeApp': localeApp,
+      'localeBase': localeBase,
+      'formulaBMR': formulaBMR,
+      'speedChangeWeight': speedChangeWeight,
+      'lastBodyWeightValue': lastBodyWeightValue,
+      'lastBodyWeightDate': lastBodyWeightDate,
+      'lastBodyMuscleValue': lastBodyMuscleValue,
+      'lastBodyMuscleDate': lastBodyMuscleDate,
+      'lastBodyFatValue': lastBodyFatValue,
+      'lastBodyFatDate': lastBodyFatDate,
+      'dayTimeActivities': dayTimeActivities,
+      'targetWeight': targetWeight,
+      'targetFat': targetFat,
+      'targetSteps': targetSteps,
+      'targetBurnCalories': targetBurnCalories,
+      'goalCaloriesDefault': goalCaloriesDefault,
+      'goalMacroDefault': goalMacroDefault,
+      'goalCalories': goalCalories,
+      'goalProteins': goalProteins,
+      'goalCarbs': goalCarbs,
+      'goalFats': goalFats,
+      'products': products,
+      'recipes': recipes,
+      'exercises': exercises,
+      'trainings': trainings,
+    };
+  }
+
+  factory Preference.fromMap(Map<String, dynamic> data, String documentId) {
+    if (data == null) {
+      return null;
+    }
+
+    return Preference(
+      uid: data['uid'],
+      healthSync: data['healthSync'],
+      autoPlay: data['autoPlay'],
+      mute: data['mute'],
+      localeApp: data['localeApp'],
+      localeBase: data['localeBase'],
+      formulaBMR: data['formulaBMR'],
+      speedChangeWeight: data['speedChangeWeight'],
+      lastBodyWeightValue: data['lastBodyWeightValue'],
+      lastBodyWeightDate: data['lastBodyWeightDate'].toDate(),
+      lastBodyMuscleValue: data['lastBodyMuscleValue'],
+      lastBodyMuscleDate: data['lastBodyMuscleDate'].toDate(),
+      lastBodyFatValue: data['lastBodyFatValue'],
+      lastBodyFatDate: data['lastBodyFatDate'].toDate(),
+      dayTimeActivities: data['dayTimeActivities'],
+      targetWeight: data['targetWeight'],
+      targetFat: data['targetFat'],
+      targetSteps: data['targetSteps'],
+      targetBurnCalories: data['targetBurnCalories'],
+      goalCaloriesDefault: data['goalCaloriesDefault'],
+      goalMacroDefault: data['goalMacroDefault'],
+      goalCalories: data['goalCalories'],
+      goalProteins: data['goalProteins'],
+      goalCarbs: data['goalCarbs'],
+      goalFats: data['goalFats'],
+      products: data['products'],
+      recipes: data['recipes'],
+      exercises: data['exercises'],
+      trainings: data['trainings'],
+    );
+  }
 }

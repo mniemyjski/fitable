@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitable/services/auth.dart';
-import 'package:fitable/view/screens/home/home_screen.dart';
-import 'package:fitable/view/screens/landing/landing_screen.dart';
-import 'package:fitable/view/screens/settings/settings_screen.dart';
+import 'package:fitable/constants/constants.dart';
+import 'package:fitable/models/account_model.dart';
+import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/providers.dart';
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
-import 'dart:io';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainDrawer extends StatefulWidget {
   @override
@@ -15,29 +14,6 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _State extends State<MainDrawer> {
-  bool internet = true;
-
-  internetCheck() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        setState(() {
-          internet = true;
-        });
-      }
-    } on SocketException catch (_) {
-      setState(() {
-        internet = false;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    internetCheck();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -47,27 +23,27 @@ class _State extends State<MainDrawer> {
           _createHeader(context),
           _createDrawerItem(
             icon: Icons.home,
-            text: 'home'.tr(),
+            text: Constants.home.tr(),
             onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.route, (_) => false);
+              Navigator.pushNamedAndRemoveUntil(context, AppRoute.home, (_) => false);
             },
           ),
           Divider(),
           _createDrawerItem(
               icon: FontAwesomeIcons.utensils,
-              text: 'diets'.tr(),
+              text: Constants.diets.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, DietsScreen.route, (_) => false);
               }),
           _createDrawerItem(
               icon: Icons.fastfood,
-              text: 'recipes'.tr(),
+              text: Constants.recipes.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, RecipeScreen.route, (_) => false);
               }),
           _createDrawerItem(
               icon: FontAwesomeIcons.dumbbell,
-              text: 'trainings'.tr(),
+              text: Constants.trainings.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, TrainingsScreen.route, (_) => false);
               }),
@@ -80,44 +56,43 @@ class _State extends State<MainDrawer> {
           //     }),
           _createDrawerItem(
               icon: FontAwesomeIcons.users,
-              text: 'community'.tr(),
+              text: Constants.community.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, CommunityScreen.route, (_) => false);
               }),
           _createDrawerItem(
               icon: Icons.dashboard,
-              text: 'board'.tr(),
+              text: Constants.board.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, BoardScreen.route, (_) => false);
               }),
           Divider(),
           _createDrawerItem(
               icon: Icons.stars,
-              text: 'goals'.tr(),
+              text: Constants.goals.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, GoalsScreen.route, (_) => false);
               }),
           _createDrawerItem(
               icon: FontAwesomeIcons.chartPie,
-              text: 'statistics'.tr(),
+              text: Constants.statistics.tr(),
               onTap: () {
                 // Navigator.pushNamedAndRemoveUntil(context, StatsScreen.route, (_) => false);
               }),
           Divider(),
           _createDrawerItem(
               icon: Icons.settings,
-              text: 'settings'.tr(),
+              text: Constants.settings.tr(),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, SettingsScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.settings, (_) => false);
               }),
           _createDrawerItem(
             icon: Icons.exit_to_app,
-            text: 'sign_out'.tr(),
+            text: Constants.sign_out.tr(),
             onTap: () async {
-              final auth = Provider.of<AuthBase>(context, listen: false);
+              final auth = context.read(providerAuthBase);
               try {
                 await auth.signOut();
-                Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
               } catch (e) {}
             },
           ),
@@ -127,39 +102,49 @@ class _State extends State<MainDrawer> {
   }
 
   Widget _createHeader(BuildContext context) {
-    return DrawerHeader(
-        margin: EdgeInsets.zero,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-        child: GestureDetector(
-          onTap: () {
-            // Navigator.pushNamedAndRemoveUntil(context, ProfileMyScreen.route, (_) => false);
-          },
-          child: Stack(children: <Widget>[
-            Positioned(
-              bottom: 40.0,
-              left: 16.0,
-              child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.black12,
-                child: CachedNetworkImage(
-                  imageUrl: '',
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 80.0,
-                    height: 80.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+    return Consumer(builder: (context, watch, child) {
+      final account = watch(providerAccount).data.value;
+
+      return DrawerHeader(
+          margin: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          child: GestureDetector(
+            onTap: () {
+              // Navigator.pushNamedAndRemoveUntil(context, ProfileMyScreen.route, (_) => false);
+            },
+            child: Stack(children: <Widget>[
+              Positioned(
+                bottom: 40.0,
+                left: 16.0,
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.black12,
+                  child: CachedNetworkImage(
+                    imageUrl: account?.avatarUrl ?? "",
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                      ),
                     ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.account_circle, size: 80),
                   ),
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.account_circle),
                 ),
               ),
-            ),
-            Positioned(bottom: 8.0, left: 16.0, child: Text('', style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500))),
-          ]),
-        ));
+              Positioned(
+                  bottom: 8.0,
+                  left: 16.0,
+                  child: Text(
+                    account?.name ?? "",
+                    style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+                  )),
+            ]),
+          ));
+    });
   }
 
   Widget _createDrawerItem({IconData icon, String text, GestureTapCallback onTap}) {

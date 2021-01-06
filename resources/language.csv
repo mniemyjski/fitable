@@ -1,0 +1,43 @@
+str,pl_PL,en_US
+email,email,email
+password,hasło,password
+forgot_your_password,Zapomniałeś hasła?,Forgot your password?
+sign_in,Zaloguj się,Sign in
+create_account,Utwórz konta,Create an account
+need_register,Nie masz konta? Zarejestruj się,Need an account? Register
+have_account_sign_in,Masz konto? Zaloguj się,Have an account? Sign in
+sign_out,Wyloguj,Sign out
+home,Home,Home
+diets,Diety,Diets
+recipes,Przepisy,Recipes
+trainings,Treningi,Trainings
+community,Społeczność,Community
+board,Tablica,Board
+goals,Cele,Goals
+statistics,Statystyki,Statistics
+settings,Ustawienia,Settings
+sign_in_with_google,Zaloguj się przez Google,Sign in with Google
+sign_in_with_facebook,Zaloguj się przez Facebook,Sign in with Facebook
+sign_in_with_email,Zaloguj się przez Email,Sign in with Email
+name,Nazwa,Name
+date_birth,Data urodzenia,Date Birth
+height,Wzrost,Height
+gender,Płeć,Gender
+daytime_activities,Dzienna aktywność,Daytime Activities
+very_low,Bardzo niska,Very low
+low,Niska,Low
+normal,Normalna,Normal
+medium,Średnia,Medium
+high,Wysoka,High
+weight,Waga,Weight
+target_weight,Docelowa waga,Target weight
+target_fat,Docelowa tkanka tłuszczowa,Target fat
+save,Zapisz,Save
+male,Mężczyzna,Male
+female,Kobieta,Female
+localeApp,Język aplikacji,Locale app
+localeBase,Baza prdouktów,Locale base
+healthSync,HealthSync,HealthSync
+autoPlay,Auto Play,Auto Play
+mute,Wycisz video,Mute
+dark_mode,Dark Mode,Dark Mode

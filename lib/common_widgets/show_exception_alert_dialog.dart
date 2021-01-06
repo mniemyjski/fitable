@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fitable/view/widgets/show_alert_dialog.dart';
+import 'package:fitable/common_widgets/show_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showExceptionAlertDialog(

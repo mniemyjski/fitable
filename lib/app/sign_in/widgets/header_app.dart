@@ -6,10 +6,10 @@ headerApp(BuildContext context) {
 
   return Center(
     child: Container(
-      margin: const EdgeInsets.only(bottom: 4),
+      margin: const EdgeInsets.only(bottom: 0),
       child: RichText(
           text: TextSpan(
-        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: screenSize.width / 4),
+        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: screenSize.width / 5),
         children: [
           TextSpan(
             text: 'Fit',

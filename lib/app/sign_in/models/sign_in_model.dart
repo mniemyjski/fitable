@@ -1,12 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitable/app/sign_in/validators.dart';
+import 'package:fitable/common_widgets/show_exception_alert_dialog.dart';
+import 'package:fitable/constants/constants.dart';
 import 'package:fitable/services/auth.dart';
-import 'package:fitable/view/screens/sign_in/validators.dart';
-import 'package:fitable/view/widgets/show_exception_alert_dialog.dart';
-import 'package:flutter/foundation.dart';
+import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum EmailFormType { signIn, register }
 enum SignInType { main, email }
+
+final signInModelProvider = ChangeNotifierProvider<SignInModel>((ref) {
+  final auth = ref.watch(providerAuthBase);
+  if (auth != null) {
+    return SignInModel(auth: auth);
+  }
+  return null;
+});
 
 class SignInModel with EmailAndPasswordValidators, ChangeNotifier {
   SignInModel({
@@ -64,11 +75,11 @@ class SignInModel with EmailAndPasswordValidators, ChangeNotifier {
   Future<User> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
 
   String get primaryButtonText {
-    return formType == EmailFormType.signIn ? 'Sign in' : 'Create an account';
+    return formType == EmailFormType.signIn ? Constants.sign_in.tr() : Constants.create_account.tr();
   }
 
   String get secondaryButtonText {
-    return formType == EmailFormType.signIn ? 'Need an account? Register' : 'Have an account? Sign in';
+    return formType == EmailFormType.signIn ? Constants.need_register.tr() : Constants.have_account_sign_in.tr();
   }
 
   bool get canSubmit {
