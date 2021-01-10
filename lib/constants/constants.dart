@@ -45,4 +45,40 @@ class Constants {
   static const String autoPlay = "autoPlay";
   static const String mute = "mute";
   static const String dark_mode = "dark_mode";
+
+  static const String youtube = "youtube";
+  static const String instagram = "instagram";
+  static const String facebook = "facebook";
+  static const String bio = "bio";
+  static const String access_date_birth = "access_date_birth";
+  static const String access_height = "access_height";
+  static const String access_gender = "access_gender";
+  static const String access_meals = "access_meals";
+  static const String access_stats = "access_stats";
+  static const String access = "access";
+  static const String private = "private";
+  static const String public = "public";
+
+  static const String no_activities_description = "no_activities_description";
+  static const String low_activities_description = "low_activities_description";
+  static const String normal_activities_description = "normal_activities_description";
+  static const String medium_activities_description = "medium_activities_description";
+  static const String high_activities_description = "high_activities_description";
+
+  static const String formula_bmr = "formula_bmr";
+  static const String standard = "standard";
+  static const String advanced = "advanced";
+  static const String formula_standard_description = "formula_standard_description";
+  static const String formula_advance_description = "formula_advance_description";
+
+  static const String target_steps = "target_steps";
+  static const String speed_change_weight = "speed_change_weight";
+  static const String target_burn_calories = "target_burn_calories";
+  static const String macro = "macro";
+
+  static const String favorites = "favorites";
+  static const String product_name = "product_name";
+  static const String category_primary = "category_primary";
+  static const String category_secondary = "category_secondary";
+  static const String nutritional_values_out_of_100 = "nutritional_values_out_of_100";
 }

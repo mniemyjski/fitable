@@ -33,6 +33,7 @@
 
 # Web related
 lib/generated_plugin_registrant.dart
+lib/services/api_algolia.dart
 
 # Symbolication related
 app.*.symbols

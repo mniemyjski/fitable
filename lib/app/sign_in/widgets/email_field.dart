@@ -1,4 +1,4 @@
-import 'package:fitable/app/sign_in/models/sign_in_model.dart';
+import 'package:fitable/app/sign_in/models/sign_in_view_model.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,14 +23,14 @@ class EmailField extends ConsumerWidget {
   }) : super(key: key);
 
   void _emailEditingComplete(BuildContext context) {
-    final model = context.read(signInModelProvider);
+    final model = context.read(providerSignInViewModel);
     final newFocus = model.emailValidator.isValid(model.email) ? passwordFocusNode : emailFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(signInModelProvider);
+    final model = watch(providerSignInViewModel);
 
     return Card(
       child: Padding(

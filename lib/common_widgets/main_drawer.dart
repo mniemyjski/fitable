@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/models/account_model.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import "package:flutter/material.dart";
@@ -71,14 +71,14 @@ class _State extends State<MainDrawer> {
               icon: Icons.stars,
               text: Constants.goals.tr(),
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, GoalsScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.goals, (_) => false);
               }),
-          _createDrawerItem(
-              icon: FontAwesomeIcons.chartPie,
-              text: Constants.statistics.tr(),
-              onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, StatsScreen.route, (_) => false);
-              }),
+          // _createDrawerItem(
+          //     icon: FontAwesomeIcons.chartPie,
+          //     text: Constants.statistics.tr(),
+          //     onTap: () {
+          //       // Navigator.pushNamedAndRemoveUntil(context, StatsScreen.route, (_) => false);
+          //     }),
           Divider(),
           _createDrawerItem(
               icon: Icons.settings,
@@ -111,7 +111,7 @@ class _State extends State<MainDrawer> {
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           child: GestureDetector(
             onTap: () {
-              // Navigator.pushNamedAndRemoveUntil(context, ProfileMyScreen.route, (_) => false);
+              Navigator.pushNamedAndRemoveUntil(context, AppRoute.myAccount, (_) => false);
             },
             child: Stack(children: <Widget>[
               Positioned(

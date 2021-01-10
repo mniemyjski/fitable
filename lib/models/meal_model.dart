@@ -49,4 +49,21 @@ class Meal {
   //     suggest: data['suggest'],
   //   );
   // }
+
+  static String mealTypeString(MealType mealType) {
+    switch (mealType) {
+      case MealType.breakfast:
+        return 'breakfast';
+      case MealType.lunch:
+        return 'lunch';
+      case MealType.dinner:
+        return 'dinner';
+      case MealType.supper:
+        return 'supper';
+      case MealType.snack:
+        return 'snack';
+      default:
+        return null;
+    }
+  }
 }

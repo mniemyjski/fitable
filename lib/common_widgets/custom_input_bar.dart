@@ -13,18 +13,23 @@ class CustomInputBar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        child: Container(
-          width: double.infinity,
-          height: 58,
-          padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(name.tr() ?? "", style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
-              Text(value ?? ""),
-            ],
-          ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(left: 6, top: 8, bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${name.tr()}:", style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8),
+                    Text(value ?? ""),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

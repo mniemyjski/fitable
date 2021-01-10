@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AccessLevel { private, coach, friends, public }
 
-final providerAccount = StreamProvider.autoDispose<Account>((ref) {
+final providerAccount = StreamProvider<Account>((ref) {
   final db = ref.watch(providerDatabase);
 
-  return db.accountStream();
+  return db.streamAccount();
 });
 
 class Account {
@@ -135,6 +135,23 @@ class Account {
         break;
       case AccessLevel.public:
         return 'private';
+        break;
+    }
+  }
+
+  accessToEnum(String value) {
+    switch (value) {
+      case 'private':
+        return AccessLevel.private;
+        break;
+      case 'private':
+        return AccessLevel.private;
+        break;
+      case 'private':
+        return AccessLevel.private;
+        break;
+      case 'private':
+        return AccessLevel.private;
         break;
     }
   }

@@ -11,16 +11,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 enum EmailFormType { signIn, register }
 enum SignInType { main, email }
 
-final signInModelProvider = ChangeNotifierProvider<SignInModel>((ref) {
+final providerSignInViewModel = ChangeNotifierProvider<SignInViewModel>((ref) {
   final auth = ref.watch(providerAuthBase);
   if (auth != null) {
-    return SignInModel(auth: auth);
+    return SignInViewModel(auth: auth);
   }
   return null;
 });
 
-class SignInModel with EmailAndPasswordValidators, ChangeNotifier {
-  SignInModel({
+class SignInViewModel with EmailAndPasswordValidators, ChangeNotifier {
+  SignInViewModel({
     @required this.auth,
     this.email = '',
     this.password = '',

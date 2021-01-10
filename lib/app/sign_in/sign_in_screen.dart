@@ -1,4 +1,4 @@
-import 'package:fitable/app/sign_in/models/sign_in_model.dart';
+import 'package:fitable/app/sign_in/models/sign_in_view_model.dart';
 import 'package:fitable/app/sign_in/widgets/email_field.dart';
 import 'package:fitable/app/sign_in/widgets/header_app.dart';
 import 'package:fitable/app/sign_in/widgets/sign_in_button.dart';
@@ -26,7 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
-    final model = context.read(signInModelProvider);
+    final model = context.read(providerSignInViewModel);
 
     try {
       await model.signInWithGoogle();
@@ -36,19 +36,19 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _toggleRegister() {
-    final model = context.read(signInModelProvider);
+    final model = context.read(providerSignInViewModel);
     model.toggleFormType();
     _emailController.clear();
     _passwordController.clear();
   }
 
   void _toggleEmailSignIn() {
-    final model = context.read(signInModelProvider);
+    final model = context.read(providerSignInViewModel);
     model.toggleSignInType();
   }
 
   Future<void> _submit() async {
-    final model = context.read(signInModelProvider);
+    final model = context.read(providerSignInViewModel);
     try {
       await model.submit();
     } on Exception catch (e) {
@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final model = watch(signInModelProvider);
+      final model = watch(providerSignInViewModel);
       return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: model.signInType == SignInType.email

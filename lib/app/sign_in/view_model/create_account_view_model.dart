@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final providerCreateAccountModel = ChangeNotifierProvider<CreateAccountModel>((ref) => CreateAccountModel());
+final providerCreateAccountViewModel = ChangeNotifierProvider<CreateAccountViewModel>((ref) => CreateAccountViewModel());
 
-class CreateAccountModel extends ChangeNotifier {
+class CreateAccountViewModel extends ChangeNotifier {
   String _name;
   String get name => _name;
   set name(String name) {

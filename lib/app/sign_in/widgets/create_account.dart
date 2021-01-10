@@ -1,11 +1,11 @@
-import 'package:fitable/app/sign_in/models/create_account_model.dart';
+import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/sign_in/view_model/create_account_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/models/account_model.dart';
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +15,7 @@ import 'package:easy_localization/easy_localization.dart';
 class CreateAccount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(providerCreateAccountModel);
+    final model = watch(providerCreateAccountViewModel);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,6 +36,7 @@ class CreateAccount extends ConsumerWidget {
                 name: Constants.name,
                 value: model.name,
                 onTap: () {
+                  //TODO create function set name in model with validate (non empty and unique)
                   String _value;
 
                   showInputPicker(
@@ -55,7 +56,7 @@ class CreateAccount extends ConsumerWidget {
               SizedBox(height: 4.0),
               CustomInputBar(
                 name: Constants.date_birth,
-                value: model?.dateBirth != null ? DateFormat('y/MM/dd').format(model.dateBirth) : "",
+                value: model?.dateBirth != null ? DateFormat('y-MM-dd').format(model.dateBirth) : "",
                 onTap: () {
                   showDatePicker(
                           context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
@@ -179,8 +180,8 @@ class CreateAccount extends ConsumerWidget {
                         mute: true,
                         localeApp: 'pl_PL',
                         localeBase: 'pl_PL',
-                        formulaBMR: null,
-                        speedChangeWeight: null,
+                        formulaBMR: 'standard',
+                        speedChangeWeight: 0.5,
                         lastBodyWeightValue: model.weight,
                         lastBodyWeightDate: DateTime.now(),
                         lastBodyMuscleValue: null,

@@ -1,7 +1,7 @@
+import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -18,6 +18,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text(Constants.settings.tr()),
       ),

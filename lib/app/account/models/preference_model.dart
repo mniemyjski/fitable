@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final providerPreference = StreamProvider.autoDispose<Preference>((ref) {
   final db = ref.watch(providerDatabase);
 
-  return db.preferenceStream();
+  return db.streamPreference();
 });
 
 class Preference {
