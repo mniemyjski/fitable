@@ -65,7 +65,7 @@ class GoalsScreen extends ConsumerWidget {
                     ))),
               ),
               CustomDropDownButton(
-                name: Constants.daytime_activities,
+                name: Constants.daytime_activities.tr(),
                 value: preference.dayTimeActivities,
                 description: true,
                 descFunc: activitiesDescription,
@@ -75,7 +75,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomDropDownButton(
-                name: Constants.formula_bmr,
+                name: Constants.formula_bmr.tr(),
                 value: preference.formulaBMR,
                 description: true,
                 descFunc: formulaDescription,

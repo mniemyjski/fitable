@@ -32,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             data: (pref) => Column(
               children: <Widget>[
                 CustomDropDownButton(
-                    name: Constants.localeApp,
+                    name: Constants.localeApp.tr(),
                     value: pref.localeApp,
                     list: <String>['pl_PL', 'en_US'],
                     onChanged: (String state) {
@@ -42,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       });
                     }),
                 CustomDropDownButton(
-                    name: Constants.localeBase,
+                    name: Constants.localeBase.tr(),
                     value: pref.localeBase,
                     list: <String>['pl_PL'],
                     onChanged: (state) {

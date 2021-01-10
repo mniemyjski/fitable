@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/common_widgets/add_button.dart';
 import 'package:fitable/models/meal_model.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,10 @@ class TileHeadMeals extends StatelessWidget {
           child: ExpansionTile(
               initiallyExpanded: true,
               title: Card(
-                margin: EdgeInsets.only(bottom: 5),
+                margin: EdgeInsets.only(bottom: 5, top: 3),
                 child: Container(
-                  height: 41,
-                  margin: EdgeInsets.only(left: 5, top: 5, bottom: 5),
+                  height: 47,
+                  margin: EdgeInsets.only(left: 5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -27,6 +28,7 @@ class TileHeadMeals extends StatelessWidget {
                         width: double.infinity,
                         child: Text(Meal.mealTypeString(mealType).tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                       ),
+                      SizedBox(height: 5),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -63,23 +65,15 @@ class TileHeadMeals extends StatelessWidget {
                   ),
                 ),
               ),
-              trailing: Card(
-                color: Colors.indigo,
-                margin: EdgeInsets.only(top: 1, bottom: 5),
-                child: Container(
-                  height: double.infinity,
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoute.search,
-                          arguments: SearchScreenArguments(
-                            typeSearch: SearchType.allFoods,
-                            mealType: mealType,
-                          ));
-                    },
-                  ),
-                ),
+              trailing: Container(
+                height: double.infinity,
+                child: AddButton(onPressed: () {
+                  Navigator.of(context).pushNamed(AppRoute.search,
+                      arguments: SearchScreenArguments(
+                        typeSearch: SearchType.allFoods,
+                        mealType: mealType,
+                      ));
+                }),
               ),
               children: <Widget>[
                 Container(

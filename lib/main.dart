@@ -4,14 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_device_locale/flutter_device_locale.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
-  await DeviceLocale.getCurrentLocale();
   await Firebase.initializeApp();
   runApp(
     ProviderScope(
