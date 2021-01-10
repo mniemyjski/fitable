@@ -1,5 +1,6 @@
 import 'package:algolia/algolia.dart';
-import 'package:fitable/services/api_algolia.dart';
+import 'package:fitable/services/application.dart';
+
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -32,7 +33,7 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    Algolia algolia = ApiAlgolia.algolia;
+    Algolia algolia = Application.algolia;
     AlgoliaQuery searchQuery;
 
     searchQuery = algolia.instance.index('products').search(query);
