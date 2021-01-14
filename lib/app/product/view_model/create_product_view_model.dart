@@ -3,7 +3,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final providerCreateProductViewModel = ChangeNotifierProvider<CreateProductViewModel>((ref) {
+final providerCreateProductViewModel = ChangeNotifierProvider.autoDispose<CreateProductViewModel>((ref) {
   return CreateProductViewModel();
 });
 
@@ -57,58 +57,6 @@ class CreateProductViewModel extends ChangeNotifier {
   double _chromium;
   Map _photosUrl;
 
-  void clear() {
-    _productName = null;
-    _categoryPrimary = null;
-    _categorySecondary = null;
-    _localeBase = null;
-    _unit = null;
-    _keyWords = null;
-    _portions = null;
-    _calories = null;
-    _proteins = null;
-    _carbs = null;
-    _fats = null;
-    _sugar = null;
-    _animalProteins = null;
-    _plantProteins = null;
-    _saturated = null;
-    _unsaturated = null;
-    _omega3 = null;
-    _omega6 = null;
-    _fiber = null;
-    _caffeine = null;
-    _cholesterol = null;
-    _salt = null;
-    _vitaminA = null;
-    _vitaminC = null;
-    _vitaminD = null;
-    _vitaminE = null;
-    _vitaminK = null;
-    _vitaminB1 = null;
-    _vitaminB2 = null;
-    _vitaminB3 = null;
-    _vitaminB5 = null;
-    _vitaminB6 = null;
-    _vitaminB7 = null;
-    _vitaminB9 = null;
-    _vitaminB12 = null;
-    _potassium = null;
-    _sodium = null;
-    _calcium = null;
-    _magnesium = null;
-    _phosphorus = null;
-    _iron = null;
-    _copper = null;
-    _zinc = null;
-    _selenium = null;
-    _manganese = null;
-    _iodine = null;
-    _chromium = null;
-    _photosUrl = null;
-    notifyListeners();
-  }
-
   List<String> get listSecondary {
     switch (_categoryPrimary) {
       case "fruits_vegetables_mushrooms":
@@ -134,60 +82,61 @@ class CreateProductViewModel extends ChangeNotifier {
   }
 
   submit({@required BuildContext context, @required String barcode}) {
+    final db = context.read(providerDatabase);
+
     Product product = Product(
         productID: null,
         barcode: barcode,
-        productName: _productName,
-        categoryPrimary: _categoryPrimary,
-        categorySecondary: _categorySecondary,
-        localeBase: _localeBase,
-        keyWords: _keyWords,
-        portions: null,
-        unit: _unit,
+        productName: productName,
+        categoryPrimary: categoryPrimary,
+        categorySecondary: categorySecondary,
+        localeBase: localeBase,
+        keyWords: keyWords,
+        portions: portions,
+        unit: unit,
         verification: false,
-        calories: _calories,
-        proteins: _proteins,
-        carbs: _carbs,
-        fats: _fats,
+        calories: calories,
+        proteins: proteins,
+        carbs: carbs,
+        fats: fats,
         photosUrl: _photosUrl,
-        sugar: _sugar != null ? _sugar : 0.0,
-        animalProteins: _animalProteins != null ? _animalProteins : 0.0,
-        plantProteins: _plantProteins != null ? _plantProteins : 0.0,
-        saturated: _saturated != null ? _saturated : 0.0,
-        unsaturated: _unsaturated != null ? _unsaturated : 0.0,
-        omega3: _omega3 != null ? _omega3 : 0.0,
-        omega6: _omega6 != null ? _omega6 : 0.0,
-        fiber: _fiber != null ? _fiber : 0.0,
-        caffeine: _caffeine != null ? _caffeine : 0.0,
-        cholesterol: _cholesterol != null ? _cholesterol : 0.0,
-        salt: _salt != null ? _salt : 0.0,
-        vitaminA: _vitaminA != null ? _vitaminA : 0.0,
-        vitaminC: _vitaminC != null ? _vitaminC : 0.0,
-        vitaminD: _vitaminD != null ? _vitaminD : 0.0,
-        vitaminE: _vitaminE != null ? _vitaminE : 0.0,
-        vitaminK: _vitaminK != null ? _vitaminK : 0.0,
-        vitaminB1: _vitaminB1 != null ? _vitaminB1 : 0.0,
-        vitaminB2: _vitaminB2 != null ? _vitaminB2 : 0.0,
-        vitaminB3: _vitaminB3 != null ? _vitaminB3 : 0.0,
-        vitaminB5: _vitaminB5 != null ? _vitaminB5 : 0.0,
-        vitaminB6: _vitaminB6 != null ? _vitaminB6 : 0.0,
-        vitaminB7: _vitaminB7 != null ? _vitaminB7 : 0.0,
-        vitaminB9: _vitaminB9 != null ? _vitaminB9 : 0.0,
-        vitaminB12: _vitaminB12 != null ? _vitaminB12 : 0.0,
-        potassium: _potassium != null ? _potassium : 0.0,
-        sodium: _sodium != null ? _sodium : 0.0,
-        calcium: _calcium != null ? _calcium : 0.0,
-        magnesium: _magnesium != null ? _magnesium : 0.0,
-        phosphorus: _phosphorus != null ? _phosphorus : 0.0,
-        iron: _iron != null ? _iron : 0.0,
-        copper: _copper != null ? _copper : 0.0,
-        zinc: _zinc != null ? _zinc : 0.0,
-        selenium: _selenium != null ? _selenium : 0.0,
-        manganese: _manganese != null ? _manganese : 0.0,
-        iodine: _iodine != null ? _iodine : 0.0,
-        chromium: _chromium != null ? _chromium : 0.0);
+        sugar: sugar != null ? sugar : 0.0,
+        animalProteins: animalProteins != null ? animalProteins : 0.0,
+        plantProteins: plantProteins != null ? plantProteins : 0.0,
+        saturated: saturated != null ? saturated : 0.0,
+        unsaturated: unsaturated != null ? unsaturated : 0.0,
+        omega3: omega3 != null ? omega3 : 0.0,
+        omega6: omega6 != null ? omega6 : 0.0,
+        fiber: fiber != null ? fiber : 0.0,
+        caffeine: caffeine != null ? caffeine : 0.0,
+        cholesterol: cholesterol != null ? cholesterol : 0.0,
+        salt: salt != null ? salt : 0.0,
+        vitaminA: vitaminA != null ? vitaminA : 0.0,
+        vitaminC: vitaminC != null ? vitaminC : 0.0,
+        vitaminD: vitaminD != null ? vitaminD : 0.0,
+        vitaminE: vitaminE != null ? vitaminE : 0.0,
+        vitaminK: vitaminK != null ? vitaminK : 0.0,
+        vitaminB1: vitaminB1 != null ? vitaminB1 : 0.0,
+        vitaminB2: vitaminB2 != null ? vitaminB2 : 0.0,
+        vitaminB3: vitaminB3 != null ? vitaminB3 : 0.0,
+        vitaminB5: vitaminB5 != null ? vitaminB5 : 0.0,
+        vitaminB6: vitaminB6 != null ? vitaminB6 : 0.0,
+        vitaminB7: vitaminB7 != null ? vitaminB7 : 0.0,
+        vitaminB9: vitaminB9 != null ? vitaminB9 : 0.0,
+        vitaminB12: vitaminB12 != null ? vitaminB12 : 0.0,
+        potassium: potassium != null ? potassium : 0.0,
+        sodium: sodium != null ? sodium : 0.0,
+        calcium: calcium != null ? calcium : 0.0,
+        magnesium: magnesium != null ? magnesium : 0.0,
+        phosphorus: phosphorus != null ? phosphorus : 0.0,
+        iron: iron != null ? iron : 0.0,
+        copper: copper != null ? copper : 0.0,
+        zinc: zinc != null ? zinc : 0.0,
+        selenium: selenium != null ? selenium : 0.0,
+        manganese: manganese != null ? manganese : 0.0,
+        iodine: iodine != null ? iodine : 0.0,
+        chromium: chromium != null ? chromium : 0.0);
 
-    final db = context.read(providerDatabase);
     db.createProduct(product);
   }
 
@@ -241,7 +190,11 @@ class CreateProductViewModel extends ChangeNotifier {
     }
   }
 
-  String get localeBase => _localeBase;
+  String get localeBase {
+    if (_localeBase == null) _localeBase = 'pl_PL';
+    return _localeBase;
+  }
+
   set localeBase(String localeBase) {
     if (localeBase.isNotEmpty) _localeBase = localeBase;
   }

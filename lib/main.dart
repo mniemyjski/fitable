@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,14 +25,37 @@ void main() async {
   );
 }
 
+class Test extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(),
+        body: Center(
+          child: Column(
+            children: [
+              Text('test'),
+              MonetizeAd(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeLeft,
+    // ]);
 
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Fitable',
         theme: ThemeData(
           fontFamily: 'Georgia',

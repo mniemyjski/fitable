@@ -87,7 +87,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomDropDownButton(
-                name: Constants.gender,
+                name: Constants.gender.tr(),
                 value: model.gender,
                 list: <String>["male", "female"],
                 onChanged: (v) {
@@ -96,7 +96,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomDropDownButton(
-                name: Constants.daytime_activities,
+                name: Constants.daytime_activities.tr(),
                 value: model.dayTimeActivities,
                 list: <String>['very_low', 'low', 'normal', 'medium', 'high'],
                 onChanged: (v) {

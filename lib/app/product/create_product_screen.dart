@@ -1,5 +1,6 @@
 import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
+import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/view_model/create_product_view_model.dart';
 import 'package:fitable/common_widgets/add_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -11,12 +12,16 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+class CreateProductScreenArguments {
+  final String barcode;
+  final MealType mealType;
+
+  CreateProductScreenArguments({@required this.barcode, @required this.mealType});
+}
+
 class CreateProductScreen extends ConsumerWidget {
-  final barcode;
-
-  const CreateProductScreen({Key key, @required this.barcode}) : super(key: key);
-
   Widget build(BuildContext context, ScopedReader watch) {
+    final CreateProductScreenArguments args = ModalRoute.of(context).settings.arguments;
     final model = watch(providerCreateProductViewModel);
 
     return CustomScaffold(
@@ -24,8 +29,7 @@ class CreateProductScreen extends ConsumerWidget {
         IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              model.submit(context: context, barcode: barcode);
-              model.clear();
+              model.submit(context: context, barcode: args.barcode);
               Navigator.pop(context);
             })
       ]),
@@ -44,10 +48,10 @@ class CreateProductScreen extends ConsumerWidget {
                   ),
                   child: Stack(
                     children: <Widget>[
-                      Text(barcode, style: GoogleFonts.libreBarcode39(textStyle: TextStyle(fontSize: 47))),
+                      Text(args.barcode, style: GoogleFonts.libreBarcode39(textStyle: TextStyle(fontSize: 47))),
                       Container(
                         margin: EdgeInsets.only(top: 25),
-                        child: Text(barcode,
+                        child: Text(args.barcode,
                             style: TextStyle(
                               fontSize: 36,
                               letterSpacing: 4.0,
@@ -104,7 +108,6 @@ class CreateProductScreen extends ConsumerWidget {
                         );
 
                         if (result != null) {
-                          print(model.keyWords);
                           model.keyWords = result;
                         }
                       },
@@ -193,12 +196,11 @@ class CreateProductScreen extends ConsumerWidget {
                           Map<String, double> result = await Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return AddPortionsScreen(unit: model.unit, value: model.portions);
+                              return AddPortionsScreen(unit: model.unit, map: model.portions);
                             }),
                           );
 
                           if (result != null) {
-                            print(model.portions);
                             model.portions = result;
                           }
                         },

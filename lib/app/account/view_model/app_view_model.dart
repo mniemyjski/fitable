@@ -21,13 +21,8 @@ class AppModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void chosenDateIncrement() {
-    _chosenDate = _chosenDate.add(new Duration(days: 1));
-    notifyListeners();
-  }
-
-  void chosenDateDecrement() {
-    _chosenDate = _chosenDate.add(new Duration(days: -1));
+  void chosenDateIncrementDecrement(int value) {
+    _chosenDate = _chosenDate.add(new Duration(days: value));
     notifyListeners();
   }
 

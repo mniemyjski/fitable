@@ -74,9 +74,9 @@ class Product {
       @required this.iodine,
       @required this.chromium});
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({String id}) {
     return {
-      'productID': productID,
+      'productID': id ?? productID,
       'barcode': barcode,
       'productName': productName,
       'categoryPrimary': categoryPrimary,
@@ -86,6 +86,7 @@ class Product {
       'portions': portions,
       'unit': unit,
       'verification': verification,
+      'calories': calories,
       'proteins': proteins,
       'carbs': carbs,
       'fats': fats,
@@ -129,13 +130,13 @@ class Product {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Product.fromMap(Map<String, dynamic> data, String id) {
     if (data == null) {
       return null;
     }
 
     return Product(
-      productID: documentId,
+      productID: id,
       barcode: data['barcode'],
       productName: data['productName'],
       categoryPrimary: data['categoryPrimary'],

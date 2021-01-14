@@ -25,7 +25,7 @@ class _State extends State<MainDrawer> {
             icon: Icons.home,
             text: Constants.home.tr(),
             onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, AppRoute.home, (_) => false);
+              Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
             },
           ),
           Divider(),
@@ -71,7 +71,7 @@ class _State extends State<MainDrawer> {
               icon: Icons.stars,
               text: Constants.goals.tr(),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.goals, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.goalsScreen, (_) => false);
               }),
           // _createDrawerItem(
           //     icon: FontAwesomeIcons.chartPie,
@@ -84,7 +84,7 @@ class _State extends State<MainDrawer> {
               icon: Icons.settings,
               text: Constants.settings.tr(),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.settings, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.settingsScreen, (_) => false);
               }),
           _createDrawerItem(
             icon: Icons.exit_to_app,
@@ -111,7 +111,7 @@ class _State extends State<MainDrawer> {
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, AppRoute.myAccount, (_) => false);
+              Navigator.pushNamedAndRemoveUntil(context, AppRoute.myAccountScreen, (_) => false);
             },
             child: Stack(children: <Widget>[
               Positioned(

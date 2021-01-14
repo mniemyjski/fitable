@@ -1,8 +1,11 @@
 import 'package:algolia/algolia.dart';
+import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/services/application.dart';
-
+import 'package:fitable/services/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/product/models/product_model.dart';
 
 class DataSearch extends SearchDelegate {
   bool verification = false;
@@ -40,87 +43,76 @@ class DataSearch extends SearchDelegate {
     searchQuery = searchQuery.setFilters('localeBase:pl_PL');
 
     if (query.length < 4) {
-      return Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.all(30),
-              child: Text(
-                'search_term_must_be_longer'.tr(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          )
-        ],
+      return Center(
+        child: Container(
+          margin: EdgeInsets.all(30),
+          child: Text(
+            'search_term_must_be_longer'.tr(),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
       );
     }
 
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: 15),
-      child: Column(
-        children: <Widget>[
-          FutureBuilder(
-            future: searchQuery.getObjects(),
-            builder: (BuildContext context, AsyncSnapshot<AlgoliaQuerySnapshot> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Center(
-                    child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-                  );
-                  break;
-                default:
-                  if (snapshot.hasError) {
-                    return Text('error'.tr() + ': ${snapshot.error}');
-                  } else {
-                    return Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Divider(color: Colors.grey),
-                          Expanded(
-                            child: ListView.separated(
-                              separatorBuilder: (context, index) => Divider(
-                                height: 10,
-                                color: Colors.grey,
-                              ),
-                              itemCount: snapshot.data.hits.length,
-                              itemBuilder: (context, index) {
-                                final AlgoliaObjectSnapshot result = snapshot.data.hits[index];
-                                // final Future future = DatabaseService().getProduct(id: result.objectID, locale: preference.localeBase);
-                                return Text(result.objectID);
-                                // return FutureBuilder(
-                                //     future: future,
-                                //     builder: (BuildContext context, AsyncSnapshot resultValue) {
-                                //       switch (resultValue.connectionState) {
-                                //         case ConnectionState.waiting:
-                                //           return Container();
-                                //           break;
-                                //         default:
-                                //           if (resultValue.hasError) {
-                                //             return Text('error'.tr() + ': ${resultValue.error}');
-                                //           } else {
-                                //             return GestureDetector(
-                                //                 onTap: () {
-                                //                   close(context, resultValue.requireData);
-                                //                 },
-                                //                 child: typeSearch != TypeSearch.users
-                                //                     ? TileProduct(value: resultValue.requireData)
-                                //                     : tileUser(resultValue.requireData));
-                                //           }
-                                //       }
-                                //     });
-                              },
-                            ),
-                          ),
-                        ],
+    return FutureBuilder(
+      future: searchQuery.getObjects(),
+      builder: (BuildContext context, AsyncSnapshot<AlgoliaQuerySnapshot> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator()));
+            break;
+          default:
+            if (snapshot.hasError) {
+              return Text('error'.tr() + ': ${snapshot.error}');
+            } else {
+              return Column(
+                children: <Widget>[
+                  Divider(color: Colors.grey),
+                  Expanded(
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) => Divider(
+                        height: 10,
+                        color: Colors.grey,
                       ),
-                    );
-                  }
-              }
-            },
-          )
-        ],
-      ),
+                      itemCount: snapshot.data.hits.length,
+                      itemBuilder: (context, index) {
+                        final AlgoliaObjectSnapshot result = snapshot.data.hits[index];
+                        final db = context.read(providerDatabase);
+                        final Future<Product> product = db.getProduct(result.data['barcode']);
+
+                        return FutureBuilder(
+                            future: product,
+                            builder: (BuildContext context, AsyncSnapshot snap) {
+                              switch (snap.connectionState) {
+                                case ConnectionState.waiting:
+                                  return Container();
+                                default:
+                                  if (snap.hasData) {
+                                    return GestureDetector(
+                                        onTap: () {
+                                          close(context, snap.data);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(left: 5, right: 5),
+                                          child: TileProduct(product: snap.data),
+                                        ));
+                                  } else if (snap.hasError) {
+                                    print(snap);
+                                    return Text('error'.tr() + ': ${snap.error}');
+                                  } else {
+                                    return Text('error'.tr());
+                                  }
+                              }
+                            });
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }
+        }
+      },
     );
   }
 

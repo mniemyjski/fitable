@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-buildChooserDate(int value) {
+chooserDate(int value) {
   return Consumer(builder: (context, watch, child) {
     final model = watch(providerAppModel);
 
@@ -14,7 +14,7 @@ buildChooserDate(int value) {
               height: 50,
               child: FlatButton(
                 onPressed: () {
-                  model.chosenDateIncrement();
+                  model.chosenDateIncrementDecrement(value);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

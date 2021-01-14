@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final providerCreateAccountViewModel = ChangeNotifierProvider<CreateAccountViewModel>((ref) => CreateAccountViewModel());
+final providerCreateAccountViewModel = ChangeNotifierProvider.autoDispose<CreateAccountViewModel>((ref) => CreateAccountViewModel());
 
 class CreateAccountViewModel extends ChangeNotifier {
   String _name;

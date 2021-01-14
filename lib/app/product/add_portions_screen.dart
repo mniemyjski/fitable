@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AddPortionsScreen extends StatefulWidget {
-  final Map<String, double> value;
+  final Map<String, double> map;
   final String unit;
 
-  const AddPortionsScreen({Key key, @required this.value, @required this.unit}) : super(key: key);
+  const AddPortionsScreen({Key key, @required this.map, @required this.unit}) : super(key: key);
 
   @override
   _AddPortionsScreenState createState() => _AddPortionsScreenState();
@@ -22,7 +22,9 @@ class _AddPortionsScreenState extends State<AddPortionsScreen> {
   void initState() {
     super.initState();
     controller = TextEditingController(text: '');
-    _map = new Map<String, double>.from(widget.value);
+
+    _map = new Map<String, double>.from(widget.map);
+    if (_map.isEmpty) _map[widget.unit] = 1.0;
   }
 
   void submit() {
@@ -98,7 +100,7 @@ class _AddPortionsScreenState extends State<AddPortionsScreen> {
                   Container(
                     width: 150,
                     child: CustomDropDownButton(
-                      name: 'portion',
+                      name: 'portion'.tr(),
                       value: _portionChosen,
                       list: <String>['package', 'portion', 'glass', 'teaspoon', 'spoon'],
                       onChanged: (v) {

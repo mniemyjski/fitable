@@ -10,43 +10,34 @@ import 'package:flutter/material.dart';
 
 class AppRoute {
   static const landing = '/';
-  static const home = '/HomeScreen';
-  static const settings = '/SettingsScreen';
-  static const myAccount = '/MyAccountScreen';
-  static const goals = '/GoalsScreen';
-  static const search = '/SearchScreen';
-  static const createProduct = '/CreateProductScreen';
-  static const product = '/ProductScreen';
+  static const homeScreen = '/HomeScreen';
+  static const settingsScreen = '/SettingsScreen';
+  static const myAccountScreen = '/MyAccountScreen';
+  static const goalsScreen = '/GoalsScreen';
+  static const searchScreen = '/SearchScreen';
+  static const createProductScreen = '/CreateProductScreen';
+  static const foodScreen = '/FoodScreen';
 }
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-
     switch (settings.name) {
       case AppRoute.landing:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: HomeScreen()));
-      case AppRoute.home:
+      case AppRoute.homeScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: HomeScreen()));
-      case AppRoute.myAccount:
+      case AppRoute.myAccountScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: MyAccountScreen()));
-      case AppRoute.settings:
+      case AppRoute.settingsScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: SettingsScreen()));
-      case AppRoute.goals:
+      case AppRoute.goalsScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: GoalsScreen()));
-      case AppRoute.search:
-        return MaterialPageRoute(builder: (_) => LandingScreen(body: SearchScreen()));
-      case AppRoute.createProduct:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => LandingScreen(body: CreateProductScreen(barcode: args)),
-          settings: settings,
-          // fullscreenDialog: true,
-        );
-      case AppRoute.product:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => LandingScreen(body: FoodScreen(product: args)),
-          settings: settings,
-        );
+      case AppRoute.searchScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: SearchScreen()), settings: settings);
+      case AppRoute.createProductScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: CreateProductScreen()), settings: settings);
+      case AppRoute.foodScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: FoodScreen()), settings: settings);
 
         return _errorRoute();
       default:

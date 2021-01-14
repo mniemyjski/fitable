@@ -9,7 +9,7 @@ Future<bool> showAlertDialog(
   String cancelActionText,
   @required String defaultActionText,
 }) {
-  if ((defaultTargetPlatform == TargetPlatform.iOS)) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     return showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(

@@ -2,7 +2,7 @@ import 'package:fitable/app/home/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 
 class MacroAggregation extends StatelessWidget {
-  final double calories;
+  final int calories;
   final double proteins;
   final double carbs;
   final double fats;
@@ -36,7 +36,7 @@ class MacroAggregation extends StatelessWidget {
                 mainBar: true,
                 name: 'calories',
                 value: 0,
-                valueTotal: calories,
+                valueTotal: double.tryParse(calories.toString()),
                 valueTarget: caloriesTarget,
                 proteins: proteins,
                 carbs: carbs,
