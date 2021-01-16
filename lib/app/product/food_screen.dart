@@ -2,7 +2,7 @@ import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/models/recipe_model.dart';
-import 'package:fitable/app/product/view_model/food_view_model.dart';
+import 'package:fitable/app/product/view_models/food_view_model.dart';
 import 'package:fitable/app/product/widget/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';

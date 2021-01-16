@@ -1,3 +1,4 @@
+import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
@@ -14,6 +15,7 @@ class AppRoute {
   static const settingsScreen = '/SettingsScreen';
   static const myAccountScreen = '/MyAccountScreen';
   static const goalsScreen = '/GoalsScreen';
+  static const goalsMacroScreen = '/GoalsMacroScreen';
   static const searchScreen = '/SearchScreen';
   static const createProductScreen = '/CreateProductScreen';
   static const foodScreen = '/FoodScreen';
@@ -38,7 +40,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LandingScreen(body: CreateProductScreen()), settings: settings);
       case AppRoute.foodScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: FoodScreen()), settings: settings);
-
+      case AppRoute.goalsMacroScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: GoalsMacroScreen()), settings: settings);
         return _errorRoute();
       default:
         return _errorRoute();

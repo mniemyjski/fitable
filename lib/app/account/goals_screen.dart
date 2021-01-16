@@ -1,21 +1,23 @@
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/account/view_model/app_view_model.dart';
+import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GoalsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final preference = watch(providerPreference);
     final db = watch(providerDatabase);
-    final model = watch(providerAppModel);
+    final model = watch(providerHomeViewModel);
 
     String activitiesDescription(String value) {
       switch (value) {
@@ -43,6 +45,17 @@ class GoalsScreen extends ConsumerWidget {
         default:
           return null;
       }
+    }
+
+    String _calculate(BuildContext context) {
+      final pref = context.read(providerPreference).data.value;
+      final model = context.read(providerHomeViewModel);
+      model.calculateBMR(context: context);
+
+      String _calories = model.goalCalories.toStringAsFixed(0);
+      // String _proteins = pref.goalProteins?.toStringAsFixed(0);
+
+      return _calories;
     }
 
     _buildBody(Preference preference) {
@@ -81,6 +94,7 @@ class GoalsScreen extends ConsumerWidget {
                 descFunc: formulaDescription,
                 list: <String>['standard', 'advanced'],
                 onChanged: (v) {
+                  //TODO validator sprawdzający czy jest dodany poziom tkanki tłuszczowej
                   db.updatePreference(name: 'formulaBMR', value: v);
                 },
               ),
@@ -213,6 +227,13 @@ class GoalsScreen extends ConsumerWidget {
                         db.updatePreference(name: 'targetBurnCalories', value: value);
                         Navigator.pop(context);
                       });
+                },
+              ),
+              CustomInputBar(
+                name: Constants.macro,
+                value: _calculate(context),
+                onTap: () {
+                  Navigator.of(context).pushNamed(AppRoute.goalsMacroScreen);
                 },
               ),
             ],

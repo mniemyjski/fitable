@@ -22,7 +22,7 @@ class _MonetizeAdState extends State<MonetizeAd> {
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return Container(
-        margin: EdgeInsets.only(top: 5, left: 5, right: 5),
+        margin: EdgeInsets.only(top: 5, left: 10, right: 5),
         child: Column(
           children: [
             Container(

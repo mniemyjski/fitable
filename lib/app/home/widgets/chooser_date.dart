@@ -1,4 +1,4 @@
-import 'package:fitable/app/account/view_model/app_view_model.dart';
+import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 chooserDate(int value) {
   return Consumer(builder: (context, watch, child) {
-    final model = watch(providerAppModel);
+    final model = watch(providerHomeViewModel);
 
     if (value != 0) {
       return Expanded(

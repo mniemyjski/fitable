@@ -1,3 +1,4 @@
+import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/models/recipe_model.dart';
@@ -56,11 +57,12 @@ class FoodViewModel extends ChangeNotifier {
   submit({@required BuildContext context, Product product, Meal meal, @required MealType mealType}) {
     final db = context.read(providerDatabase);
     final model = context.read(providerFoodViewModel);
+    final modelHome = context.read(providerHomeViewModel);
 
     if (product != null) {
       Meal _meal = Meal(
           uid: db.uid,
-          dateTime: DateTime.now(),
+          dateTime: modelHome.chosenDate,
           dateCreation: DateTime.now(),
           mealType: mealType,
           portionSize: model.portionSize,

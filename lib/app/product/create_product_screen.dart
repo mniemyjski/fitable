@@ -1,7 +1,7 @@
 import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
-import 'package:fitable/app/product/view_model/create_product_view_model.dart';
+import 'package:fitable/app/product/view_models/create_product_view_model.dart';
 import 'package:fitable/common_widgets/add_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
