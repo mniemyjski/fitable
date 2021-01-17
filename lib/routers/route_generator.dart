@@ -2,6 +2,7 @@ import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
+import 'package:fitable/app/home/add_body_circumferences_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';
 import 'package:fitable/app/product/create_product_screen.dart';
 import 'package:fitable/app/product/food_screen.dart';
@@ -19,6 +20,7 @@ class AppRoute {
   static const searchScreen = '/SearchScreen';
   static const createProductScreen = '/CreateProductScreen';
   static const foodScreen = '/FoodScreen';
+  static const addBodyCircumferencesScreen = '/AddBodyCircumferencesScreen';
 }
 
 class RouteGenerator {
@@ -42,7 +44,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LandingScreen(body: FoodScreen()), settings: settings);
       case AppRoute.goalsMacroScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: GoalsMacroScreen()), settings: settings);
-        return _errorRoute();
+      case AppRoute.addBodyCircumferencesScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: AddBodyCircumferencesScreen()), settings: settings);
+      // return _errorRoute();
       default:
         return _errorRoute();
     }

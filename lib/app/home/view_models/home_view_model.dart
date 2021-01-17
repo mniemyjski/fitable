@@ -70,37 +70,39 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   calculateBMR({@required BuildContext context, double weight, double fat}) {
-    final preference = context.read(providerPreference).data.value;
-    final account = context.read(providerAccount).data.value;
+    final preference = context.read(providerPreference);
+    final account = context.read(providerAccount);
 
-    double age = _calculateAge(account.dateBirth);
-    double activities = _activities(preference.dayTimeActivities);
-    double _weight = weight == null ? preference.lastBodyWeightValue : weight;
-    double _fat = fat == null ? preference.lastBodyFatValue : fat;
-    double ppm;
+    preference.whenData((preference) => account.whenData((account) {
+          double age = _calculateAge(account.dateBirth);
+          double activities = _activities(preference.dayTimeActivities);
+          double _weight = weight == null ? preference.lastBodyWeightValue : weight;
+          double _fat = fat == null ? preference.lastBodyFatValue : fat;
+          double ppm;
 
-    if (preference.formulaBMR == 'advanced') {
-      ppm = (370 + 21.6 * (_weight * (1 - _fat / 100))) * activities;
-    } else {
-      ppm = ((10 * _weight) + (6.25 * account.height) - (5 * age) + (account.gender == 'male' ? 5 : -161)) * activities;
-    }
+          if (preference.formulaBMR == 'advanced') {
+            ppm = (370 + 21.6 * (_weight * (1 - _fat / 100))) * activities;
+          } else {
+            ppm = ((10 * _weight) + (6.25 * account.height) - (5 * age) + (account.gender == 'male' ? 5 : -161)) * activities;
+          }
 
-    if (preference.formulaBMR == 'advanced') {
-      if (preference.targetFat.floorToDouble() == preference.lastBodyFatValue.floorToDouble()) {
-        // DatabaseService().updatePreference(context: context, uid: preference.uid, key: 'speedChangeWeight', value: 0.0);
-      }
-      ppm = _fat < preference.targetFat ? ppm + (preference.speedChangeWeight * 400) : ppm - (preference.speedChangeWeight * 400);
-    } else if (preference.formulaBMR == 'standard') {
-      if (preference.targetWeight.floorToDouble() == preference.lastBodyWeightValue.floorToDouble()) {
-        // DatabaseService().updatePreference(context: context, uid: preference.uid, key: 'speedChangeWeight', value: 0.0);
-      }
-      ppm = _weight < preference.targetWeight ? ppm + (preference.speedChangeWeight * 400) : ppm - (preference.speedChangeWeight * 400);
-    }
+          if (preference.formulaBMR == 'advanced') {
+            if (preference.targetFat.floorToDouble() == preference.lastBodyFatValue.floorToDouble()) {
+              // DatabaseService().updatePreference(context: context, uid: preference.uid, key: 'speedChangeWeight', value: 0.0);
+            }
+            ppm = _fat < preference.targetFat ? ppm + (preference.speedChangeWeight * 400) : ppm - (preference.speedChangeWeight * 400);
+          } else if (preference.formulaBMR == 'standard') {
+            if (preference.targetWeight.floorToDouble() == preference.lastBodyWeightValue.floorToDouble()) {
+              // DatabaseService().updatePreference(context: context, uid: preference.uid, key: 'speedChangeWeight', value: 0.0);
+            }
+            ppm = _weight < preference.targetWeight ? ppm + (preference.speedChangeWeight * 400) : ppm - (preference.speedChangeWeight * 400);
+          }
 
-    _goalCalories = ppm.round();
-    _goalProteins = ppm * (preference.goalProteins / 100) / 4;
-    _goalCarbs = ppm * (preference.goalCarbs / 100) / 4;
-    _goalFats = ppm * (preference.goalFats / 100) / 9;
+          _goalCalories = ppm.round();
+          _goalProteins = ppm * (preference.goalProteins / 100) / 4;
+          _goalCarbs = ppm * (preference.goalCarbs / 100) / 4;
+          _goalFats = ppm * (preference.goalFats / 100) / 9;
+        }));
   }
 
   static double _activities(String value) {

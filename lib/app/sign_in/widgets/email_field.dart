@@ -1,4 +1,5 @@
 import 'package:fitable/app/sign_in/models/sign_in_view_model.dart';
+import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,17 +60,11 @@ class EmailField extends ConsumerWidget {
               onChanged: model.updatePassword,
             ),
             SizedBox(height: 8.0),
-            Container(
-              width: double.infinity,
-              height: 48,
-              margin: const EdgeInsets.only(bottom: 8),
-              child: RaisedButton(
-                color: Colors.indigo,
-                textColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: Text(model.primaryButtonText),
-                onPressed: onPressedSubmit,
-              ),
+            CustomButton(
+              child: Text(model.primaryButtonText),
+              color: Colors.indigo,
+              textColor: Colors.white,
+              onPressed: onPressedSubmit,
             ),
             if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text(Constants.forgot_your_password.tr())),
             FlatButton(

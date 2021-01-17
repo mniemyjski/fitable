@@ -1,3 +1,4 @@
+import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,14 +14,7 @@ class SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (social == Social.google) {
-      return Container(
-        width: double.infinity,
-        height: 48,
-        margin: const EdgeInsets.only(bottom: 8),
-        child: RaisedButton(
-          color: Colors.white,
-          textColor: Colors.black87,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+      return CustomButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -32,18 +26,9 @@ class SignInButton extends StatelessWidget {
               Container(),
             ],
           ),
-          onPressed: onPressed,
-        ),
-      );
+          onPressed: onPressed);
     } else if (social == Social.facebook) {
-      return Container(
-        width: double.infinity,
-        height: 48,
-        margin: const EdgeInsets.only(bottom: 8),
-        child: RaisedButton(
-          color: Color(0xDD334D92),
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+      return CustomButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,32 +40,24 @@ class SignInButton extends StatelessWidget {
               Container(),
             ],
           ),
-          onPressed: onPressed,
-        ),
-      );
+          onPressed: onPressed);
     } else {
-      return Container(
-        width: double.infinity,
-        height: 48,
-        margin: const EdgeInsets.only(bottom: 16),
-        child: RaisedButton(
-          color: Colors.teal[700],
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+      return CustomButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FaIcon(
                 Icons.mail,
                 size: 40,
+                color: Colors.white,
               ),
               Text(Constants.sign_in_with_email.tr()),
               Container(),
             ],
           ),
-          onPressed: onPressed,
-        ),
-      );
+          textColor: Colors.white,
+          color: Colors.teal[700],
+          onPressed: onPressed);
     }
   }
 }

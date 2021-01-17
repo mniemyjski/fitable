@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
@@ -57,7 +59,13 @@ class FoodScreen extends StatelessWidget {
                 child: Container(
                   height: 55,
                   width: double.infinity,
-                  child: Center(child: Text(model.name)),
+                  // child: Center(child: Text(model.name)),
+                  child: Center(
+                      child: AutoSizeText(
+                    model.name,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                  )),
                 ),
               ),
               Card(
@@ -66,10 +74,7 @@ class FoodScreen extends StatelessWidget {
                 proteins: model.proteins,
                 carbs: model.carbs,
                 fats: model.fats,
-                caloriesTarget: 2000,
-                proteinsTarget: 180.0,
-                carbsTarget: 200.0,
-                fatsTarget: 60.0,
+                meal: args.meal,
               )),
               Row(
                 children: [
@@ -92,6 +97,23 @@ class FoodScreen extends StatelessWidget {
                             model.portionChosen = v;
                           }))
                 ],
+              ),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  width: double.infinity,
+                  // child: Center(child: Text(model.name)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("key_words".tr() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        model.keyWords.toString().substring(1, model.keyWords.toString().length - 1),
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               FlatButton(
                   onPressed: () => model.bugReport(),

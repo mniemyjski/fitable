@@ -15,7 +15,6 @@ import 'package:easy_localization/easy_localization.dart';
 class MyAccountScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    // final model = watch(providerCreateAccountModel);
     final account = watch(providerAccount).data.value;
     final db = watch(providerDatabase);
 
@@ -58,7 +57,7 @@ class MyAccountScreen extends ConsumerWidget {
                 initValue: account.name,
                 onPressed: () {
                   //TODO create function set name in model with validate (non empty and unique)
-                  db.updateAccount(name: Constants.name, value: _value);
+                  db.updateAccount(name: 'name', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -74,7 +73,7 @@ class MyAccountScreen extends ConsumerWidget {
               showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
                   .then((date) {
                 if (date != null) {
-                  db.updateAccount(name: Constants.date_birth, value: DateTime(date.year, date.month, date.day));
+                  db.updateAccount(name: 'dateBirth', value: DateTime(date.year, date.month, date.day));
                 }
               });
             },
@@ -91,7 +90,7 @@ class MyAccountScreen extends ConsumerWidget {
                   unit: 'cm',
                   isDecimal: false,
                   function: (double value) {
-                    db.updateAccount(name: Constants.height, value: value);
+                    db.updateAccount(name: 'height', value: value);
                     Navigator.pop(context);
                   });
             },
@@ -101,7 +100,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.gender,
             list: <String>["male", "female"],
             onChanged: (value) {
-              db.updateAccount(name: Constants.gender, value: value);
+              db.updateAccount(name: 'gender', value: value);
             },
           ),
           CustomInputBar(
@@ -115,7 +114,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Constants.youtube,
                 initValue: account.youtube,
                 onPressed: () {
-                  db.updateAccount(name: Constants.youtube, value: _value);
+                  db.updateAccount(name: 'youtube', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -135,7 +134,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Constants.instagram,
                 initValue: account.instagram,
                 onPressed: () {
-                  db.updateAccount(name: Constants.instagram, value: _value);
+                  db.updateAccount(name: 'instagram', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -155,7 +154,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Constants.facebook,
                 initValue: account.facebook,
                 onPressed: () {
-                  db.updateAccount(name: Constants.facebook, value: _value);
+                  db.updateAccount(name: 'facebook', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -176,7 +175,7 @@ class MyAccountScreen extends ConsumerWidget {
                 initValue: account.bio,
                 multiLine: true,
                 onPressed: () {
-                  db.updateAccount(name: Constants.bio, value: _value);
+                  db.updateAccount(name: 'bio', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -195,7 +194,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.accessToString(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: Constants.access_date_birth, value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessDateBirth', value: account.accessToEnum(value));
             },
           ),
           CustomDropDownButton(
@@ -203,7 +202,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.accessToString(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: Constants.access_height, value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessHeight', value: account.accessToEnum(value));
             },
           ),
           CustomDropDownButton(
@@ -211,7 +210,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.accessToString(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: Constants.access_gender, value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessGender', value: account.accessToEnum(value));
             },
           ),
           CustomDropDownButton(
@@ -219,7 +218,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.accessToString(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: Constants.access_meals, value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessMeals', value: account.accessToEnum(value));
             },
           ),
           CustomDropDownButton(
@@ -227,7 +226,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.accessToString(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: Constants.access_stats, value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessStats', value: account.accessToEnum(value));
             },
           ),
           SizedBox(height: 26)

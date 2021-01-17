@@ -8,14 +8,20 @@ class CustomTextField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final TextInputAction textInputAction;
   final bool autocorrect;
+  final bool enabled;
+  final TextEditingController controller;
+  final String initialValue;
 
   const CustomTextField(
       {Key key,
-      @required this.onChanged,
+      this.onChanged,
       this.name,
       this.suffix,
       this.hintText,
+      this.controller,
+      this.initialValue,
       this.autocorrect = true,
+      this.enabled = true,
       this.keyboardType = TextInputType.text,
       this.textInputAction = TextInputAction.done})
       : super(key: key);
@@ -32,6 +38,9 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
             contentPadding: const EdgeInsets.only(left: 5, right: 5),
           ),
+          controller: controller,
+          initialValue: initialValue,
+          enabled: enabled,
           autocorrect: autocorrect,
           keyboardType: keyboardType,
           textInputAction: textInputAction,

@@ -1,3 +1,4 @@
+import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -24,7 +25,7 @@ showValuePicker({
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (context, setState) {
           return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)), //this right here
             child: Container(
               height: 300,
               child: Padding(
@@ -44,15 +45,16 @@ showValuePicker({
                                 onSelectedItemChanged: (int index) {},
                                 children: List<Widget>.generate(max - min, (index) {
                                   return Container(
-                                    alignment: isDecimal ? Alignment.centerRight : Alignment.center,
+                                    alignment: Alignment.center,
                                     child: Text(
-                                      '${(++index + min) * addition}${isDecimal ? ', ' : ' $unit'}',
+                                      '${(++index + min) * addition}${isDecimal ? '' : ' $unit'}',
                                     ),
                                   );
                                 }),
                               ),
                             ),
                             if (isDecimal) ...[
+                              Text(','),
                               Expanded(
                                 child: CupertinoPicker(
                                   itemExtent: 40,
@@ -60,7 +62,7 @@ showValuePicker({
                                   onSelectedItemChanged: (int index) {},
                                   children: List<Widget>.generate(20, (int index) {
                                     return Container(
-                                      alignment: Alignment.centerLeft,
+                                      alignment: Alignment.center,
                                       child: Text(
                                         ('${((index * 5) == 0 || (index * 5) == 5 ? 0 : '')}${(++index - 1) * 5} $unit').toString(),
                                       ),
@@ -73,25 +75,20 @@ showValuePicker({
                         ),
                       ),
                     ),
-                    Container(
-                      width: 200,
-                      height: 45,
-                      child: RaisedButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-                          child: Text(
-                            'save'.tr(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          color: Theme.of(context).primaryColor,
-                          onPressed: () {
-                            if (isDecimal) {
-                              function(
-                                  (((firstController.selectedItem + min + 1) * addition) + ((secondController.selectedItem * 5) / 100)).toDouble());
-                            } else {
-                              function(((firstController.selectedItem + min + 1) * addition).toDouble());
-                            }
-                          }),
-                    )
+                    CustomButton(
+                        color: Colors.indigo,
+                        child: Text(
+                          'add'.tr(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          if (isDecimal) {
+                            function(
+                                (((firstController.selectedItem + min + 1) * addition) + ((secondController.selectedItem * 5) / 100)).toDouble());
+                          } else {
+                            function(((firstController.selectedItem + min + 1) * addition).toDouble());
+                          }
+                        }),
                   ],
                 ),
               ),

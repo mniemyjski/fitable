@@ -2,6 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/custom_button.dart';
+import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -131,14 +135,70 @@ class TileHeadMeasurement extends StatelessWidget {
     });
   }
 
+  _show(BuildContext context) {
+    buildShowDialog(
+        context: context,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomButton(
+              child: Text('add_weight'.tr()),
+              color: Colors.indigo,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+                showValuePicker(
+                    context: context,
+                    min: 40,
+                    max: 250,
+                    initValue: 80,
+                    unit: 'kg',
+                    function: (double value) {
+                      Navigator.pop(context);
+                    });
+              },
+            ),
+            CustomButton(
+              child: Text('add_body_fat'.tr()),
+              color: Colors.indigo,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+                showValuePicker(
+                    context: context,
+                    min: 2,
+                    max: 30,
+                    initValue: 15,
+                    unit: '%',
+                    isDecimal: false,
+                    function: (double value) {
+                      Navigator.pop(context);
+                    });
+              },
+            ),
+            CustomButton(
+              child: Text('add_body_circumferences'.tr()),
+              color: Colors.indigo,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed(AppRoute.addBodyCircumferencesScreen);
+              },
+            ),
+          ],
+        ));
+  }
+
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, watch, child) {
+    return Consumer(builder: (_, watch, child) {
       final meals = watch(providerMeals);
       final model = watch(providerHomeViewModel);
 
       return meals.when(
         data: (data) => TileExpansion(
-          onPressed: () {},
+          onPressed: () {
+            _show(context);
+          },
           head: _buildHead([]),
           listView: _buildListView(context: context, list: []),
         ),

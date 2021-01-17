@@ -20,6 +20,7 @@ class FoodViewModel extends ChangeNotifier {
   String _portionChosen;
   String _name;
   Map _portions;
+  List _keyWords;
 
   build(Product product, Recipe recipe, Meal meal) {
     double multiplier;
@@ -27,6 +28,7 @@ class FoodViewModel extends ChangeNotifier {
     if (product != null) {
       _name = product.productName;
       _portions = product.portions;
+      _keyWords = product.keyWords;
       _calories = product.calories;
       _proteins = product.proteins;
       _carbs = product.carbs;
@@ -39,6 +41,7 @@ class FoodViewModel extends ChangeNotifier {
     if (meal != null) {
       _name = meal.product.productName;
       _portions = meal.product.portions;
+      _keyWords = meal.product.keyWords;
       _calories = meal.product.calories;
       _proteins = meal.product.proteins;
       _carbs = meal.product.carbs;
@@ -90,6 +93,7 @@ class FoodViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  List get keyWords => _keyWords;
   String get name => _name;
   Map get portions => _portions;
   String get portionChosen => _portionChosen;

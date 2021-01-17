@@ -52,10 +52,26 @@ class GoalsScreen extends ConsumerWidget {
       final model = context.read(providerHomeViewModel);
       model.calculateBMR(context: context);
 
-      String _calories = model.goalCalories.toStringAsFixed(0);
-      // String _proteins = pref.goalProteins?.toStringAsFixed(0);
+      String _calories = pref.goalCaloriesDefault ? model.goalCalories.toStringAsFixed(0) : pref.goalCalories.toStringAsFixed(0);
+      String _proteins = pref.goalProteins.toStringAsFixed(0);
+      String _carbs = pref.goalCarbs.toStringAsFixed(0);
+      String _fats = pref.goalFats.toStringAsFixed(0);
 
-      return _calories;
+      return 'calories'.tr() +
+          ': ' +
+          _calories +
+          ', ' +
+          'p'.tr() +
+          ': ' +
+          _proteins +
+          ', ' +
+          'c'.tr() +
+          ': ' +
+          _carbs +
+          ', ' +
+          'f'.tr() +
+          ': ' +
+          _fats;
     }
 
     _buildBody(Preference preference) {

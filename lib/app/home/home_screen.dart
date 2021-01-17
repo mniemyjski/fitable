@@ -14,11 +14,6 @@ import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends StatelessWidget {
-  double _caloriesTarget = 2000;
-  double _proteinsTarget = 50;
-  double _carbsTarget = 50;
-  double _fatsTarget = 50;
-
   _buildBottomAppBar() {
     return BottomAppBar(
       child: Consumer(builder: (context, watch, child) {
@@ -28,16 +23,7 @@ class HomeScreen extends StatelessWidget {
         return meals.when(
           data: (data) {
             model.mealList = data.where((element) => element.dateTime == model.chosenDate).toList();
-            return MacroAggregation(
-              calories: model.calories,
-              proteins: model.proteins,
-              carbs: model.carbs,
-              fats: model.fats,
-              caloriesTarget: _caloriesTarget,
-              proteinsTarget: _proteinsTarget,
-              carbsTarget: _carbsTarget,
-              fatsTarget: _fatsTarget,
-            );
+            return MacroAggregation();
           },
           loading: () => Center(
             child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
