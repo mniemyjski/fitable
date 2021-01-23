@@ -4,14 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 class CustomInputBar extends StatelessWidget {
   final String name;
   final String value;
-  final GestureTapCallback onTap;
+  final GestureTapCallback onPressed;
 
-  const CustomInputBar({Key key, @required this.name, @required this.value, @required this.onTap}) : super(key: key);
+  const CustomInputBar({Key key, @required this.name, @required this.value, @required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onPressed,
       child: Card(
         child: Row(
           children: [

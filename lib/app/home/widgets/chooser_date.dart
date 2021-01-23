@@ -1,3 +1,4 @@
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 chooserDate(int value) {
   return Consumer(builder: (context, watch, child) {
-    final model = watch(providerHomeViewModel);
+    final app = watch(providerAppViewModel);
 
     if (value != 0) {
       return Expanded(
@@ -14,14 +15,14 @@ chooserDate(int value) {
               height: 50,
               child: FlatButton(
                 onPressed: () {
-                  model.chosenDateIncrementDecrement(value);
+                  app.chosenDateIncrementDecrement(value);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(DateFormat('yyyy-MM-dd').format(model.chosenDate.add(new Duration(days: value))),
+                    Text(DateFormat('yyyy-MM-dd').format(app.chosenDate.add(new Duration(days: value))),
                         style: TextStyle(color: Theme.of(context).textTheme.headline1.color)),
-                    Text(model.dateName(model.chosenDate.add(new Duration(days: 1))).tr(),
+                    Text(app.dateName(app.chosenDate.add(new Duration(days: value))).tr(),
                         style: TextStyle(color: Theme.of(context).textTheme.headline1.color)),
                   ],
                 ),
@@ -36,16 +37,16 @@ chooserDate(int value) {
                           context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(DateTime.now().year + 5))
                       .then((date) {
                     if (date != null) {
-                      model.chosenDateSet(date);
+                      app.chosenDateSet(date);
                     }
                   });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(DateFormat('yyyy-MM-dd').format(model.chosenDate),
+                    Text(DateFormat('yyyy-MM-dd').format(app.chosenDate),
                         style: TextStyle(color: Colors.white, decoration: TextDecoration.underline)),
-                    Text(model.dateName(model.chosenDate).tr(), style: TextStyle(color: Colors.white, decoration: TextDecoration.underline)),
+                    Text(app.dateName(app.chosenDate).tr(), style: TextStyle(color: Colors.white, decoration: TextDecoration.underline)),
                   ],
                 ),
               )));

@@ -60,12 +60,12 @@ class Account {
       'gender': gender,
       'height': height,
       'dateBirth': dateBirth,
-      'accessStats': accessToString(accessStats),
-      'accessMeals': accessToString(accessMeals),
-      'accessMeasurement': accessToString(accessMeasurement),
-      'accessDateBirth': accessToString(accessDateBirth),
-      'accessHeight': accessToString(accessHeight),
-      'accessGender': accessToString(accessGender),
+      'accessStats': toText(accessStats),
+      'accessMeals': toText(accessMeals),
+      'accessMeasurement': toText(accessMeasurement),
+      'accessDateBirth': toText(accessDateBirth),
+      'accessHeight': toText(accessHeight),
+      'accessGender': toText(accessGender),
       'bio': bio,
       'youtube': youtube,
       'instagram': instagram,
@@ -82,35 +82,18 @@ class Account {
       return null;
     }
 
-    accessToEnum(String value) {
-      switch (value) {
-        case 'private':
-          return AccessLevel.private;
-          break;
-        case 'private':
-          return AccessLevel.private;
-          break;
-        case 'private':
-          return AccessLevel.private;
-          break;
-        case 'private':
-          return AccessLevel.private;
-          break;
-      }
-    }
-
     return Account(
       uid: data['uid'],
       name: data['name'],
       gender: data['gender'],
       height: data['height'],
       dateBirth: data['dateBirth'].toDate(),
-      accessStats: accessToEnum(data['accessStats']),
-      accessMeals: accessToEnum(data['accessMeals']),
-      accessMeasurement: accessToEnum(data['accessMeasurement']),
-      accessDateBirth: accessToEnum(data['accessDateBirth']),
-      accessHeight: accessToEnum(data['accessHeight']),
-      accessGender: accessToEnum(data['accessGender']),
+      accessStats: toEnum(data['accessStats']),
+      accessMeals: toEnum(data['accessMeals']),
+      accessMeasurement: toEnum(data['accessMeasurement']),
+      accessDateBirth: toEnum(data['accessDateBirth']),
+      accessHeight: toEnum(data['accessHeight']),
+      accessGender: toEnum(data['accessGender']),
       bio: data['bio'],
       youtube: data['youtube'],
       instagram: data['instagram'],
@@ -122,7 +105,7 @@ class Account {
     );
   }
 
-  accessToString(AccessLevel access) {
+  static toText(AccessLevel access) {
     switch (access) {
       case AccessLevel.private:
         return 'private';
@@ -139,7 +122,7 @@ class Account {
     }
   }
 
-  accessToEnum(String value) {
+  static toEnum(String value) {
     switch (value) {
       case 'private':
         return AccessLevel.private;
@@ -154,5 +137,22 @@ class Account {
         return AccessLevel.private;
         break;
     }
+  }
+
+  double age() {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - dateBirth.year;
+    int month1 = currentDate.month;
+    int month2 = dateBirth.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = dateBirth.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age.truncateToDouble();
   }
 }

@@ -196,6 +196,17 @@ minerals,Minerały,Minerals
 total_value_macronutrients_must_be_description,Łączna wartość % makroskładników musi wynosić 100%,The total value of the % macronutrients must be 100%
 total,Podsumowanie,Total
 add,Dodaj,Add
-add_weight,Dodaj wage,Add weight
+add_body_weight,Dodaj wage ciała,Add body weight
+add_body_muscle,Dodaj masę mieśniową,Add body muscle
 add_body_fat,Dodaj tkanke tłuszczą,Add body fat
 add_body_circumferences,Dodaj obwód ciała,Add body circumferences
+neck,Szyja,Neck
+chest,Klatka piersiowa,Chest
+biceps,Biceps,Biceps
+waist,Talia,Waist
+abdomen,Brzuch,Abdomen
+hips,Biodro,Hips
+thigh,Udo,Thigh
+calf,Łydka,Calf
+body_fat,Tkanka tłuszczowa,Body fat
+calculate_body_fat,Wyliczyć tkankę tłuszczową?,Calculate body fat?

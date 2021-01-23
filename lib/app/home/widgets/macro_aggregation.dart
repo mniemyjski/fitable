@@ -1,4 +1,5 @@
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/progress_bar.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
@@ -17,7 +18,8 @@ class MacroAggregation extends ConsumerWidget {
   _buildBody(List<Meal> data) {
     return Consumer(builder: (context, watch, child) {
       final model = watch(providerHomeViewModel);
-      model.mealList = data.where((element) => element.dateTime == model.chosenDate).toList();
+      final app = watch(providerAppViewModel);
+      model.mealList = data.where((element) => element.dateTime == app.chosenDate).toList();
       model.calculateBMR(context: context);
 
       double _oldCalories;

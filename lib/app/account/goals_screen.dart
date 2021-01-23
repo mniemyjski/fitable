@@ -1,4 +1,5 @@
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
@@ -9,7 +10,6 @@ import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_riverpod/all.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GoalsScreen extends ConsumerWidget {
@@ -18,6 +18,7 @@ class GoalsScreen extends ConsumerWidget {
     final preference = watch(providerPreference);
     final db = watch(providerDatabase);
     final model = watch(providerHomeViewModel);
+    final app = watch(providerAppViewModel);
 
     String activitiesDescription(String value) {
       switch (value) {
@@ -64,14 +65,15 @@ class GoalsScreen extends ConsumerWidget {
           'p'.tr() +
           ': ' +
           _proteins +
-          ', ' +
+          '%, ' +
           'c'.tr() +
           ': ' +
           _carbs +
-          ', ' +
+          '%, ' +
           'f'.tr() +
           ': ' +
-          _fats;
+          _fats +
+          '%';
     }
 
     _buildBody(Preference preference) {
@@ -89,7 +91,7 @@ class GoalsScreen extends ConsumerWidget {
                     padding: EdgeInsets.all(10),
                     child: Center(
                         child: Text(
-                      'Zmiana dla ${DateFormat('y-MM-dd').format(model.chosenDate)} oraz nowych.',
+                      'Zmiana dla ${DateFormat('y-MM-dd').format(app.chosenDate)} oraz nowych.',
                       style: TextStyle(color: Colors.grey[600], fontSize: 16),
                     ))),
               ),
@@ -117,7 +119,7 @@ class GoalsScreen extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.speed_change_weight,
                 value: preference.speedChangeWeight.toStringAsFixed(1),
-                onTap: () {
+                onPressed: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -178,7 +180,7 @@ class GoalsScreen extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.target_weight,
                 value: preference.targetWeight.toStringAsFixed(0),
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 40,
@@ -195,7 +197,7 @@ class GoalsScreen extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.target_fat,
                 value: "${preference.targetFat.toStringAsFixed(0)}%",
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 2,
@@ -212,7 +214,7 @@ class GoalsScreen extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.target_steps,
                 value: preference.targetSteps.toStringAsFixed(0),
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 1,
@@ -230,7 +232,7 @@ class GoalsScreen extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.target_burn_calories,
                 value: preference.targetBurnCalories.toStringAsFixed(0),
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 19,
@@ -248,7 +250,7 @@ class GoalsScreen extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.macro,
                 value: _calculate(context),
-                onTap: () {
+                onPressed: () {
                   Navigator.of(context).pushNamed(AppRoute.goalsMacroScreen);
                 },
               ),

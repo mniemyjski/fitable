@@ -48,7 +48,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.name.tr(),
             value: account.name,
-            onTap: () {
+            onPressed: () {
               String _value;
 
               showInputPicker(
@@ -69,7 +69,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.date_birth.tr(),
             value: DateFormat('y-MM-dd').format(account.dateBirth),
-            onTap: () {
+            onPressed: () {
               showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
                   .then((date) {
                 if (date != null) {
@@ -81,7 +81,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.height.tr(),
             value: account.height.toStringAsFixed(0),
-            onTap: () {
+            onPressed: () {
               showValuePicker(
                   context: context,
                   min: 40,
@@ -106,7 +106,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.youtube.tr(),
             value: account.youtube,
-            onTap: () {
+            onPressed: () {
               String _value;
 
               showInputPicker(
@@ -126,7 +126,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.instagram.tr(),
             value: account.instagram,
-            onTap: () {
+            onPressed: () {
               String _value;
 
               showInputPicker(
@@ -146,7 +146,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.facebook.tr(),
             value: account.facebook,
-            onTap: () {
+            onPressed: () {
               String _value;
 
               showInputPicker(
@@ -166,7 +166,7 @@ class MyAccountScreen extends ConsumerWidget {
           CustomInputBar(
             name: Constants.bio.tr(),
             value: account.bio,
-            onTap: () {
+            onPressed: () {
               String _value;
 
               showInputPicker(
@@ -191,42 +191,42 @@ class MyAccountScreen extends ConsumerWidget {
           ),
           CustomDropDownButton(
             name: Constants.access_date_birth.tr(),
-            value: account.accessToString(account.accessDateBirth),
+            value: Account.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessDateBirth', value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessDateBirth', value: Account.toEnum(value));
             },
           ),
           CustomDropDownButton(
             name: Constants.access_height.tr(),
-            value: account.accessToString(account.accessHeight),
+            value: Account.toText(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessHeight', value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessHeight', value: Account.toEnum(value));
             },
           ),
           CustomDropDownButton(
             name: Constants.access_gender.tr(),
-            value: account.accessToString(account.accessGender),
+            value: Account.toText(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessGender', value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessGender', value: Account.toEnum(value));
             },
           ),
           CustomDropDownButton(
             name: Constants.access_meals.tr(),
-            value: account.accessToString(account.accessMeals),
+            value: Account.toText(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessMeals', value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessMeals', value: Account.toEnum(value));
             },
           ),
           CustomDropDownButton(
             name: Constants.access_stats.tr(),
-            value: account.accessToString(account.accessDateBirth),
+            value: Account.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessStats', value: account.accessToEnum(value));
+              db.updateAccount(name: 'accessStats', value: Account.toEnum(value));
             },
           ),
           SizedBox(height: 26)

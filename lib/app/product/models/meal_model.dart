@@ -44,7 +44,7 @@ class Meal {
       'uid': uid,
       'dateTime': DateTime(dateTime.year, dateTime.month, dateTime.day),
       'dateCreation': dateCreation,
-      'mealType': mealTypeString(mealType),
+      'mealType': toText(mealType),
       'portionSize': portionSize,
       'portionChosen': portionChosen,
       'product': product?.toMap(),
@@ -56,23 +56,6 @@ class Meal {
   factory Meal.fromMap(Map<String, dynamic> data, String id) {
     if (data == null) {
       return null;
-    }
-
-    MealType toEnum(String mealType) {
-      switch (mealType) {
-        case 'breakfast':
-          return MealType.breakfast;
-        case 'lunch':
-          return MealType.lunch;
-        case 'dinner':
-          return MealType.dinner;
-        case 'supper':
-          return MealType.supper;
-        case 'snack':
-          return MealType.snack;
-        default:
-          return null;
-      }
     }
 
     Map map = data['product'];
@@ -89,7 +72,22 @@ class Meal {
     );
   }
 
-  static String mealTypeString(MealType mealType) {
+  static toEnum(String mealType) {
+    switch (mealType) {
+      case 'breakfast':
+        return MealType.breakfast;
+      case 'lunch':
+        return MealType.lunch;
+      case 'dinner':
+        return MealType.dinner;
+      case 'supper':
+        return MealType.supper;
+      case 'snack':
+        return MealType.snack;
+    }
+  }
+
+  static String toText(MealType mealType) {
     switch (mealType) {
       case MealType.breakfast:
         return 'breakfast';

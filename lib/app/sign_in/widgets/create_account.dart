@@ -35,7 +35,7 @@ class CreateAccount extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.name,
                 value: model.name,
-                onTap: () {
+                onPressed: () {
                   //TODO create function set name in model with validate (non empty and unique)
                   String _value;
 
@@ -57,7 +57,7 @@ class CreateAccount extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.date_birth,
                 value: model?.dateBirth != null ? DateFormat('y-MM-dd').format(model.dateBirth) : "",
-                onTap: () {
+                onPressed: () {
                   showDatePicker(
                           context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
                       .then((date) {
@@ -71,7 +71,7 @@ class CreateAccount extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.height,
                 value: model.height?.toStringAsFixed(0) ?? "",
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 40,
@@ -107,7 +107,7 @@ class CreateAccount extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.weight,
                 value: model.weight?.toString() ?? "",
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 40,
@@ -125,7 +125,7 @@ class CreateAccount extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.target_weight,
                 value: model.targetWeight?.toStringAsFixed(0) ?? "",
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 40,
@@ -144,7 +144,7 @@ class CreateAccount extends ConsumerWidget {
               CustomInputBar(
                 name: Constants.target_fat,
                 value: model.targetFat?.toStringAsFixed(0) ?? "",
-                onTap: () {
+                onPressed: () {
                   showValuePicker(
                       context: context,
                       min: 2,

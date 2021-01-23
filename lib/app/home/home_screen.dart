@@ -1,3 +1,4 @@
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/chooser_date.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
@@ -19,10 +20,11 @@ class HomeScreen extends StatelessWidget {
       child: Consumer(builder: (context, watch, child) {
         final meals = watch(providerMeals);
         final model = watch(providerHomeViewModel);
+        final app = watch(providerAppViewModel);
 
         return meals.when(
           data: (data) {
-            model.mealList = data.where((element) => element.dateTime == model.chosenDate).toList();
+            model.mealList = data.where((element) => element.dateTime == app.chosenDate).toList();
             return MacroAggregation();
           },
           loading: () => Center(

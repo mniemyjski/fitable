@@ -1,3 +1,5 @@
+import 'package:fitable/app/home/models/favorite_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
@@ -21,6 +23,22 @@ class FoodViewModel extends ChangeNotifier {
   String _name;
   Map _portions;
   List _keyWords;
+  bool _isFavorite;
+
+  bool get isFavorite => _isFavorite ?? false;
+
+  checkFavorite({@required BuildContext context, @required String id, bool init = false}) {
+    final favorites = context.read(providerFavorite);
+    _isFavorite = false;
+
+    favorites.whenData((value) {
+      value.forEach((element) {
+        if (element.id == id) _isFavorite = true;
+      });
+    });
+
+    if (!init) notifyListeners();
+  }
 
   build(Product product, Recipe recipe, Meal meal) {
     double multiplier;
@@ -60,12 +78,12 @@ class FoodViewModel extends ChangeNotifier {
   submit({@required BuildContext context, Product product, Meal meal, @required MealType mealType}) {
     final db = context.read(providerDatabase);
     final model = context.read(providerFoodViewModel);
-    final modelHome = context.read(providerHomeViewModel);
+    final app = context.read(providerAppViewModel);
 
     if (product != null) {
       Meal _meal = Meal(
           uid: db.uid,
-          dateTime: modelHome.chosenDate,
+          dateTime: app.chosenDate,
           dateCreation: DateTime.now(),
           mealType: mealType,
           portionSize: model.portionSize,

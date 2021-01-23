@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/product/food_screen.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/search/search_screen.dart';
-import 'package:fitable/common_widgets/add_button.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,7 @@ class TileHeadMeals extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            child: Text(Meal.mealTypeString(mealType).tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            child: Text(Meal.toText(mealType).tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           ),
           SizedBox(height: 5),
           Row(
@@ -121,11 +121,11 @@ class TileHeadMeals extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
       final meals = watch(providerMeals);
-      final model = watch(providerHomeViewModel);
+      final app = watch(providerAppViewModel);
 
       return meals.when(
         data: (data) {
-          List _list = data.where((element) => element.mealType == mealType && element.dateTime == model.chosenDate).toList();
+          List _list = data.where((element) => element.mealType == mealType && element.dateTime == app.chosenDate).toList();
 
           return TileExpansion(
             head: _buildHead(_list),
@@ -136,9 +136,7 @@ class TileHeadMeals extends StatelessWidget {
             },
           );
         },
-        loading: () => Center(
-          child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-        ),
+        loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
         error: (err, stack) => Center(child: Text('Error: $err')),
       );
     });

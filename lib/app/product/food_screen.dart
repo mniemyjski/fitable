@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fitable/app/home/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
@@ -9,6 +10,7 @@ import 'package:fitable/app/product/widget/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
+import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,6 +42,21 @@ _buildFloatingActionButton(BuildContext context) {
   }
 }
 
+_submitFavorite(BuildContext context) {
+  final FoodScreenArguments args = ModalRoute.of(context).settings.arguments;
+  final model = context.read(providerFoodViewModel);
+
+  String _id;
+  if (args.product != null) _id = args.product.productID;
+  if (args.recipe != null) _id = args.recipe.id;
+  if (args.meal?.product != null) _id = args.meal.product.productID;
+  if (args.meal?.recipe != null) _id = args.meal.recipe.id;
+
+  Favorite _favorite = Favorite(type: EnumFavorite.products, id: args.meal.product.productID);
+  context.read(providerDatabase).updateFavorite(context, _favorite);
+  model.checkFavorite(context: context, id: args.meal.product.productID);
+}
+
 class FoodScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -47,10 +64,14 @@ class FoodScreen extends StatelessWidget {
       final FoodScreenArguments args = ModalRoute.of(context).settings.arguments;
       final model = watch(providerFoodViewModel);
       model.build(args.product, args.recipe, args.meal);
+      model.checkFavorite(context: context, id: args.meal.product.productID, init: true);
 
       return CustomScaffold(
         appBar: AppBar(
-          actions: [IconButton(icon: Icon(FontAwesomeIcons.heart), onPressed: () {})],
+          actions: [
+            IconButton(
+                icon: model.isFavorite ? Icon(FontAwesomeIcons.heart) : Icon(FontAwesomeIcons.solidHeart), onPressed: () => _submitFavorite(context))
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -59,7 +80,6 @@ class FoodScreen extends StatelessWidget {
                 child: Container(
                   height: 55,
                   width: double.infinity,
-                  // child: Center(child: Text(model.name)),
                   child: Center(
                       child: AutoSizeText(
                     model.name,

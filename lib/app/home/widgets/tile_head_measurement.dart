@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/home/view_models/home_view_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
+import 'package:fitable/app/home/view_models/measurement_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/home/widgets/tile_measurement.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -25,16 +27,14 @@ class TileHeadMeasurement extends StatelessWidget {
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (_, int index) {
-          final key = list.elementAt(index);
-          final element = list.elementAt(index);
+          final key = list.elementAt(index).id;
+          final Measurement element = list.elementAt(index);
 
           return GestureDetector(
             onTap: () {},
             child: Dismissible(
                 key: Key(key),
-                onDismissed: (direction) {
-                  final db = context.read(providerDatabase);
-                },
+                onDismissed: (direction) => context.read(providerDatabase).deleteMeasurement(element),
                 direction: DismissDirection.startToEnd,
                 background: Container(
                   height: double.infinity,
@@ -49,7 +49,7 @@ class TileHeadMeasurement extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(right: 90),
-                  child: Text(element),
+                  child: TileMeasurement(measurement: element),
                 )),
           );
         },
@@ -57,9 +57,8 @@ class TileHeadMeasurement extends StatelessWidget {
     );
   }
 
-  _buildHead(List list) {
+  _buildHead() {
     return Consumer(builder: (context, watch, child) {
-      final model = watch(providerHomeViewModel);
       double size = 35;
 
       return Row(
@@ -142,22 +141,20 @@ class TileHeadMeasurement extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomButton(
-              child: Text('add_weight'.tr()),
-              color: Colors.indigo,
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.pop(context);
-                showValuePicker(
-                    context: context,
-                    min: 40,
-                    max: 250,
-                    initValue: 80,
-                    unit: 'kg',
-                    function: (double value) {
-                      Navigator.pop(context);
-                    });
-              },
-            ),
+                child: Text('add_body_weight'.tr()),
+                color: Colors.indigo,
+                textColor: Colors.white,
+                onPressed: () {
+                  Navigator.pop(context);
+                  showValuePicker(
+                      context: context,
+                      min: 40,
+                      max: 250,
+                      initValue: 80,
+                      unit: 'kg',
+                      function: (double value) =>
+                          context.read(providerMeasurementViewModel).submitMeasurement(context, value, 'kg', EnumMeasurement.BODY_WEIGHT));
+                }),
             CustomButton(
               child: Text('add_body_fat'.tr()),
               color: Colors.indigo,
@@ -170,10 +167,25 @@ class TileHeadMeasurement extends StatelessWidget {
                     max: 30,
                     initValue: 15,
                     unit: '%',
-                    isDecimal: false,
-                    function: (double value) {
-                      Navigator.pop(context);
-                    });
+                    isDecimal: true,
+                    function: (double value) =>
+                        context.read(providerMeasurementViewModel).submitMeasurement(context, value, '%', EnumMeasurement.BODY_FAT));
+              },
+            ),
+            CustomButton(
+              child: Text('add_body_muscle'.tr()),
+              color: Colors.indigo,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+                showValuePicker(
+                    context: context,
+                    min: 40,
+                    max: 250,
+                    initValue: 80,
+                    unit: 'kg',
+                    function: (double value) =>
+                        context.read(providerMeasurementViewModel).submitMeasurement(context, value, 'kg', EnumMeasurement.BODY_MUSCLE));
               },
             ),
             CustomButton(
@@ -191,17 +203,21 @@ class TileHeadMeasurement extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Consumer(builder: (_, watch, child) {
-      final meals = watch(providerMeals);
-      final model = watch(providerHomeViewModel);
+      final measurement = watch(providerMeasurement);
+      final app = watch(providerAppViewModel);
 
-      return meals.when(
-        data: (data) => TileExpansion(
-          onPressed: () {
-            _show(context);
-          },
-          head: _buildHead([]),
-          listView: _buildListView(context: context, list: []),
-        ),
+      return measurement.when(
+        data: (data) {
+          List _list = data.where((element) => element.dateTime == app.chosenDate).toList();
+
+          return TileExpansion(
+            onPressed: () {
+              _show(context);
+            },
+            head: _buildHead(),
+            listView: _buildListView(context: context, list: _list),
+          );
+        },
         loading: () => Center(
           child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
         ),

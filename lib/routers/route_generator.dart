@@ -46,7 +46,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LandingScreen(body: GoalsMacroScreen()), settings: settings);
       case AppRoute.addBodyCircumferencesScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: AddBodyCircumferencesScreen()), settings: settings);
-      // return _errorRoute();
       default:
         return _errorRoute();
     }

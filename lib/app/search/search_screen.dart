@@ -1,7 +1,9 @@
+import 'package:fitable/app/home/models/favorite_model.dart';
 import 'package:fitable/app/product/create_product_screen.dart';
 import 'package:fitable/app/product/food_screen.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/search/widgets/data_search.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/constants/constants.dart';
@@ -20,6 +22,49 @@ class SearchScreenArguments {
   final MealType mealType;
 
   SearchScreenArguments({@required this.typeSearch, @required this.mealType});
+}
+
+_buildListView({@required BuildContext context, @required List list}) {
+  return Container(
+    child: ListView.separated(
+      separatorBuilder: (context, index) => Container(
+          margin: EdgeInsets.only(right: 75),
+          child: Divider(
+            height: 5,
+            color: Colors.grey,
+          )),
+      itemCount: list.length,
+      physics: ClampingScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (_, int index) {
+        // final key = list.elementAt(index).productID;
+        final element = list.elementAt(index);
+
+        return GestureDetector(
+          onTap: () {},
+          child: Dismissible(
+              key: Key(index.toString()),
+              onDismissed: (direction) => null,
+              direction: DismissDirection.startToEnd,
+              background: Container(
+                height: double.infinity,
+                child: Container(
+                    height: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    color: Colors.red[600],
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Icon(Icons.delete, color: Colors.white),
+                    )),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 90),
+                child: TileProduct(product: element),
+              )),
+        );
+      },
+    ),
+  );
 }
 
 class SearchScreen extends StatelessWidget {
@@ -86,11 +131,26 @@ class SearchScreen extends StatelessWidget {
             tabs: [Tab(text: 'products'.tr()), Tab(text: 'recipes'.tr()), Tab(text: 'your_recipes'.tr())],
           ),
         ),
-        body: TabBarView(children: [
-          Container(),
-          Container(),
-          Container(),
-        ]),
+        body: Consumer(builder: (context, watch, child) {
+          final favorites = watch(providerFavorite);
+          final db = watch(providerDatabase);
+
+          return favorites.when(
+            data: (data) => TabBarView(children: [
+              StreamBuilder<List<Product>>(
+                  stream: db.streamProducts(data),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.active) return CircularProgressIndicator();
+                    if (snapshot.hasData) return _buildListView(context: context, list: snapshot.data);
+                    return Container();
+                  }),
+              Container(),
+              Container(),
+            ]),
+            loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
+            error: (err, stack) => Center(child: Text('Error: $err')),
+          );
+        }),
       ),
     );
   }

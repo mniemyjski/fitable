@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/models/favorite_model.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/services/path.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class Database {
   Database({@required this.uid}) : assert(uid != null);
   final String uid;
+  // final DateTime chosenDate;
 
   final _service = FirebaseFirestore.instance;
 
@@ -43,6 +48,21 @@ class Database {
       .where("barcode", isEqualTo: barcode)
       .get()
       .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data(), value.docs.first.id) : null);
+
+  Stream<List<Product>> streamProducts(List<Favorite> list) {
+    List<String> _idList = [];
+
+    list.forEach((element) {
+      _idList.add(element.id);
+    });
+
+    return _service
+        .collection(Path.products())
+        .where(FieldPath.documentId, whereIn: _idList)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((snap) => Product.fromMap(snap.data(), snap.id)).toList());
+  }
+
   //#endregion
 
   //#region Meals
@@ -70,4 +90,53 @@ class Database {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((snap) => Meal.fromMap(snap.data(), snap.id)).toList());
   //#endregion
+
+  //#region Measurement
+  Future<void> setMeasurement({@required Measurement measurement, String id}) {
+    final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(id ?? null);
+    return ref.set(measurement.toMap(ref.id, uid));
+  }
+
+  Future<void> deleteMeasurement(Measurement measurement) =>
+      _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(measurement.id).delete();
+
+  Stream<List<Measurement>> streamMeasurement() => _service
+      .collection(Path.accounts())
+      .doc(uid)
+      .collection(Path.measurements())
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((snap) => Measurement.fromMap(snap.data(), snap.id)).toList());
+  //endregion
+
+  //#region Favorite
+  updateFavorite(BuildContext context, Favorite favorite) {
+    String _path;
+    if (favorite.type == EnumFavorite.products) _path = Path.products();
+    if (favorite.type == EnumFavorite.recipes) _path = Path.products();
+    if (favorite.type == EnumFavorite.exercise) _path = Path.products();
+    if (favorite.type == EnumFavorite.trainings) _path = Path.products();
+    if (favorite.type == EnumFavorite.users) _path = Path.products();
+
+    final DocumentReference ref = _service.collection(_path).doc(favorite.id).collection(Path.favorites()).doc(uid);
+    bool _isFavorite = false;
+
+    context.read(providerFavorite).whenData((value) {
+      value.forEach((element) {
+        if (element.id == favorite.id) {
+          ref.delete();
+          _isFavorite = true;
+        }
+      });
+      if (!_isFavorite) ref.set(favorite.toMap(uid));
+    });
+  }
+
+  Stream<List<Favorite>> streamFavorites() {
+    final ref = _service.collectionGroup(Path.favorites()).where('uid', isEqualTo: uid).snapshots();
+
+    return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
+  }
+
+  //endregion
+
 }

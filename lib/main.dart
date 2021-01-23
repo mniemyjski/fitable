@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
     // ]);
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+        // debugShowCheckedModeBanner: false,
         title: 'Fitable',
         theme: ThemeData(
           fontFamily: 'Georgia',
