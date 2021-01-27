@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final meals = watch(providerMeals);
         final model = watch(providerHomeViewModel);
         final app = watch(providerAppViewModel);
-        final db = context.read(providerDatabase);
+        final db = watch(providerDatabase);
 
         watch(providerPreference).whenData((preference) {
           watch(providerMeasurement).whenData((measurement) {

@@ -44,7 +44,7 @@ bool mobilePlatform() {
   }
 }
 
-void _barcodeSubmit(BuildContext context) async {
+_barcodeOnPress(BuildContext context) async {
   String result = await FlutterBarcodeScanner.scanBarcode("#ff6666", "CANCEL", true, ScanMode.BARCODE);
   final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
 
@@ -68,41 +68,41 @@ void _barcodeSubmit(BuildContext context) async {
   }
 }
 
+_searchOnPress(BuildContext context) async {
+  final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
+  // FacebookAudienceNetwork.init(
+  //   testingId: "1fc63a78-68f9-4ac1-8faa-6d3688d610aa", //optional
+  // );
+  //
+  // FacebookInterstitialAd.loadInterstitialAd(
+  //   placementId: "1366934306833619_1366944173499299",
+  //   listener: (effect, value) {
+  //     if (effect == InterstitialAdResult.LOADED) FacebookInterstitialAd.showInterstitialAd(delay: 5000);
+  //   },
+  // );
+
+  dynamic value = await showSearch(context: context, delegate: DataSearch());
+
+  if (value != null) {
+    Navigator.of(context).pushNamed(AppRoute.foodScreen,
+        arguments: FoodScreenArguments(
+          product: value,
+          mealType: args.mealType,
+        ));
+  }
+}
+
 class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
     return DefaultTabController(
       length: 3,
       child: CustomScaffold(
         appBar: AppBar(
           title: Text(Constants.favorites.tr()),
           actions: [
-            IconButton(
-                icon: Icon(Icons.search, color: Colors.white),
-                onPressed: () async {
-                  // FacebookAudienceNetwork.init(
-                  //   testingId: "1fc63a78-68f9-4ac1-8faa-6d3688d610aa", //optional
-                  // );
-                  //
-                  // FacebookInterstitialAd.loadInterstitialAd(
-                  //   placementId: "1366934306833619_1366944173499299",
-                  //   listener: (effect, value) {
-                  //     if (effect == InterstitialAdResult.LOADED) FacebookInterstitialAd.showInterstitialAd(delay: 5000);
-                  //   },
-                  // );
-
-                  dynamic value = await showSearch(context: context, delegate: DataSearch());
-
-                  if (value != null) {
-                    Navigator.of(context).pushNamed(AppRoute.foodScreen,
-                        arguments: FoodScreenArguments(
-                          product: value,
-                          mealType: args.mealType,
-                        ));
-                  }
-                }),
-            if (mobilePlatform()) IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => _barcodeSubmit),
+            IconButton(icon: Icon(Icons.search, color: Colors.white), onPressed: () => _searchOnPress(context)),
+            if (mobilePlatform()) IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => _barcodeOnPress(context)),
           ],
           bottom: TabBar(
             indicatorColor: Colors.white,

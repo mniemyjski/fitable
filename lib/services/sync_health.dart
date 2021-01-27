@@ -23,7 +23,7 @@ List<HealthDataType> _types() {
 }
 
 void authorizationHealth(BuildContext context) {
-  if (defaultTargetPlatform != TargetPlatform.android || defaultTargetPlatform != TargetPlatform.iOS) return;
+  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
 
   context.read(providerPreference).whenData((preference) async {
     if (preference.healthSync) {
@@ -36,7 +36,7 @@ void authorizationHealth(BuildContext context) {
 }
 
 void syncHealth(DateTime dateTime, Preference preference, List<Measurement> measurement, Database db) async {
-  if (defaultTargetPlatform != TargetPlatform.android || defaultTargetPlatform != TargetPlatform.iOS) return;
+  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
 
   List<HealthDataPoint> _healthDataList = [];
 
