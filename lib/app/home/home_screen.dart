@@ -1,3 +1,4 @@
+import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/chooser_date.dart';
@@ -9,18 +10,33 @@ import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/models/measurement_model.dart';
+import 'package:fitable/services/providers.dart';
+import 'package:fitable/services/sync_health.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   _buildBottomAppBar() {
     return BottomAppBar(
       child: Consumer(builder: (context, watch, child) {
         final meals = watch(providerMeals);
         final model = watch(providerHomeViewModel);
         final app = watch(providerAppViewModel);
+        final db = context.read(providerDatabase);
+
+        watch(providerPreference).whenData((preference) {
+          watch(providerMeasurement).whenData((measurement) {
+            syncHealth(app.chosenDate, preference, measurement, db);
+          });
+        });
 
         return meals.when(
           data: (data) {

@@ -40,7 +40,7 @@ class TileMeasurement extends StatelessWidget {
         list.add(
           RichText(
               text: TextSpan(
-            text: "${measurement.value.values.elementAt(i)}${measurement.unit}",
+            text: "${measurement.value.values.elementAt(i).toStringAsFixed(1)} ${measurement.unit}",
             style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
           )),
         );
@@ -51,7 +51,7 @@ class TileMeasurement extends StatelessWidget {
       return [
         RichText(
             text: TextSpan(
-          text: "${measurement.value.values.first}${measurement.unit}",
+          text: "${measurement.value.values.first.toStringAsFixed(1)} ${measurement.unit}",
           style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
         )),
       ];
@@ -64,7 +64,6 @@ class TileMeasurement extends StatelessWidget {
       children: <Widget>[
         Container(
           constraints: BoxConstraints(minHeight: 35),
-          width: double.infinity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -78,10 +77,10 @@ class TileMeasurement extends StatelessWidget {
                   SizedBox(width: 5),
                   RichText(
                       text: TextSpan(
-                    text: "${measurement.dateCreation.hour}:${measurement.dateCreation.second}",
+                    text: "${DateFormat('hh:m').format(measurement.dateCreation)}",
                     style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
                   )),
-                  SizedBox(width: 15),
+                  SizedBox(width: 5),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: _buildName(context),

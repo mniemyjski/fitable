@@ -68,7 +68,7 @@ class Meal {
       id: id,
       portionSize: data['portionSize'],
       portionChosen: data['portionChosen'],
-      product: Product.fromMap(map, map['productID']),
+      product: Product.fromMap(map),
     );
   }
 

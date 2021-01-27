@@ -2,7 +2,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum EnumMeasurement { BODY_WEIGHT, BODY_FAT, BODY_MUSCLE, BODY_CIRCUMFERENCES }
+enum EnumMeasurement { BODY_WEIGHT, BODY_FAT, BODY_MUSCLE, BODY_CIRCUMFERENCES, BURN_CALORIES, STEPS }
 
 final providerMeasurement = StreamProvider<List<Measurement>>((ref) {
   final db = ref.watch(providerDatabase);
@@ -31,24 +31,7 @@ class Measurement {
     @required this.dateCreation,
   });
 
-  static String toText(EnumMeasurement measurement) {
-    switch (measurement) {
-      case EnumMeasurement.BODY_WEIGHT:
-        return 'BODY_WEIGHT';
-        break;
-      case EnumMeasurement.BODY_FAT:
-        return 'BODY_FAT';
-        break;
-      case EnumMeasurement.BODY_MUSCLE:
-        return 'BODY_MUSCLE';
-        break;
-      case EnumMeasurement.BODY_CIRCUMFERENCES:
-        return 'BODY_CIRCUMFERENCES';
-        break;
-      default:
-        return '';
-    }
-  }
+  static String toText(EnumMeasurement measurement) => measurement.toString().split('.').last;
 
   Map<String, dynamic> toMap(String id, String uid) {
     return {
@@ -78,7 +61,10 @@ class Measurement {
           return EnumMeasurement.BODY_MUSCLE;
         case 'BODY_CIRCUMFERENCES':
           return EnumMeasurement.BODY_CIRCUMFERENCES;
-          break;
+        case 'BURN_CALORIES':
+          return EnumMeasurement.BURN_CALORIES;
+        case 'STEPS':
+          return EnumMeasurement.STEPS;
       }
     }
 

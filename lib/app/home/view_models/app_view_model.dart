@@ -1,3 +1,4 @@
+import 'package:fitable/services/sync_health.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,9 +12,7 @@ class AppViewModel extends ChangeNotifier {
   Color colorSecondary = Colors.lightGreen[700];
   Color colorCards = Colors.white;
   Color colorBackground = Colors.grey[200];
-
   DateTime _chosenDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-
   DateTime get chosenDate => _chosenDate;
 
   void chosenDateSet(DateTime value) {

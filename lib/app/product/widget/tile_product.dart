@@ -22,7 +22,7 @@ class TileProduct extends StatelessWidget {
     String _fats;
 
     if (product != null) {
-      _name = product.productName;
+      _name = product.name;
       _size = '100${product.unit}';
       _calories = product.calories.toStringAsFixed(0);
       _proteins = product.proteins.toStringAsFixed(1);
@@ -31,7 +31,7 @@ class TileProduct extends StatelessWidget {
     }
     if (meal != null) {
       if (meal.product != null) {
-        _name = meal.product.productName;
+        _name = meal.product.name;
         _size = (meal.portionSize * meal.product.portions[meal.portionChosen]).toStringAsFixed(0) + meal.product.unit;
         _calories = (meal.product.calories * meal.portionSize * meal.product.portions[meal.portionChosen] / 100).toStringAsFixed(0);
         _proteins = (meal.product.proteins * meal.portionSize * meal.product.portions[meal.portionChosen] / 100).toStringAsFixed(1);

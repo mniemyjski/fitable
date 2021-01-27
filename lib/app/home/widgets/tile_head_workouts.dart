@@ -1,147 +1,131 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TileHeadWorkouts extends StatelessWidget {
-  _buildListView({@required BuildContext context, @required List list}) {
-    return Container(
-      child: ListView.separated(
-        separatorBuilder: (context, index) => Container(
-            margin: EdgeInsets.only(right: 75),
-            child: Divider(
-              height: 5,
-              color: Colors.grey,
-            )),
-        itemCount: list.length,
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (_, int index) {
-          final key = list.elementAt(index);
-          final element = list.elementAt(index);
+  _buildHead({
+    @required double burnCalories,
+    @required double burnCaloriesTarget,
+    @required double steps,
+    @required double stepsTarget,
+  }) {
+    double size = 35;
+    double _burnCalories = burnCalories ?? 0;
+    double _steps = steps ?? 0;
 
-          return GestureDetector(
-            onTap: () {},
-            child: Dismissible(
-                key: Key(key),
-                onDismissed: (direction) {
-                  final db = context.read(providerDatabase);
-                },
-                direction: DismissDirection.startToEnd,
-                background: Container(
-                  height: double.infinity,
-                  child: Container(
-                      height: double.infinity,
-                      alignment: Alignment.centerLeft,
-                      color: Colors.red[600],
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Icon(Icons.delete, color: Colors.white),
-                      )),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 90),
-                  child: Text(element),
-                )),
-          );
-        },
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 5),
+          child: FaIcon(FontAwesomeIcons.dumbbell, color: Colors.grey[700]),
+        ),
+        Container(
+          height: double.infinity,
+          child: Row(
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  FaIcon(FontAwesomeIcons.shoePrints, color: Colors.grey.withOpacity(0.5), size: 20),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(_steps.toStringAsFixed(0), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: CircularProgressIndicator(
+                      value: _steps / stepsTarget,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
+                      backgroundColor: Colors.grey[400],
+                      strokeWidth: 5,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 20),
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  FaIcon(FontAwesomeIcons.gripfire, color: Colors.grey.withOpacity(0.5), size: 25),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(_burnCalories.toStringAsFixed(0), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: CircularProgressIndicator(
+                      value: _burnCalories / burnCaloriesTarget,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
+                      backgroundColor: Colors.grey[400],
+                      strokeWidth: 5,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10),
+            ],
+          ),
+        ),
+      ],
     );
-  }
-
-  _buildHead(List list) {
-    return Consumer(builder: (context, watch, child) {
-      final model = watch(providerHomeViewModel);
-      double size = 35;
-
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 5),
-            child: FaIcon(FontAwesomeIcons.dumbbell, color: Colors.grey[700]),
-          ),
-          Container(
-            height: double.infinity,
-            child: Row(
-              children: <Widget>[
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    FaIcon(FontAwesomeIcons.shoePrints, color: Colors.grey.withOpacity(0.5), size: 20),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text('', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: CircularProgressIndicator(
-                        value: 0.5,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
-                        backgroundColor: Colors.grey[400],
-                        strokeWidth: 5,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 20),
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    FaIcon(FontAwesomeIcons.gripfire, color: Colors.grey.withOpacity(0.5), size: 25),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text('', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: CircularProgressIndicator(
-                        value: 0.5,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
-                        backgroundColor: Colors.grey[400],
-                        strokeWidth: 5,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 10),
-              ],
-            ),
-          ),
-        ],
-      );
-    });
   }
 
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final meals = watch(providerMeals);
-      final model = watch(providerHomeViewModel);
+      final preference = watch(providerPreference).data.value;
+      final measurement = watch(providerMeasurement);
+      final app = watch(providerAppViewModel);
+      double _burnCalories;
+      double _steps;
 
-      return meals.when(
-        data: (data) => TileExpansion(
-          onPressed: () {},
-          head: _buildHead([]),
-          listView: _buildListView(context: context, list: []),
-        ),
+      return measurement.when(
+        data: (data) {
+          List _list = data.where((element) {
+            if (element.dateTime == app.chosenDate && element.dataType == EnumMeasurement.BURN_CALORIES) {
+              _burnCalories = element.value.values.first.roundToDouble();
+            }
+
+            if (element.dateTime == app.chosenDate && element.dataType == EnumMeasurement.STEPS) {
+              _steps = element.value.values.first.roundToDouble();
+            }
+
+            return false;
+          }).toList();
+
+          return TileExpansion(
+            onPressed: null,
+            head: _buildHead(
+                burnCalories: _burnCalories, burnCaloriesTarget: preference.targetBurnCalories, steps: _steps, stepsTarget: preference.targetSteps),
+            listView: CustomListView(
+              list: _list,
+              type: EnumTileType.measurement,
+            ),
+          );
+        },
         loading: () => Center(
           child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
         ),

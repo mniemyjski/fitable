@@ -19,7 +19,7 @@ class TileExpansion extends StatelessWidget {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
             tilePadding: EdgeInsets.only(left: 10),
-            childrenPadding: EdgeInsets.only(left: 10),
+            childrenPadding: EdgeInsets.only(left: 15, right: 80),
             initiallyExpanded: true,
             title: Card(
               margin: EdgeInsets.only(bottom: 5, top: 3),

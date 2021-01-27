@@ -6,6 +6,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fitable/services/sync_health.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -54,6 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.healthSync,
                           onChanged: (state) {
+                            authorizationHealth(context);
                             db.updatePreference(name: Constants.healthSync, value: state);
                           }),
                       Text(Constants.healthSync.tr()),

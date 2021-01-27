@@ -229,6 +229,17 @@ class MyAccountScreen extends ConsumerWidget {
               db.updateAccount(name: 'accessStats', value: Account.toEnum(value));
             },
           ),
+          SizedBox(height: 26),
+          Container(
+            width: double.infinity,
+            child: FlatButton(
+              onPressed: () {},
+              child: Text(
+                "delete_account",
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
           SizedBox(height: 26)
         ],
       )),

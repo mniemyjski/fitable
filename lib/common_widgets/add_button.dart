@@ -8,7 +8,7 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.indigo,
+      color: onPressed != null ? Colors.indigo : Colors.grey,
       child: Container(
         height: double.infinity,
         child: IconButton(

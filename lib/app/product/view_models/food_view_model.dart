@@ -1,6 +1,5 @@
 import 'package:fitable/app/home/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/models/recipe_model.dart';
@@ -14,6 +13,7 @@ final providerFoodViewModel = ChangeNotifierProvider.autoDispose<FoodViewModel>(
 });
 
 class FoodViewModel extends ChangeNotifier {
+  String _id;
   int _calories;
   double _proteins;
   double _carbs;
@@ -25,26 +25,15 @@ class FoodViewModel extends ChangeNotifier {
   List _keyWords;
   bool _isFavorite;
 
-  bool get isFavorite => _isFavorite ?? false;
+  bool get isFavorite => _isFavorite;
+  String get id => _id;
 
-  checkFavorite({@required BuildContext context, @required String id, bool init = false}) {
-    final favorites = context.read(providerFavorite);
-    _isFavorite = false;
-
-    favorites.whenData((value) {
-      value.forEach((element) {
-        if (element.id == id) _isFavorite = true;
-      });
-    });
-
-    if (!init) notifyListeners();
-  }
-
-  build(Product product, Recipe recipe, Meal meal) {
+  build(Product product, Recipe recipe, Meal meal, List<Favorite> favorites) {
     double multiplier;
 
     if (product != null) {
-      _name = product.productName;
+      _id = product.id;
+      _name = product.name;
       _portions = product.portions;
       _keyWords = product.keyWords;
       _calories = product.calories;
@@ -56,8 +45,9 @@ class FoodViewModel extends ChangeNotifier {
       multiplier = _portions[_portionChosen];
     }
     if (recipe != null) {}
-    if (meal != null) {
-      _name = meal.product.productName;
+    if (meal?.product != null) {
+      _id = meal.product.id;
+      _name = meal.product.name;
       _portions = meal.product.portions;
       _keyWords = meal.product.keyWords;
       _calories = meal.product.calories;
@@ -73,6 +63,15 @@ class FoodViewModel extends ChangeNotifier {
     _proteins = _proteins * _portionSize * multiplier / 100;
     _carbs = _carbs * _portionSize * multiplier / 100;
     _fats = _fats * _portionSize * multiplier / 100;
+
+    _isFavorite = false;
+
+    favorites.forEach((element) {
+      if (element.id == _id) {
+        _isFavorite = true;
+      }
+      print('${element.id}, $_id, $_isFavorite ');
+    });
   }
 
   submit({@required BuildContext context, Product product, Meal meal, @required MealType mealType}) {

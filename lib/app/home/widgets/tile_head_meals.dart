@@ -6,6 +6,7 @@ import 'package:fitable/app/product/food_screen.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -15,58 +16,6 @@ class TileHeadMeals extends StatelessWidget {
   final MealType mealType;
 
   const TileHeadMeals({Key key, @required this.mealType}) : super(key: key);
-
-  _buildListView({@required BuildContext context, @required List<Meal> list}) {
-    return Container(
-      child: ListView.separated(
-        separatorBuilder: (context, index) => Container(
-            margin: EdgeInsets.only(right: 75),
-            child: Divider(
-              height: 5,
-              color: Colors.grey,
-            )),
-        itemCount: list.length,
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (_, int index) {
-          final key = list.elementAt(index).id;
-          final Meal meal = list.elementAt(index);
-
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(AppRoute.foodScreen,
-                  arguments: FoodScreenArguments(
-                    meal: meal,
-                    mealType: mealType,
-                  ));
-            },
-            child: Dismissible(
-                key: Key(key),
-                onDismissed: (direction) {
-                  final db = context.read(providerDatabase);
-                  db.deleteMeal(meal);
-                },
-                direction: DismissDirection.startToEnd,
-                background: Container(
-                  height: double.infinity,
-                  child: Container(
-                      height: double.infinity,
-                      alignment: Alignment.centerLeft,
-                      color: Colors.red[600],
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Icon(Icons.delete, color: Colors.white),
-                      )),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 90),
-                  child: TileProduct(meal: meal),
-                )),
-          );
-        },
-      ),
-    );
-  }
 
   _buildHead(List<Meal> list) {
     return Consumer(builder: (context, watch, child) {
@@ -118,6 +67,22 @@ class TileHeadMeals extends StatelessWidget {
     });
   }
 
+  _onPressed(BuildContext context, dynamic element) {
+    Navigator.of(context).pushNamed(AppRoute.foodScreen,
+        arguments: FoodScreenArguments(
+          meal: element,
+          mealType: mealType,
+        ));
+  }
+
+  _onDismissed(BuildContext context, dynamic element) {
+    context.read(providerDatabase).deleteMeal(element);
+  }
+
+  _onSearch(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType));
+  }
+
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
       final meals = watch(providerMeals);
@@ -126,15 +91,17 @@ class TileHeadMeals extends StatelessWidget {
       return meals.when(
         data: (data) {
           List _list = data.where((element) => element.mealType == mealType && element.dateTime == app.chosenDate).toList();
+          _list.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
 
           return TileExpansion(
-            head: _buildHead(_list),
-            listView: _buildListView(context: context, list: _list),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType));
-            },
-          );
+              head: _buildHead(_list),
+              onPressed: () => _onSearch(context),
+              listView: CustomListView(
+                list: _list,
+                type: EnumTileType.meal,
+                onDismissed: (element) => _onDismissed(context, element),
+                onPressed: (element) => _onPressed(context, element),
+              ));
         },
         loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
         error: (err, stack) => Center(child: Text('Error: $err')),

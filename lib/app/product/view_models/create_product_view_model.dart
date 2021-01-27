@@ -85,9 +85,8 @@ class CreateProductViewModel extends ChangeNotifier {
     final db = context.read(providerDatabase);
 
     Product product = Product(
-        productID: null,
         barcode: barcode,
-        productName: productName,
+        name: productName,
         categoryPrimary: categoryPrimary,
         categorySecondary: categorySecondary,
         localeBase: localeBase,

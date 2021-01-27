@@ -47,20 +47,24 @@ class Database {
       .collection(Path.products())
       .where("barcode", isEqualTo: barcode)
       .get()
-      .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data(), value.docs.first.id) : null);
+      .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : null);
 
   Stream<List<Product>> streamProducts(List<Favorite> list) {
-    List<String> _idList = [];
+    List<String> _list = [];
 
     list.forEach((element) {
-      _idList.add(element.id);
+      _list.add(element.id);
     });
 
-    return _service
-        .collection(Path.products())
-        .where(FieldPath.documentId, whereIn: _idList)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((snap) => Product.fromMap(snap.data(), snap.id)).toList());
+    if (_list.isNotEmpty) {
+      return _service
+          .collection(Path.products())
+          .where(FieldPath.documentId, whereIn: _list)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((snap) => Product.fromMap(snap.data())).toList());
+    } else {
+      return null;
+    }
   }
 
   //#endregion

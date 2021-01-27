@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Product {
-  final String productID;
+  final String id;
   final String barcode;
-  final String productName;
+  final String name;
   final String categoryPrimary;
   final String categorySecondary;
   final String localeBase;
@@ -22,9 +22,9 @@ class Product {
   final double iron, copper, zinc, selenium, manganese, iodine, chromium;
 
   Product(
-      {this.productID,
+      {this.id,
       @required this.barcode,
-      @required this.productName,
+      @required this.name,
       @required this.categoryPrimary,
       @required this.categorySecondary,
       @required this.localeBase,
@@ -76,9 +76,9 @@ class Product {
 
   Map<String, dynamic> toMap({String id}) {
     return {
-      'productID': id ?? productID,
+      'id': id ?? this.id,
       'barcode': barcode,
-      'productName': productName,
+      'name': name,
       'categoryPrimary': categoryPrimary,
       'categorySecondary': categorySecondary,
       'localeBase': localeBase,
@@ -130,15 +130,15 @@ class Product {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> data, String id) {
+  factory Product.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
 
     return Product(
-      productID: id,
+      id: data['id'],
       barcode: data['barcode'],
-      productName: data['productName'],
+      name: data['name'],
       categoryPrimary: data['categoryPrimary'],
       categorySecondary: data['categorySecondary'],
       localeBase: data['localeBase'],

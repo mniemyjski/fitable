@@ -1,52 +1,74 @@
+import 'package:fitable/app/home/widgets/tile_measurement.dart';
+import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:flutter/material.dart';
+
+enum EnumTileType { product, recipe, meal, measurement }
 
 class CustomListView extends StatelessWidget {
   final List list;
-  final Widget child;
-  // final DismissDirectionCallback onDismissed;
-  final ValueChanged<String> onDismissed;
+  final EnumTileType type;
+  final DismissDirection direction;
+  final ValueChanged<dynamic> onPressed;
+  final ValueChanged<dynamic> onDismissed;
 
-  const CustomListView({Key key, @required this.list, @required this.onDismissed, @required this.child}) : super(key: key);
+  const CustomListView({
+    Key key,
+    @required this.list,
+    this.type,
+    this.direction = DismissDirection.startToEnd,
+    this.onPressed,
+    this.onDismissed,
+  }) : super(key: key);
+
+  Widget _buildTile(dynamic element) {
+    switch (type) {
+      case EnumTileType.product:
+        return TileProduct(product: element);
+      case EnumTileType.meal:
+        return TileProduct(meal: element);
+      case EnumTileType.measurement:
+        return TileMeasurement(measurement: element);
+      default:
+        return Text(element);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (context, index) => Container(
-          margin: EdgeInsets.only(right: 75),
-          child: Divider(
-            height: 5,
-            color: Colors.grey,
-          )),
+        child: Divider(
+          height: 5,
+          color: Colors.grey,
+        ),
+      ),
       itemCount: list.length,
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (_, int index) {
-        final key = list.elementAt(index).id;
         final element = list.elementAt(index);
+        final key = list.elementAt(index).id;
+        final Widget child = _buildTile(element);
 
         return GestureDetector(
-          onTap: () {},
+          onTap: () => onPressed(element),
           child: Dismissible(
-              key: Key(key),
-              onDismissed: (direction) {
-                // return context.read(providerDatabase).deleteMeasurement(element);
-              },
-              direction: DismissDirection.startToEnd,
-              background: Container(
-                height: double.infinity,
-                child: Container(
-                    height: double.infinity,
-                    alignment: Alignment.centerLeft,
-                    color: Colors.red[600],
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(Icons.delete, color: Colors.white),
-                    )),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 90),
-                child: child,
-              )),
+            key: Key(key),
+            onDismissed: (direction) => onDismissed(element),
+            direction: direction,
+            background: Container(
+              height: double.infinity,
+              child: Container(
+                  height: double.infinity,
+                  alignment: Alignment.centerLeft,
+                  color: Colors.red[600],
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Icon(Icons.delete, color: Colors.white),
+                  )),
+            ),
+            child: child,
+          ),
         );
       },
     );

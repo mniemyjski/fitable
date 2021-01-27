@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/measurement_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/home/widgets/tile_measurement.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
+import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -14,53 +16,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TileHeadMeasurement extends StatelessWidget {
-  _buildListView({@required BuildContext context, @required List list}) {
-    return Container(
-      child: ListView.separated(
-        separatorBuilder: (context, index) => Container(
-            margin: EdgeInsets.only(right: 75),
-            child: Divider(
-              height: 5,
-              color: Colors.grey,
-            )),
-        itemCount: list.length,
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (_, int index) {
-          final key = list.elementAt(index).id;
-          final Measurement element = list.elementAt(index);
+  _buildHead({@required double bodyWeight, @required double bodyWeightTarget, @required double bodyFat, @required double bodyFatTarget}) {
+    double size = 35;
+    double _weight = bodyWeight > bodyWeightTarget ? (bodyWeightTarget / bodyWeight) : (bodyWeight / bodyWeightTarget);
+    double _fat = bodyFat > bodyFatTarget ? (bodyFatTarget / bodyFat) : (bodyFat / bodyFatTarget);
 
-          return GestureDetector(
-            onTap: () {},
-            child: Dismissible(
-                key: Key(key),
-                onDismissed: (direction) => context.read(providerDatabase).deleteMeasurement(element),
-                direction: DismissDirection.startToEnd,
-                background: Container(
-                  height: double.infinity,
-                  child: Container(
-                      height: double.infinity,
-                      alignment: Alignment.centerLeft,
-                      color: Colors.red[600],
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Icon(Icons.delete, color: Colors.white),
-                      )),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 90),
-                  child: TileMeasurement(measurement: element),
-                )),
-          );
-        },
-      ),
-    );
-  }
-
-  _buildHead() {
     return Consumer(builder: (context, watch, child) {
-      double size = 35;
-
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -82,7 +43,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text('', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                          Text(bodyWeight.toStringAsFixed(0), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -90,7 +51,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       width: size,
                       height: size,
                       child: CircularProgressIndicator(
-                        value: 0.5,
+                        value: _weight,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
                         backgroundColor: Colors.grey[400],
                         strokeWidth: 5,
@@ -109,7 +70,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text('', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                          Text(bodyFat.toStringAsFixed(0), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -117,7 +78,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       width: size,
                       height: size,
                       child: CircularProgressIndicator(
-                        value: 0.5,
+                        value: _fat,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
                         backgroundColor: Colors.grey[400],
                         strokeWidth: 5,
@@ -201,21 +162,49 @@ class TileHeadMeasurement extends StatelessWidget {
         ));
   }
 
+  _onDismissed(BuildContext context, dynamic element) {
+    context.read(providerDatabase).deleteMeasurement(element);
+  }
+
   Widget build(BuildContext context) {
     return Consumer(builder: (_, watch, child) {
       final measurement = watch(providerMeasurement);
       final app = watch(providerAppViewModel);
+      final preference = watch(providerPreference).data.value;
 
       return measurement.when(
         data: (data) {
-          List _list = data.where((element) => element.dateTime == app.chosenDate).toList();
+          List _list = data
+              .where((element) =>
+                  element.dateTime == app.chosenDate &&
+                  (element.dataType == EnumMeasurement.BODY_WEIGHT ||
+                      element.dataType == EnumMeasurement.BODY_FAT ||
+                      element.dataType == EnumMeasurement.BODY_CIRCUMFERENCES))
+              .toList();
+          _list.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
+
+          List _temp = _list;
+          _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_WEIGHT).toList();
+          _temp.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
+          double _bodyWeight = _temp.isNotEmpty ? _temp.first.value.values.first : 0;
+
+          _temp = _list;
+          _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_FAT).toList();
+          _temp.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
+
+          double _bodyFat = _temp.isNotEmpty ? _temp.first.value.values.first : 0;
 
           return TileExpansion(
             onPressed: () {
               _show(context);
             },
-            head: _buildHead(),
-            listView: _buildListView(context: context, list: _list),
+            head: _buildHead(
+                bodyWeight: _bodyWeight, bodyWeightTarget: preference.targetWeight, bodyFat: _bodyFat, bodyFatTarget: preference.targetFat),
+            listView: CustomListView(
+              list: _list,
+              type: EnumTileType.measurement,
+              onDismissed: (element) => _onDismissed(context, element),
+            ),
           );
         },
         loading: () => Center(
