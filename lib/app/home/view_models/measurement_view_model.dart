@@ -74,7 +74,7 @@ class MeasurementViewModel extends ChangeNotifier {
     Measurement measurement = Measurement(
       source: 'USER',
       dataType: EnumMeasurement.BODY_CIRCUMFERENCES,
-      value: _map,
+      data: _map,
       unit: 'cm',
       dateTime: app.chosenDate,
       dateCreation: DateTime.now(),
@@ -88,7 +88,7 @@ class MeasurementViewModel extends ChangeNotifier {
       Measurement _m = Measurement(
         source: 'USER',
         dataType: EnumMeasurement.BODY_FAT,
-        value: _map,
+        data: _map,
         unit: '%',
         dateTime: app.chosenDate,
         dateCreation: DateTime.now(),
@@ -111,7 +111,7 @@ class MeasurementViewModel extends ChangeNotifier {
     Measurement measurement = Measurement(
       source: 'USER',
       dataType: type,
-      value: _map,
+      data: _map,
       unit: unit,
       dateTime: app.chosenDate,
       dateCreation: DateTime.now(),

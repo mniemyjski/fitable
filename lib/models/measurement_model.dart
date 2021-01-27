@@ -15,7 +15,7 @@ class Measurement {
   final String uid;
   final String source;
   final EnumMeasurement dataType;
-  final Map<String, dynamic> value;
+  final Map<String, dynamic> data;
   final String unit;
   final DateTime dateTime;
   final DateTime dateCreation;
@@ -25,7 +25,7 @@ class Measurement {
     this.uid,
     @required this.source,
     @required this.dataType,
-    @required this.value,
+    @required this.data,
     @required this.unit,
     @required this.dateTime,
     @required this.dateCreation,
@@ -39,7 +39,7 @@ class Measurement {
       'uid': uid,
       'source': source,
       'dataType': toText(dataType),
-      'value': value,
+      'data': data,
       'unit': unit,
       'dateTime': dateTime,
       'dateCreation': dateCreation,
@@ -73,7 +73,7 @@ class Measurement {
       uid: data['uid'],
       source: data['source'],
       dataType: _toEnum(data['dataType']),
-      value: data['value'],
+      data: data['data'],
       unit: data['unit'],
       dateTime: data['dateTime'].toDate(),
       dateCreation: data['dateCreation'].toDate(),

@@ -12,10 +12,10 @@ class TileMeasurement extends StatelessWidget {
     if (measurement.dataType == EnumMeasurement.BODY_CIRCUMFERENCES) {
       List<Widget> list = [];
 
-      for (int i = 0; i < measurement.value.length; i++) {
+      for (int i = 0; i < measurement.data.length; i++) {
         list.add(RichText(
             text: TextSpan(
-          text: measurement.value.keys.toList().elementAt(i).toString(),
+          text: measurement.data.keys.toList().elementAt(i).toString(),
           style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
         )));
       }
@@ -36,11 +36,11 @@ class TileMeasurement extends StatelessWidget {
     if (measurement.dataType == EnumMeasurement.BODY_CIRCUMFERENCES) {
       List<Widget> list = [];
 
-      for (int i = 0; i < measurement.value.length; i++) {
+      for (int i = 0; i < measurement.data.length; i++) {
         list.add(
           RichText(
               text: TextSpan(
-            text: "${measurement.value.values.elementAt(i).toStringAsFixed(1)} ${measurement.unit}",
+            text: "${measurement.data.values.elementAt(i).toStringAsFixed(1)} ${measurement.unit}",
             style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
           )),
         );
@@ -51,7 +51,7 @@ class TileMeasurement extends StatelessWidget {
       return [
         RichText(
             text: TextSpan(
-          text: "${measurement.value.values.first.toStringAsFixed(1)} ${measurement.unit}",
+          text: "${measurement.data.values.first.toStringAsFixed(1)} ${measurement.unit}",
           style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
         )),
       ];

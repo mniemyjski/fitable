@@ -174,7 +174,7 @@ class TileHeadMeasurement extends StatelessWidget {
 
       return measurement.when(
         data: (data) {
-          List _list = data
+          List<Measurement> _list = data
               .where((element) =>
                   element.dateTime == app.chosenDate &&
                   (element.dataType == EnumMeasurement.BODY_WEIGHT ||
@@ -183,16 +183,16 @@ class TileHeadMeasurement extends StatelessWidget {
               .toList();
           _list.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
 
-          List _temp = _list;
+          List<Measurement> _temp = _list;
           _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_WEIGHT).toList();
           _temp.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
-          double _bodyWeight = _temp.isNotEmpty ? _temp.first.value.values.first : 0;
+          double _bodyWeight = _temp.isNotEmpty ? _temp.first.data.values.first : 0;
 
           _temp = _list;
           _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_FAT).toList();
           _temp.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
 
-          double _bodyFat = _temp.isNotEmpty ? _temp.first.value.values.first : 0;
+          double _bodyFat = _temp.isNotEmpty ? _temp.first.data.values.first : 0;
 
           return TileExpansion(
             onPressed: () {

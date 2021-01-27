@@ -78,7 +78,7 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
           Measurement measurement = Measurement(
             source: 'IMPORT',
             dataType: EnumMeasurement.BODY_WEIGHT,
-            value: _map,
+            data: _map,
             unit: 'kg',
             dateTime: DateTime(x.dateFrom.year, x.dateFrom.month, x.dateFrom.day),
             dateCreation: x.dateFrom,
@@ -99,10 +99,10 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
     bool _isAlreadySteps = false;
 
     measurement.forEach((element) {
-      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.BURN_CALORIES && element.value.values.first == burn) {
+      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.BURN_CALORIES && element.data.values.first == burn) {
         _isAlreadyBurnCalories = true;
       }
-      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.STEPS && element.value.values.first == steps) _isAlreadySteps = true;
+      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.STEPS && element.data.values.first == steps) _isAlreadySteps = true;
     });
 
     if (burn == 0 || dateTime.millisecondsSinceEpoch > now.millisecondsSinceEpoch) _isAlreadyBurnCalories = true;
@@ -115,7 +115,7 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
       Measurement measurement = Measurement(
         source: 'IMPORT',
         dataType: EnumMeasurement.BURN_CALORIES,
-        value: _map,
+        data: _map,
         unit: 'calories',
         dateTime: dateTime,
         dateCreation: dateTime,
@@ -130,7 +130,7 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
       Measurement measurement = Measurement(
         source: 'IMPORT',
         dataType: EnumMeasurement.STEPS,
-        value: _map,
+        data: _map,
         unit: 'steps',
         dateTime: dateTime,
         dateCreation: dateTime,
