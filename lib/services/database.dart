@@ -3,6 +3,7 @@ import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/models/favorite_model.dart';
 import 'package:fitable/app/home/models/measurement_model.dart';
+import 'package:fitable/app/product/models/issue_report_model.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/services/path.dart';
@@ -65,6 +66,11 @@ class Database {
     } else {
       return null;
     }
+  }
+
+  Future<void> createIssue(Issue issuesReport) {
+    final DocumentReference ref = _service.collection(Path.products()).doc(issuesReport.id).collection(Path.issues()).doc(uid);
+    return ref.set(issuesReport.toMap(uid));
   }
 
   //#endregion

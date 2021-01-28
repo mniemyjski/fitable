@@ -50,20 +50,22 @@ class Favorite {
     );
   }
 
-  static toText(EnumFavorite favorite) {
-    switch (favorite) {
-      case EnumFavorite.products:
-        return 'products';
-      case EnumFavorite.recipes:
-        return 'recipes';
-      case EnumFavorite.exercise:
-        return 'exercise';
-      case EnumFavorite.trainings:
-        return 'trainings';
-      case EnumFavorite.users:
-        return 'users';
-    }
-  }
+  static String toText(EnumFavorite favorite) => favorite.toString().split('.').last;
+
+  // static toText(EnumFavorite favorite) {
+  //   switch (favorite) {
+  //     case EnumFavorite.products:
+  //       return 'products';
+  //     case EnumFavorite.recipes:
+  //       return 'recipes';
+  //     case EnumFavorite.exercise:
+  //       return 'exercise';
+  //     case EnumFavorite.trainings:
+  //       return 'trainings';
+  //     case EnumFavorite.users:
+  //       return 'users';
+  //   }
+  // }
 
   static toEnum(String favorite) {
     switch (favorite) {

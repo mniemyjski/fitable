@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/product/models/issue_report_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -8,53 +10,13 @@ final providerCreateProductViewModel = ChangeNotifierProvider.autoDispose<Create
 });
 
 class CreateProductViewModel extends ChangeNotifier {
-  String _productName;
+  Product _oldProduct;
   String _categoryPrimary;
   String _categorySecondary;
   String _localeBase;
   String _unit;
-  List<String> _keyWords;
-  Map<String, double> _portions;
-  int _calories;
-  double _proteins;
-  double _carbs;
-  double _fats;
-  double _sugar;
-  double _animalProteins;
-  double _plantProteins;
-  double _saturated;
-  double _unsaturated;
-  double _omega3;
-  double _omega6;
-  double _fiber;
-  double _caffeine;
-  double _cholesterol;
-  double _salt;
-  double _vitaminA;
-  double _vitaminC;
-  double _vitaminD;
-  double _vitaminE;
-  double _vitaminK;
-  double _vitaminB1;
-  double _vitaminB2;
-  double _vitaminB3;
-  double _vitaminB5;
-  double _vitaminB6;
-  double _vitaminB7;
-  double _vitaminB9;
-  double _vitaminB12;
-  double _potassium;
-  double _sodium;
-  double _calcium;
-  double _magnesium;
-  double _phosphorus;
-  double _iron;
-  double _copper;
-  double _zinc;
-  double _selenium;
-  double _manganese;
-  double _iodine;
-  double _chromium;
+  List _keyWords;
+  Map _portions;
   Map _photosUrl;
 
   List<String> get listSecondary {
@@ -81,11 +43,12 @@ class CreateProductViewModel extends ChangeNotifier {
     }
   }
 
-  submit({@required BuildContext context, @required String barcode}) {
+  submit({@required BuildContext context, @required String barcode, String id, String description}) {
     final db = context.read(providerDatabase);
 
     Product product = Product(
         barcode: barcode,
+        id: id,
         name: productName,
         categoryPrimary: categoryPrimary,
         categorySecondary: categorySecondary,
@@ -99,52 +62,116 @@ class CreateProductViewModel extends ChangeNotifier {
         carbs: carbs,
         fats: fats,
         photosUrl: _photosUrl,
-        sugar: sugar != null ? sugar : 0.0,
-        animalProteins: animalProteins != null ? animalProteins : 0.0,
-        plantProteins: plantProteins != null ? plantProteins : 0.0,
-        saturated: saturated != null ? saturated : 0.0,
-        unsaturated: unsaturated != null ? unsaturated : 0.0,
-        omega3: omega3 != null ? omega3 : 0.0,
-        omega6: omega6 != null ? omega6 : 0.0,
-        fiber: fiber != null ? fiber : 0.0,
-        caffeine: caffeine != null ? caffeine : 0.0,
-        cholesterol: cholesterol != null ? cholesterol : 0.0,
-        salt: salt != null ? salt : 0.0,
-        vitaminA: vitaminA != null ? vitaminA : 0.0,
-        vitaminC: vitaminC != null ? vitaminC : 0.0,
-        vitaminD: vitaminD != null ? vitaminD : 0.0,
-        vitaminE: vitaminE != null ? vitaminE : 0.0,
-        vitaminK: vitaminK != null ? vitaminK : 0.0,
-        vitaminB1: vitaminB1 != null ? vitaminB1 : 0.0,
-        vitaminB2: vitaminB2 != null ? vitaminB2 : 0.0,
-        vitaminB3: vitaminB3 != null ? vitaminB3 : 0.0,
-        vitaminB5: vitaminB5 != null ? vitaminB5 : 0.0,
-        vitaminB6: vitaminB6 != null ? vitaminB6 : 0.0,
-        vitaminB7: vitaminB7 != null ? vitaminB7 : 0.0,
-        vitaminB9: vitaminB9 != null ? vitaminB9 : 0.0,
-        vitaminB12: vitaminB12 != null ? vitaminB12 : 0.0,
-        potassium: potassium != null ? potassium : 0.0,
-        sodium: sodium != null ? sodium : 0.0,
-        calcium: calcium != null ? calcium : 0.0,
-        magnesium: magnesium != null ? magnesium : 0.0,
-        phosphorus: phosphorus != null ? phosphorus : 0.0,
-        iron: iron != null ? iron : 0.0,
-        copper: copper != null ? copper : 0.0,
-        zinc: zinc != null ? zinc : 0.0,
-        selenium: selenium != null ? selenium : 0.0,
-        manganese: manganese != null ? manganese : 0.0,
-        iodine: iodine != null ? iodine : 0.0,
-        chromium: chromium != null ? chromium : 0.0);
+        sugar: sugar,
+        animalProteins: animalProteins,
+        plantProteins: plantProteins,
+        saturated: saturated,
+        unsaturated: unsaturated,
+        omega3: omega3,
+        omega6: omega6,
+        fiber: fiber,
+        caffeine: caffeine,
+        cholesterol: cholesterol,
+        salt: salt,
+        vitaminA: vitaminA,
+        vitaminC: vitaminC,
+        vitaminD: vitaminD,
+        vitaminE: vitaminE,
+        vitaminK: vitaminK,
+        vitaminB1: vitaminB1,
+        vitaminB2: vitaminB2,
+        vitaminB3: vitaminB3,
+        vitaminB5: vitaminB5,
+        vitaminB6: vitaminB6,
+        vitaminB7: vitaminB7,
+        vitaminB9: vitaminB9,
+        vitaminB12: vitaminB12,
+        potassium: potassium,
+        sodium: sodium,
+        calcium: calcium,
+        magnesium: magnesium,
+        phosphorus: phosphorus,
+        iron: iron,
+        copper: copper,
+        zinc: zinc,
+        selenium: selenium,
+        manganese: manganese,
+        iodine: iodine,
+        chromium: chromium);
 
-    db.createProduct(product);
+    if (id != null) {
+      Issue issuesReport = Issue(
+        type: EnumIssue.product,
+        id: id,
+        dateCreate: DateTime.now(),
+        description: description,
+        product: product,
+      );
+
+      db.createIssue(issuesReport);
+    } else {
+      db.createProduct(product);
+    }
   }
 
-  List<String> get keyWords {
+  initProduct(Product product) {
+    _oldProduct = product;
+    _productName = product.name;
+    _categoryPrimary = product.categoryPrimary;
+    _categorySecondary = product.categorySecondary;
+    _keyWords = product.keyWords;
+    calories = product.calories;
+    proteins = product.proteins;
+    carbs = product.carbs;
+    fats = product.fats;
+    _portions = product.portions;
+    _unit = product.unit;
+
+    sugar = product.sugar;
+    animalProteins = product.animalProteins;
+    plantProteins = product.plantProteins;
+    saturated = product.saturated;
+    unsaturated = product.unsaturated;
+    omega3 = product.omega3;
+    omega6 = product.omega6;
+    fiber = product.fiber;
+    caffeine = product.caffeine;
+    cholesterol = product.cholesterol;
+    salt = product.salt;
+    vitaminA = product.vitaminA;
+    vitaminC = product.vitaminC;
+    vitaminD = product.vitaminD;
+    vitaminE = product.vitaminE;
+    vitaminK = product.vitaminK;
+    vitaminB1 = product.vitaminB1;
+    vitaminB2 = product.vitaminB2;
+    vitaminB3 = product.vitaminB3;
+    vitaminB5 = product.vitaminB5;
+    vitaminB6 = product.vitaminB6;
+    vitaminB7 = product.vitaminB7;
+    vitaminB9 = product.vitaminB9;
+    vitaminB12 = product.vitaminB12;
+    potassium = product.potassium;
+    sodium = product.sodium;
+    calcium = product.calcium;
+    magnesium = product.magnesium;
+    phosphorus = product.phosphorus;
+    iron = product.iron;
+    copper = product.copper;
+    zinc = product.zinc;
+    selenium = product.selenium;
+    manganese = product.manganese;
+    iodine = product.iodine;
+    chromium = product.chromium;
+    _photosUrl = product.photosUrl;
+  }
+
+  List get keyWords {
     if (_keyWords == null) _keyWords = [];
     return _keyWords;
   }
 
-  set keyWords(List<String> keywords) {
+  set keyWords(List keywords) {
     _keyWords = keywords;
     notifyListeners();
   }
@@ -157,19 +184,14 @@ class CreateProductViewModel extends ChangeNotifier {
     }
   }
 
-  Map<String, double> get portions {
+  Map get portions {
     if (_portions == null) _portions = new Map<String, double>();
     return _portions;
   }
 
-  set portions(Map<String, double> portions) {
+  set portions(Map portions) {
     _portions = portions;
     notifyListeners();
-  }
-
-  String get productName => _productName;
-  set productName(String productName) {
-    if (productName.isNotEmpty) _productName = productName;
   }
 
   String get categoryPrimary => _categoryPrimary;
@@ -189,6 +211,16 @@ class CreateProductViewModel extends ChangeNotifier {
     }
   }
 
+  String _productName;
+  Color _productNameColor;
+  Color get productNameColor => _productNameColor;
+  String get productName => _productName;
+  set productName(String productName) {
+    _productNameColor = (_oldProduct != null && _oldProduct.name != productName) ? Colors.indigo : null;
+    if (productName.isNotEmpty) _productName = productName;
+    notifyListeners();
+  }
+
   String get localeBase {
     if (_localeBase == null) _localeBase = 'pl_PL';
     return _localeBase;
@@ -198,203 +230,403 @@ class CreateProductViewModel extends ChangeNotifier {
     if (localeBase.isNotEmpty) _localeBase = localeBase;
   }
 
-  int get calories => _calories;
+  int _calories;
+  Color _caloriesColor;
+  Color get caloriesColor => _caloriesColor;
+  int get calories => _calories ?? 0;
   set calories(int calories) {
+    _caloriesColor = (_oldProduct != null && _oldProduct.calories != calories) ? Colors.indigo : null;
     if (calories != null) _calories = calories;
+    notifyListeners();
   }
 
-  double get proteins => _proteins;
+  double _proteins;
+  Color _proteinsColor;
+  Color get proteinsColor => _proteinsColor;
+  double get proteins => _proteins ?? 0;
   set proteins(double proteins) {
+    _proteinsColor = (_oldProduct != null && _oldProduct.proteins != proteins) ? Colors.indigo : null;
     if (proteins != null) _proteins = proteins;
+    notifyListeners();
   }
 
-  double get carbs => _carbs;
+  double _carbs;
+  Color _carbsColor;
+  Color get carbsColor => _carbsColor;
+  double get carbs => _carbs ?? 0;
   set carbs(double carbs) {
+    _carbsColor = (_oldProduct != null && _oldProduct.carbs != carbs) ? Colors.indigo : null;
     if (carbs != null) _carbs = carbs;
+    notifyListeners();
   }
 
-  double get fats => _fats;
+  double _fats;
+  Color _fatsColor;
+  Color get fatsColor => _fatsColor;
+  double get fats => _fats ?? 0;
   set fats(double fats) {
+    _fatsColor = (_oldProduct != null && _oldProduct.calories != calories) ? Colors.indigo : null;
     if (fats != null) _fats = fats;
+    notifyListeners();
   }
 
-  double get sugar => _sugar;
+  double _sugar;
+  Color _sugarColor;
+  Color get sugarColor => _sugarColor;
+  double get sugar => _sugar ?? 0;
   set sugar(double sugar) {
+    _sugarColor = (_oldProduct != null && _oldProduct.sugar != sugar) ? Colors.indigo : null;
     if (sugar != null) _sugar = sugar;
+    notifyListeners();
   }
 
-  double get animalProteins => _animalProteins;
+  double _animalProteins;
+  Color _animalProteinsColor;
+  Color get animalProteinsColor => _animalProteinsColor;
+  double get animalProteins => _animalProteins ?? 0;
   set animalProteins(double animalProteins) {
+    _animalProteinsColor = (_oldProduct != null && _oldProduct.animalProteins != animalProteins) ? Colors.indigo : null;
     if (animalProteins != null) _animalProteins = animalProteins;
+    notifyListeners();
   }
 
-  double get plantProteins => _plantProteins;
+  double _plantProteins;
+  Color _plantProteinsColor;
+  Color get plantProteinsColor => _plantProteinsColor;
+  double get plantProteins => _plantProteins ?? 0;
   set plantProteins(double plantProteins) {
+    _plantProteinsColor = (_oldProduct != null && _oldProduct.plantProteins != plantProteins) ? Colors.indigo : null;
     if (plantProteins != null) _plantProteins = plantProteins;
+    notifyListeners();
   }
 
-  double get saturated => _saturated;
+  double _saturated;
+  Color _saturatedColor;
+  Color get saturatedColor => _saturatedColor;
+  double get saturated => _saturated ?? 0;
   set saturated(double saturated) {
+    _saturatedColor = (_oldProduct != null && _oldProduct.saturated != saturated) ? Colors.indigo : null;
     if (saturated != null) _saturated = saturated;
+    notifyListeners();
   }
 
-  double get unsaturated => _unsaturated;
+  double _unsaturated;
+  Color _unsaturatedColor;
+  Color get unsaturatedColor => _unsaturatedColor;
+  double get unsaturated => _unsaturated ?? 0;
   set unsaturated(double unsaturated) {
+    _unsaturatedColor = (_oldProduct != null && _oldProduct.unsaturated != unsaturated) ? Colors.indigo : null;
     if (unsaturated != null) _unsaturated = unsaturated;
+    notifyListeners();
   }
 
-  double get omega3 => _omega3;
+  double _omega3;
+  Color _omega3Color;
+  Color get omega3Color => _omega3Color;
+  double get omega3 => _omega3 ?? 0;
   set omega3(double omega3) {
+    _omega3Color = (_oldProduct != null && _oldProduct.omega3 != omega3) ? Colors.indigo : null;
     if (omega3 != null) _omega3 = omega3;
+    notifyListeners();
   }
 
-  double get omega6 => _omega6;
+  double _omega6;
+  Color _omega6Color;
+  Color get omega6Color => _omega6Color;
+  double get omega6 => _omega6 ?? 0;
   set omega6(double omega6) {
+    _omega6Color = (_oldProduct != null && _oldProduct.omega6 != omega6) ? Colors.indigo : null;
     if (omega6 != null) _omega6 = omega6;
+    notifyListeners();
   }
 
-  double get fiber => _fiber;
+  double _fiber;
+  Color _fiberColor;
+  Color get fiberColor => _fiberColor;
+  double get fiber => _fiber ?? 0;
   set fiber(double fiber) {
+    _fiberColor = (_oldProduct != null && _oldProduct.fiber != fiber) ? Colors.indigo : null;
     if (fiber != null) _fiber = fiber;
+    notifyListeners();
   }
 
-  double get caffeine => _caffeine;
+  double _caffeine;
+  Color _caffeineColor;
+  Color get caffeineColor => _caffeineColor;
+  double get caffeine => _caffeine ?? 0;
   set caffeine(double caffeine) {
+    _caffeineColor = (_oldProduct != null && _oldProduct.caffeine != caffeine) ? Colors.indigo : null;
     if (caffeine != null) _caffeine = caffeine;
+    notifyListeners();
   }
 
-  double get cholesterol => _cholesterol;
+  double _cholesterol;
+  Color _cholesterolColor;
+  Color get cholesterolColor => _cholesterolColor;
+  double get cholesterol => _cholesterol ?? 0;
   set cholesterol(double cholesterol) {
+    _cholesterolColor = (_oldProduct != null && _oldProduct.cholesterol != cholesterol) ? Colors.indigo : null;
     if (cholesterol != null) _cholesterol = cholesterol;
+    notifyListeners();
   }
 
-  double get salt => _salt;
+  double _salt;
+  Color _saltColor;
+  Color get saltColor => _saltColor;
+  double get salt => _salt ?? 0;
   set salt(double salt) {
+    _saltColor = (_oldProduct != null && _oldProduct.salt != salt) ? Colors.indigo : null;
     if (salt != null) _salt = salt;
+    notifyListeners();
   }
 
-  double get vitaminA => _vitaminA;
+  double _vitaminA;
+  Color _vitaminAColor;
+  Color get vitaminAColor => _vitaminAColor;
+  double get vitaminA => _vitaminA ?? 0;
   set vitaminA(double vitaminA) {
+    _vitaminAColor = (_oldProduct != null && _oldProduct.vitaminA != vitaminA) ? Colors.indigo : null;
     if (vitaminA != null) _vitaminA = vitaminA;
+    notifyListeners();
   }
 
-  double get vitaminC => _vitaminC;
+  double _vitaminC;
+  Color _vitaminCColor;
+  Color get vitaminCColor => _vitaminCColor;
+  double get vitaminC => _vitaminC ?? 0;
   set vitaminC(double vitaminC) {
+    _vitaminCColor = (_oldProduct != null && _oldProduct.vitaminC != vitaminC) ? Colors.indigo : null;
     if (vitaminC != null) _vitaminC = vitaminC;
+    notifyListeners();
   }
 
-  double get vitaminD => _vitaminD;
+  double _vitaminD;
+  Color _vitaminDColor;
+  Color get vitaminDColor => _vitaminDColor;
+  double get vitaminD => _vitaminD ?? 0;
   set vitaminD(double vitaminD) {
+    _vitaminDColor = (_oldProduct != null && _oldProduct.vitaminD != vitaminD) ? Colors.indigo : null;
     if (vitaminD != null) _vitaminD = vitaminD;
+    notifyListeners();
   }
 
-  double get vitaminE => _vitaminE;
+  double _vitaminE;
+  Color _vitaminEColor;
+  Color get vitaminEColor => _vitaminEColor;
+  double get vitaminE => _vitaminE ?? 0;
   set vitaminE(double vitaminE) {
+    _vitaminEColor = (_oldProduct != null && _oldProduct.vitaminE != vitaminE) ? Colors.indigo : null;
     if (vitaminE != null) _vitaminE = vitaminE;
+    notifyListeners();
   }
 
-  double get vitaminK => _vitaminK;
+  double _vitaminK;
+  Color _vitaminKColor;
+  Color get vitaminKColor => _vitaminKColor;
+  double get vitaminK => _vitaminK ?? 0;
   set vitaminK(double vitaminK) {
+    _vitaminKColor = (_oldProduct != null && _oldProduct.vitaminK != vitaminK) ? Colors.indigo : null;
     if (vitaminK != null) _vitaminK = vitaminK;
+    notifyListeners();
   }
 
-  double get vitaminB1 => _vitaminB1;
+  double _vitaminB1;
+  Color _vitaminB1Color;
+  Color get vitaminB1Color => _vitaminB1Color;
+  double get vitaminB1 => _vitaminB1 ?? 0;
   set vitaminB1(double vitaminB1) {
+    _vitaminB1Color = (_oldProduct != null && _oldProduct.vitaminB1 != vitaminB1) ? Colors.indigo : null;
     if (vitaminB1 != null) _vitaminB1 = vitaminB1;
+    notifyListeners();
   }
 
-  double get vitaminB2 => _vitaminB2;
+  double _vitaminB2;
+  Color _vitaminB2Color;
+  Color get vitaminB2Color => _vitaminB2Color;
+  double get vitaminB2 => _vitaminB2 ?? 0;
   set vitaminB2(double vitaminB2) {
+    _vitaminB2Color = (_oldProduct != null && _oldProduct.vitaminB2 != vitaminB2) ? Colors.indigo : null;
     if (vitaminB2 != null) _vitaminB2 = vitaminB2;
+    notifyListeners();
   }
 
-  double get vitaminB3 => _vitaminB3;
+  double _vitaminB3;
+  Color _vitaminB3Color;
+  Color get vitaminB3Color => _vitaminB3Color;
+  double get vitaminB3 => _vitaminB3 ?? 0;
   set vitaminB3(double vitaminB3) {
+    _vitaminB3Color = (_oldProduct != null && _oldProduct.vitaminB3 != vitaminB3) ? Colors.indigo : null;
     if (vitaminB3 != null) _vitaminB3 = vitaminB3;
+    notifyListeners();
   }
 
-  double get vitaminB5 => _vitaminB5;
+  double _vitaminB5;
+  Color _vitaminB5Color;
+  Color get vitaminB5Color => _vitaminB5Color;
+  double get vitaminB5 => _vitaminB5 ?? 0;
   set vitaminB5(double vitaminB5) {
+    _vitaminB5Color = (_oldProduct != null && _oldProduct.vitaminB5 != vitaminB5) ? Colors.indigo : null;
     if (vitaminB5 != null) _vitaminB5 = vitaminB5;
+    notifyListeners();
   }
 
-  double get vitaminB6 => _vitaminB6;
+  double _vitaminB6;
+  Color _vitaminB6Color;
+  Color get vitaminB6Color => _vitaminB6Color;
+  double get vitaminB6 => _vitaminB6 ?? 0;
   set vitaminB6(double vitaminB6) {
+    _vitaminB6Color = (_oldProduct != null && _oldProduct.vitaminB6 != vitaminB6) ? Colors.indigo : null;
     if (vitaminB6 != null) _vitaminB6 = vitaminB6;
+    notifyListeners();
   }
 
-  double get vitaminB7 => _vitaminB7;
+  double _vitaminB7;
+  Color _vitaminB7Color;
+  Color get vitaminB7Color => _vitaminB7Color;
+  double get vitaminB7 => _vitaminB7 ?? 0;
   set vitaminB7(double vitaminB7) {
+    _vitaminB7Color = (_oldProduct != null && _oldProduct.vitaminB7 != vitaminB7) ? Colors.indigo : null;
     if (vitaminB7 != null) _vitaminB7 = vitaminB7;
+    notifyListeners();
   }
 
-  double get vitaminB9 => _vitaminB9;
+  double _vitaminB9;
+  Color _vitaminB9Color;
+  Color get vitaminB9Color => _vitaminB9Color;
+  double get vitaminB9 => _vitaminB9 ?? 0;
   set vitaminB9(double vitaminB9) {
+    _vitaminB9Color = (_oldProduct != null && _oldProduct.vitaminB9 != vitaminB9) ? Colors.indigo : null;
     if (vitaminB9 != null) _vitaminB9 = vitaminB9;
+    notifyListeners();
   }
 
-  double get vitaminB12 => _vitaminB12;
+  double _vitaminB12;
+  Color _vitaminB12Color;
+  Color get vitaminB12eColor => _vitaminB12Color;
+  double get vitaminB12 => _vitaminB12 ?? 0;
   set vitaminB12(double vitaminB12) {
+    _vitaminB12Color = (_oldProduct != null && _oldProduct.vitaminB12 != vitaminB12) ? Colors.indigo : null;
     if (vitaminB12 != null) _vitaminB12 = vitaminB12;
+    notifyListeners();
   }
 
-  double get potassium => _potassium;
+  double _potassium;
+  Color _potassiumColor;
+  Color get potassiumColor => _potassiumColor;
+  double get potassium => _potassium ?? 0;
   set potassium(double potassium) {
+    _potassiumColor = (_oldProduct != null && _oldProduct.potassium != potassium) ? Colors.indigo : null;
     if (potassium != null) _potassium = potassium;
+    notifyListeners();
   }
 
-  double get sodium => _sodium;
+  double _sodium;
+  Color _sodiumColor;
+  Color get sodiumColor => _sodiumColor;
+  double get sodium => _sodium ?? 0;
   set sodium(double sodium) {
+    _sodiumColor = (_oldProduct != null && _oldProduct.sodium != sodium) ? Colors.indigo : null;
     if (sodium != null) _sodium = sodium;
+    notifyListeners();
   }
 
-  double get calcium => _calcium;
+  double _calcium;
+  Color _calciumColor;
+  Color get calciumColor => _calciumColor;
+  double get calcium => _calcium ?? 0;
   set calcium(double calcium) {
+    _calciumColor = (_oldProduct != null && _oldProduct.calcium != calcium) ? Colors.indigo : null;
     if (calcium != null) _calcium = calcium;
+    notifyListeners();
   }
 
-  double get magnesium => _magnesium;
+  double _magnesium;
+  Color _magnesiumColor;
+  Color get magnesiumColor => _magnesiumColor;
+  double get magnesium => _magnesium ?? 0;
   set magnesium(double magnesium) {
+    _magnesiumColor = (_oldProduct != null && _oldProduct.magnesium != magnesium) ? Colors.indigo : null;
     if (magnesium != null) _magnesium = magnesium;
+    notifyListeners();
   }
 
-  double get phosphorus => _phosphorus;
+  double _phosphorus;
+  Color _phosphorusColor;
+  Color get phosphorusColor => _phosphorusColor;
+  double get phosphorus => _phosphorus ?? 0;
   set phosphorus(double phosphorus) {
+    _phosphorusColor = (_oldProduct != null && _oldProduct.phosphorus != phosphorus) ? Colors.indigo : null;
     if (phosphorus != null) _phosphorus = phosphorus;
+    notifyListeners();
   }
 
-  double get iron => _iron;
+  double _iron;
+  Color _ironColor;
+  Color get ironColor => _productNameColor;
+  double get iron => _iron ?? 0;
   set iron(double iron) {
+    _ironColor = (_oldProduct != null && _oldProduct.iron != iron) ? Colors.indigo : null;
     if (iron != null) _iron = iron;
+    notifyListeners();
   }
 
-  double get copper => _copper;
+  double _copper;
+  Color _copperColor;
+  Color get copperColor => _copperColor;
+  double get copper => _copper ?? 0;
   set copper(double copper) {
+    _copperColor = (_oldProduct != null && _oldProduct.copper != copper) ? Colors.indigo : null;
     if (copper != null) _copper = copper;
+    notifyListeners();
   }
 
-  double get zinc => _zinc;
+  double _zinc;
+  Color _zincColor;
+  Color get zincColor => _zincColor;
+  double get zinc => _zinc ?? 0;
   set zinc(double zinc) {
+    _zincColor = (_oldProduct != null && _oldProduct.zinc != zinc) ? Colors.indigo : null;
     if (zinc != null) _zinc = zinc;
+    notifyListeners();
   }
 
-  double get selenium => _selenium;
+  double _selenium;
+  Color _seleniumColor;
+  Color get seleniumColor => _seleniumColor;
+  double get selenium => _selenium ?? 0;
   set selenium(double selenium) {
+    _seleniumColor = (_oldProduct != null && _oldProduct.selenium != selenium) ? Colors.indigo : null;
     if (selenium != null) _selenium = selenium;
+    notifyListeners();
   }
 
-  double get manganese => _manganese;
+  double _manganese;
+  Color _manganeseColor;
+  Color get manganeseColor => _manganeseColor;
+  double get manganese => _manganese ?? 0;
   set manganese(double manganese) {
+    _manganeseColor = (_oldProduct != null && _oldProduct.manganese != manganese) ? Colors.indigo : null;
     if (manganese != null) _manganese = manganese;
+    notifyListeners();
   }
 
-  double get iodine => _iodine;
+  double _iodine;
+  Color _iodineColor;
+  Color get iodineColor => _iodineColor;
+  double get iodine => _iodine ?? 0;
   set iodine(double iodine) {
+    _iodineColor = (_oldProduct != null && _oldProduct.iodine != iodine) ? Colors.indigo : null;
     if (iodine != null) _iodine = iodine;
+    notifyListeners();
   }
 
-  double get chromium => _chromium;
+  double _chromium;
+  Color _chromiumColor;
+  Color get chromiumColor => _chromiumColor;
+  double get chromium => _chromium ?? 0;
   set chromium(double chromium) {
+    _chromiumColor = (_oldProduct != null && _oldProduct.chromium != chromium) ? Colors.indigo : null;
     if (chromium != null) _chromium = chromium;
+    notifyListeners();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String name;
+  final Color textColor;
   final String suffix;
   final String hintText;
   final TextInputType keyboardType;
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
       {Key key,
       this.onChanged,
       this.name,
+      this.textColor = Colors.black87,
       this.suffix,
       this.hintText,
       this.controller,
@@ -26,11 +28,20 @@ class CustomTextField extends StatelessWidget {
       this.textInputAction = TextInputAction.done})
       : super(key: key);
 
+  TextStyle textStyle() {
+    if (textColor != null && textColor != Colors.black87) {
+      return TextStyle(color: textColor, fontWeight: FontWeight.bold);
+    } else {
+      return null;
+    }
+  }
+
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 2.5, bottom: 2.5),
       child: Card(
         child: TextFormField(
+          style: textStyle(),
           decoration: InputDecoration(
             labelText: name,
             suffix: suffix != null ? Text(suffix) : null,
