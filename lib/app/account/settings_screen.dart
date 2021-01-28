@@ -55,7 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.healthSync,
                           onChanged: (state) {
-                            authorizationHealth(context);
+                            if (state) authorizationHealth();
                             db.updatePreference(name: Constants.healthSync, value: state);
                           }),
                       Text(Constants.healthSync.tr()),

@@ -1,5 +1,6 @@
 import 'package:fitable/app/home/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
+import 'package:fitable/app/product/create_product_screen.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/models/recipe_model.dart';
@@ -70,7 +71,6 @@ class FoodViewModel extends ChangeNotifier {
       if (element.id == _id) {
         _isFavorite = true;
       }
-      print('${element.id}, $_id, $_isFavorite ');
     });
   }
 
@@ -98,7 +98,10 @@ class FoodViewModel extends ChangeNotifier {
     Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
   }
 
-  bugReport() {}
+  bugReport(BuildContext context, Product product) {
+    Navigator.of(context)
+        .pushNamed(AppRoute.createProductScreen, arguments: CreateProductScreenArguments(product: product, barcode: product.barcode));
+  }
 
   set portionSize(double portionSize) {
     _portionSize = portionSize;

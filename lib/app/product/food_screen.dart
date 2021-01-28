@@ -93,7 +93,7 @@ class FoodScreen extends StatelessWidget {
                     width: 150,
                     child: CustomTextField(
                       keyboardType: TextInputType.number,
-                      hintText: '100',
+                      hintText: args?.meal?.portionSize?.toString() ?? '100',
                       onChanged: (v) {
                         model.portionSize = double.tryParse(v);
                       },
@@ -126,12 +126,13 @@ class FoodScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              FlatButton(
-                  onPressed: () => model.bugReport(),
-                  child: Text(
-                    'bug_report'.tr(),
-                    style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
-                  )),
+              if (args.meal == null)
+                FlatButton(
+                    onPressed: () => model.bugReport(context, args.product),
+                    child: Text(
+                      'bug_report'.tr(),
+                      style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                    )),
               nutritional(product: args.product, recipe: args.recipe, meal: args.meal)
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/models/measurement_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/measurement_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
@@ -8,7 +9,6 @@ import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
-import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +181,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       element.dataType == EnumMeasurement.BODY_FAT ||
                       element.dataType == EnumMeasurement.BODY_CIRCUMFERENCES))
               .toList();
-          _list.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
+          _list.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
 
           List<Measurement> _temp = _list;
           _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_WEIGHT).toList();

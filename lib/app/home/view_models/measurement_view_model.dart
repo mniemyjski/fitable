@@ -1,5 +1,5 @@
+import 'package:fitable/app/home/models/measurement_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

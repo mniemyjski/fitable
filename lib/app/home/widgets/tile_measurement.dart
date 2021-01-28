@@ -1,5 +1,5 @@
+import 'package:fitable/app/home/models/measurement_model.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/models/measurement_model.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -77,7 +77,7 @@ class TileMeasurement extends StatelessWidget {
                   SizedBox(width: 5),
                   RichText(
                       text: TextSpan(
-                    text: "${DateFormat('hh:m').format(measurement.dateCreation)}",
+                    text: "${DateFormat('H:m').format(measurement.dateCreation)}",
                     style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
                   )),
                   SizedBox(width: 5),

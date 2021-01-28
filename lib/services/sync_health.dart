@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/models/measurement_model.dart';
+import 'package:fitable/app/home/models/measurement_model.dart';
 import 'package:fitable/services/database.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
@@ -22,17 +21,17 @@ List<HealthDataType> _types() {
   return types;
 }
 
-void authorizationHealth(BuildContext context) {
+void authorizationHealth() async {
   if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
 
-  context.read(providerPreference).whenData((preference) async {
-    if (preference.healthSync) {
-      HealthFactory health = HealthFactory();
-      List<HealthDataType> types = _types();
+  // await context.read(providerPreference.last).then((preference) async {
+  //   if (preference.healthSync) {
+  HealthFactory health = HealthFactory();
+  List<HealthDataType> types = _types();
 
-      await health.requestAuthorization(types);
-    }
-  });
+  await health.requestAuthorization(types);
+  // }
+  // });
 }
 
 void syncHealth(DateTime dateTime, Preference preference, List<Measurement> measurement, Database db) async {

@@ -1,6 +1,7 @@
 import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
 import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/view_models/create_product_view_model.dart';
 import 'package:fitable/common_widgets/add_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -14,9 +15,14 @@ import 'package:easy_localization/easy_localization.dart';
 
 class CreateProductScreenArguments {
   final String barcode;
+  final Product product;
   final MealType mealType;
 
-  CreateProductScreenArguments({@required this.barcode, @required this.mealType});
+  CreateProductScreenArguments({
+    this.barcode,
+    this.product,
+    this.mealType,
+  });
 }
 
 class CreateProductScreen extends ConsumerWidget {
@@ -40,25 +46,26 @@ class CreateProductScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                  padding: EdgeInsets.only(top: 5, left: 5, right: 2),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Stack(
-                    children: <Widget>[
-                      Text(args.barcode, style: GoogleFonts.libreBarcode39(textStyle: TextStyle(fontSize: 47))),
-                      Container(
-                        margin: EdgeInsets.only(top: 25),
-                        child: Text(args.barcode,
-                            style: TextStyle(
-                              fontSize: 36,
-                              letterSpacing: 4.0,
-                            )),
-                      ),
-                    ],
-                  )),
+              if (args.barcode != null)
+                Container(
+                    padding: EdgeInsets.only(top: 5, left: 5, right: 2),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Stack(
+                      children: <Widget>[
+                        Text(args.barcode, style: GoogleFonts.libreBarcode39(textStyle: TextStyle(fontSize: 47))),
+                        Container(
+                          margin: EdgeInsets.only(top: 25),
+                          child: Text(args.barcode,
+                              style: TextStyle(
+                                fontSize: 36,
+                                letterSpacing: 4.0,
+                              )),
+                        ),
+                      ],
+                    )),
               CustomTextField(
                   name: Constants.product_name.tr(),
                   suffix: "",
