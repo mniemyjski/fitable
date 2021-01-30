@@ -29,7 +29,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
   bool get isFavorite => _isFavorite;
   String get id => _id;
 
-  build(Product product, Recipe recipe, Meal meal, List<Favorite> favorites) {
+  build(Product product, Meal meal, List<Favorite> favorites) {
     double multiplier;
 
     if (product != null) {
@@ -45,7 +45,6 @@ class ProductDetailsViewModel extends ChangeNotifier {
       if (_portionChosen == null) _portionChosen = product.portions.keys.first;
       multiplier = _portions[_portionChosen];
     }
-    if (recipe != null) {}
     if (meal?.product != null) {
       _id = meal.product.id;
       _name = meal.product.name;

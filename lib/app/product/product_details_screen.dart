@@ -5,7 +5,6 @@ import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/view_models/product_details_view_model.dart';
 import 'package:fitable/app/product/widget/nutritional.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
@@ -15,13 +14,14 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ProductDetailsScreenArguments {
-  final MealType mealType;
-  final Product product;
-  final Meal meal;
-  final Recipe recipe;
+enum DetailsType { product, meal, return_value }
 
-  ProductDetailsScreenArguments({@required this.mealType, this.product, this.meal, this.recipe});
+class ProductDetailsScreenArguments {
+  final Product product;
+  final MealType mealType;
+  final Meal meal;
+
+  ProductDetailsScreenArguments({this.product, this.mealType, this.meal});
 }
 
 _buildFloatingActionButton(BuildContext context) {
@@ -53,7 +53,7 @@ class ProductDetailsScreen extends StatelessWidget {
     return Consumer(builder: (context, watch, child) {
       final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
       final model = watch(providerProductDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.build(args.product, args.recipe, args.meal, favorites));
+      watch(providerFavorite).whenData((favorites) => model.build(args.product, args.meal, favorites));
 
       return CustomScaffold(
         appBar: AppBar(
@@ -133,7 +133,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       'bug_report'.tr(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                     )),
-              nutritional(product: args.product, recipe: args.recipe, meal: args.meal)
+              nutritional(product: args.product, recipe: null, meal: args.meal)
             ],
           ),
         ),

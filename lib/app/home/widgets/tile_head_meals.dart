@@ -3,11 +3,7 @@ import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/product_details_screen.dart';
-import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -66,22 +62,6 @@ class TileHeadMeals extends StatelessWidget {
     });
   }
 
-  _onPressed(BuildContext context, dynamic element) {
-    Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
-        arguments: ProductDetailsScreenArguments(
-          meal: element,
-          mealType: mealType,
-        ));
-  }
-
-  _onDismissed(BuildContext context, dynamic element) {
-    context.read(providerDatabase).deleteMeal(element);
-  }
-
-  _onSearch(BuildContext context) {
-    Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType));
-  }
-
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
       final meals = watch(providerMeals);
@@ -94,12 +74,12 @@ class TileHeadMeals extends StatelessWidget {
 
           return TileExpansion(
               head: _buildHead(_list),
-              onPressed: () => _onSearch(context),
+              onPressed: () => context.read(providerHomeViewModel).onSearch(context, mealType),
               listView: CustomListView(
                 list: _list,
                 type: EnumTileType.meal,
-                onDismissed: (element) => _onDismissed(context, element),
-                onPressed: (element) => _onPressed(context, element),
+                onDismissed: (element) => context.read(providerHomeViewModel).onDismissed(context, element),
+                onPressed: (element) => context.read(providerHomeViewModel).onPressed(context, element, mealType),
               ));
         },
         loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),

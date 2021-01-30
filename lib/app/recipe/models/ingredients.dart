@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 class Ingredients {
   final Product product;
-  final Product recipe;
   final double portionSize;
   final String portionChosen;
 
-  Ingredients({this.recipe, this.product, @required this.portionSize, @required this.portionChosen});
+  Ingredients({this.product, @required this.portionSize, @required this.portionChosen});
 
   Map<String, dynamic> toMap() {
     return {
@@ -22,7 +21,6 @@ class Ingredients {
 
     return Ingredients(
       product: null,
-      recipe: null,
       portionSize: null,
       portionChosen: null,
     );

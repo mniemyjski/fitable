@@ -33,16 +33,16 @@ class _MonetizeAdState extends State<MonetizeAd> {
                 listener: (result, value) {
                   switch (result) {
                     case BannerAdResult.ERROR:
-                      print("Error: $value");
+                      print("Monetize Error: $value");
                       break;
                     case BannerAdResult.LOADED:
-                      print("load: $value");
+                      print("Monetize load: $value");
                       break;
                     case BannerAdResult.CLICKED:
-                      print("Clicked: $value");
+                      print("Monetize Clicked: $value");
                       break;
                     case BannerAdResult.LOGGING_IMPRESSION:
-                      print("Logging Impression: $value");
+                      print("Monetize Logging Impression: $value");
                       break;
                   }
                 },

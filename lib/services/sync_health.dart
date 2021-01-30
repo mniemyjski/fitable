@@ -22,14 +22,10 @@ List<HealthDataType> _types() {
 void authorizationHealth() async {
   if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
 
-  // await context.read(providerPreference.last).then((preference) async {
-  //   if (preference.healthSync) {
   HealthFactory health = HealthFactory();
   List<HealthDataType> types = _types();
 
   await health.requestAuthorization(types);
-  // }
-  // });
 }
 
 void syncHealth(DateTime dateTime, Preference preference, List<Measurement> measurement, Database db) async {
@@ -48,9 +44,9 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
   /// Define the types to get.
   List<HealthDataType> types = _types();
 
-  bool accessWasGranted = await health.requestAuthorization(types);
-  // if (preference.healthSync) {
-  if (accessWasGranted) {
+  // bool accessWasGranted = await health.requestAuthorization(types);
+  if (preference.healthSync) {
+    // if (accessWasGranted) {
     try {
       List<HealthDataPoint> healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
       _healthDataList.addAll(healthData);

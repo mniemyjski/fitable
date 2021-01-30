@@ -1,6 +1,9 @@
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/product_details_screen.dart';
+import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,6 +43,22 @@ class HomeViewModel extends ChangeNotifier {
       _carbs = _carbs + (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
       _fats = _fats + (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
     });
+  }
+
+  onPressed(BuildContext context, dynamic element, MealType mealType) {
+    Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+        arguments: ProductDetailsScreenArguments(
+          meal: element,
+          mealType: mealType,
+        ));
+  }
+
+  onDismissed(BuildContext context, dynamic element) {
+    context.read(providerDatabase).deleteMeal(element);
+  }
+
+  onSearch(BuildContext context, MealType mealType) {
+    Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType));
   }
 
   calculateBMR({@required BuildContext context, double weight, double fat}) {
