@@ -12,6 +12,8 @@ class CustomTextField extends StatelessWidget {
   final bool enabled;
   final TextEditingController controller;
   final String initialValue;
+  final int maxLines;
+  final int minLines;
 
   const CustomTextField(
       {Key key,
@@ -24,6 +26,8 @@ class CustomTextField extends StatelessWidget {
       this.initialValue,
       this.autocorrect = true,
       this.enabled = true,
+      this.maxLines = 1,
+      this.minLines,
       this.keyboardType = TextInputType.text,
       this.textInputAction = TextInputAction.done})
       : super(key: key);
@@ -42,6 +46,8 @@ class CustomTextField extends StatelessWidget {
       child: Card(
         child: TextFormField(
           style: textStyle(),
+          maxLines: maxLines,
+          minLines: minLines,
           decoration: InputDecoration(
             labelText: name,
             suffix: suffix != null ? Text(suffix) : null,

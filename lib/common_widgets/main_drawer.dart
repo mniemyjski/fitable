@@ -32,39 +32,38 @@ class _State extends State<MainDrawer> {
           _createDrawerItem(
               icon: FontAwesomeIcons.utensils,
               text: Constants.diets.tr(),
+              inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, DietsScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: Icons.fastfood,
               text: Constants.recipes.tr(),
+              inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, RecipeScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: FontAwesomeIcons.dumbbell,
-              text: Constants.trainings.tr(),
+              text: Constants.workouts.tr(),
+              inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, TrainingsScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.workoutsScreen, (_) => false);
               }),
           Divider(),
-          // _createDrawerItem(
-          //     icon: Icons.account_box,
-          //     text: 'profile'.tr(),
-          //     onTap: () {
-          //       Navigator.pushNamedAndRemoveUntil(context, ProfileMyScreen.route, (_) => false);
-          //     }),
           _createDrawerItem(
               icon: FontAwesomeIcons.users,
               text: Constants.community.tr(),
+              inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, CommunityScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: Icons.dashboard,
               text: Constants.board.tr(),
+              inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, BoardScreen.route, (_) => false);
+                // Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
               }),
           Divider(),
           _createDrawerItem(
@@ -73,12 +72,13 @@ class _State extends State<MainDrawer> {
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.goalsScreen, (_) => false);
               }),
-          // _createDrawerItem(
-          //     icon: FontAwesomeIcons.chartPie,
-          //     text: Constants.statistics.tr(),
-          //     onTap: () {
-          //       // Navigator.pushNamedAndRemoveUntil(context, StatsScreen.route, (_) => false);
-          //     }),
+          _createDrawerItem(
+              icon: FontAwesomeIcons.chartPie,
+              text: Constants.statistics.tr(),
+              inactive: true,
+              onTap: () {
+                // Navigator.pushNamedAndRemoveUntil(context, StatsScreen.route, (_) => false);
+              }),
           Divider(),
           _createDrawerItem(
               icon: Icons.settings,
@@ -147,14 +147,14 @@ class _State extends State<MainDrawer> {
     });
   }
 
-  Widget _createDrawerItem({IconData icon, String text, GestureTapCallback onTap}) {
+  Widget _createDrawerItem({@required IconData icon, @required String text, @required GestureTapCallback onTap, bool inactive = false}) {
     return ListTile(
       title: Row(
         children: <Widget>[
           Icon(icon),
           Padding(
             padding: EdgeInsets.only(left: 8.0),
-            child: Text(text),
+            child: Text(text, style: inactive ? TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey) : null),
           )
         ],
       ),

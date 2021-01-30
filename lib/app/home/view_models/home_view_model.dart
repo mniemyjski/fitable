@@ -1,6 +1,6 @@
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -22,6 +22,7 @@ class _MonetizeAdState extends State<MonetizeAd> {
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return Container(
+        height: 50,
         margin: EdgeInsets.only(top: 5, left: 10, right: 5),
         child: Column(
           children: [
@@ -35,7 +36,7 @@ class _MonetizeAdState extends State<MonetizeAd> {
                       print("Error: $value");
                       break;
                     case BannerAdResult.LOADED:
-                      print("Loaded: $value");
+                      print("load: $value");
                       break;
                     case BannerAdResult.CLICKED:
                       print("Clicked: $value");

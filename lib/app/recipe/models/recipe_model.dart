@@ -1,4 +1,4 @@
-import 'package:fitable/app/product/models/ingredients.dart';
+import 'package:fitable/app/recipe/models/ingredients.dart';
 import 'package:flutter/material.dart';
 
 class Recipe {

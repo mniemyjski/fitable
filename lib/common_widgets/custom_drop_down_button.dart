@@ -20,9 +20,10 @@ class CustomDropDownButton extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-              margin: EdgeInsets.only(left: 6, top: 5, bottom: 2),
-              width: double.infinity,
-              child: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
+            margin: EdgeInsets.only(left: 6, top: 5, bottom: 2),
+            width: double.infinity,
+            child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
           DropdownButton<String>(
             isDense: !description,
             isExpanded: true,

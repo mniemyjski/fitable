@@ -2,12 +2,18 @@ import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
-import 'package:fitable/app/home/add_body_circumferences_screen.dart';
+import 'package:fitable/app/community/community_screen.dart';
+import 'package:fitable/app/diets/diets_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';
-import 'package:fitable/app/product/create_product_screen.dart';
-import 'package:fitable/app/product/food_screen.dart';
+import 'package:fitable/app/measurement/add_body_circumferences_screen.dart';
+import 'package:fitable/app/product/product_create_screen.dart';
+import 'package:fitable/app/product/product_details_screen.dart';
+import 'package:fitable/app/recipe/recipe_create_screen.dart';
+import 'package:fitable/app/recipe/recipe_details_screen.dart';
+import 'package:fitable/app/recipe/recipes_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/app/sign_in/landing_screen.dart';
+import 'package:fitable/app/workouts/workouts_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoute {
@@ -19,8 +25,14 @@ class AppRoute {
   static const goalsMacroScreen = '/GoalsMacroScreen';
   static const searchScreen = '/SearchScreen';
   static const createProductScreen = '/CreateProductScreen';
-  static const foodScreen = '/FoodScreen';
+  static const productDetailsScreen = '/productDetailsScreen';
   static const addBodyCircumferencesScreen = '/AddBodyCircumferencesScreen';
+  static const communityScreen = '/communityScreen';
+  static const recipeScreen = '/recipeScreen';
+  static const recipeDetailsScreen = '/recipeDetailsScreen';
+  static const recipeCreateScreen = '/recipeCreateScreen';
+  static const workoutsScreen = '/workoutsScreen';
+  static const dietsScreen = '/dietsScreen';
 }
 
 class RouteGenerator {
@@ -39,13 +51,25 @@ class RouteGenerator {
       case AppRoute.searchScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: SearchScreen()), settings: settings);
       case AppRoute.createProductScreen:
-        return MaterialPageRoute(builder: (_) => LandingScreen(body: CreateProductScreen()), settings: settings);
-      case AppRoute.foodScreen:
-        return MaterialPageRoute(builder: (_) => LandingScreen(body: FoodScreen()), settings: settings);
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: ProductCreateScreen()), settings: settings);
+      case AppRoute.productDetailsScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: ProductDetailsScreen()), settings: settings);
       case AppRoute.goalsMacroScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: GoalsMacroScreen()), settings: settings);
       case AppRoute.addBodyCircumferencesScreen:
         return MaterialPageRoute(builder: (_) => LandingScreen(body: AddBodyCircumferencesScreen()), settings: settings);
+      case AppRoute.communityScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: CommunityScreen()));
+      case AppRoute.recipeScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: RecipesScreen()));
+      case AppRoute.recipeDetailsScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: RecipeDetailsScreen()));
+      case AppRoute.recipeCreateScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: RecipeCreateScreen()));
+      case AppRoute.workoutsScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: WorkoutsScreen()));
+      case AppRoute.dietsScreen:
+        return MaterialPageRoute(builder: (_) => LandingScreen(body: DietsScreen()));
       default:
         return _errorRoute();
     }

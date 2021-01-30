@@ -1,5 +1,4 @@
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/home/models/measurement_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/chooser_date.dart';
@@ -7,6 +6,8 @@ import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/home/widgets/tile_head_meals.dart';
 import 'package:fitable/app/home/widgets/tile_head_measurement.dart';
 import 'package:fitable/app/home/widgets/tile_head_workouts.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
@@ -15,7 +16,6 @@ import 'package:fitable/services/providers.dart';
 import 'package:fitable/services/sync_health.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends StatelessWidget {

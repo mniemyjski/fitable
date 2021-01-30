@@ -1,18 +1,15 @@
-import 'package:fitable/app/home/models/favorite_model.dart';
-import 'package:fitable/app/product/create_product_screen.dart';
-import 'package:fitable/app/product/food_screen.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/product/widget/tile_product.dart';
-import 'package:fitable/app/search/widgets/data_search.dart';
+import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/database.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,121 +23,117 @@ class SearchScreenArguments {
   SearchScreenArguments({@required this.typeSearch, @required this.mealType});
 }
 
-_onPressed(BuildContext context, dynamic element) {
-  final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
-
-  Navigator.of(context).pushNamed(AppRoute.foodScreen,
-      arguments: FoodScreenArguments(
-        product: element,
-        mealType: args.mealType,
-      ));
+class SearchScreen extends StatefulWidget {
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-bool mobilePlatform() {
-  if (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS) {
-    return true;
-  } else {
-    return false;
-  }
-}
+class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMixin {
+  _buildFloatingActionButton() {
+    final model = context.read(providerSearchViewModel);
 
-_barcodeOnPress(BuildContext context) async {
-  String result = await FlutterBarcodeScanner.scanBarcode("#ff6666", "CANCEL", true, ScanMode.BARCODE);
-  final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
-
-  if (result != '-1') {
-    final db = context.read(providerDatabase);
-    Product product = await db.getProduct(result);
-
-    if (product != null) {
-      Navigator.of(context).pushNamed(AppRoute.foodScreen,
-          arguments: FoodScreenArguments(
-            product: product,
-            mealType: args.mealType,
-          ));
+    if (model.selectedIndex == 2) {
+      return FloatingActionButton(
+        onPressed: () {
+          model.selectedIndex = model.controller.index = 0;
+          return Navigator.pushNamed(context, AppRoute.recipeCreateScreen);
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      );
     } else {
-      Navigator.of(context).pushNamed(AppRoute.createProductScreen,
-          arguments: CreateProductScreenArguments(
-            barcode: result,
-            mealType: args.mealType,
-          ));
+      return null;
     }
   }
-}
 
-_searchOnPress(BuildContext context) async {
-  final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
-  // FacebookAudienceNetwork.init(
-  //   testingId: "1fc63a78-68f9-4ac1-8faa-6d3688d610aa", //optional
-  // );
-  //
-  // FacebookInterstitialAd.loadInterstitialAd(
-  //   placementId: "1366934306833619_1366944173499299",
-  //   listener: (effect, value) {
-  //     if (effect == InterstitialAdResult.LOADED) FacebookInterstitialAd.showInterstitialAd(delay: 5000);
-  //   },
-  // );
+  @override
+  void didChangeDependencies() {
+    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
+    final model = context.read(providerSearchViewModel);
+    switch (args.typeSearch) {
+      case SearchType.onlyProducts:
+        model.list = [
+          Tab(text: 'products'.tr()),
+        ];
+        break;
+      case SearchType.allFoods:
+        model.list = [
+          Tab(text: 'products'.tr()),
+          Tab(text: 'recipes'.tr()),
+          Tab(text: 'your_recipes'.tr()),
+        ];
+        break;
+      case SearchType.trainings:
+        model.list = [];
+        break;
+      case SearchType.users:
+        model.list = [];
+        break;
+    }
 
-  dynamic value = await showSearch(context: context, delegate: DataSearch());
-
-  if (value != null) {
-    Navigator.of(context).pushNamed(AppRoute.foodScreen,
-        arguments: FoodScreenArguments(
-          product: value,
-          mealType: args.mealType,
-        ));
+    model.controller = TabController(length: model.list.length, vsync: this);
+    model.controller.addListener(() {
+      setState(() {
+        model.selectedIndex = model.controller.index;
+      });
+    });
+    super.didChangeDependencies();
   }
-}
 
-class SearchScreen extends StatelessWidget {
+  _buildTabBarView(Database db, List<Favorite> favorites, SearchViewModel model) {
+    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
+
+    return [
+      if (args.typeSearch == SearchType.onlyProducts || args.typeSearch == SearchType.allFoods)
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StreamBuilder<List<Product>>(
+              stream: db.streamProducts(favorites),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CustomListView(
+                    list: snapshot.data,
+                    type: EnumTileType.product,
+                    direction: DismissDirection.none,
+                    onPressed: (element) => model.onPressed(context, element),
+                  );
+                }
+                return Container();
+              }),
+        ),
+      if (args.typeSearch == SearchType.allFoods) Center(child: Container(child: Text('recipe'.tr()))),
+      if (args.typeSearch == SearchType.allFoods) Center(child: Container(child: Text('your_recipe'.tr()))),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: CustomScaffold(
-        appBar: AppBar(
-          title: Text(Constants.favorites.tr()),
-          actions: [
-            IconButton(icon: Icon(Icons.search, color: Colors.white), onPressed: () => _searchOnPress(context)),
-            if (mobilePlatform()) IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => _barcodeOnPress(context)),
-          ],
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: [Tab(text: 'products'.tr()), Tab(text: 'recipes'.tr()), Tab(text: 'your_recipes'.tr())],
-          ),
-        ),
-        body: Consumer(builder: (context, watch, child) {
-          final favorites = watch(providerFavorite);
-          final db = watch(providerDatabase);
+    return Consumer(builder: (context, watch, child) {
+      final model = watch(providerSearchViewModel);
 
-          return favorites.when(
-            data: (data) => TabBarView(children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: StreamBuilder<List<Product>>(
-                    stream: db.streamProducts(data),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting)
-                        return Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator()));
-                      if (snapshot.hasData) {
-                        return CustomListView(
-                          list: snapshot.data,
-                          type: EnumTileType.product,
-                          direction: DismissDirection.none,
-                          onPressed: (element) => _onPressed(context, element),
-                        );
-                      }
-                      return Container();
-                    }),
-              ),
-              Container(),
-              Container(),
-            ]),
-            loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
-            error: (err, stack) => Center(child: Text('Error: $err')),
-          );
-        }),
-      ),
-    );
+      return CustomScaffold(
+          appBar: AppBar(
+            title: Text(Constants.favorites.tr()),
+            actions: [
+              IconButton(icon: Icon(Icons.search, color: Colors.white), onPressed: () => model.searchOnPress(context)),
+              if (model.mobilePlatform()) IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => model.barcodeOnPress(context)),
+            ],
+            bottom: TabBar(
+              controller: model.controller,
+              indicatorColor: Colors.white,
+              tabs: model.list,
+            ),
+          ),
+          body: Consumer(builder: (context, watch, child) {
+            final favorites = watch(providerFavorite);
+            final db = watch(providerDatabase);
+
+            return favorites.when(
+              data: (data) => TabBarView(controller: model.controller, children: _buildTabBarView(db, data, model)),
+              loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
+              error: (err, stack) => Center(child: Text('Error: $err')),
+            );
+          }),
+          floatingActionButton: _buildFloatingActionButton());
+    });
   }
 }

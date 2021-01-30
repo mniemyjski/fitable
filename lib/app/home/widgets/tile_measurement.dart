@@ -1,5 +1,4 @@
-import 'package:fitable/app/home/models/measurement_model.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AddPortionsScreen extends StatefulWidget {
-  final Map<String, double> map;
+  final Map map;
   final String unit;
 
   const AddPortionsScreen({Key key, @required this.map, @required this.unit}) : super(key: key);

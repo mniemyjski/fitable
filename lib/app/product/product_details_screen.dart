@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fitable/app/home/models/favorite_model.dart';
+import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/product/models/recipe_model.dart';
-import 'package:fitable/app/product/view_models/food_view_model.dart';
+import 'package:fitable/app/product/view_models/product_details_view_model.dart';
 import 'package:fitable/app/product/widget/nutritional.dart';
+import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
@@ -15,18 +15,18 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class FoodScreenArguments {
+class ProductDetailsScreenArguments {
   final MealType mealType;
   final Product product;
   final Meal meal;
   final Recipe recipe;
 
-  FoodScreenArguments({@required this.mealType, this.product, this.meal, this.recipe});
+  ProductDetailsScreenArguments({@required this.mealType, this.product, this.meal, this.recipe});
 }
 
 _buildFloatingActionButton(BuildContext context) {
-  final FoodScreenArguments args = ModalRoute.of(context).settings.arguments;
-  final model = context.read(providerFoodViewModel);
+  final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
+  final model = context.read(providerProductDetailsViewModel);
 
   if (args.meal != null) {
     return FloatingActionButton(
@@ -42,17 +42,17 @@ _buildFloatingActionButton(BuildContext context) {
 }
 
 _submitFavorite(BuildContext context) {
-  final model = context.read(providerFoodViewModel);
+  final model = context.read(providerProductDetailsViewModel);
   Favorite _favorite = Favorite(type: EnumFavorite.products, id: model.id);
   context.read(providerDatabase).updateFavorite(context, _favorite);
 }
 
-class FoodScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final FoodScreenArguments args = ModalRoute.of(context).settings.arguments;
-      final model = watch(providerFoodViewModel);
+      final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
+      final model = watch(providerProductDetailsViewModel);
       watch(providerFavorite).whenData((favorites) => model.build(args.product, args.recipe, args.meal, favorites));
 
       return CustomScaffold(

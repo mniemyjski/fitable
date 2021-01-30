@@ -1,12 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/home/models/measurement_model.dart';
+import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/services/database.dart';
-import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AppState { DATA_NOT_FETCHED, FETCHING_DATA, DATA_READY, NO_DATA, AUTH_NOT_GRANTED }
 
@@ -42,13 +40,17 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
   /// Get everything from midnight until now
   DateTime endDate = dateTime.add(Duration(days: 1));
   DateTime startDate = dateTime.add(Duration(days: 0));
+
   DateTime now = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   HealthFactory health = HealthFactory();
 
   /// Define the types to get.
   List<HealthDataType> types = _types();
-  if (preference.healthSync) {
+
+  bool accessWasGranted = await health.requestAuthorization(types);
+  // if (preference.healthSync) {
+  if (accessWasGranted) {
     try {
       List<HealthDataPoint> healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
       _healthDataList.addAll(healthData);
@@ -92,12 +94,22 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
       if (x.type == HealthDataType.ACTIVE_ENERGY_BURNED) {
         burn += (x.value as double);
       }
+      if (x.type == HealthDataType.BODY_FAT_PERCENTAGE) {
+        printError("BODY_FAT_PERCENTAGE: ${x.value}");
+      }
     });
+
+    // printError("Steps: $steps");
+    // printError("Burn: $burn");
 
     bool _isAlreadyBurnCalories = false;
     bool _isAlreadySteps = false;
+    String burnId;
+    String stepsId;
 
     measurement.forEach((element) {
+      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.BURN_CALORIES) burnId = element.id;
+      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.STEPS) stepsId = element.id;
       if (element.dateTime == dateTime && element.dataType == EnumMeasurement.BURN_CALORIES && element.data.values.first == burn) {
         _isAlreadyBurnCalories = true;
       }
@@ -111,7 +123,8 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
       Map<String, dynamic> _map = new Map();
       _map[Measurement.toText(EnumMeasurement.BURN_CALORIES)] = burn;
 
-      Measurement measurement = Measurement(
+      Measurement value = Measurement(
+        id: burnId,
         source: 'IMPORT',
         dataType: EnumMeasurement.BURN_CALORIES,
         data: _map,
@@ -120,13 +133,14 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
         dateCreation: dateTime,
       );
 
-      db.setMeasurement(measurement: measurement);
+      db.setMeasurement(measurement: value);
     }
     if (!_isAlreadySteps) {
       Map<String, dynamic> _map = new Map();
       _map[Measurement.toText(EnumMeasurement.STEPS)] = steps;
 
-      Measurement measurement = Measurement(
+      Measurement value = Measurement(
+        id: stepsId,
         source: 'IMPORT',
         dataType: EnumMeasurement.STEPS,
         data: _map,
@@ -135,7 +149,7 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
         dateCreation: dateTime,
       );
 
-      db.setMeasurement(measurement: measurement);
+      db.setMeasurement(measurement: value);
     }
   } else {
     print("Authorization not granted");

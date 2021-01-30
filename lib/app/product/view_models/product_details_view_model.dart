@@ -1,19 +1,19 @@
-import 'package:fitable/app/home/models/favorite_model.dart';
+import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/app/product/create_product_screen.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/product_create_screen.dart';
 import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/product/models/recipe_model.dart';
+import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final providerFoodViewModel = ChangeNotifierProvider.autoDispose<FoodViewModel>((ref) {
-  return FoodViewModel();
+final providerProductDetailsViewModel = ChangeNotifierProvider.autoDispose<ProductDetailsViewModel>((ref) {
+  return ProductDetailsViewModel();
 });
 
-class FoodViewModel extends ChangeNotifier {
+class ProductDetailsViewModel extends ChangeNotifier {
   String _id;
   int _calories;
   double _proteins;
@@ -76,7 +76,7 @@ class FoodViewModel extends ChangeNotifier {
 
   submit({@required BuildContext context, Product product, Meal meal, @required MealType mealType}) {
     final db = context.read(providerDatabase);
-    final model = context.read(providerFoodViewModel);
+    final model = context.read(providerProductDetailsViewModel);
     final app = context.read(providerAppViewModel);
 
     if (product != null) {
@@ -100,7 +100,7 @@ class FoodViewModel extends ChangeNotifier {
 
   bugReport(BuildContext context, Product product) {
     Navigator.of(context)
-        .pushNamed(AppRoute.createProductScreen, arguments: CreateProductScreenArguments(product: product, barcode: product.barcode));
+        .pushNamed(AppRoute.createProductScreen, arguments: ProductCreateScreenArguments(product: product, barcode: product.barcode));
   }
 
   set portionSize(double portionSize) {

@@ -2,9 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/app/product/food_screen.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
-import 'package:fitable/app/product/widget/tile_product.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -68,8 +67,8 @@ class TileHeadMeals extends StatelessWidget {
   }
 
   _onPressed(BuildContext context, dynamic element) {
-    Navigator.of(context).pushNamed(AppRoute.foodScreen,
-        arguments: FoodScreenArguments(
+    Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+        arguments: ProductDetailsScreenArguments(
           meal: element,
           mealType: mealType,
         ));

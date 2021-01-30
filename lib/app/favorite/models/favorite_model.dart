@@ -1,4 +1,3 @@
-import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

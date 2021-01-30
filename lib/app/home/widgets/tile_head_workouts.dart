@@ -1,12 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/home/models/measurement_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

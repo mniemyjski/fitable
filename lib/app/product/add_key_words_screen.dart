@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AddKeyWordsScreen extends StatefulWidget {
-  final List<String> value;
+  final List value;
   const AddKeyWordsScreen(this.value);
 
   @override

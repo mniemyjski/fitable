@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/home/models/favorite_model.dart';
-import 'package:fitable/app/home/models/measurement_model.dart';
-import 'package:fitable/app/product/models/issue_report_model.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
+import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/app/issue/models/issue_report_model.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
@@ -102,8 +102,8 @@ class Database {
   //#endregion
 
   //#region Measurement
-  Future<void> setMeasurement({@required Measurement measurement, String id}) {
-    final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(id ?? null);
+  Future<void> setMeasurement({@required Measurement measurement}) {
+    final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(measurement.id ?? null);
     return ref.set(measurement.toMap(ref.id, uid));
   }
 

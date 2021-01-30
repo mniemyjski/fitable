@@ -1,10 +1,9 @@
+import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
-import 'package:fitable/app/product/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/view_models/create_product_view_model.dart';
-import 'package:fitable/common_widgets/add_button.dart';
-import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
@@ -15,25 +14,25 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class CreateProductScreenArguments {
+class ProductCreateScreenArguments {
   final String barcode;
   final Product product;
   final MealType mealType;
 
-  CreateProductScreenArguments({
+  ProductCreateScreenArguments({
     this.barcode,
     this.product,
     this.mealType,
   });
 }
 
-class CreateProductScreen extends StatefulWidget {
+class ProductCreateScreen extends StatefulWidget {
   @override
-  _CreateProductScreenState createState() => _CreateProductScreenState();
+  _ProductCreateScreenState createState() => _ProductCreateScreenState();
 }
 
 _submit(BuildContext context) async {
-  final CreateProductScreenArguments args = ModalRoute.of(context).settings.arguments;
+  final ProductCreateScreenArguments args = ModalRoute.of(context).settings.arguments;
   final model = context.read(providerCreateProductViewModel);
 
   if (args?.product != null) {
@@ -55,13 +54,43 @@ _submit(BuildContext context) async {
     model.submit(context: context, barcode: args.barcode);
   }
 
-  // Navigator.pop(context);
+  Navigator.pop(context);
 }
 
-class _CreateProductScreenState extends State<CreateProductScreen> {
+_submitKeyWords(BuildContext context) async {
+  final model = context.read(providerCreateProductViewModel);
+
+  List result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) {
+      return AddKeyWordsScreen(model.keyWords);
+    }),
+  );
+
+  if (result != null) {
+    model.keyWords = result;
+  }
+}
+
+_submitPortions(BuildContext context) async {
+  final model = context.read(providerCreateProductViewModel);
+
+  Map result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) {
+      return AddPortionsScreen(unit: model.unit, map: model.portions);
+    }),
+  );
+
+  if (result != null) {
+    model.portions = result;
+  }
+}
+
+class _ProductCreateScreenState extends State<ProductCreateScreen> {
   @override
   void didChangeDependencies() {
-    final CreateProductScreenArguments args = ModalRoute.of(context).settings.arguments;
+    final ProductCreateScreenArguments args = ModalRoute.of(context).settings.arguments;
     if (args?.product != null) {
       final model = context.read(providerCreateProductViewModel);
       model.initProduct(args.product);
@@ -71,10 +100,12 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
 
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final CreateProductScreenArguments args = ModalRoute.of(context).settings.arguments;
+      final ProductCreateScreenArguments args = ModalRoute.of(context).settings.arguments;
       final model = watch(providerCreateProductViewModel);
       return CustomScaffold(
-        appBar: AppBar(actions: [IconButton(icon: Icon(Icons.save), onPressed: () => _submit(context))]),
+        appBar: AppBar(actions: [
+          IconButton(icon: Icon(Icons.save), onPressed: () => _submit(context)),
+        ]),
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
@@ -134,41 +165,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                       onChanged: (v) {
                         model.categorySecondary = v;
                       }),
-                Container(
-                  height: 55,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 6, top: 6),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("key_words".tr() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
-                                Text(model.keyWords.toString().substring(1, model.keyWords.toString().length - 1)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      AddButton(
-                        onPressed: () async {
-                          List<String> result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return AddKeyWordsScreen(model.keyWords);
-                            }),
-                          );
-
-                          if (result != null) {
-                            model.keyWords = result;
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                CustomBarList(name: "key_words".tr(), value: model.keyWords, onPressed: () => _submitKeyWords(context)),
                 Container(
                     margin: EdgeInsets.only(left: 5, top: 15),
                     width: double.infinity,
@@ -233,44 +230,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                             })),
                   ],
                 ),
-                Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 6, top: 6, bottom: 6, right: 6),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("portions".tr() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
-                                Text(model.portions.toString().substring(1, model.portions.toString().length - 1)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 55,
-                        child: AddButton(
-                          onPressed: () async {
-                            Map<String, double> result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return AddPortionsScreen(unit: model.unit, map: model.portions);
-                              }),
-                            );
-
-                            if (result != null) {
-                              model.portions = result;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                CustomBarList(name: "portions".tr(), value: model.portions, onPressed: () => _submitPortions(context)),
                 ExpansionTile(
                   title: Center(
                     child: Text(

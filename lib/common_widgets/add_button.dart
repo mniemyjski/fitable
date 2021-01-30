@@ -10,7 +10,8 @@ class AddButton extends StatelessWidget {
     return Card(
       color: onPressed != null ? Colors.indigo : Colors.grey,
       child: Container(
-        height: double.infinity,
+        height: 48,
+        width: 48,
         child: IconButton(
           color: Colors.white,
           icon: Icon(Icons.add),

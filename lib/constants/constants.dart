@@ -17,7 +17,7 @@ class Constants {
   static const String home = "home";
   static const String diets = "diets";
   static const String recipes = "recipes";
-  static const String trainings = "trainings";
+  static const String workouts = "trainings";
   static const String community = "community";
   static const String board = "board";
   static const String goals = "goals";

@@ -1,9 +1,8 @@
 import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/app/home/view_models/measurement_view_model.dart';
+import 'package:fitable/app/measurement/view_models/measurement_view_model.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
-import 'package:fitable/common_widgets/show_alert_dialog.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
