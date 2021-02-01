@@ -1,77 +1,58 @@
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class TileHeadIngredients extends StatelessWidget {
   _buildHead(List<Product> list) {
-    int _calories = 0;
-    double _proteins = 0;
-    double _carbs = 0;
-    double _fats = 0;
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: double.infinity,
-          child: Text('nazwa', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-        ),
-        SizedBox(height: 5),
-        Row(
-          children: <Widget>[
-            Expanded(
-                flex: 1,
-                child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                  Text('kcal'.tr() + ':', style: TextStyle(fontSize: 12)),
-                  SizedBox(width: 2),
-                  Text(_calories.toString(), style: TextStyle(fontSize: 12)),
-                ])),
-            Expanded(
-                flex: 1,
-                child: Row(children: <Widget>[
-                  Text('p'.tr() + ':', style: TextStyle(fontSize: 12)),
-                  SizedBox(width: 2),
-                  Text('${_proteins.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
-                ])),
-            Expanded(
-                flex: 1,
-                child: Row(children: <Widget>[
-                  Text('c'.tr() + ':', style: TextStyle(fontSize: 12)),
-                  SizedBox(width: 2),
-                  Text('${_carbs.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
-                ])),
-            Expanded(
-                flex: 1,
-                child: Row(children: <Widget>[
-                  Text('f'.tr() + ':', style: TextStyle(fontSize: 12)),
-                  SizedBox(width: 2),
-                  Text('${_fats.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
-                ])),
-          ],
-        ),
-      ],
-    );
-  }
-
-  _onPressed(BuildContext context, dynamic element) {
-    // Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
-    //     arguments: ProductDetailsScreenArguments(
-    //       meal: element,
-    //       mealType: mealType,
-    //     ));
-  }
-
-  _onDismissed(BuildContext context, dynamic element) {
-    // context.read(providerDatabase).deleteMeal(element);
-  }
-
-  _onSearch(BuildContext context) {
-    Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.onlyProducts));
+    return Consumer(builder: (context, watch, child) {
+      final model = watch(providerRecipeCreateViewModel);
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            child: Text('nazwa', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          ),
+          SizedBox(height: 5),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  flex: 1,
+                  child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+                    Text('kcal'.tr() + ':', style: TextStyle(fontSize: 12)),
+                    SizedBox(width: 2),
+                    Text(model.calories.toString(), style: TextStyle(fontSize: 12)),
+                  ])),
+              Expanded(
+                  flex: 1,
+                  child: Row(children: <Widget>[
+                    Text('p'.tr() + ':', style: TextStyle(fontSize: 12)),
+                    SizedBox(width: 2),
+                    Text('${model.proteins.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
+                  ])),
+              Expanded(
+                  flex: 1,
+                  child: Row(children: <Widget>[
+                    Text('c'.tr() + ':', style: TextStyle(fontSize: 12)),
+                    SizedBox(width: 2),
+                    Text('${model.carbs.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
+                  ])),
+              Expanded(
+                  flex: 1,
+                  child: Row(children: <Widget>[
+                    Text('f'.tr() + ':', style: TextStyle(fontSize: 12)),
+                    SizedBox(width: 2),
+                    Text('${model.fats.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
+                  ])),
+            ],
+          ),
+        ],
+      );
+    });
   }
 
   Widget build(BuildContext context) {
@@ -79,12 +60,12 @@ class TileHeadIngredients extends StatelessWidget {
 
     return TileExpansion(
         head: _buildHead(_list),
-        onPressed: () => _onSearch(context),
+        onPressed: () => context.read(providerRecipeCreateViewModel).onSearch(context),
         listView: CustomListView(
           list: _list,
           type: EnumTileType.meal,
-          onDismissed: (element) => _onDismissed(context, element),
-          onPressed: (element) => _onPressed(context, element),
+          onDismissed: (element) => context.read(providerRecipeCreateViewModel).onDismissed(context, element),
+          onPressed: (element) => context.read(providerRecipeCreateViewModel).onPressed(context, element),
         ));
   }
 }

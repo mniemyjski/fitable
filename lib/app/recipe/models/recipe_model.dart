@@ -1,4 +1,4 @@
-import 'package:fitable/app/recipe/models/ingredients.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:flutter/material.dart';
 
 class Recipe {
@@ -13,7 +13,7 @@ class Recipe {
   final String videoUrl;
   final List keyWords;
   final Map photosUrl;
-  final List<Ingredients> ingredients;
+  final List<Ingredient> ingredient;
   final String unit;
   final Map portions;
   final bool verification;
@@ -32,7 +32,7 @@ class Recipe {
     @required this.videoUrl,
     @required this.photosUrl,
     @required this.access,
-    @required this.ingredients,
+    @required this.ingredient,
     @required this.portions,
     @required this.unit,
     @required this.timePreparation,
@@ -71,7 +71,7 @@ class Recipe {
       ratingsAvg: null,
       favoritesCount: null,
       commentsCount: null,
-      ingredients: [],
+      ingredient: [],
     );
   }
 }

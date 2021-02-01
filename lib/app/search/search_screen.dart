@@ -20,7 +20,7 @@ class SearchScreenArguments {
   final SearchType typeSearch;
   final MealType mealType;
 
-  SearchScreenArguments({@required this.typeSearch, @required this.mealType});
+  SearchScreenArguments({@required this.typeSearch, this.mealType});
 }
 
 class SearchScreen extends StatefulWidget {
