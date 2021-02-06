@@ -1,4 +1,4 @@
-import 'package:fitable/common_widgets/add_button.dart';
+import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class CustomBarList extends StatelessWidget {
@@ -14,20 +14,23 @@ class CustomBarList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Card(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name + ":", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(value.toString().substring(1, value.toString().length - 1)),
-                ],
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12, left: 6),
+            child: Card(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(value.toString().substring(1, value.toString().length - 1)),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-        AddButton(onPressed: onPressed),
+        CustomIconButton(onPressed: onPressed),
       ],
     );
   }

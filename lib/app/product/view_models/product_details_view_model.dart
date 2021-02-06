@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_create_screen.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
@@ -29,7 +31,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
   bool get isFavorite => _isFavorite;
   String get id => _id;
 
-  build(Product product, Meal meal, List<Favorite> favorites) {
+  build(Product product, Ingredient ingredient, List<Favorite> favorites) {
     double multiplier;
 
     if (product != null) {
@@ -45,17 +47,17 @@ class ProductDetailsViewModel extends ChangeNotifier {
       if (_portionChosen == null) _portionChosen = product.portions.keys.first;
       multiplier = _portions[_portionChosen];
     }
-    if (meal?.product != null) {
-      _id = meal.product.id;
-      _name = meal.product.name;
-      _portions = meal.product.portions;
-      _keyWords = meal.product.keyWords;
-      _calories = meal.product.calories;
-      _proteins = meal.product.proteins;
-      _carbs = meal.product.carbs;
-      _fats = meal.product.fats;
-      if (_portionSize == null) _portionSize = meal.portionSize;
-      if (_portionChosen == null) _portionChosen = meal.portionChosen;
+    if (ingredient?.product != null) {
+      _id = ingredient.product.id;
+      _name = ingredient.product.name;
+      _portions = ingredient.product.portions;
+      _keyWords = ingredient.product.keyWords;
+      _calories = ingredient.product.calories;
+      _proteins = ingredient.product.proteins;
+      _carbs = ingredient.product.carbs;
+      _fats = ingredient.product.fats;
+      if (_portionSize == null) _portionSize = ingredient.portionSize;
+      if (_portionChosen == null) _portionChosen = ingredient.portionChosen;
       multiplier = _portions[_portionChosen];
     }
 
@@ -73,28 +75,13 @@ class ProductDetailsViewModel extends ChangeNotifier {
     });
   }
 
-  submit({@required BuildContext context, Product product, Meal meal, @required MealType mealType}) {
-    final db = context.read(providerDatabase);
+  submit({@required BuildContext context, Product product}) {
     final model = context.read(providerProductDetailsViewModel);
-    final app = context.read(providerAppViewModel);
 
-    if (product != null) {
-      Meal _meal = Meal(
-          uid: db.uid,
-          dateTime: app.chosenDate,
-          dateCreation: DateTime.now(),
-          mealType: mealType,
-          portionSize: model.portionSize,
-          portionChosen: model.portionChosen,
-          product: product);
-      db.setMeal(meal: _meal);
-    }
+    printError(product.name.toString());
 
-    if (meal != null) {
-      db.updateMeal(meal: meal, portionSize: _portionSize, portionChosen: _portionChosen);
-    }
-
-    Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
+    Ingredient result = Ingredient(portionSize: model.portionSize, portionChosen: model.portionChosen, product: product);
+    Navigator.pop(context, result);
   }
 
   bugReport(BuildContext context, Product product) {

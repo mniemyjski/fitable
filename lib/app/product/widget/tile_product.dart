@@ -1,4 +1,5 @@
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,11 @@ import 'package:easy_localization/easy_localization.dart';
 
 class TileProduct extends StatelessWidget {
   final Product product;
+  final Ingredient ingredient;
   final Meal meal;
   final Recipe recipe;
 
-  const TileProduct({Key key, this.product, this.meal, this.recipe}) : super(key: key);
+  const TileProduct({Key key, this.product, this.ingredient, this.meal, this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,16 @@ class TileProduct extends StatelessWidget {
       _proteins = product.proteins.toStringAsFixed(1);
       _carbs = product.carbs.toStringAsFixed(1);
       _fats = product.fats.toStringAsFixed(1);
+    }
+    if (ingredient != null) {
+      _name = ingredient.product.name;
+      _size = (ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen]).toStringAsFixed(0) + ingredient.product.unit;
+      _calories =
+          (ingredient.product.calories * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100).toStringAsFixed(0);
+      _proteins =
+          (ingredient.product.proteins * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100).toStringAsFixed(1);
+      _carbs = (ingredient.product.carbs * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100).toStringAsFixed(1);
+      _fats = (ingredient.product.fats * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100).toStringAsFixed(1);
     }
     if (meal != null) {
       if (meal.product != null) {

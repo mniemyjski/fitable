@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -9,6 +11,7 @@ import 'package:fitable/constants/constants.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -17,6 +20,16 @@ class MyAccountScreen extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final account = watch(providerAccount).data.value;
     final db = watch(providerDatabase);
+
+    _onPressed() async {
+      final db = context.read(providerDatabase);
+      final picker = ImagePicker();
+      var pickedFile = await picker.getImage(source: ImageSource.gallery, maxHeight: 1280, maxWidth: 720, imageQuality: 85);
+      File file = File(pickedFile.path);
+
+      String url = await db.uploadImage(file: file, folderName: 'accounts');
+      db.updateAccount(name: 'avatarUrl', value: url);
+    }
 
     return Scaffold(
       appBar: AppBar(),
@@ -27,21 +40,24 @@ class MyAccountScreen extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.black12,
-              child: CachedNetworkImage(
-                imageUrl: account?.avatarUrl ?? "",
-                imageBuilder: (context, imageProvider) => Container(
-                  width: 80.0,
-                  height: 80.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            child: GestureDetector(
+              onTap: _onPressed,
+              child: CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.black12,
+                child: CachedNetworkImage(
+                  imageUrl: account?.avatarUrl ?? "",
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                    ),
                   ),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.account_circle, size: 80),
                 ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.account_circle, size: 80),
               ),
             ),
           ),

@@ -10,6 +10,8 @@ import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -19,6 +21,18 @@ class Database {
   // final DateTime chosenDate;
 
   final _service = FirebaseFirestore.instance;
+
+  //#region UploadFile
+  Future<String> uploadImage({@required File file, @required String folderName, String name}) async {
+    firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instanceFor(bucket: 'gs://fitable-76dce.appspot.com/');
+
+    String filePath = folderName == 'accounts' ? '$folderName/$uid/avatar/$uid' : '$folderName/$name';
+
+    await storage.ref(filePath).putFile(file);
+    return storage.ref(filePath).getDownloadURL();
+  }
+
+  //endregion
 
   //#region Account
   Future<void> createAccount(Account account) => _service.collection(Path.accounts()).doc(uid).set(account.toMap());

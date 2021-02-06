@@ -42,7 +42,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(bodyWeight.toStringAsFixed(0), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                          Text(bodyWeight.toStringAsFixed(1), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -69,7 +69,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(bodyFat.toStringAsFixed(0), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                          Text(bodyFat.toStringAsFixed(1), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),

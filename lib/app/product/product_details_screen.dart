@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/view_models/product_details_view_model.dart';
 import 'package:fitable/app/product/widget/nutritional.dart';
@@ -14,30 +15,19 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-enum DetailsType { product, meal, return_value }
-
 class ProductDetailsScreenArguments {
   final Product product;
-  final MealType mealType;
-  final Meal meal;
+  final Ingredient ingredient;
 
-  ProductDetailsScreenArguments({this.product, this.mealType, this.meal});
+  ProductDetailsScreenArguments({this.product, this.ingredient});
 }
 
-_buildFloatingActionButton(BuildContext context) {
+Icon _buildIcon(BuildContext context) {
   final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
-  final model = context.read(providerProductDetailsViewModel);
-
-  if (args.meal != null) {
-    return FloatingActionButton(
-      onPressed: () => model.submit(context: context, meal: args.meal, mealType: args.mealType),
-      child: Icon(Icons.edit, color: Colors.white),
-    );
+  if (args.ingredient != null) {
+    return Icon(Icons.edit, color: Colors.white);
   } else {
-    return FloatingActionButton(
-      onPressed: () => model.submit(context: context, product: args.product, mealType: args.mealType),
-      child: Icon(Icons.add, color: Colors.white),
-    );
+    return Icon(Icons.add, color: Colors.white);
   }
 }
 
@@ -52,8 +42,10 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
       final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
+      Product _product = args?.product ?? args.ingredient.product;
+
       final model = watch(providerProductDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.build(args.product, args.meal, favorites));
+      watch(providerFavorite).whenData((favorites) => model.build(args.product, args.ingredient, favorites));
 
       return CustomScaffold(
         appBar: AppBar(
@@ -85,7 +77,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 proteins: model.proteins,
                 carbs: model.carbs,
                 fats: model.fats,
-                meal: args.meal,
+                ingredient: args.ingredient,
               )),
               Row(
                 children: [
@@ -93,7 +85,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     width: 150,
                     child: CustomTextField(
                       keyboardType: TextInputType.number,
-                      hintText: args?.meal?.portionSize?.toString() ?? '100',
+                      hintText: args?.ingredient?.portionSize?.toString() ?? '100',
                       onChanged: (v) {
                         model.portionSize = double.tryParse(v);
                       },
@@ -126,18 +118,21 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              if (args.meal == null)
+              if (args.ingredient == null)
                 FlatButton(
                     onPressed: () => model.bugReport(context, args.product),
                     child: Text(
                       'bug_report'.tr(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                     )),
-              nutritional(product: args.product, recipe: null, meal: args.meal)
+              nutritional(product: _product, recipe: null)
             ],
           ),
         ),
-        floatingActionButton: _buildFloatingActionButton(context),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => model.submit(context: context, product: _product),
+          child: _buildIcon(context),
+        ),
       );
     });
   }

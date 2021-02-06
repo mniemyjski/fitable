@@ -214,3 +214,8 @@ STEPS,Kroków,Steps
 BURN_CALORIES,Spalone kalorie,Burn calories
 BODY_WEIGHT,Waga ciała,Body weight
 BODY_FAT,Tkanka tłuszczowa,Body fats
+time,Czas,Time
+description,Opis,Description
+recipe_name,Nazwa Przepisu,Recipe Name
+visible,Widoczność,Visible
+enter_youtube_id,Wprowadź <id> lub <link> swojego filmu,Enter <id> or <link> your video

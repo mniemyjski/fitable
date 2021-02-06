@@ -1,4 +1,4 @@
-import 'package:fitable/common_widgets/add_button.dart';
+import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class TileExpansion extends StatelessWidget {
@@ -33,7 +33,7 @@ class TileExpansion extends StatelessWidget {
               height: double.infinity,
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
-              child: AddButton(onPressed: onPressed),
+              child: CustomIconButton(onPressed: onPressed),
             ),
             children: <Widget>[
               listView,

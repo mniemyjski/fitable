@@ -37,13 +37,15 @@ class MyApp extends StatelessWidget {
     // ]);
 
     return MaterialApp(
-        // debugShowCheckedModeBanner: false,
-        title: 'Fitable',
-        theme: ThemeData(
-          fontFamily: 'Georgia',
-          primarySwatch: Colors.indigo,
-        ),
-        initialRoute: '/',
-        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings));
+      // debugShowCheckedModeBanner: false,
+      title: 'Fitable',
+      theme: ThemeData(
+        fontFamily: 'Georgia',
+        primarySwatch: Colors.indigo,
+      ),
+      initialRoute: '/',
+      routes: routes,
+      // onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+    );
   }
 }

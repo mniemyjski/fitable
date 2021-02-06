@@ -35,6 +35,25 @@ class AppRoute {
   static const dietsScreen = '/dietsScreen';
 }
 
+var routes = <String, WidgetBuilder>{
+  '/': (context) => LandingScreen(body: HomeScreen()),
+  AppRoute.homeScreen: (context) => LandingScreen(body: HomeScreen()),
+  AppRoute.myAccountScreen: (context) => LandingScreen(body: MyAccountScreen()),
+  AppRoute.settingsScreen: (context) => LandingScreen(body: SettingsScreen()),
+  AppRoute.goalsScreen: (context) => LandingScreen(body: GoalsScreen()),
+  AppRoute.searchScreen: (context) => LandingScreen(body: SearchScreen()),
+  AppRoute.createProductScreen: (context) => LandingScreen(body: ProductCreateScreen()),
+  AppRoute.productDetailsScreen: (context) => LandingScreen(body: ProductDetailsScreen()),
+  AppRoute.goalsMacroScreen: (context) => LandingScreen(body: GoalsMacroScreen()),
+  AppRoute.addBodyCircumferencesScreen: (context) => LandingScreen(body: AddBodyCircumferencesScreen()),
+  AppRoute.communityScreen: (context) => LandingScreen(body: CommunityScreen()),
+  AppRoute.recipeScreen: (context) => LandingScreen(body: RecipesScreen()),
+  AppRoute.recipeDetailsScreen: (context) => LandingScreen(body: RecipeDetailsScreen()),
+  AppRoute.recipeCreateScreen: (context) => LandingScreen(body: RecipeCreateScreen()),
+  AppRoute.workoutsScreen: (context) => LandingScreen(body: WorkoutsScreen()),
+  AppRoute.dietsScreen: (context) => LandingScreen(body: DietsScreen()),
+};
+
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

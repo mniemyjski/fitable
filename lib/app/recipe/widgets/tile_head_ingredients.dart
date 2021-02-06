@@ -1,4 +1,5 @@
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class TileHeadIngredients extends StatelessWidget {
-  _buildHead(List<Product> list) {
+  _buildHead() {
     return Consumer(builder: (context, watch, child) {
       final model = watch(providerRecipeCreateViewModel);
       return Column(
@@ -15,7 +16,7 @@ class TileHeadIngredients extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            child: Text('nazwa', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            child: Text('products'.tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           ),
           SizedBox(height: 5),
           Row(
@@ -56,16 +57,17 @@ class TileHeadIngredients extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    List<Product> _list = [];
-
-    return TileExpansion(
-        head: _buildHead(_list),
-        onPressed: () => context.read(providerRecipeCreateViewModel).onSearch(context),
-        listView: CustomListView(
-          list: _list,
-          type: EnumTileType.meal,
-          onDismissed: (element) => context.read(providerRecipeCreateViewModel).onDismissed(context, element),
-          onPressed: (element) => context.read(providerRecipeCreateViewModel).onPressed(context, element),
-        ));
+    return Consumer(builder: (context, watch, child) {
+      final model = watch(providerRecipeCreateViewModel);
+      return TileExpansion(
+          head: _buildHead(),
+          onPressed: () => context.read(providerRecipeCreateViewModel).onSearch(context),
+          listView: CustomListView(
+            list: model.ingredients,
+            type: EnumTileType.ingredient,
+            onDismissed: (element) => context.read(providerRecipeCreateViewModel).onDismissed(context, element),
+            onPressed: (element) => context.read(providerRecipeCreateViewModel).onPressed(context, element),
+          ));
+    });
   }
 }

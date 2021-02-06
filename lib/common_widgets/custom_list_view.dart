@@ -3,7 +3,7 @@ import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/recipe/widgets/tile_recipe.dart';
 import 'package:flutter/material.dart';
 
-enum EnumTileType { product, recipe, meal, measurement }
+enum EnumTileType { ingredient, product, recipe, meal, measurement }
 
 class CustomListView extends StatelessWidget {
   final List list;
@@ -27,6 +27,8 @@ class CustomListView extends StatelessWidget {
     switch (type) {
       case EnumTileType.product:
         return TileProduct(product: element);
+      case EnumTileType.ingredient:
+        return TileProduct(ingredient: element);
       case EnumTileType.recipe:
         return TileRecipe();
       case EnumTileType.meal:
@@ -53,7 +55,8 @@ class CustomListView extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (_, int index) {
         final element = list.elementAt(index);
-        final key = type != EnumTileType.recipe ? list.elementAt(index).id : list.elementAt(index);
+
+        // final key = type == EnumTileType.recipe || type == EnumTileType.ingredient ? list.elementAt(index).toString() : list.elementAt(index).id;
         final Widget child = _buildTile(element);
 
         if (onDismissed == null) {
@@ -65,7 +68,7 @@ class CustomListView extends StatelessWidget {
           return GestureDetector(
             onTap: () => onPressed(element),
             child: Dismissible(
-              key: Key(key),
+              key: UniqueKey(),
               onDismissed: (direction) => onDismissed(element),
               direction: direction,
               background: Container(

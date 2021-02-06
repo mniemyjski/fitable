@@ -19,14 +19,15 @@ class SearchViewModel extends ChangeNotifier {
   int selectedIndex;
   List<Widget> list = [];
 
-  onPressed(BuildContext context, dynamic element) {
+  onPressed(BuildContext context, dynamic element) async {
     final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
     selectedIndex = controller.index = 0;
-    Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+    dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
           product: element,
-          mealType: args.mealType,
         ));
+
+    Navigator.pop(context, result);
   }
 
   bool mobilePlatform() {
@@ -46,11 +47,11 @@ class SearchViewModel extends ChangeNotifier {
       Product product = await db.getProduct(result);
 
       if (product != null) {
-        Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+        var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
             arguments: ProductDetailsScreenArguments(
               product: product,
-              mealType: args.mealType,
             ));
+        Navigator.pop(context, result);
       } else {
         Navigator.of(context).pushNamed(AppRoute.createProductScreen,
             arguments: ProductCreateScreenArguments(
@@ -62,7 +63,6 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   searchOnPress(BuildContext context) async {
-    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
     // FacebookAudienceNetwork.init(
     //   testingId: "1fc63a78-68f9-4ac1-8faa-6d3688d610aa", //optional
     // );
@@ -74,14 +74,15 @@ class SearchViewModel extends ChangeNotifier {
     //   },
     // );
     selectedIndex = controller.index = 0;
-    dynamic value = await showSearch(context: context, delegate: DataSearch());
+    var value = await showSearch(context: context, delegate: DataSearch());
 
     if (value != null) {
-      Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+      var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
           arguments: ProductDetailsScreenArguments(
             product: value,
-            mealType: args.mealType,
           ));
+
+      Navigator.pop(context, result);
     }
   }
 }

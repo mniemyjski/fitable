@@ -1,4 +1,8 @@
-import 'package:fitable/app/product/add_key_words_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
+import 'package:fitable/app/recipe/widgets/recipe_carousel_slider.dart';
+import 'package:fitable/app/recipe/widgets/box_video.dart';
 import 'package:fitable/app/recipe/widgets/tile_head_ingredients.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -7,36 +11,30 @@ import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class RecipeCreateScreen extends StatelessWidget {
-  _submitKeyWords(BuildContext context) async {
-    // final model = context.read(providerCreateProductViewModel);
-    //
-    // List result = await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) {
-    //     return AddKeyWordsScreen(model.keyWords);
-    //   }),
-    // );
-    //
-    // if (result != null) {
-    //   model.keyWords = result;
-    // }
-  }
+class RecipeCreateScreen extends StatefulWidget {
+  @override
+  _RecipeCreateScreenState createState() => _RecipeCreateScreenState();
+}
 
-  _submitPortions(BuildContext context) async {
-    // final model = context.read(providerCreateProductViewModel);
-    //
-    // Map result = await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) {
-    //     return AddPortionsScreen(unit: model.unit, map: model.portions);
-    //   }),
-    // );
-    //
-    // if (result != null) {
-    //   model.portions = result;
-    // }
+class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
+  @override
+  void initState() {
+    final model = context.read(providerRecipeCreateViewModel);
+    final pref = context.read(providerPreference).data.value;
+    model.mute = pref.mute;
+
+    model.controller = YoutubePlayerController(
+      initialVideoId: '',
+      params: YoutubePlayerParams(
+        showControls: true,
+        showFullscreenButton: true,
+        mute: model.mute,
+      ),
+    );
+    super.initState();
   }
 
   @override
@@ -49,32 +47,63 @@ class RecipeCreateScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomTextField(
-              name: 'youtube'.tr(),
-              hintText: 'enter_youtube_id'.tr(),
-            ),
-            CustomTextField(
-              name: 'recipe_name'.tr(),
-            ),
-            CustomTextField(
-              name: 'description'.tr(),
-              maxLines: 20,
-              minLines: 10,
-            ),
-            Row(
-              children: [
-                Expanded(child: CustomInputBar(name: 'time'.tr(), value: '', onPressed: null)),
-                Expanded(child: CustomDropDownButton(name: 'visible'.tr(), value: 'private', list: ['private', 'public'], onChanged: (v) {})),
-                Expanded(child: CustomDropDownButton(name: 'unit'.tr(), value: 'g', list: <String>['g', 'ml'], onChanged: (v) {})),
-              ],
-            ),
-            CustomBarList(name: "key_words".tr(), value: [], onPressed: () => _submitKeyWords(context)),
-            CustomBarList(name: "portions".tr(), value: [], onPressed: () => _submitPortions(context)),
-            TileHeadIngredients()
-          ],
-        ),
+        child: Consumer(builder: (context, watch, child) {
+          final model = watch(providerRecipeCreateViewModel);
+
+          return Column(
+            children: [
+              RecipeCarouselSlider(),
+              Padding(
+                padding: const EdgeInsets.only(left: 6, top: 0),
+                child: CustomTextField(
+                  name: 'youtube'.tr(),
+                  hintText: 'enter_youtube_id'.tr(),
+                  onChanged: (v) {
+                    model.videoId = v;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: CustomTextField(
+                  name: 'recipe_name'.tr(),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: CustomTextField(
+                  name: 'description'.tr(),
+                  maxLines: 20,
+                  minLines: 10,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Row(
+                  children: [
+                    Expanded(child: CustomInputBar(name: 'time'.tr(), value: '', onPressed: null)),
+                    Expanded(
+                        child: CustomDropDownButton(
+                            name: 'visible'.tr() + ':',
+                            value: model.visible,
+                            list: ['private', 'public'],
+                            onChanged: (v) => context.read(providerRecipeCreateViewModel).visible = v)),
+                    Expanded(
+                        child: CustomDropDownButton(
+                            name: 'unit'.tr() + ':',
+                            value: model.unit,
+                            list: <String>['g', 'ml'],
+                            onChanged: (v) => context.read(providerRecipeCreateViewModel).unit = v)),
+                  ],
+                ),
+              ),
+              CustomBarList(name: "key_words".tr(), value: model.keyWords, onPressed: () => model.submitKeyWords(context)),
+              CustomBarList(name: "portions".tr(), value: model.portions, onPressed: () => model.submitPortions(context)),
+              TileHeadIngredients(),
+              SizedBox(height: 60)
+            ],
+          );
+        }),
       ),
     );
   }

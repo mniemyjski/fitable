@@ -1,4 +1,4 @@
-import 'package:fitable/common_widgets/add_button.dart';
+import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -128,7 +128,7 @@ class _AddPortionsScreenState extends State<AddPortionsScreen> {
                       ),
                     ),
                   ),
-                  AddButton(onPressed: submit),
+                  CustomIconButton(onPressed: submit),
                 ],
               ),
             ),

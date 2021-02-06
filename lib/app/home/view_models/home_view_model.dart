@@ -1,6 +1,8 @@
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -45,20 +47,47 @@ class HomeViewModel extends ChangeNotifier {
     });
   }
 
-  onPressed(BuildContext context, dynamic element, MealType mealType) {
-    Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+  onPressed(BuildContext context, Meal element, MealType mealType) async {
+    final db = context.read(providerDatabase);
+
+    Ingredient ingredient = Ingredient(portionSize: element.portionSize, portionChosen: element.portionChosen, product: element.product);
+
+    var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
-          meal: element,
-          mealType: mealType,
+          ingredient: ingredient,
         ));
+
+    if (result != null) {
+      Ingredient ingredient = result;
+      db.updateMeal(meal: element, portionSize: ingredient.portionSize, portionChosen: ingredient.portionChosen);
+    }
   }
 
   onDismissed(BuildContext context, dynamic element) {
     context.read(providerDatabase).deleteMeal(element);
   }
 
-  onSearch(BuildContext context, MealType mealType) {
-    Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType));
+  onSearch(BuildContext context, MealType mealType) async {
+    final db = context.read(providerDatabase);
+    final app = context.read(providerAppViewModel);
+
+    var result = await Navigator.of(context).pushNamed(
+      AppRoute.searchScreen,
+      arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType),
+    );
+
+    if (result != null) {
+      Ingredient ingredient = result;
+      Meal _meal = Meal(
+          uid: db.uid,
+          dateTime: app.chosenDate,
+          dateCreation: DateTime.now(),
+          mealType: mealType,
+          portionSize: ingredient.portionSize,
+          portionChosen: ingredient.portionChosen,
+          product: ingredient.product);
+      db.setMeal(meal: _meal);
+    }
   }
 
   calculateBMR({@required BuildContext context, double weight, double fat}) {

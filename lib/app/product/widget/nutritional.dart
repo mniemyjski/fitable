@@ -1,10 +1,11 @@
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-nutritional({@required Product product, @required Recipe recipe, @required Meal meal}) {
+nutritional({@required Product product, @required Recipe recipe}) {
   String _unit;
   int _calories;
   double _proteins;
@@ -132,49 +133,6 @@ nutritional({@required Product product, @required Recipe recipe, @required Meal 
     _manganese = product.manganese;
     _iodine = product.iodine;
     _chromium = product.chromium;
-  }
-  if (meal != null) {
-    _unit = meal.product.unit;
-    _calories = meal.product.calories;
-    _proteins = meal.product.proteins;
-    _carbs = meal.product.carbs;
-    _fats = meal.product.fats;
-    _sugar = meal.product.sugar;
-    _animalProteins = meal.product.animalProteins;
-    _plantProteins = meal.product.plantProteins;
-    _saturated = meal.product.saturated;
-    _unsaturated = meal.product.unsaturated;
-    _omega3 = meal.product.omega3;
-    _omega6 = meal.product.omega6;
-    _fiber = meal.product.fiber;
-    _caffeine = meal.product.caffeine;
-    _cholesterol = meal.product.cholesterol;
-    _salt = meal.product.salt;
-    _vitaminA = meal.product.vitaminA;
-    _vitaminC = meal.product.vitaminC;
-    _vitaminD = meal.product.vitaminD;
-    _vitaminE = meal.product.vitaminE;
-    _vitaminK = meal.product.vitaminK;
-    _vitaminB1 = meal.product.vitaminB1;
-    _vitaminB2 = meal.product.vitaminB2;
-    _vitaminB3 = meal.product.vitaminB3;
-    _vitaminB5 = meal.product.vitaminB5;
-    _vitaminB6 = meal.product.vitaminB6;
-    _vitaminB7 = meal.product.vitaminB7;
-    _vitaminB9 = meal.product.vitaminB9;
-    _vitaminB12 = meal.product.vitaminB12;
-    _potassium = meal.product.potassium;
-    _sodium = meal.product.sodium;
-    _calcium = meal.product.calcium;
-    _magnesium = meal.product.magnesium;
-    _phosphorus = meal.product.phosphorus;
-    _iron = meal.product.iron;
-    _copper = meal.product.copper;
-    _zinc = meal.product.zinc;
-    _selenium = meal.product.selenium;
-    _manganese = meal.product.manganese;
-    _iodine = meal.product.iodine;
-    _chromium = meal.product.chromium;
   }
 
   return ExpansionTile(
