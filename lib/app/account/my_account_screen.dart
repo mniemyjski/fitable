@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
+import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
@@ -11,7 +14,6 @@ import 'package:fitable/constants/constants.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -23,18 +25,19 @@ class MyAccountScreen extends ConsumerWidget {
 
     _onPressed() async {
       final db = context.read(providerDatabase);
-      final picker = ImagePicker();
-      var pickedFile = await picker.getImage(source: ImageSource.gallery, maxHeight: 1280, maxWidth: 720, imageQuality: 85);
-      File file = File(pickedFile.path);
 
-      String url = await db.uploadImage(file: file, folderName: 'accounts');
-      db.updateAccount(name: 'avatarUrl', value: url);
+      FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image);
+
+      if (result != null) {
+        File _file = File(result.files.single.path);
+        String url = await db.uploadImage(file: _file, folderName: 'accounts');
+        db.updateAccount(name: 'avatarUrl', value: url);
+      }
     }
 
-    return Scaffold(
-      appBar: AppBar(),
+    return CustomScaffold(
+      appBar: buildMainAppBar("account"),
       drawer: MainDrawer(),
-      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
           child: Column(
         children: [

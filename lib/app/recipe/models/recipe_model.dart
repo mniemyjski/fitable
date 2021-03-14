@@ -1,5 +1,6 @@
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class Recipe {
   final String uid;
@@ -9,11 +10,11 @@ class Recipe {
   final String id;
   final String name;
   final String description;
-  final int timePreparation;
+  final Duration timePreparation;
   final String videoUrl;
   final List keyWords;
-  final Map photosUrl;
-  final List<Ingredient> ingredient;
+  final List photosUrl;
+  final List<Ingredient> ingredients;
   final String unit;
   final Map portions;
   final bool verification;
@@ -22,56 +23,83 @@ class Recipe {
   final int commentsCount;
 
   Recipe({
-    @required this.uid,
+    this.uid,
     @required this.localeBase,
     @required this.authorName,
     @required this.name,
-    @required this.id,
+    this.id,
     @required this.keyWords,
     @required this.description,
     @required this.videoUrl,
     @required this.photosUrl,
     @required this.access,
-    @required this.ingredient,
+    @required this.ingredients,
     @required this.portions,
     @required this.unit,
     @required this.timePreparation,
     @required this.verification,
-    @required this.ratingsAvg,
-    @required this.favoritesCount,
-    @required this.commentsCount,
+    this.ratingsAvg,
+    this.favoritesCount,
+    this.commentsCount,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({String uid, String id}) {
+    List _ingredients = [];
+    ingredients.forEach((element) {
+      _ingredients.add(element.toMap());
+    });
+
     return {
-      'uid': uid,
+      'uid': uid ?? this.uid,
+      'localeBase': localeBase,
+      'authorName': authorName,
+      'name': name,
+      'id': id ?? this.id,
+      'keyWords': keyWords,
+      'description': description,
+      'videoUrl': videoUrl,
+      'photosUrl': photosUrl,
+      'access': access,
+      'ingredient': _ingredients,
+      'portions': portions,
+      'unit': unit,
+      'timePreparation': timePreparation.inMinutes,
+      'verification': verification,
+      'ratingsAvg': ratingsAvg,
+      'favoritesCount': favoritesCount,
+      'commentsCount': commentsCount,
     };
   }
 
-  factory Recipe.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Recipe.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
 
+    List<Ingredient> ingredients = [];
+    data['ingredient'].forEach((element) {
+      ingredients.add(Ingredient.fromMap(element));
+    });
+
     return Recipe(
-      uid: null,
-      localeBase: null,
-      authorName: null,
-      name: null,
-      id: null,
-      keyWords: null,
-      description: null,
-      videoUrl: null,
-      photosUrl: null,
-      access: null,
-      portions: null,
-      unit: null,
-      timePreparation: null,
-      verification: null,
-      ratingsAvg: null,
-      favoritesCount: null,
-      commentsCount: null,
-      ingredient: [],
+      uid: data['uid'],
+      localeBase: data['localeBase'],
+      authorName: data['authorName'],
+      name: data['name'],
+      id: data['id'],
+      keyWords: data['keyWords'],
+      description: data['description'],
+      videoUrl: data['videoUrl'],
+      photosUrl: data['photosUrl'],
+      access: data['access'],
+      portions: data['portions'],
+      unit: data['unit'],
+      timePreparation: Duration(minutes: data['timePreparation']),
+      verification: data['verification'],
+      // ratingsAvg: data['ratingsAvg'],
+      // favoritesCount: data['favoritesCount'],
+      // commentsCount: data['commentsCount'],
+      ingredients: ingredients,
     );
   }
 }

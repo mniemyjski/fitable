@@ -22,6 +22,11 @@ class TileProduct extends StatelessWidget {
     String _carbs;
     String _fats;
 
+    double _kcal = 0;
+    double _p = 0;
+    double _c = 0;
+    double _f = 0;
+
     if (product != null) {
       _name = product.name;
       _size = '100${product.unit}';
@@ -55,6 +60,17 @@ class TileProduct extends StatelessWidget {
     }
     if (recipe != null) {
       _name = recipe.name;
+      _size = '100${recipe.unit}';
+      recipe.ingredients.forEach((element) {
+        _kcal = (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100);
+        _p = (element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100);
+        _c = (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
+        _f = (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
+      });
+      _calories = _kcal.toStringAsFixed(0);
+      _proteins = _p.toStringAsFixed(1);
+      _carbs = _c.toStringAsFixed(1);
+      _fats = _f.toStringAsFixed(1);
     }
 
     return Row(

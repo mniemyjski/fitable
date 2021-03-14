@@ -77,7 +77,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 proteins: model.proteins,
                 carbs: model.carbs,
                 fats: model.fats,
-                ingredient: args.ingredient,
+                ingredients: args.ingredient?.toList() ?? null,
               )),
               Row(
                 children: [
@@ -119,7 +119,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ),
               if (args.ingredient == null)
-                FlatButton(
+                TextButton(
                     onPressed: () => model.bugReport(context, args.product),
                     child: Text(
                       'bug_report'.tr(),

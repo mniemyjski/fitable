@@ -1,16 +1,16 @@
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitable/app/crop_image/crop_image_screen.dart';
 import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
 import 'package:fitable/app/recipe/widgets/box_video.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:image_picker/image_picker.dart';
 
 class RecipeCarouselSlider extends ConsumerWidget {
-  _buttonList(BuildContext context, bool crop) {
+  _buttonList(BuildContext context, bool crop, file) {
     return [
       CustomIconButton(
         buttonColor: Colors.grey.withOpacity(0.5),
@@ -24,8 +24,8 @@ class RecipeCarouselSlider extends ConsumerWidget {
         CustomIconButton(
           buttonColor: Colors.grey.withOpacity(0.5),
           icon: Icons.crop,
-          onPressed: () {
-            context.read(providerRecipeCreateViewModel).cropImage();
+          onPressed: () async {
+            context.read(providerRecipeCreateViewModel).cropImage(context, file);
           },
         ),
       SizedBox(width: 25),
@@ -51,22 +51,16 @@ class RecipeCarouselSlider extends ConsumerWidget {
           child: Container(
             child: Stack(
               children: <Widget>[
-                // Image.network(
-                //   item,
-                //   fit: BoxFit.cover,
-                //   width: 1000.0,
-                //   height: 1000.0,
-                // ),
                 Image.file(
                   file,
                   width: 1000.0,
                   height: 1000.0,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: _buttonList(context, item.length > 3 ? true : false),
+                    children: _buttonList(context, item.length > 3 ? true : false, file),
                   ),
                 ),
                 Positioned(

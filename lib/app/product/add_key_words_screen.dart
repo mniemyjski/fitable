@@ -22,11 +22,18 @@ class _AddKeyWordsScreenState extends State<AddKeyWordsScreen> {
   }
 
   void submit() {
-    if (controller.text != "")
-      setState(() {
-        _list.add(controller.text);
-        controller.text = '';
-      });
+    FocusScope.of(context).unfocus();
+
+    if (controller.text.length < 4) {
+      final messenger = ScaffoldMessenger.of(context);
+      messenger.showSnackBar(SnackBar(content: Text('The name must be longer than 3 characters')));
+      return;
+    }
+
+    setState(() {
+      _list.add(controller.text.toLowerCase());
+      controller.text = '';
+    });
   }
 
   @override
@@ -106,23 +113,6 @@ class _AddKeyWordsScreenState extends State<AddKeyWordsScreen> {
                       ),
                     ),
                   ),
-
-                  // Expanded(
-                  //   child: Container(
-                  //     child: TextFormField(
-                  //       textAlign: TextAlign.center,
-                  //       controller: controller,
-                  //       decoration: InputDecoration(
-                  //         labelText: '',
-                  //         fillColor: Colors.white,
-                  //         border: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(10.0),
-                  //           borderSide: BorderSide(),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   CustomIconButton(onPressed: submit),
                 ],
               ),

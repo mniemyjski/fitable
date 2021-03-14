@@ -69,7 +69,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
     _isFavorite = false;
 
     favorites.forEach((element) {
-      if (element.id == _id) {
+      if (element.id == _id && element.type == EnumFavorite.products) {
         _isFavorite = true;
       }
     });

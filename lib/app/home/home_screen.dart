@@ -8,6 +8,7 @@ import 'package:fitable/app/home/widgets/tile_head_measurement.dart';
 import 'package:fitable/app/home/widgets/tile_head_workouts.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
+import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
@@ -17,6 +18,7 @@ import 'package:fitable/services/sync_health.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   _buildBottomAppBar() {
@@ -50,9 +52,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: AppBar(
-        title: Text(Constants.home.tr()),
-      ),
+      appBar: buildMainAppBar(Constants.home.tr()),
       drawer: MainDrawer(),
       body: Column(children: [
         Container(

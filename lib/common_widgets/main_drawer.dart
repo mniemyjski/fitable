@@ -58,6 +58,13 @@ class _State extends State<MainDrawer> {
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
               }),
+          // _createDrawerItem(
+          //     icon: FontAwesomeIcons.solidEnvelope,
+          //     text: Constants.massages.tr(),
+          //     inactive: true,
+          //     onTap: () {
+          //       // Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
+          //     }),
           _createDrawerItem(
               icon: Icons.dashboard,
               text: Constants.board.tr(),

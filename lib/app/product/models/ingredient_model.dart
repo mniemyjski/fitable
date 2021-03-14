@@ -10,13 +10,13 @@ class Ingredient {
 
   Map<String, dynamic> toMap() {
     return {
-      'product': product,
+      'product': product.toMap(),
       'portionSize': portionSize,
       'portionChosen': portionChosen,
     };
   }
 
-  factory Ingredient.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Ingredient.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
@@ -26,5 +26,18 @@ class Ingredient {
       portionSize: data['portionSize'],
       portionChosen: data['portionChosen'],
     );
+  }
+
+  List<Ingredient> toList() {
+    // if (product == null) return null;
+
+    List<Ingredient> list = [];
+    Ingredient ingredient = Ingredient(
+      product: product,
+      portionSize: portionSize,
+      portionChosen: portionChosen,
+    );
+    list.add(ingredient);
+    return list;
   }
 }

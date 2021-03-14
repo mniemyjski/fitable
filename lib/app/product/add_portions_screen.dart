@@ -28,12 +28,23 @@ class _AddPortionsScreenState extends State<AddPortionsScreen> {
   }
 
   void submit() {
-    if (controller.text != "" && _portionChosen != null)
-      setState(() {
-        _map[_portionChosen + ' (${controller.text}${widget.unit})'] = double.parse(controller.text);
-        controller.text = '';
-        _portionChosen = null;
-      });
+    if (controller.text == "") {
+      final messenger = ScaffoldMessenger.of(context);
+      messenger.showSnackBar(SnackBar(content: Text('Value cannot be empty.')));
+      return;
+    }
+
+    if (_portionChosen == null) {
+      final messenger = ScaffoldMessenger.of(context);
+      messenger.showSnackBar(SnackBar(content: Text('Portion cannot be empty.')));
+      return;
+    }
+
+    setState(() {
+      _map[_portionChosen + ' (${controller.text}${widget.unit})'] = double.parse(controller.text);
+      controller.text = '';
+      _portionChosen = null;
+    });
   }
 
   @override

@@ -5,13 +5,16 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/issue/models/issue_report_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
+import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:logger/logger.dart';
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -40,6 +43,9 @@ class Database {
       _service.collection(Path.accounts()).doc(uid).update({name: value});
   Stream<Account> streamAccount() => _service.collection(Path.accounts()).doc(uid).snapshots().map(
         (snapshot) => Account.fromMap(snapshot.data(), snapshot.id),
+      );
+  Future<Account> getName(String uid) => _service.collection(Path.accounts()).doc(uid).get().then(
+        (value) => Account.fromMap(value.data(), value.id),
       );
   //#endregion
 
@@ -136,7 +142,7 @@ class Database {
   updateFavorite(BuildContext context, Favorite favorite) {
     String _path;
     if (favorite.type == EnumFavorite.products) _path = Path.products();
-    if (favorite.type == EnumFavorite.recipes) _path = Path.products();
+    if (favorite.type == EnumFavorite.recipes) _path = Path.recipes();
     if (favorite.type == EnumFavorite.exercise) _path = Path.products();
     if (favorite.type == EnumFavorite.trainings) _path = Path.products();
     if (favorite.type == EnumFavorite.users) _path = Path.products();
@@ -159,6 +165,78 @@ class Database {
     final ref = _service.collectionGroup(Path.favorites()).where('uid', isEqualTo: uid).snapshots();
 
     return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
+  }
+
+  //endregion
+
+  //#region recipe
+  Future<void> createRecipe({
+    @required String authorName,
+    @required String localeBase,
+    @required String name,
+    @required String access,
+    @required String description,
+    @required Duration timePreparation,
+    @required String videoUrl,
+    @required List keyWords,
+    @required List photos,
+    @required List<Ingredient> ingredients,
+    @required String unit,
+    @required Map portions,
+  }) async {
+    final DocumentReference ref = _service.collection(Path.recipes()).doc();
+
+    List _photosUrl = [];
+
+    for (var element in photos) {
+      File _file = File(element);
+      String url = await uploadImage(file: _file, folderName: "recipes/${ref.id}", name: photos.indexOf(element).toString());
+      _photosUrl.add(url);
+    }
+
+    Recipe recipe = Recipe(
+      authorName: authorName,
+      localeBase: localeBase,
+      name: name,
+      keyWords: keyWords,
+      description: description,
+      videoUrl: videoUrl,
+      photosUrl: _photosUrl,
+      access: access,
+      ingredients: ingredients,
+      portions: portions,
+      unit: unit,
+      timePreparation: timePreparation,
+      verification: false,
+    );
+
+    return ref.set(recipe.toMap(uid: uid, id: ref.id));
+  }
+
+  Stream<List<Recipe>> streamFavoriteRecipes(List<Favorite> list) {
+    List<String> _list = [];
+
+    list.forEach((element) {
+      _list.add(element.id);
+    });
+
+    if (_list.isNotEmpty) {
+      return _service
+          .collection(Path.recipes())
+          .where(FieldPath.documentId, whereIn: _list)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
+    } else {
+      return null;
+    }
+  }
+
+  Stream<List<Recipe>> streamYourRecipes() {
+    return _service
+        .collection(Path.recipes())
+        .where('uid', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
   }
 
   //endregion

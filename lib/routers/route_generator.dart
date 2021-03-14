@@ -3,6 +3,7 @@ import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
 import 'package:fitable/app/community/community_screen.dart';
+import 'package:fitable/app/crop_image/crop_image_screen.dart';
 import 'package:fitable/app/diets/diets_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';
 import 'package:fitable/app/measurement/add_body_circumferences_screen.dart';
@@ -33,6 +34,7 @@ class AppRoute {
   static const recipeCreateScreen = '/recipeCreateScreen';
   static const workoutsScreen = '/workoutsScreen';
   static const dietsScreen = '/dietsScreen';
+  static const cropImageScreen = '/cropImageScreen';
 }
 
 var routes = <String, WidgetBuilder>{
@@ -52,6 +54,7 @@ var routes = <String, WidgetBuilder>{
   AppRoute.recipeCreateScreen: (context) => LandingScreen(body: RecipeCreateScreen()),
   AppRoute.workoutsScreen: (context) => LandingScreen(body: WorkoutsScreen()),
   AppRoute.dietsScreen: (context) => LandingScreen(body: DietsScreen()),
+  AppRoute.cropImageScreen: (context) => LandingScreen(body: CropImageScreen()),
 };
 
 class RouteGenerator {

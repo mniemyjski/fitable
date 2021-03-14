@@ -81,4 +81,5 @@ class Constants {
   static const String category_primary = "category_primary";
   static const String category_secondary = "category_secondary";
   static const String nutritional_values_out_of_100 = "nutritional_values_out_of_100";
+  static const String massages = "massages";
 }

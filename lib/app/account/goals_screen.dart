@@ -1,8 +1,10 @@
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
+import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
+import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/constants/constants.dart';
@@ -77,11 +79,8 @@ class GoalsScreen extends ConsumerWidget {
     }
 
     _buildBody(Preference preference) {
-      return Scaffold(
-          backgroundColor: Colors.grey[200],
-          appBar: AppBar(
-            title: Text(Constants.goals.tr()),
-          ),
+      return CustomScaffold(
+          appBar: buildMainAppBar(Constants.goals.tr()),
           drawer: MainDrawer(),
           body: Column(
             children: [

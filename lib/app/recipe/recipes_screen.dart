@@ -1,3 +1,4 @@
+import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
@@ -19,9 +20,7 @@ class RecipesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: AppBar(
-        title: Text('recipes'.tr()),
-      ),
+      appBar: buildMainAppBar('recipes'.tr()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Column(
@@ -32,7 +31,7 @@ class RecipesScreen extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: CustomListView(
                 list: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                type: EnumTileType.recipe,
+                type: EnumTileType.imageRecipe,
                 scrollDirection: Axis.horizontal,
                 onPressed: (element) => Navigator.pushNamed(context, AppRoute.recipeDetailsScreen),
               ),
@@ -43,7 +42,7 @@ class RecipesScreen extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: CustomListView(
                 list: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                type: EnumTileType.recipe,
+                type: EnumTileType.imageRecipe,
                 scrollDirection: Axis.horizontal,
                 onPressed: (element) => Navigator.pushNamed(context, AppRoute.recipeDetailsScreen),
               ),
@@ -54,7 +53,7 @@ class RecipesScreen extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: CustomListView(
                 list: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                type: EnumTileType.recipe,
+                type: EnumTileType.imageRecipe,
                 scrollDirection: Axis.horizontal,
                 onPressed: (element) => Navigator.pushNamed(context, AppRoute.recipeDetailsScreen),
               ),

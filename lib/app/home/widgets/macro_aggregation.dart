@@ -12,10 +12,9 @@ class MacroAggregation extends ConsumerWidget {
   final double proteins;
   final double carbs;
   final double fats;
-  // final Meal meal;
-  final Ingredient ingredient;
+  final List<Ingredient> ingredients;
 
-  const MacroAggregation({Key key, this.calories = 0, this.proteins = 0.0, this.carbs = 0.0, this.fats = 0.0, this.ingredient}) : super(key: key);
+  const MacroAggregation({Key key, this.calories = 0, this.proteins = 0.0, this.carbs = 0.0, this.fats = 0.0, this.ingredients}) : super(key: key);
 
   _buildBody(List<Meal> data) {
     return Consumer(builder: (context, watch, child) {
@@ -24,18 +23,27 @@ class MacroAggregation extends ConsumerWidget {
       model.mealList = data.where((element) => element.dateTime == app.chosenDate).toList();
       model.calculateBMR(context: context);
 
-      double _oldCalories;
+      int _oldCalories;
       double _oldProteins;
       double _oldCarbs;
       double _oldFats;
-      if (ingredient?.product != null)
-        _oldCalories = ingredient.product.calories * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
-      if (ingredient?.product != null)
-        _oldProteins = ingredient.product.proteins * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
-      if (ingredient?.product != null)
-        _oldCarbs = ingredient.product.carbs * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
-      if (ingredient?.product != null)
-        _oldFats = ingredient.product.fats * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
+
+      if (ingredients != null) {
+        ingredients.forEach((element) {
+          _oldCalories = (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
+          _oldProteins = element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100;
+          _oldCarbs = element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100;
+          _oldFats = element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100;
+        });
+      }
+      // if (ingredient?.product != null)
+      //   _oldCalories = ingredient.product.calories * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
+      // if (ingredient?.product != null)
+      //   _oldProteins = ingredient.product.proteins * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
+      // if (ingredient?.product != null)
+      //   _oldCarbs = ingredient.product.carbs * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
+      // if (ingredient?.product != null)
+      //   _oldFats = ingredient.product.fats * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
 
       return Container(
           height: 60,
@@ -48,7 +56,7 @@ class MacroAggregation extends ConsumerWidget {
                   mainBar: true,
                   name: 'calories',
                   value: double.tryParse(calories?.toString()),
-                  valueTotal: model.calories.roundToDouble() - (ingredient != null ? _oldCalories : 0),
+                  valueTotal: model.calories.roundToDouble() - (ingredients != null ? _oldCalories : 0),
                   valueTarget: model.goalCalories.roundToDouble(),
                   proteins: proteins + model.proteins,
                   carbs: carbs + model.carbs,
@@ -59,7 +67,7 @@ class MacroAggregation extends ConsumerWidget {
                   mainBar: false,
                   name: 'proteins',
                   value: proteins,
-                  valueTotal: model.proteins - (ingredient != null ? _oldProteins : 0),
+                  valueTotal: model.proteins - (ingredients != null ? _oldProteins : 0),
                   valueTarget: model.goalProteins,
                   proteins: proteins,
                   carbs: carbs,
@@ -70,7 +78,7 @@ class MacroAggregation extends ConsumerWidget {
                   mainBar: false,
                   name: 'carbs',
                   value: carbs,
-                  valueTotal: model.carbs - (ingredient != null ? _oldCarbs : 0),
+                  valueTotal: model.carbs - (ingredients != null ? _oldCarbs : 0),
                   valueTarget: model.goalCarbs,
                   proteins: proteins,
                   carbs: carbs,
@@ -81,7 +89,7 @@ class MacroAggregation extends ConsumerWidget {
                   mainBar: false,
                   name: 'fats',
                   value: fats,
-                  valueTotal: model.fats - (ingredient != null ? _oldFats : 0),
+                  valueTotal: model.fats - (ingredients != null ? _oldFats : 0),
                   valueTarget: model.goalFats,
                   proteins: proteins,
                   carbs: carbs,

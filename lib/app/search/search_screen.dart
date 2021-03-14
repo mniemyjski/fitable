@@ -1,6 +1,7 @@
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 enum SearchType { onlyProducts, allFoods, trainings, users }
 
@@ -79,7 +81,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
     super.didChangeDependencies();
   }
 
-  _buildTabBarView(Database db, List<Favorite> favorites, SearchViewModel model) {
+  _buildTabBarView(Database db, List<Favorite> favoritesProduct, List<Favorite> favoritesRecipe, SearchViewModel model) {
     final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
 
     return [
@@ -87,21 +89,57 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<List<Product>>(
-              stream: db.streamProducts(favorites),
+              stream: db.streamProducts(favoritesProduct),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return CustomListView(
                     list: snapshot.data,
                     type: EnumTileType.product,
                     direction: DismissDirection.none,
-                    onPressed: (element) => model.onPressed(context, element),
+                    onPressed: (element) => model.productDetails(context, element),
                   );
                 }
                 return Container();
               }),
         ),
-      if (args.typeSearch == SearchType.allFoods) Center(child: Container(child: Text('recipe'.tr()))),
-      if (args.typeSearch == SearchType.allFoods) Center(child: Container(child: Text('your_recipe'.tr()))),
+      if (args.typeSearch == SearchType.allFoods)
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StreamBuilder<List<Recipe>>(
+              stream: db.streamFavoriteRecipes(favoritesRecipe),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) Center(child: Text('error'));
+
+                if (snapshot.hasData) {
+                  return CustomListView(
+                    list: snapshot.data,
+                    type: EnumTileType.recipe,
+                    direction: DismissDirection.none,
+                    onPressed: (element) => model.productDetails(context, element),
+                  );
+                }
+                return Container(child: Center(child: Text('Empty')));
+              }),
+        ),
+      if (args.typeSearch == SearchType.allFoods)
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StreamBuilder<List<Recipe>>(
+              stream: db.streamYourRecipes(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) Center(child: Text('error'));
+
+                if (snapshot.hasData) {
+                  return CustomListView(
+                    list: snapshot.data,
+                    type: EnumTileType.recipe,
+                    direction: DismissDirection.none,
+                    onPressed: (element) => model.recipeDetails(context, element),
+                  );
+                }
+                return Container(child: Center(child: Text('Empty')));
+              }),
+        ),
     ];
   }
 
@@ -128,7 +166,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
             final db = watch(providerDatabase);
 
             return favorites.when(
-              data: (data) => TabBarView(controller: model.controller, children: _buildTabBarView(db, data, model)),
+              data: (data) => TabBarView(controller: model.controller, children: _buildTabBarView(db, data, data, model)),
               loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
               error: (err, stack) => Center(child: Text('Error: $err')),
             );
