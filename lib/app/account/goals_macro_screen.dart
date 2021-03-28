@@ -37,7 +37,7 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
     });
   }
 
-  _submit() {
+  _submit(BuildContext context) {
     final db = context.read(providerDatabase);
     context.read(providerPreference).whenData((preference) {
       if (!preference.goalCaloriesDefault) {
@@ -45,11 +45,13 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
       }
 
       if (!preference.goalMacroDefault && int.tryParse(total) == 100) {
-        db.updatePreference(name: 'goalProteins', value: double.parse(caloriesController.text));
+        db.updatePreference(name: 'goalProteins', value: double.parse(proteinsController.text));
         db.updatePreference(name: 'goalCarbs', value: double.parse(carbsController.text));
         db.updatePreference(name: 'goalFats', value: double.parse(fatsController.text));
       }
     });
+
+    Navigator.pop(context);
   }
 
   _calculateTotal() {
@@ -183,7 +185,7 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
         data: (data) {
           return CustomScaffold(
               appBar: AppBar(
-                actions: [IconButton(icon: Icon(Icons.save), onPressed: () => _submit())],
+                actions: [IconButton(icon: Icon(Icons.save), onPressed: () => _submit(context))],
               ),
               body: _buildBody(context, data));
         },

@@ -33,7 +33,7 @@ class CreateAccount extends ConsumerWidget {
           child: Column(
             children: [
               CustomInputBar(
-                name: Constants.name,
+                name: Constants.name(),
                 value: model.name,
                 onPressed: () {
                   //TODO create function set name in model with validate (non empty and unique)
@@ -41,7 +41,7 @@ class CreateAccount extends ConsumerWidget {
 
                   showInputPicker(
                     context: context,
-                    labelText: Constants.name,
+                    labelText: Constants.name(),
                     initValue: model?.name ?? "",
                     onPressed: () {
                       model.name = _value;
@@ -55,7 +55,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.date_birth,
+                name: Constants.date_birth(),
                 value: model?.dateBirth != null ? DateFormat('y-MM-dd').format(model.dateBirth) : "",
                 onPressed: () {
                   showDatePicker(
@@ -69,7 +69,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.height,
+                name: Constants.height(),
                 value: model.height?.toStringAsFixed(0) ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -87,7 +87,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomDropDownButton(
-                name: Constants.gender.tr(),
+                name: Constants.gender(),
                 value: model.gender,
                 list: <String>["male", "female"],
                 onChanged: (v) {
@@ -96,7 +96,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomDropDownButton(
-                name: Constants.daytime_activities.tr(),
+                name: Constants.daytime_activities(),
                 value: model.dayTimeActivities,
                 list: <String>['very_low', 'low', 'normal', 'medium', 'high'],
                 onChanged: (v) {
@@ -105,7 +105,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 10.0),
               CustomInputBar(
-                name: Constants.weight,
+                name: Constants.weight(),
                 value: model.weight?.toString() ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -123,7 +123,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.target_weight,
+                name: Constants.target_weight(),
                 value: model.targetWeight?.toStringAsFixed(0) ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -142,7 +142,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.target_fat,
+                name: Constants.target_fat(),
                 value: model.targetFat?.toStringAsFixed(0) ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -168,7 +168,7 @@ class CreateAccount extends ConsumerWidget {
                     color: Colors.teal[700],
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                    child: Text(Constants.save.tr()),
+                    child: Text(Constants.save()),
                     onPressed: () {
                       final db = context.read(providerDatabase);
                       final auth = context.read(providerAuthState);

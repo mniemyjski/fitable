@@ -1,6 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
+import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
+import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -11,20 +15,27 @@ final providerRecipeDetailsViewModel = ChangeNotifierProvider.autoDispose<Recipe
 });
 
 class RecipeDetailsViewModel extends ChangeNotifier {
-  String _id = "";
+  String _id;
   int _calories;
   double _proteins;
   double _carbs;
   double _fats;
   double _portionSize;
   String _portionChosen;
-  String _name = "";
   Map _portions;
-  List _keyWords;
   bool _isFavorite = false;
+  List<String> listMealType = ['breakfast', 'lunch', 'dinner', 'supper', 'snack'];
+  MealType _mealType = MealType.breakfast;
 
-  List get keyWords => _keyWords;
-  String get name => _name;
+  chooseMealType(String mealType) {
+    _mealType = Meal.toEnum(mealType);
+    notifyListeners();
+  }
+
+  String getMealTypeString() {
+    return Meal.toText(_mealType);
+  }
+
   Map get portions => _portions;
   String get portionChosen => _portionChosen;
   double get portionSize => _portionSize;
@@ -34,6 +45,9 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   double get fats => _fats;
   bool get isFavorite => _isFavorite;
   String get id => _id;
+
+  bool _createScreen = true;
+  bool get createScreen => _createScreen;
 
   set portionSize(double portionSize) {
     _portionSize = portionSize;
@@ -50,11 +64,27 @@ class RecipeDetailsViewModel extends ChangeNotifier {
     //     .pushNamed(AppRoute.createProductScreen, arguments: ProductCreateScreenArguments(product: product, barcode: product.barcode));
   }
 
-  submit({@required BuildContext context, Recipe recipe}) {
-    // final model = context.read(providerProductDetailsViewModel);
-    //
-    // Ingredient result = Ingredient(portionSize: model.portionSize, portionChosen: model.portionChosen, product: product);
-    // Navigator.pop(context, result);
+  submit({@required BuildContext context}) {
+    final RecipeDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
+    Ingredient result = Ingredient(portionSize: _portionSize, portionChosen: _portionChosen, recipe: args.recipe);
+
+    if (args.chooseMealType) {
+      final db = context.read(providerDatabase);
+      final app = context.read(providerAppViewModel);
+
+      Meal _meal = Meal(
+          uid: db.uid,
+          dateTime: app.chosenDate,
+          dateCreation: DateTime.now(),
+          mealType: _mealType,
+          portionSize: _portionSize,
+          portionChosen: _portionChosen,
+          recipe: args.recipe);
+      db.setMeal(meal: _meal);
+      Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
+    } else {
+      Navigator.pop(context, result);
+    }
   }
 
   submitFavorite(BuildContext context, String id) {
@@ -65,10 +95,10 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   build(Recipe recipe, List<Favorite> favorites) {
     double multiplier;
 
+    _createScreen = true;
+
     _id = recipe.id;
-    _name = recipe.name;
     _portions = recipe.portions;
-    _keyWords = recipe.keyWords;
 
     _calories = 0;
     _proteins = 0;
@@ -97,5 +127,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
         _isFavorite = true;
       }
     });
+
+    _createScreen = false;
   }
 }

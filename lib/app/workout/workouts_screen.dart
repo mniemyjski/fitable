@@ -3,13 +3,12 @@ import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 
-class CommunityScreen extends StatelessWidget {
+class WorkoutsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.community()),
+      appBar: buildMainAppBar(context, Constants.workouts()),
       drawer: MainDrawer(),
       body: Container(),
     );

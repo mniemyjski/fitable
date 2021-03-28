@@ -115,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                     list: snapshot.data,
                     type: EnumTileType.recipe,
                     direction: DismissDirection.none,
-                    onPressed: (element) => model.productDetails(context, element),
+                    onPressed: (element) => model.recipeDetails(context, element),
                   );
                 }
                 return Container(child: Center(child: Text('Empty')));
@@ -150,7 +150,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
 
       return CustomScaffold(
           appBar: AppBar(
-            title: Text(Constants.favorites.tr()),
+            title: Text(Constants.favorites()),
             actions: [
               IconButton(icon: Icon(Icons.search, color: Colors.white), onPressed: () => model.searchOnPress(context)),
               if (model.mobilePlatform()) IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => model.barcodeOnPress(context)),

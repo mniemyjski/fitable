@@ -56,6 +56,17 @@ class TileProduct extends StatelessWidget {
       }
       if (meal.recipe != null) {
         _name = meal.recipe.name;
+        _size = (meal.portionSize * meal.recipe.portions[meal.portionChosen]).toStringAsFixed(0) + meal.recipe.unit;
+        meal.recipe.ingredients.forEach((element) {
+          _kcal = (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100);
+          _p = (element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100);
+          _c = (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
+          _f = (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
+        });
+        _calories = (_kcal * meal.portionSize * meal.recipe.portions[meal.portionChosen] / 100).toStringAsFixed(0);
+        _proteins = (_p * meal.portionSize * meal.recipe.portions[meal.portionChosen] / 100).toStringAsFixed(1);
+        _carbs = (_c * meal.portionSize * meal.recipe.portions[meal.portionChosen] / 100).toStringAsFixed(1);
+        _fats = (_f * meal.portionSize * meal.recipe.portions[meal.portionChosen] / 100).toStringAsFixed(1);
       }
     }
     if (recipe != null) {

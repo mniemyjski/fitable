@@ -36,7 +36,7 @@ class MyAccountScreen extends ConsumerWidget {
     }
 
     return CustomScaffold(
-      appBar: buildMainAppBar("account"),
+      appBar: buildMainAppBar(context, Constants.account()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
           child: Column(
@@ -65,14 +65,14 @@ class MyAccountScreen extends ConsumerWidget {
             ),
           ),
           CustomInputBar(
-            name: Constants.name.tr(),
+            name: Constants.name(),
             value: account.name,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.name,
+                labelText: Constants.name(),
                 initValue: account.name,
                 onPressed: () {
                   //TODO create function set name in model with validate (non empty and unique)
@@ -86,7 +86,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.date_birth.tr(),
+            name: Constants.date_birth(),
             value: DateFormat('y-MM-dd').format(account.dateBirth),
             onPressed: () {
               showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
@@ -98,7 +98,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.height.tr(),
+            name: Constants.height(),
             value: account.height.toStringAsFixed(0),
             onPressed: () {
               showValuePicker(
@@ -115,7 +115,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.gender.tr(),
+            name: Constants.gender(),
             value: account.gender,
             list: <String>["male", "female"],
             onChanged: (value) {
@@ -123,14 +123,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.youtube.tr(),
+            name: Constants.youtube(),
             value: account.youtube,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.youtube,
+                labelText: Constants.youtube(),
                 initValue: account.youtube,
                 onPressed: () {
                   db.updateAccount(name: 'youtube', value: _value);
@@ -143,14 +143,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.instagram.tr(),
+            name: Constants.instagram(),
             value: account.instagram,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.instagram,
+                labelText: Constants.instagram(),
                 initValue: account.instagram,
                 onPressed: () {
                   db.updateAccount(name: 'instagram', value: _value);
@@ -163,14 +163,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.facebook.tr(),
+            name: Constants.facebook(),
             value: account.facebook,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.facebook,
+                labelText: Constants.facebook(),
                 initValue: account.facebook,
                 onPressed: () {
                   db.updateAccount(name: 'facebook', value: _value);
@@ -183,14 +183,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.bio.tr(),
+            name: Constants.bio(),
             value: account.bio,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.bio,
+                labelText: Constants.bio(),
                 initValue: account.bio,
                 multiLine: true,
                 onPressed: () {
@@ -206,10 +206,10 @@ class MyAccountScreen extends ConsumerWidget {
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(top: 20, left: 10),
-            child: Text(Constants.access.tr() + ':', style: TextStyle(fontSize: 16)),
+            child: Text(Constants.access() + ':', style: TextStyle(fontSize: 16)),
           ),
           CustomDropDownButton(
-            name: Constants.access_date_birth.tr(),
+            name: Constants.access_date_birth(),
             value: Account.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -217,7 +217,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_height.tr(),
+            name: Constants.access_height(),
             value: Account.toText(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -225,7 +225,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_gender.tr(),
+            name: Constants.access_gender(),
             value: Account.toText(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -233,7 +233,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_meals.tr(),
+            name: Constants.access_meals(),
             value: Account.toText(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -241,7 +241,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_stats.tr(),
+            name: Constants.access_stats(),
             value: Account.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {

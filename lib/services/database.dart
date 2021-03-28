@@ -7,7 +7,9 @@ import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/app/rating/models/rating_model.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
+import 'package:fitable/constants/enum.dart';
 import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -138,6 +140,14 @@ class Database {
       .map((snapshot) => snapshot.docs.map((snap) => Measurement.fromMap(snap.data(), snap.id)).toList());
   //endregion
 
+  //#region Ratings
+  updateRating(BuildContext context, Rating rating) {
+    final DocumentReference ref = _service.collection(Path.recipes()).doc(rating.id).collection(Path.ratings()).doc(uid);
+
+    ref.set(rating.toMap(uid, rating.id));
+  }
+  //endregion
+
   //#region Favorite
   updateFavorite(BuildContext context, Favorite favorite) {
     String _path;
@@ -235,6 +245,21 @@ class Database {
     return _service
         .collection(Path.recipes())
         .where('uid', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
+  }
+
+  Stream<List<Recipe>> streamRecipes(SortType sortType) {
+    String name = "";
+
+    if (sortType == SortType.last) name = "dateCreation";
+    if (sortType == SortType.best) name = "ratingsAvg";
+    if (sortType == SortType.popular) name = "favoritesCount";
+
+    return _service
+        .collection(Path.recipes())
+        .orderBy(name, descending: true)
+        .limit(10)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
   }

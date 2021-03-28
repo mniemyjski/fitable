@@ -206,9 +206,7 @@ class TileHeadMeasurement extends StatelessWidget {
             ),
           );
         },
-        loading: () => Center(
-          child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-        ),
+        loading: () => Container(),
         error: (err, stack) => Center(child: Text('Error: $err')),
       );
     });

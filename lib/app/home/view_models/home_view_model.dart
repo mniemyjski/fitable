@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
+import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
@@ -40,22 +42,46 @@ class HomeViewModel extends ChangeNotifier {
     _fats = 0.0;
 
     mealList.forEach((element) {
-      _calories = _calories + (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
-      _proteins = _proteins + (element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100);
-      _carbs = _carbs + (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
-      _fats = _fats + (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
+      if (element.product != null) {
+        _calories = _calories + (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
+        _proteins = _proteins + (element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100);
+        _carbs = _carbs + (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
+        _fats = _fats + (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
+      }
+
+      if (element.recipe != null) {
+        element.recipe.ingredients.forEach((rec) {
+          _calories = _calories + (rec.product.calories * rec.portionSize * rec.product.portions[rec.portionChosen] / 100).round();
+          _proteins = _proteins + (rec.product.proteins * rec.portionSize * rec.product.portions[rec.portionChosen] / 100);
+          _carbs = _carbs + (rec.product.carbs * rec.portionSize * rec.product.portions[rec.portionChosen] / 100);
+          _fats = _fats + (rec.product.fats * rec.portionSize * rec.product.portions[rec.portionChosen] / 100);
+        });
+      }
     });
   }
 
   onPressed(BuildContext context, Meal element, MealType mealType) async {
     final db = context.read(providerDatabase);
+    dynamic result;
 
-    Ingredient ingredient = Ingredient(portionSize: element.portionSize, portionChosen: element.portionChosen, product: element.product);
+    if (element.product != null) {
+      Ingredient ingredient = Ingredient(portionSize: element.portionSize, portionChosen: element.portionChosen, product: element.product);
 
-    var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
-        arguments: ProductDetailsScreenArguments(
-          ingredient: ingredient,
-        ));
+      result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+          arguments: ProductDetailsScreenArguments(
+            ingredient: ingredient,
+          ));
+    }
+
+    if (element.recipe != null) {
+      result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
+          arguments: RecipeDetailsScreenArguments(
+            recipe: element.recipe,
+            portionSize: element.portionSize,
+            portionChosen: element.portionChosen,
+            isMeal: true,
+          ));
+    }
 
     if (result != null) {
       Ingredient ingredient = result;
@@ -71,22 +97,37 @@ class HomeViewModel extends ChangeNotifier {
     final db = context.read(providerDatabase);
     final app = context.read(providerAppViewModel);
 
-    var result = await Navigator.of(context).pushNamed(
+    dynamic result = await Navigator.of(context).pushNamed(
       AppRoute.searchScreen,
       arguments: SearchScreenArguments(typeSearch: SearchType.allFoods, mealType: mealType),
     );
 
     if (result != null) {
       Ingredient ingredient = result;
-      Meal _meal = Meal(
-          uid: db.uid,
-          dateTime: app.chosenDate,
-          dateCreation: DateTime.now(),
-          mealType: mealType,
-          portionSize: ingredient.portionSize,
-          portionChosen: ingredient.portionChosen,
-          product: ingredient.product);
-      db.setMeal(meal: _meal);
+
+      if (ingredient.product != null) {
+        Meal _meal = Meal(
+            uid: db.uid,
+            dateTime: app.chosenDate,
+            dateCreation: DateTime.now(),
+            mealType: mealType,
+            portionSize: ingredient.portionSize,
+            portionChosen: ingredient.portionChosen,
+            product: ingredient.product);
+        db.setMeal(meal: _meal);
+      }
+
+      if (ingredient.recipe != null) {
+        Meal _meal = Meal(
+            uid: db.uid,
+            dateTime: app.chosenDate,
+            dateCreation: DateTime.now(),
+            mealType: mealType,
+            portionSize: ingredient.portionSize,
+            portionChosen: ingredient.portionChosen,
+            recipe: ingredient.recipe);
+        db.setMeal(meal: _meal);
+      }
     }
   }
 

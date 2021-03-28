@@ -10,7 +10,6 @@ sign_out,Wyloguj,Sign out
 home,Home,Home
 diets,Diety,Diets
 recipes,Przepisy,Recipes
-trainings,Treningi,Trainings
 community,Społeczność,Community
 board,Tablica,Board
 goals,Cele,Goals
@@ -220,3 +219,14 @@ recipe_name,Nazwa Przepisu,Recipe Name
 visible,Widoczność,Visible
 enter_youtube_id,Wprowadź <id> lub <link> swojego filmu,Enter <id> or <link> your video
 massages,Wiadomości,Massages
+ingredients,Składniki,Ingredients
+notifications,Powiadomienia,Notifications
+workouts,Treningi,Workouts
+new,Nowe,New
+best,Najlepsze,Best
+popular,Popularne,Popular
+meal_type,Typ posiłku,Meal Type
+recipe_details,Szczegóły przepisu,Recipe Details
+ketogenic,Ketogeniczne,Ketogenic
+low_fats,Nisko tłuszczowe,Low fats,
+high_protein,Wysokobiałkowe,High Protein

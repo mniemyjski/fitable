@@ -7,5 +7,7 @@ class Path {
   static String meals() => 'meals';
   static String measurements() => 'measurements';
   static String favorites() => 'favorites';
+  static String ratings() => 'ratings';
+  static String comments() => 'comments';
   static String issues() => 'issues';
 }

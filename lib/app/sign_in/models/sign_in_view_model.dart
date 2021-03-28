@@ -75,11 +75,11 @@ class SignInViewModel with EmailAndPasswordValidators, ChangeNotifier {
   Future<User> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
 
   String get primaryButtonText {
-    return formType == EmailFormType.signIn ? Constants.sign_in.tr() : Constants.create_account.tr();
+    return formType == EmailFormType.signIn ? Constants.sign_in() : Constants.create_account();
   }
 
   String get secondaryButtonText {
-    return formType == EmailFormType.signIn ? Constants.need_register.tr() : Constants.have_account_sign_in.tr();
+    return formType == EmailFormType.signIn ? Constants.need_register() : Constants.have_account_sign_in();
   }
 
   bool get canSubmit {

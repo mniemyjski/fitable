@@ -23,7 +23,7 @@ class _State extends State<MainDrawer> {
           _createHeader(context),
           _createDrawerItem(
             icon: Icons.home,
-            text: Constants.home.tr(),
+            text: Constants.home(),
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
             },
@@ -31,21 +31,21 @@ class _State extends State<MainDrawer> {
           Divider(),
           _createDrawerItem(
               icon: FontAwesomeIcons.utensils,
-              text: Constants.diets.tr(),
+              text: Constants.diets(),
               inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: Icons.fastfood,
-              text: Constants.recipes.tr(),
-              inactive: true,
+              text: Constants.recipes(),
+              // inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: FontAwesomeIcons.dumbbell,
-              text: Constants.workouts.tr(),
+              text: Constants.workouts(),
               inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.workoutsScreen, (_) => false);
@@ -53,7 +53,7 @@ class _State extends State<MainDrawer> {
           Divider(),
           _createDrawerItem(
               icon: FontAwesomeIcons.users,
-              text: Constants.community.tr(),
+              text: Constants.community(),
               inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
@@ -67,35 +67,35 @@ class _State extends State<MainDrawer> {
           //     }),
           _createDrawerItem(
               icon: Icons.dashboard,
-              text: Constants.board.tr(),
+              text: Constants.board(),
               inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.board, (_) => false);
               }),
           Divider(),
           _createDrawerItem(
               icon: Icons.stars,
-              text: Constants.goals.tr(),
+              text: Constants.goals(),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.goalsScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: FontAwesomeIcons.chartPie,
-              text: Constants.statistics.tr(),
+              text: Constants.statistics(),
               inactive: true,
               onTap: () {
-                // Navigator.pushNamedAndRemoveUntil(context, StatsScreen.route, (_) => false);
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.statistics, (_) => false);
               }),
           Divider(),
           _createDrawerItem(
               icon: Icons.settings,
-              text: Constants.settings.tr(),
+              text: Constants.settings(),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.settingsScreen, (_) => false);
               }),
           _createDrawerItem(
             icon: Icons.exit_to_app,
-            text: Constants.sign_out.tr(),
+            text: Constants.sign_out(),
             onTap: () async {
               final auth = context.read(providerAuthBase);
               try {

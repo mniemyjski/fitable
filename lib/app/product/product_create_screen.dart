@@ -134,7 +134,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         ],
                       )),
                 CustomTextField(
-                    name: Constants.product_name.tr(),
+                    name: Constants.product_name(),
                     initialValue: model.productName,
                     suffix: "",
                     textColor: model.productNameColor,
@@ -142,7 +142,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       model.productName = v;
                     }),
                 CustomDropDownButton(
-                    name: Constants.category_primary.tr(),
+                    name: Constants.category_primary(),
                     value: model.categoryPrimary,
                     list: <String>[
                       'fruits_vegetables_mushrooms',
@@ -159,7 +159,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                     }),
                 if (model.listSecondary.isNotEmpty)
                   CustomDropDownButton(
-                      name: Constants.category_secondary.tr(),
+                      name: Constants.category_secondary(),
                       value: model.categorySecondary,
                       list: model.listSecondary,
                       onChanged: (v) {
@@ -170,7 +170,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                     margin: EdgeInsets.only(left: 5, top: 15),
                     width: double.infinity,
                     child: Text(
-                      Constants.nutritional_values_out_of_100.tr() + ':',
+                      Constants.nutritional_values_out_of_100() + ':',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                 Row(

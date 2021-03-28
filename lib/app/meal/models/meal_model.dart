@@ -58,18 +58,16 @@ class Meal {
       return null;
     }
 
-    Map map = data['product'];
-
     return Meal(
-      uid: data['uid'],
-      dateTime: data['dateTime'].toDate(),
-      dateCreation: data['dateCreation'].toDate(),
-      mealType: toEnum(data['mealType']),
-      id: id,
-      portionSize: data['portionSize'],
-      portionChosen: data['portionChosen'],
-      product: Product.fromMap(map),
-    );
+        uid: data['uid'],
+        dateTime: data['dateTime'].toDate(),
+        dateCreation: data['dateCreation'].toDate(),
+        mealType: toEnum(data['mealType']),
+        id: id,
+        portionSize: data['portionSize'],
+        portionChosen: data['portionChosen'],
+        product: Product.fromMap(data['product']),
+        recipe: Recipe.fromMap(data['recipe']));
   }
 
   static toEnum(String mealType) {

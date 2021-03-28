@@ -42,7 +42,7 @@ class EmailField extends ConsumerWidget {
             TextField(
               controller: emailController,
               focusNode: emailFocusNode,
-              decoration: InputDecoration(labelText: Constants.email.tr()),
+              decoration: InputDecoration(labelText: Constants.email()),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
@@ -53,7 +53,7 @@ class EmailField extends ConsumerWidget {
             TextField(
               controller: passwordController,
               focusNode: passwordFocusNode,
-              decoration: InputDecoration(labelText: Constants.password.tr()),
+              decoration: InputDecoration(labelText: Constants.password()),
               obscureText: true,
               textInputAction: TextInputAction.done,
               onEditingComplete: onPressedSubmit,
@@ -66,7 +66,7 @@ class EmailField extends ConsumerWidget {
               textColor: Colors.white,
               onPressed: onPressedSubmit,
             ),
-            if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text(Constants.forgot_your_password.tr())),
+            if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text(Constants.forgot_your_password())),
             FlatButton(
               onPressed: onPressedRegister,
               child: Text(model.secondaryButtonText),

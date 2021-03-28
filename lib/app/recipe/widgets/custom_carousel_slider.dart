@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/crop_image/crop_image_screen.dart';
+import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
 import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
 import 'package:fitable/app/recipe/widgets/box_video.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
@@ -8,15 +11,24 @@ import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class RecipeCarouselSlider extends ConsumerWidget {
+class CustomCarouselSlider extends ConsumerWidget {
+  final String videoUrl;
+  final List photosUrl;
+  final bool edit;
+
+  CustomCarouselSlider({this.videoUrl = '', this.photosUrl, this.edit = false});
+
   _buttonList(BuildContext context, bool crop, file) {
+    if (!edit) return [Container()];
+
     return [
       CustomIconButton(
         buttonColor: Colors.grey.withOpacity(0.5),
         icon: Icons.upload_rounded,
         onPressed: () async {
-          context.read(providerRecipeCreateViewModel).addImage();
+          context.read(providerCarouselViewModel).addImage();
         },
       ),
       if (crop) SizedBox(width: 25),
@@ -25,7 +37,7 @@ class RecipeCarouselSlider extends ConsumerWidget {
           buttonColor: Colors.grey.withOpacity(0.5),
           icon: Icons.crop,
           onPressed: () async {
-            context.read(providerRecipeCreateViewModel).cropImage(context, file);
+            context.read(providerCarouselViewModel).cropImage(context, file);
           },
         ),
       SizedBox(width: 25),
@@ -33,15 +45,35 @@ class RecipeCarouselSlider extends ConsumerWidget {
         buttonColor: Colors.grey.withOpacity(0.5),
         icon: Icons.delete,
         onPressed: () {
-          context.read(providerRecipeCreateViewModel).removeImage();
+          context.read(providerCarouselViewModel).removeImage();
         },
       ),
     ];
   }
 
-  List<Widget> _imageSliders(BuildContext context, RecipeCreateViewModel model) {
+  List<Widget> _imageSliders(BuildContext context, CarouselViewModel model) {
+    if (!edit) {
+      model.sliderList = [];
+      if (videoUrl.isNotEmpty) {
+        model.sliderList.add(videoUrl);
+      }
+
+      if (photosUrl != null) {
+        model.sliderList.addAll(photosUrl);
+      }
+    }
+
     return model.sliderList.map((item) {
-      if (model.sliderList.indexOf(item) == 0) return BoxVideo();
+      if (model.sliderList.indexOf(item) == 0)
+        return Consumer(builder: (context, watch, child) {
+          return watch(providerPreference).when(
+            data: (pref) => BoxVideo(videoUrl: videoUrl, pref: pref),
+            loading: () => Center(
+              child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+            ),
+            error: (err, stack) => Center(child: Text('Error: $err')),
+          );
+        });
 
       if (model.sliderList.indexOf(item) != 0) {
         File file = File(item);
@@ -51,12 +83,24 @@ class RecipeCarouselSlider extends ConsumerWidget {
           child: Container(
             child: Stack(
               children: <Widget>[
-                Image.file(
-                  file,
-                  width: 1000.0,
-                  height: 1000.0,
-                  fit: BoxFit.fill,
-                ),
+                if (edit && file.path.length > 3)
+                  Image.file(
+                    file,
+                    width: 1000.0,
+                    height: 1000.0,
+                    fit: BoxFit.fill,
+                  ),
+                if (!edit)
+                  CachedNetworkImage(
+                    imageUrl: item,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                      ),
+                    ),
+                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Icon(Icons.account_circle, size: 80),
+                  ),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +131,7 @@ class RecipeCarouselSlider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
-    final model = watch(providerRecipeCreateViewModel);
+    final model = watch(providerCarouselViewModel);
 
     return Column(
       children: [

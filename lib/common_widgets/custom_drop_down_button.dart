@@ -49,7 +49,7 @@ class CustomDropDownButton extends StatelessWidget {
                       Container(
                           margin: EdgeInsets.only(left: 6),
                           child: Text(
-                            descFunc(value).toString().tr(),
+                            descFunc(value).toString(),
                             style: TextStyle(fontSize: 10),
                           )),
                   ],

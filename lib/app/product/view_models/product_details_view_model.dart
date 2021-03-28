@@ -27,12 +27,16 @@ class ProductDetailsViewModel extends ChangeNotifier {
   Map _portions;
   List _keyWords;
   bool _isFavorite;
+  bool _createScreen = true;
+  bool get createScreen => _createScreen;
 
   bool get isFavorite => _isFavorite;
   String get id => _id;
 
   build(Product product, Ingredient ingredient, List<Favorite> favorites) {
     double multiplier;
+
+    _createScreen = true;
 
     if (product != null) {
       _id = product.id;
@@ -73,14 +77,12 @@ class ProductDetailsViewModel extends ChangeNotifier {
         _isFavorite = true;
       }
     });
+
+    _createScreen = false;
   }
 
   submit({@required BuildContext context, Product product}) {
-    final model = context.read(providerProductDetailsViewModel);
-
-    printError(product.name.toString());
-
-    Ingredient result = Ingredient(portionSize: model.portionSize, portionChosen: model.portionChosen, product: product);
+    Ingredient result = Ingredient(portionSize: _portionSize, portionChosen: _portionChosen, product: product);
     Navigator.pop(context, result);
   }
 

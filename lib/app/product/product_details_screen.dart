@@ -47,6 +47,13 @@ class ProductDetailsScreen extends StatelessWidget {
       final model = watch(providerProductDetailsViewModel);
       watch(providerFavorite).whenData((favorites) => model.build(args.product, args.ingredient, favorites));
 
+      if (model.createScreen)
+        return Scaffold(
+          body: Center(
+            child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+          ),
+        );
+
       return CustomScaffold(
         appBar: AppBar(
           actions: [

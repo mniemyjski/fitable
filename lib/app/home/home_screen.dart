@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(Constants.home.tr()),
+      appBar: buildMainAppBar(context, Constants.home()),
       drawer: MainDrawer(),
       body: Column(children: [
         Container(

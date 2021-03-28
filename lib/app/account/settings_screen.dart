@@ -21,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(Constants.settings.tr()),
+      appBar: buildMainAppBar(context, Constants.settings()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, watch, child) {
@@ -32,21 +32,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
             data: (pref) => Column(
               children: <Widget>[
                 CustomDropDownButton(
-                    name: Constants.localeApp.tr(),
+                    name: Constants.localeApp(),
                     value: pref.localeApp,
                     list: <String>['pl_PL', 'en_US'],
                     onChanged: (String state) {
                       setState(() {
                         context.locale = Locale(state.substring(0, state.indexOf('_')), state.substring(state.indexOf('_') + 1, state.length));
-                        db.updatePreference(name: Constants.localeApp, value: state);
+                        db.updatePreference(name: 'localeApp', value: state);
                       });
                     }),
                 CustomDropDownButton(
-                    name: Constants.localeBase.tr(),
+                    name: Constants.localeBase(),
                     value: pref.localeBase,
                     list: <String>['pl_PL'],
                     onChanged: (state) {
-                      db.updatePreference(name: Constants.localeBase, value: state);
+                      db.updatePreference(name: 'localeBase', value: state);
                     }),
                 Container(
                   child: Row(
@@ -55,9 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           value: pref.healthSync,
                           onChanged: (state) {
                             if (state) authorizationHealth();
-                            db.updatePreference(name: Constants.healthSync, value: state);
+                            db.updatePreference(name: 'healthSync', value: state);
                           }),
-                      Text(Constants.healthSync.tr()),
+                      Text(Constants.healthSync()),
                     ],
                   ),
                 ),
@@ -67,9 +67,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.autoPlay,
                           onChanged: (state) {
-                            db.updatePreference(name: Constants.autoPlay, value: state);
+                            db.updatePreference(name: 'autoPlay', value: state);
                           }),
-                      Text(Constants.autoPlay.tr()),
+                      Text(Constants.autoPlay()),
                     ],
                   ),
                 ),
@@ -79,9 +79,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.mute,
                           onChanged: (state) {
-                            db.updatePreference(name: Constants.mute, value: state);
+                            db.updatePreference(name: 'mute', value: state);
                           }),
-                      Text(Constants.mute.tr()),
+                      Text(Constants.mute()),
                     ],
                   ),
                 ),
@@ -95,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               // data.darkModeOn(state);
                             });
                           }),
-                      Text(Constants.dark_mode.tr()),
+                      Text(Constants.dark_mode()),
                     ],
                   ),
                 ),

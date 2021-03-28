@@ -17,7 +17,7 @@ class CustomListView extends StatelessWidget {
       {Key key,
       @required this.list,
       this.type,
-      this.direction = DismissDirection.startToEnd,
+      this.direction = DismissDirection.horizontal,
       this.onPressed,
       this.onDismissed,
       this.scrollDirection = Axis.vertical})
@@ -34,7 +34,7 @@ class CustomListView extends StatelessWidget {
       case EnumTileType.meal:
         return TileProduct(meal: element);
       case EnumTileType.imageRecipe:
-        return TileImageRecipe();
+        return TileImageRecipe(recipe: element);
       case EnumTileType.measurement:
         return TileMeasurement(measurement: element);
       default:
@@ -77,11 +77,20 @@ class CustomListView extends StatelessWidget {
                 height: double.infinity,
                 child: Container(
                     height: double.infinity,
-                    alignment: Alignment.centerLeft,
+                    // alignment: Alignment.centerLeft,
                     color: Colors.red[600],
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(Icons.delete, color: Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Icon(Icons.delete, color: Colors.white),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 15),
+                          child: Icon(Icons.delete, color: Colors.white),
+                        ),
+                      ],
                     )),
               ),
               child: child,

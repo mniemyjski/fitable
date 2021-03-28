@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/product/product_create_screen.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
@@ -21,25 +22,24 @@ class SearchViewModel extends ChangeNotifier {
   int selectedIndex;
   List<Widget> list = [];
 
-  productDetails(BuildContext context, dynamic element) async {
-    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
-    selectedIndex = controller.index = 0;
+  productDetails(BuildContext context, Product element) async {
+    // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
           product: element,
         ));
 
-    Navigator.pop(context, result);
+    if (result != null) Navigator.pop(context, result);
   }
 
   recipeDetails(BuildContext context, Recipe element) async {
-    selectedIndex = controller.index = 0;
+    // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
         arguments: RecipeDetailsScreenArguments(
           recipe: element,
         ));
 
-    Navigator.pop(context, result);
+    if (result != null) Navigator.pop(context, result);
   }
 
   bool mobilePlatform() {

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 class Recipe {
   final String uid;
@@ -19,29 +19,32 @@ class Recipe {
   final Map portions;
   final bool verification;
   final double ratingsAvg;
+  final int ratingsCount;
   final int favoritesCount;
   final int commentsCount;
+  final DateTime dateCreation;
 
-  Recipe({
-    this.uid,
-    @required this.localeBase,
-    @required this.authorName,
-    @required this.name,
-    this.id,
-    @required this.keyWords,
-    @required this.description,
-    @required this.videoUrl,
-    @required this.photosUrl,
-    @required this.access,
-    @required this.ingredients,
-    @required this.portions,
-    @required this.unit,
-    @required this.timePreparation,
-    @required this.verification,
-    this.ratingsAvg,
-    this.favoritesCount,
-    this.commentsCount,
-  });
+  Recipe(
+      {this.uid,
+      @required this.localeBase,
+      @required this.authorName,
+      @required this.name,
+      this.id,
+      @required this.keyWords,
+      @required this.description,
+      @required this.videoUrl,
+      @required this.photosUrl,
+      @required this.access,
+      @required this.ingredients,
+      @required this.portions,
+      @required this.unit,
+      @required this.timePreparation,
+      @required this.verification,
+      this.ratingsAvg,
+      this.ratingsCount,
+      this.favoritesCount,
+      this.commentsCount,
+      this.dateCreation});
 
   Map<String, dynamic> toMap({String uid, String id}) {
     List _ingredients = [];
@@ -65,9 +68,11 @@ class Recipe {
       'unit': unit,
       'timePreparation': timePreparation.inMinutes,
       'verification': verification,
-      'ratingsAvg': ratingsAvg,
-      'favoritesCount': favoritesCount,
-      'commentsCount': commentsCount,
+      'ratingsAvg': ratingsAvg ?? 0.0,
+      'ratingsCount': ratingsCount ?? 0,
+      'favoritesCount': favoritesCount ?? 0,
+      'commentsCount': commentsCount ?? 0,
+      'dateCreation': DateTime.now(),
     };
   }
 
@@ -96,10 +101,12 @@ class Recipe {
       unit: data['unit'],
       timePreparation: Duration(minutes: data['timePreparation']),
       verification: data['verification'],
-      // ratingsAvg: data['ratingsAvg'],
-      // favoritesCount: data['favoritesCount'],
-      // commentsCount: data['commentsCount'],
+      ratingsAvg: data['ratingsAvg'].toDouble(),
+      ratingsCount: data['ratingsCount'],
+      favoritesCount: data['favoritesCount'],
+      commentsCount: data['commentsCount'],
       ingredients: ingredients,
+      dateCreation: data['dateCreation'].toDate(),
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
 import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
-import 'package:fitable/app/recipe/widgets/recipe_carousel_slider.dart';
+import 'package:fitable/app/recipe/widgets/custom_carousel_slider.dart';
 import 'package:fitable/app/recipe/widgets/box_video.dart';
 import 'package:fitable/app/recipe/widgets/tile_head_ingredients.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
@@ -22,23 +23,6 @@ class RecipeCreateScreen extends StatefulWidget {
 }
 
 class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
-  @override
-  void initState() {
-    final model = context.read(providerRecipeCreateViewModel);
-    final pref = context.read(providerPreference).data.value;
-    // model.mute = pref.mute;
-
-    model.controller = YoutubePlayerController(
-      initialVideoId: '',
-      params: YoutubePlayerParams(
-        showControls: true,
-        showFullscreenButton: true,
-        mute: model.mute,
-      ),
-    );
-    super.initState();
-  }
-
   _buildTimer() {
     showDialog(
         context: context,
@@ -96,14 +80,14 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
 
           return Column(
             children: [
-              RecipeCarouselSlider(),
+              CustomCarouselSlider(edit: true),
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(
                   name: 'youtube'.tr(),
                   hintText: 'enter_youtube_id'.tr(),
                   onChanged: (v) {
-                    context.read(providerRecipeCreateViewModel).videoId = v;
+                    context.read(providerCarouselViewModel).videoId = v;
                   },
                 ),
               ),
