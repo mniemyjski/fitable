@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Product {
   final String id;
   final String barcode;
+  final bool withBarcode;
   final String name;
   final String categoryPrimary;
   final String categorySecondary;
@@ -24,6 +25,7 @@ class Product {
   Product(
       {this.id,
       @required this.barcode,
+      this.withBarcode,
       @required this.name,
       @required this.categoryPrimary,
       @required this.categorySecondary,
@@ -78,6 +80,7 @@ class Product {
     return {
       'id': id ?? this.id,
       'barcode': barcode,
+      'withBarcode': barcode != null ? true : false,
       'name': name,
       'categoryPrimary': categoryPrimary,
       'categorySecondary': categorySecondary,

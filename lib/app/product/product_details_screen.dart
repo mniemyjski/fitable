@@ -18,16 +18,28 @@ import 'package:easy_localization/easy_localization.dart';
 class ProductDetailsScreenArguments {
   final Product product;
   final Ingredient ingredient;
+  final bool edit;
+  final bool isMeal;
 
-  ProductDetailsScreenArguments({this.product, this.ingredient});
+  ProductDetailsScreenArguments({this.product, this.ingredient, this.edit = true, this.isMeal = false});
 }
 
-Icon _buildIcon(BuildContext context) {
+_buildFloatingActionButton(BuildContext context) {
   final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
+  Product _product = args?.product ?? args.ingredient.product;
+
+  if (!args.edit) return null;
+
   if (args.ingredient != null) {
-    return Icon(Icons.edit, color: Colors.white);
+    return FloatingActionButton(
+      onPressed: () => context.read(providerProductDetailsViewModel).submit(context: context, product: _product),
+      child: Icon(Icons.edit, color: Colors.white),
+    );
   } else {
-    return Icon(Icons.add, color: Colors.white);
+    return FloatingActionButton(
+      onPressed: () => context.read(providerProductDetailsViewModel).submit(context: context, product: _product),
+      child: Icon(Icons.add, color: Colors.white),
+    );
   }
 }
 
@@ -91,6 +103,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   Container(
                     width: 150,
                     child: CustomTextField(
+                      enabled: args.edit,
                       keyboardType: TextInputType.number,
                       hintText: args?.ingredient?.portionSize?.toString() ?? '100',
                       onChanged: (v) {
@@ -101,6 +114,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   Expanded(
                       child: CustomDropDownButton(
                           name: '',
+                          enabled: args.edit,
                           value: model.portionChosen,
                           list: model.portions.keys.toList(),
                           onChanged: (v) {
@@ -136,10 +150,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => model.submit(context: context, product: _product),
-          child: _buildIcon(context),
-        ),
+        floatingActionButton: _buildFloatingActionButton(context),
       );
     });
   }

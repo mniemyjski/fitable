@@ -107,4 +107,6 @@ class Constants {
   static String ketogenic() => "ketogenic".tr();
   static String low_fats() => "low_fats".tr();
   static String high_protein() => "high_protein".tr();
+
+  static String search_term_must_be_longer() => "search_term_must_be_longer".tr();
 }

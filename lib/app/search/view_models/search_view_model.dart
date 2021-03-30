@@ -21,6 +21,50 @@ class SearchViewModel extends ChangeNotifier {
   TabController controller;
   int selectedIndex;
   List<Widget> list = [];
+  bool _verification = false;
+
+  bool get verification => _verification;
+
+  set verification(bool verification) {
+    _verification = verification;
+    notifyListeners();
+  }
+
+  bool _withBarcode = true;
+
+  bool get withBarcode => _withBarcode;
+
+  set withBarcode(bool withBarcode) {
+    _withBarcode = withBarcode;
+    notifyListeners();
+  }
+
+  bool _recipes = false;
+
+  bool get recipes => _recipes;
+
+  set recipes(bool recipes) {
+    _recipes = recipes;
+    notifyListeners();
+  }
+
+  bool _trainings = false;
+
+  bool get trainings => _trainings;
+
+  set trainings(bool trainings) {
+    _trainings = trainings;
+    notifyListeners();
+  }
+
+  bool _coach = false;
+
+  bool get coach => _coach;
+
+  set coach(bool coach) {
+    _coach = coach;
+    notifyListeners();
+  }
 
   productDetails(BuildContext context, Product element) async {
     // selectedIndex = controller.index = 0;

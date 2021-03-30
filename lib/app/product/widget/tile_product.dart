@@ -5,6 +5,8 @@ import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+enum getV { name, size, calories, proteins, carbs, fats }
+
 class TileProduct extends StatelessWidget {
   final Product product;
   final Ingredient ingredient;
@@ -13,8 +15,7 @@ class TileProduct extends StatelessWidget {
 
   const TileProduct({Key key, this.product, this.ingredient, this.meal, this.recipe}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  String _getValue(getV v) {
     String _name;
     String _size;
     String _calories;
@@ -84,6 +85,32 @@ class TileProduct extends StatelessWidget {
       _fats = _f.toStringAsFixed(1);
     }
 
+    switch (v) {
+      case getV.name:
+        return _name;
+        break;
+      case getV.size:
+        return _size;
+        break;
+      case getV.calories:
+        return 'kcal'.tr() + ': $_calories';
+        break;
+      case getV.proteins:
+        return 'p'.tr() + ': $_proteins g';
+        break;
+      case getV.carbs:
+        return 'c'.tr() + ': $_carbs g';
+        break;
+      case getV.fats:
+        return 'f'.tr() + ': $_fats g';
+        break;
+      default:
+        return "";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Expanded(
@@ -98,33 +125,33 @@ class TileProduct extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(bottom: 0),
                         width: double.infinity,
-                        child: Text(_name,
+                        child: Text(_getValue(getV.name),
                             style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
                       ),
                       Container(
                           margin: EdgeInsets.only(bottom: 0),
                           width: double.infinity,
-                          child: Text(_size,
+                          child: Text(_getValue(getV.size),
                               style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic))),
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                         Expanded(
                           flex: 1,
-                          child: Text('kcal'.tr() + ': $_calories',
+                          child: Text(_getValue(getV.calories),
                               style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text('p'.tr() + ': $_proteins g',
+                          child: Text(_getValue(getV.proteins),
                               style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text('c'.tr() + ': $_carbs g',
+                          child: Text(_getValue(getV.carbs),
                               style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text('f'.tr() + ': $_fats g',
+                          child: Text(_getValue(getV.fats),
                               style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
                         ),
                       ]),

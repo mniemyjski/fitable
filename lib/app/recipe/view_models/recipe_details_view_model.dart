@@ -3,6 +3,8 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
+import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -90,6 +92,14 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   submitFavorite(BuildContext context, String id) {
     Favorite _favorite = Favorite(type: EnumFavorite.recipes, id: id);
     context.read(providerDatabase).updateFavorite(context, _favorite);
+  }
+
+  seeProduct(BuildContext context, Ingredient ingredient) async {
+    Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+        arguments: ProductDetailsScreenArguments(
+          ingredient: ingredient,
+          edit: false,
+        ));
   }
 
   build(Recipe recipe, List<Favorite> favorites) {

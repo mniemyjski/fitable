@@ -8,9 +8,17 @@ class CustomDropDownButton extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final bool description;
   final Function descFunc;
+  final bool enabled;
 
   const CustomDropDownButton(
-      {Key key, @required this.name, @required this.value, @required this.list, @required this.onChanged, this.description = false, this.descFunc})
+      {Key key,
+      @required this.name,
+      @required this.value,
+      @required this.list,
+      @required this.onChanged,
+      this.description = false,
+      this.descFunc,
+      this.enabled = true})
       : super(key: key);
 
   @override
@@ -24,38 +32,41 @@ class CustomDropDownButton extends StatelessWidget {
             width: double.infinity,
             child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
           ),
-          DropdownButton<String>(
-            isDense: !description,
-            isExpanded: true,
-            value: value,
-            hint: Text(''),
-            underline: Container(
-              color: Colors.transparent,
-            ),
-            onChanged: onChanged,
-            items: list.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 6),
-                        child: Text(
-                          value.tr(),
-                          style: TextStyle(fontSize: 14),
-                        )),
-                    if (description)
+          IgnorePointer(
+            ignoring: !enabled,
+            child: DropdownButton<String>(
+              isDense: !description,
+              isExpanded: true,
+              value: value,
+              hint: Text(''),
+              underline: Container(
+                color: Colors.transparent,
+              ),
+              onChanged: onChanged,
+              items: list.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Container(
                           margin: EdgeInsets.only(left: 6),
                           child: Text(
-                            descFunc(value).toString(),
-                            style: TextStyle(fontSize: 10),
+                            value.tr(),
+                            style: TextStyle(fontSize: 14),
                           )),
-                  ],
-                ),
-              );
-            }).toList(),
+                      if (description)
+                        Container(
+                            margin: EdgeInsets.only(left: 6),
+                            child: Text(
+                              descFunc(value).toString(),
+                              style: TextStyle(fontSize: 10),
+                            )),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ],
       ),

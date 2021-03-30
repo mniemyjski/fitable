@@ -147,7 +147,10 @@ class RecipeDetailsScreen extends StatelessWidget {
                       CustomListView(
                         list: args.recipe.ingredients,
                         type: EnumTileType.ingredient,
-                        // onPressed: (element) => context.read(providerRecipeCreateViewModel).onPressed(context, element),
+                        onPressed: (ingredient) => context.read(providerRecipeDetailsViewModel).seeProduct(
+                              context,
+                              ingredient,
+                            ),
                       ),
                     ],
                   ),

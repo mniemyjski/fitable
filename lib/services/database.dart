@@ -223,6 +223,12 @@ class Database {
     return ref.set(recipe.toMap(uid: uid, id: ref.id));
   }
 
+  Future<Recipe> getRecipe(String id) => _service
+      .collection(Path.recipes())
+      .where(FieldPath.documentId, isEqualTo: id)
+      .get()
+      .then((value) => value.docs.isNotEmpty ? Recipe.fromMap(value.docs.first.data()) : null);
+
   Stream<List<Recipe>> streamFavoriteRecipes(List<Favorite> list) {
     List<String> _list = [];
 

@@ -55,7 +55,7 @@ dependencies:
 
   youtube_player_iframe: ^1.2.0+2
   carousel_slider: ^3.0.0
-#  flushbar: ^1.10.4
+  another_flushbar: ^1.10.17
   auto_size_text: ^2.1.0
   smooth_star_rating: ^1.1.1
   boardview: ^0.1.2
