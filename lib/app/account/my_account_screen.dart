@@ -36,7 +36,7 @@ class MyAccountScreen extends ConsumerWidget {
     }
 
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.account()),
+      appBar: buildMainAppBar(context, Constants.profile()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
           child: Column(

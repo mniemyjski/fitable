@@ -26,13 +26,13 @@ class CustomListView extends StatelessWidget {
   Widget _buildTile(dynamic element) {
     switch (type) {
       case EnumTileType.product:
-        return TileProduct(product: element);
+        return TileProduct(element);
       case EnumTileType.ingredient:
-        return TileProduct(ingredient: element);
+        return TileProduct(element);
       case EnumTileType.recipe:
-        return TileProduct(recipe: element);
+        return TileProduct(element);
       case EnumTileType.meal:
-        return TileProduct(meal: element);
+        return TileProduct(element);
       case EnumTileType.imageRecipe:
         return TileImageRecipe(recipe: element);
       case EnumTileType.measurement:

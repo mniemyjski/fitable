@@ -2,6 +2,7 @@ import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
+import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
@@ -151,21 +152,16 @@ class GoalsScreen extends ConsumerWidget {
                                         });
                                       },
                                     ),
-                                    Container(
-                                      width: 200,
-                                      height: 45,
-                                      child: RaisedButton(
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-                                          child: Text(
-                                            'save'.tr(),
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                          color: Theme.of(context).primaryColor,
-                                          onPressed: () {
-                                            db.updatePreference(name: 'speedChangeWeight', value: _speedChangeWeight);
-                                            Navigator.pop(context);
-                                          }),
-                                    ),
+                                    CustomButton(
+                                        color: Colors.indigo,
+                                        child: Text(
+                                          'save'.tr(),
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          db.updatePreference(name: 'speedChangeWeight', value: _speedChangeWeight);
+                                          Navigator.pop(context);
+                                        }),
                                   ],
                                 ),
                               ),

@@ -2,7 +2,6 @@ import 'package:algolia/algolia.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/services/application.dart';
@@ -10,7 +9,6 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/product/models/product_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DataSearch extends SearchDelegate {
@@ -40,10 +38,11 @@ class DataSearch extends SearchDelegate {
                   context.read(providerSearchViewModel).recipes = state;
 
                   if (model.recipes) {
-                    _massage(context, 'search_recipes'.tr());
+                    _massage(context, Constants.search_recipes());
                   } else {
-                    _massage(context, 'search_products'.tr());
+                    _massage(context, Constants.search_products());
                   }
+                  query = "";
                 }),
             FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
             Switch(
@@ -52,8 +51,9 @@ class DataSearch extends SearchDelegate {
                   context.read(providerSearchViewModel).withBarcode = state;
 
                   if (model.withBarcode) {
-                    _massage(context, 'search_product_only_with_barcode'.tr());
+                    _massage(context, Constants.search_product_only_with_barcode());
                   }
+                  query = "";
                 }),
             Icon(Icons.verified_user, color: Colors.lightBlue[800]),
             Switch(
@@ -62,8 +62,9 @@ class DataSearch extends SearchDelegate {
                   context.read(providerSearchViewModel).verification = state;
 
                   if (model.verification) {
-                    _massage(context, 'search_verification_product_only'.tr());
+                    _massage(context, Constants.search_verification_product_only());
                   }
+                  query = "";
                 }),
           ],
         ),
@@ -182,7 +183,7 @@ class DataSearch extends SearchDelegate {
                                           },
                                           child: Container(
                                             margin: EdgeInsets.only(left: 5, right: 5),
-                                            child: TileProduct(product: snap.data),
+                                            child: TileProduct(snap.data),
                                           ));
                                     } else if (snap.hasError) {
                                       return Text('error'.tr() + ': ${snap.error}');

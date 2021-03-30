@@ -94,8 +94,6 @@ class Constants {
 
   static String massages() => "massages".tr();
   static String notifications() => "notifications".tr();
-  static String account() => "account".tr();
-  static String accounts() => "accounts".tr();
 
   static String last() => "new".tr();
   static String best() => "best".tr();
@@ -109,4 +107,12 @@ class Constants {
   static String high_protein() => "high_protein".tr();
 
   static String search_term_must_be_longer() => "search_term_must_be_longer".tr();
+
+  static String search_recipes() => "search_recipes".tr();
+  static String search_products() => "search_products".tr();
+  static String search_product_only_with_barcode() => "search_product_only_with_barcode".tr();
+  static String search_verification_product_only() => "search_verification_product_only".tr();
+  static String profile() => "profile".tr();
+// static String account() => "account".tr();
+// static String accounts() => "accounts".tr();
 }

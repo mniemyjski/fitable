@@ -133,12 +133,23 @@ class SearchViewModel extends ChangeNotifier {
     var value = await showSearch(context: context, delegate: DataSearch());
 
     if (value != null) {
-      var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
-          arguments: ProductDetailsScreenArguments(
-            product: value,
-          ));
+      if (value.runtimeType == Product) {
+        var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
+            arguments: ProductDetailsScreenArguments(
+              product: value,
+            ));
 
-      Navigator.pop(context, result);
+        Navigator.pop(context, result);
+      }
+
+      if (value.runtimeType == Recipe) {
+        var result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
+            arguments: RecipeDetailsScreenArguments(
+              recipe: value,
+            ));
+
+        Navigator.pop(context, result);
+      }
     }
   }
 }
