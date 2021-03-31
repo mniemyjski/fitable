@@ -113,6 +113,10 @@ class Constants {
   static String search_product_only_with_barcode() => "search_product_only_with_barcode".tr();
   static String search_verification_product_only() => "search_verification_product_only".tr();
   static String profile() => "profile".tr();
+
+  static String products() => "products".tr();
+  static String your_recipes() => "your_recipes".tr();
+  static String see_everything() => "see_everything".tr();
 // static String account() => "account".tr();
 // static String accounts() => "accounts".tr();
 }

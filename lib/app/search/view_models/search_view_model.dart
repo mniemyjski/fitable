@@ -1,4 +1,6 @@
+import 'package:algolia/algolia.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/product/product_create_screen.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
@@ -6,7 +8,9 @@ import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/app/search/widgets/data_search.dart';
+import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/application.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +25,10 @@ class SearchViewModel extends ChangeNotifier {
   TabController controller;
   int selectedIndex;
   List<Widget> list = [];
+  Algolia algolia = Application.algolia;
+  AlgoliaQuery _searchQuery;
+  SearchType searchType;
+
   bool _verification = false;
 
   bool get verification => _verification;
@@ -66,6 +74,28 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<AlgoliaQuerySnapshot> searchQuery(BuildContext context, String query) async {
+    await context.read(providerPreference.last).then((preference) {
+      if (recipes) {
+        _searchQuery = algolia.instance.index('recipes').search(query);
+        _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:true');
+      } else {
+        _searchQuery = algolia.instance.index('products').search(query);
+        if (verification && !withBarcode) {
+          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:${verification.toString()}');
+        } else if (withBarcode && !verification) {
+          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()}');
+        } else if (withBarcode && verification) {
+          _searchQuery = _searchQuery.setFilters(
+              'localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()} AND verification:${verification.toString()}');
+        } else {
+          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase}');
+        }
+      }
+    });
+    return await _searchQuery.getObjects();
+  }
+
   productDetails(BuildContext context, Product element) async {
     // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
@@ -100,7 +130,7 @@ class SearchViewModel extends ChangeNotifier {
     selectedIndex = controller.index = 0;
     if (result != '-1') {
       final db = context.read(providerDatabase);
-      Product product = await db.getProduct(result);
+      Product product = await db.getProduct(barcode: result);
 
       if (product != null) {
         var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
@@ -112,7 +142,6 @@ class SearchViewModel extends ChangeNotifier {
         Navigator.of(context).pushNamed(AppRoute.createProductScreen,
             arguments: ProductCreateScreenArguments(
               barcode: result,
-              mealType: args.mealType,
             ));
       }
     }

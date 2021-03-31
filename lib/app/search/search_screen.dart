@@ -6,23 +6,19 @@ import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/database.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
-
-enum SearchType { onlyProducts, allFoods, trainings, users }
 
 class SearchScreenArguments {
-  final SearchType typeSearch;
-  final MealType mealType;
+  final SearchType searchType;
 
-  SearchScreenArguments({@required this.typeSearch, this.mealType});
+  SearchScreenArguments({@required this.searchType});
 }
 
 class SearchScreen extends StatefulWidget {
@@ -31,37 +27,24 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMixin {
-  _buildFloatingActionButton() {
-    final model = context.read(providerSearchViewModel);
-
-    if (model.selectedIndex == 2) {
-      return FloatingActionButton(
-        onPressed: () {
-          model.selectedIndex = model.controller.index = 0;
-          return Navigator.pushNamed(context, AppRoute.recipeCreateScreen);
-        },
-        child: Icon(Icons.add, color: Colors.white),
-      );
-    } else {
-      return null;
-    }
-  }
-
   @override
   void didChangeDependencies() {
     final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
     final model = context.read(providerSearchViewModel);
-    switch (args.typeSearch) {
+
+    model.searchType = args.searchType;
+
+    switch (args.searchType) {
       case SearchType.onlyProducts:
         model.list = [
-          Tab(text: 'products'.tr()),
+          Tab(text: Constants.products()),
         ];
         break;
       case SearchType.allFoods:
         model.list = [
-          Tab(text: 'products'.tr()),
-          Tab(text: 'recipes'.tr()),
-          Tab(text: 'your_recipes'.tr()),
+          Tab(text: Constants.products()),
+          Tab(text: Constants.recipes()),
+          Tab(text: Constants.your_recipes()),
         ];
         break;
       case SearchType.trainings:
@@ -81,11 +64,25 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
     super.didChangeDependencies();
   }
 
-  _buildTabBarView(Database db, List<Favorite> favoritesProduct, List<Favorite> favoritesRecipe, SearchViewModel model) {
-    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
+  _buildFloatingActionButton() {
+    final model = context.read(providerSearchViewModel);
 
+    if (model.selectedIndex == 2) {
+      return FloatingActionButton(
+        onPressed: () {
+          model.selectedIndex = model.controller.index = 0;
+          return Navigator.pushNamed(context, AppRoute.recipeCreateScreen);
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  _buildTabBarView(Database db, List<Favorite> favoritesProduct, List<Favorite> favoritesRecipe, SearchViewModel model) {
     return [
-      if (args.typeSearch == SearchType.onlyProducts || args.typeSearch == SearchType.allFoods)
+      if (model.searchType == SearchType.onlyProducts || model.searchType == SearchType.allFoods)
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<List<Product>>(
@@ -102,7 +99,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                 return Container();
               }),
         ),
-      if (args.typeSearch == SearchType.allFoods)
+      if (model.searchType == SearchType.allFoods)
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<List<Recipe>>(
@@ -121,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                 return Container(child: Center(child: Text('Empty')));
               }),
         ),
-      if (args.typeSearch == SearchType.allFoods)
+      if (model.searchType == SearchType.allFoods)
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<List<Recipe>>(

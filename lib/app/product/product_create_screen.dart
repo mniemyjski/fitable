@@ -17,12 +17,10 @@ import 'package:easy_localization/easy_localization.dart';
 class ProductCreateScreenArguments {
   final String barcode;
   final Product product;
-  final MealType mealType;
 
   ProductCreateScreenArguments({
     this.barcode,
     this.product,
-    this.mealType,
   });
 }
 

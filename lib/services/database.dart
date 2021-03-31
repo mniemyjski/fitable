@@ -16,7 +16,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:logger/logger.dart';
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -66,9 +65,9 @@ class Database {
     return ref.set(product.toMap(id: ref.id));
   }
 
-  Future<Product> getProduct(String barcode) => _service
+  Future<Product> getProduct({String barcode, String id}) => _service
       .collection(Path.products())
-      .where("barcode", isEqualTo: barcode)
+      .where(barcode != null ? "barcode" : FieldPath.documentId, isEqualTo: barcode != null ? barcode : id)
       .get()
       .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : null);
 

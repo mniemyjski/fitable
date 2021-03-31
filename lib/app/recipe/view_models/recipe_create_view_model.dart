@@ -6,6 +6,7 @@ import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -196,7 +197,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
   }
 
   onSearch(BuildContext context) async {
-    var result = await Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(typeSearch: SearchType.onlyProducts));
+    var result = await Navigator.of(context).pushNamed(AppRoute.searchScreen, arguments: SearchScreenArguments(searchType: SearchType.onlyProducts));
     if (result != null) ingredients.add(result);
     _calc();
   }

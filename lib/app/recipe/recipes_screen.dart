@@ -12,12 +12,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RecipesScreen extends StatelessWidget {
   _buildHeading(String text) {
-    return Container(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8, top: 8),
-        child: Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
+    return Column(
+      children: [
+        Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8, top: 8),
+                child: Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8, top: 8),
+              child: Text(Constants.see_everything(), style: TextStyle(color: Colors.blueAccent, fontStyle: FontStyle.italic, fontSize: 14)),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -32,7 +45,7 @@ class RecipesScreen extends StatelessWidget {
 
           return Column(
             children: [
-              _buildHeading(Constants.last() + ":"),
+              _buildHeading(Constants.last()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -54,7 +67,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.best() + ":"),
+              _buildHeading(Constants.best()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -76,7 +89,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.popular() + ":"),
+              _buildHeading(Constants.popular()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -98,7 +111,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.ketogenic() + ":"),
+              _buildHeading(Constants.ketogenic()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -120,7 +133,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.high_protein() + ":"),
+              _buildHeading(Constants.high_protein()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -142,7 +155,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.low_fats() + ":"),
+              _buildHeading(Constants.low_fats()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),

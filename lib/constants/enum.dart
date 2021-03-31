@@ -1,2 +1,3 @@
 enum SortType { last, best, popular }
-enum connStatus { loading, success, signInScreen, createAccount }
+enum ConnStatus { loading, success, signInScreen, createAccount }
+enum SearchType { onlyProducts, allFoods, trainings, users }

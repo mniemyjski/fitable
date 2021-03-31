@@ -228,10 +228,11 @@ popular,Popularne,Popular
 meal_type,Typ posiłku,Meal Type
 recipe_details,Szczegóły przepisu,Recipe Details
 ketogenic,Ketogeniczne,Ketogenic
-low_fats,Nisko tłuszczowe,Low fats,
+low_fats,Niskotłuszczowe,Low fats,
 high_protein,Wysokobiałkowe,High Protein
 search_recipes,Szukaj tylko przepisów,Search recipes
 search_products,Szukaj tylko produktów,Search products
 search_product_only_with_barcode,Szukaj tylko produktów z kodem kreskowym,
 search_verification_product_only,Szukaj tylko zweryfikowanych produktów,Search verification products only
 profile,Profil,Profile
+see_everything,Zobacz wszystko,See Everything

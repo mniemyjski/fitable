@@ -1,10 +1,9 @@
 import 'package:algolia/algolia.dart';
 import 'package:another_flushbar/flushbar.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/services/application.dart';
+import 'package:fitable/constants/enum.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,28 @@ class DataSearch extends SearchDelegate {
       message: txt,
       duration: Duration(seconds: 2),
     )..show(context);
+    query = "";
+  }
+
+  _searchProductOrRecipe(BuildContext context, bool state, SearchViewModel model) {
+    context.read(providerSearchViewModel).recipes = state;
+
+    if (model.recipes) {
+      _massage(context, Constants.search_recipes());
+    } else {
+      _massage(context, Constants.search_products());
+    }
+    query = "";
+  }
+
+  void _verification(BuildContext context, bool state, SearchViewModel model) {
+    context.read(providerSearchViewModel).verification = state;
+    if (model.verification) _massage(context, Constants.search_verification_product_only());
+  }
+
+  void _withBarcode(BuildContext context, bool state, SearchViewModel model) {
+    context.read(providerSearchViewModel).withBarcode = state;
+    if (model.withBarcode) _massage(context, Constants.search_product_only_with_barcode());
   }
 
   _sliderMenu(BuildContext context) {
@@ -31,41 +52,14 @@ class DataSearch extends SearchDelegate {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Icon(Icons.fastfood, color: Colors.lightBlue[800]),
-            Switch(
-                value: model.recipes,
-                onChanged: (state) {
-                  context.read(providerSearchViewModel).recipes = state;
-
-                  if (model.recipes) {
-                    _massage(context, Constants.search_recipes());
-                  } else {
-                    _massage(context, Constants.search_products());
-                  }
-                  query = "";
-                }),
+            if (model.searchType == SearchType.allFoods) ...[
+              Icon(Icons.fastfood, color: Colors.lightBlue[800]),
+              Switch(value: model.recipes, onChanged: (state) => _searchProductOrRecipe(context, state, model)),
+            ],
             FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
-            Switch(
-                value: model.withBarcode,
-                onChanged: (state) {
-                  context.read(providerSearchViewModel).withBarcode = state;
-
-                  if (model.withBarcode) {
-                    _massage(context, Constants.search_product_only_with_barcode());
-                  }
-                  query = "";
-                }),
+            Switch(value: model.withBarcode, onChanged: (state) => _withBarcode(context, state, model)),
             Icon(Icons.verified_user, color: Colors.lightBlue[800]),
-            Switch(
-                value: model.verification,
-                onChanged: (state) {
-                  context.read(providerSearchViewModel).verification = state;
-
-                  if (model.verification) {
-                    _massage(context, Constants.search_verification_product_only());
-                  }
-                  query = "";
-                }),
+            Switch(value: model.verification, onChanged: (state) => _verification(context, state, model)),
           ],
         ),
       );
@@ -73,30 +67,7 @@ class DataSearch extends SearchDelegate {
   }
 
   @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            query = "";
-          })
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-        icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-        onPressed: () {
-          close(context, null);
-        });
-  }
-
-  @override
   Widget buildResults(BuildContext context) {
-    Algolia algolia = Application.algolia;
-    AlgoliaQuery searchQuery;
-
     if (query.length < 4) {
       return Column(
         children: [
@@ -117,27 +88,9 @@ class DataSearch extends SearchDelegate {
 
     return Consumer(builder: (context, watch, child) {
       final model = watch(providerSearchViewModel);
-      final preference = watch(providerPreference).data.value;
-
-      if (model.recipes) {
-        searchQuery = algolia.instance.index('recipes').search(query);
-        searchQuery = searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:true');
-      } else {
-        searchQuery = algolia.instance.index('products').search(query);
-        if (model.verification && !model.withBarcode) {
-          searchQuery = searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:${model.verification.toString()}');
-        } else if (model.withBarcode && !model.verification) {
-          searchQuery = searchQuery.setFilters('localeBase:${preference.localeBase} AND withBarcode:${model.withBarcode.toString()}');
-        } else if (model.withBarcode && model.verification) {
-          searchQuery = searchQuery.setFilters(
-              'localeBase:${preference.localeBase} AND withBarcode:${model.withBarcode.toString()} AND verification:${model.verification.toString()}');
-        } else {
-          searchQuery = searchQuery.setFilters('localeBase:${preference.localeBase}');
-        }
-      }
 
       return FutureBuilder(
-        future: searchQuery.getObjects(),
+        future: model.searchQuery(context, query),
         builder: (BuildContext context, AsyncSnapshot<AlgoliaQuerySnapshot> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -166,7 +119,7 @@ class DataSearch extends SearchDelegate {
                           if (model.recipes) {
                             future = db.getRecipe(result.objectID);
                           } else {
-                            future = db.getProduct(result.data['barcode']);
+                            future = db.getProduct(id: result.objectID);
                           }
 
                           return FutureBuilder(
@@ -202,6 +155,16 @@ class DataSearch extends SearchDelegate {
         },
       );
     });
+  }
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [IconButton(icon: Icon(Icons.clear), onPressed: () => query = "")];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation), onPressed: () => close(context, null));
   }
 
   @override
