@@ -20,9 +20,9 @@ class CustomTabBar extends Container implements PreferredSizeWidget {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).primaryColorDark.withOpacity(0.8),
-                  spreadRadius: 1,
-                  blurRadius: 2,
+                  color: Theme.of(context).primaryColorDark.withOpacity(0.6),
+                  spreadRadius: 0.5,
+                  blurRadius: 1,
                   offset: Offset(0, 1),
                 ),
               ],

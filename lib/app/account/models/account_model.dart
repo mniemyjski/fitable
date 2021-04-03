@@ -14,6 +14,7 @@ class Account {
   final String uid;
   final String name;
   final String email;
+  final String phone;
   final String gender;
   final double height;
   final DateTime dateBirth;
@@ -30,28 +31,30 @@ class Account {
   final String avatarUrl;
   final List photosUrl;
   final String coach;
+  final bool isCoach;
 
-  Account({
-    @required this.uid,
-    @required this.name,
-    @required this.gender,
-    @required this.height,
-    @required this.dateBirth,
-    @required this.accessStats,
-    @required this.accessMeals,
-    @required this.accessMeasurement,
-    @required this.accessDateBirth,
-    @required this.accessHeight,
-    @required this.accessGender,
-    @required this.bio,
-    @required this.youtube,
-    @required this.instagram,
-    @required this.facebook,
-    @required this.email,
-    @required this.avatarUrl,
-    @required this.photosUrl,
-    this.coach,
-  });
+  Account(
+      {@required this.uid,
+      @required this.name,
+      @required this.gender,
+      @required this.height,
+      @required this.dateBirth,
+      @required this.email,
+      this.phone = "",
+      this.accessStats = AccessLevel.private,
+      this.accessMeals = AccessLevel.private,
+      this.accessMeasurement = AccessLevel.private,
+      this.accessDateBirth = AccessLevel.private,
+      this.accessHeight = AccessLevel.private,
+      this.accessGender = AccessLevel.private,
+      this.bio = "",
+      this.youtube = "",
+      this.instagram = "",
+      this.facebook = "",
+      this.avatarUrl = "",
+      @required this.photosUrl,
+      this.coach = "",
+      this.isCoach = false});
 
   Map<String, dynamic> toMap() {
     return {
@@ -71,9 +74,11 @@ class Account {
       'instagram': instagram,
       'facebook': facebook,
       'email': email,
+      'phone': phone,
       'avatarUrl': avatarUrl,
       'photosUrl': photosUrl,
       'coach': coach,
+      'isCoach': isCoach,
     };
   }
 
@@ -99,9 +104,11 @@ class Account {
       instagram: data['instagram'],
       facebook: data['facebook'],
       email: data['email'],
+      phone: data['phone'],
       avatarUrl: data['avatarUrl'],
       photosUrl: data['photosUrl'],
       coach: data['coach'],
+      isCoach: data['isCoach'],
     );
   }
 
@@ -111,13 +118,13 @@ class Account {
         return 'private';
         break;
       case AccessLevel.coach:
-        return 'private';
+        return 'coach';
         break;
       case AccessLevel.friends:
-        return 'private';
+        return 'friends';
         break;
       case AccessLevel.public:
-        return 'private';
+        return 'public';
         break;
     }
   }
@@ -127,14 +134,14 @@ class Account {
       case 'private':
         return AccessLevel.private;
         break;
-      case 'private':
-        return AccessLevel.private;
+      case 'coach':
+        return AccessLevel.coach;
         break;
-      case 'private':
-        return AccessLevel.private;
+      case 'friends':
+        return AccessLevel.friends;
         break;
-      case 'private':
-        return AccessLevel.private;
+      case 'public':
+        return AccessLevel.public;
         break;
     }
   }

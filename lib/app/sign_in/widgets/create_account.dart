@@ -175,12 +175,6 @@ class CreateAccount extends ConsumerWidget {
 
                       Preference b = Preference(
                         uid: auth.data.value.uid,
-                        healthSync: false,
-                        autoPlay: false,
-                        mute: true,
-                        localeApp: 'pl_PL',
-                        localeBase: 'pl_PL',
-                        formulaBMR: 'standard',
                         speedChangeWeight: 0.5,
                         lastBodyWeightValue: model.weight,
                         lastBodyWeightDate: DateTime.now(),
@@ -191,18 +185,6 @@ class CreateAccount extends ConsumerWidget {
                         dayTimeActivities: model.dayTimeActivities,
                         targetWeight: model.targetWeight,
                         targetFat: model.targetFat,
-                        targetSteps: 10000,
-                        targetBurnCalories: 2200,
-                        goalCaloriesDefault: true,
-                        goalMacroDefault: true,
-                        goalCalories: null,
-                        goalProteins: 30.0,
-                        goalCarbs: 50.0,
-                        goalFats: 20.0,
-                        products: [],
-                        recipes: [],
-                        exercises: [],
-                        trainings: [],
                       );
                       db.createPreference(b);
 
@@ -212,19 +194,9 @@ class CreateAccount extends ConsumerWidget {
                         gender: model.gender,
                         height: model.height,
                         dateBirth: model.dateBirth,
-                        accessStats: AccessLevel.private,
-                        accessDateBirth: AccessLevel.private,
-                        accessGender: AccessLevel.private,
-                        accessHeight: AccessLevel.private,
-                        accessMeals: AccessLevel.private,
-                        accessMeasurement: AccessLevel.private,
-                        bio: '',
-                        youtube: '',
-                        photosUrl: [],
-                        email: '',
-                        facebook: '',
-                        instagram: '',
+                        email: auth.data.value.email,
                         avatarUrl: auth.data.value.photoURL,
+                        photosUrl: [],
                       );
                       db.createAccount(a);
                     }),

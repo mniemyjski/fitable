@@ -37,18 +37,18 @@ class _State extends State<MainDrawer> {
               }),
           Divider(),
           _createDrawerItem(
-              icon: FontAwesomeIcons.utensils,
-              text: Constants.diets(),
-              inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
-              }),
-          _createDrawerItem(
               icon: Icons.fastfood,
               text: Constants.recipes(),
               // inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
+              }),
+          _createDrawerItem(
+              icon: FontAwesomeIcons.utensils,
+              text: Constants.diets(),
+              inactive: true,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
               }),
           // _createDrawerItem(
           //     icon: FontAwesomeIcons.dumbbell,

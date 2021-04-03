@@ -126,4 +126,6 @@ class Constants {
   static String delete_account() => "delete_account".tr();
   static String exercises() => "exercises".tr();
   static String workouts() => "workouts".tr();
+  static String error() => "error".tr();
+  static String empty() => "empty".tr();
 }

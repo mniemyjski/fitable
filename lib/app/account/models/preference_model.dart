@@ -35,20 +35,16 @@ class Preference {
   final double goalProteins;
   final double goalCarbs;
   final double goalFats;
-  final List products;
-  final List recipes;
-  final List exercises;
-  final List trainings;
 
   Preference({
     @required this.uid,
-    @required this.healthSync,
-    @required this.autoPlay,
-    @required this.mute,
-    @required this.darkMode,
-    @required this.localeApp,
-    @required this.localeBase,
-    @required this.formulaBMR,
+    this.healthSync = false,
+    this.autoPlay = false,
+    this.mute = false,
+    this.darkMode = false,
+    this.localeApp = 'pl_PL',
+    this.localeBase = 'pl_PL',
+    this.formulaBMR = 'standard',
     @required this.speedChangeWeight,
     @required this.lastBodyWeightValue,
     @required this.lastBodyWeightDate,
@@ -59,18 +55,14 @@ class Preference {
     @required this.dayTimeActivities,
     @required this.targetWeight,
     @required this.targetFat,
-    @required this.targetSteps,
-    @required this.targetBurnCalories,
-    @required this.goalCaloriesDefault,
-    @required this.goalMacroDefault,
-    @required this.goalCalories,
-    @required this.goalProteins,
-    @required this.goalCarbs,
-    @required this.goalFats,
-    @required this.products,
-    @required this.recipes,
-    @required this.exercises,
-    @required this.trainings,
+    this.targetSteps = 10000,
+    this.targetBurnCalories = 2200,
+    this.goalCaloriesDefault = true,
+    this.goalMacroDefault = true,
+    this.goalCalories,
+    this.goalProteins = 30.0,
+    this.goalCarbs = 50.0,
+    this.goalFats = 20.0,
   });
 
   Map<String, dynamic> toMap() {
@@ -101,10 +93,6 @@ class Preference {
       'goalProteins': goalProteins,
       'goalCarbs': goalCarbs,
       'goalFats': goalFats,
-      'products': products,
-      'recipes': recipes,
-      'exercises': exercises,
-      'trainings': trainings,
     };
   }
 
@@ -140,10 +128,6 @@ class Preference {
       goalProteins: data['goalProteins'],
       goalCarbs: data['goalCarbs'],
       goalFats: data['goalFats'],
-      products: data['products'],
-      recipes: data['recipes'],
-      exercises: data['exercises'],
-      trainings: data['trainings'],
     );
   }
 }

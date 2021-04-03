@@ -24,7 +24,7 @@ final providerSearchViewModel = ChangeNotifierProvider.autoDispose<SearchViewMod
 class SearchViewModel extends ChangeNotifier {
   TabController controller;
   int selectedIndex;
-  List<Widget> list = [];
+  List<Widget> tabBar = [];
   Algolia algolia = Application.algolia;
   AlgoliaQuery _searchQuery;
   SearchType searchType;
@@ -76,21 +76,30 @@ class SearchViewModel extends ChangeNotifier {
 
   Future<AlgoliaQuerySnapshot> searchQuery(BuildContext context, String query) async {
     await context.read(providerPreference.last).then((preference) {
-      if (recipes) {
-        _searchQuery = algolia.instance.index('recipes').search(query);
-        _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:true');
-      } else {
-        _searchQuery = algolia.instance.index('products').search(query);
-        if (verification && !withBarcode) {
-          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:${verification.toString()}');
-        } else if (withBarcode && !verification) {
-          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()}');
-        } else if (withBarcode && verification) {
-          _searchQuery = _searchQuery.setFilters(
-              'localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()} AND verification:${verification.toString()}');
+      if (searchType == SearchType.onlyProducts || searchType == SearchType.allFoods) {
+        if (recipes) {
+          _searchQuery = algolia.instance.index('recipes').search(query);
+          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:true');
         } else {
-          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase}');
+          _searchQuery = algolia.instance.index('products').search(query);
+          if (verification && !withBarcode) {
+            _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:${verification.toString()}');
+          } else if (withBarcode && !verification) {
+            _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()}');
+          } else if (withBarcode && verification) {
+            _searchQuery = _searchQuery.setFilters(
+                'localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()} AND verification:${verification.toString()}');
+          } else {
+            _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase}');
+          }
         }
+      }
+      if (searchType == SearchType.workouts) {
+        _searchQuery = algolia.instance.index('workouts').search(query);
+      }
+      if (searchType == SearchType.users) {
+        _searchQuery = algolia.instance.index('users').search(query);
+        if (coach) _searchQuery = _searchQuery.setFilters('coach:true');
       }
     });
     return await _searchQuery.getObjects();

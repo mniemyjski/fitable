@@ -213,7 +213,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Account.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessDateBirth', value: Account.toEnum(value));
+              db.updateAccount(name: 'accessDateBirth', value: value);
             },
           ),
           CustomDropDownButton(
@@ -221,7 +221,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Account.toText(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessHeight', value: Account.toEnum(value));
+              db.updateAccount(name: 'accessHeight', value: value);
             },
           ),
           CustomDropDownButton(
@@ -229,7 +229,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Account.toText(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessGender', value: Account.toEnum(value));
+              db.updateAccount(name: 'accessGender', value: value);
             },
           ),
           CustomDropDownButton(
@@ -237,15 +237,15 @@ class MyAccountScreen extends ConsumerWidget {
             value: Account.toText(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessMeals', value: Account.toEnum(value));
+              db.updateAccount(name: 'accessMeals', value: value);
             },
           ),
           CustomDropDownButton(
             name: Constants.access_stats(),
-            value: Account.toText(account.accessDateBirth),
+            value: Account.toText(account.accessStats),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessStats', value: Account.toEnum(value));
+              db.updateAccount(name: 'accessStats', value: value);
             },
           ),
           SizedBox(height: 26),

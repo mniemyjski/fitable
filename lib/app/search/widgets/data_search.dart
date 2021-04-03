@@ -56,10 +56,12 @@ class DataSearch extends SearchDelegate {
               Icon(Icons.fastfood, color: Colors.lightBlue[800]),
               Switch(value: model.recipes, onChanged: (state) => _searchProductOrRecipe(context, state, model)),
             ],
-            FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
-            Switch(value: model.withBarcode, onChanged: (state) => _withBarcode(context, state, model)),
-            Icon(Icons.verified_user, color: Colors.lightBlue[800]),
-            Switch(value: model.verification, onChanged: (state) => _verification(context, state, model)),
+            if (model.searchType == SearchType.allFoods || model.searchType == SearchType.onlyProducts) ...[
+              FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
+              Switch(value: model.withBarcode, onChanged: (state) => _withBarcode(context, state, model)),
+              Icon(Icons.verified_user, color: Colors.lightBlue[800]),
+              Switch(value: model.verification, onChanged: (state) => _verification(context, state, model)),
+            ],
           ],
         ),
       );
