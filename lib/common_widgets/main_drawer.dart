@@ -28,6 +28,13 @@ class _State extends State<MainDrawer> {
               Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
             },
           ),
+          _createDrawerItem(
+              icon: FontAwesomeIcons.users,
+              text: Constants.community(),
+              // inactive: true,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
+              }),
           Divider(),
           _createDrawerItem(
               icon: FontAwesomeIcons.utensils,
@@ -43,49 +50,27 @@ class _State extends State<MainDrawer> {
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
               }),
-          _createDrawerItem(
-              icon: FontAwesomeIcons.dumbbell,
-              text: Constants.workouts(),
-              inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.workoutsScreen, (_) => false);
-              }),
-          Divider(),
-          _createDrawerItem(
-              icon: FontAwesomeIcons.users,
-              text: Constants.community(),
-              inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
-              }),
           // _createDrawerItem(
-          //     icon: FontAwesomeIcons.solidEnvelope,
-          //     text: Constants.massages.tr(),
+          //     icon: FontAwesomeIcons.dumbbell,
+          //     text: Constants.workouts(),
           //     inactive: true,
           //     onTap: () {
-          //       // Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
+          //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.workoutsScreen, (_) => false);
           //     }),
-          _createDrawerItem(
-              icon: Icons.dashboard,
-              text: Constants.board(),
-              inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.board, (_) => false);
-              }),
-          Divider(),
+          // Divider(),
           _createDrawerItem(
               icon: Icons.stars,
               text: Constants.goals(),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.goalsScreen, (_) => false);
               }),
-          _createDrawerItem(
-              icon: FontAwesomeIcons.chartPie,
-              text: Constants.statistics(),
-              inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.statistics, (_) => false);
-              }),
+          // _createDrawerItem(
+          //     icon: FontAwesomeIcons.chartPie,
+          //     text: Constants.statistics(),
+          //     inactive: true,
+          //     onTap: () {
+          //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.statistics, (_) => false);
+          //     }),
           Divider(),
           _createDrawerItem(
               icon: Icons.settings,

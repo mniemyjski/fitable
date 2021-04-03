@@ -5,6 +5,7 @@ import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
+import 'package:fitable/common_widgets/custom_tab_bar.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -47,11 +48,17 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
           Tab(text: Constants.your_recipes()),
         ];
         break;
-      case SearchType.trainings:
-        model.list = [];
+      case SearchType.workouts:
+        model.list = [
+          Tab(text: Constants.exercises()),
+          Tab(text: Constants.workouts()),
+        ];
         break;
       case SearchType.users:
-        model.list = [];
+        model.list = [
+          Tab(text: Constants.followed()),
+          Tab(text: Constants.followers()),
+        ];
         break;
     }
 
@@ -137,6 +144,43 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                 return Container(child: Center(child: Text('Empty')));
               }),
         ),
+      if (model.searchType == SearchType.users) ...[
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(Constants.followed()),
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(Constants.followers()),
+          ),
+        ),
+      ],
+      if (model.searchType == SearchType.workouts) ...[
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(Constants.exercises()),
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(Constants.workouts()),
+          ),
+        ),
+      ]
+    ];
+  }
+
+  List<Widget> _actions(bool mobilePlatform, SearchType searchType) {
+    return [
+      IconButton(
+          icon: Icon(FontAwesomeIcons.search, color: Colors.white), onPressed: () => context.read(providerSearchViewModel).searchOnPress(context)),
+      if (mobilePlatform && (searchType == SearchType.onlyProducts || searchType == SearchType.allFoods))
+        IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => context.read(providerSearchViewModel).barcodeOnPress(context))
     ];
   }
 
@@ -148,14 +192,14 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
       return CustomScaffold(
           appBar: AppBar(
             title: Text(Constants.favorites()),
-            actions: [
-              IconButton(icon: Icon(Icons.search, color: Colors.white), onPressed: () => model.searchOnPress(context)),
-              if (model.mobilePlatform()) IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => model.barcodeOnPress(context)),
-            ],
-            bottom: TabBar(
-              controller: model.controller,
-              indicatorColor: Colors.white,
-              tabs: model.list,
+            actions: _actions(model.mobilePlatform(), model.searchType),
+            bottom: CustomTabBar(
+              color: Theme.of(context).primaryColor,
+              tabBar: TabBar(
+                controller: model.controller,
+                indicatorColor: Colors.white,
+                tabs: model.list,
+              ),
             ),
           ),
           body: Consumer(builder: (context, watch, child) {

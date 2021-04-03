@@ -9,7 +9,7 @@ class DietsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.diets()),
+      appBar: buildMainAppBar(context: context, name: Constants.diets()),
       drawer: MainDrawer(),
       body: Container(),
     );

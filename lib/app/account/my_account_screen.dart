@@ -36,7 +36,7 @@ class MyAccountScreen extends ConsumerWidget {
     }
 
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.profile()),
+      appBar: buildMainAppBar(context: context, name: Constants.profile()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
           child: Column(
@@ -254,7 +254,7 @@ class MyAccountScreen extends ConsumerWidget {
             child: FlatButton(
               onPressed: () {},
               child: Text(
-                "delete_account",
+                Constants.delete_account(),
                 style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               ),
             ),

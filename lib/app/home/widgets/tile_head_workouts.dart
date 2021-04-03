@@ -2,13 +2,17 @@ import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
+import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/constants/enum.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TileHeadWorkouts extends StatelessWidget {
   _buildHead({
+    @required BuildContext context,
     @required double burnCalories,
     @required double burnCaloriesTarget,
     @required double steps,
@@ -48,7 +52,7 @@ class TileHeadWorkouts extends StatelessWidget {
                     height: size,
                     child: CircularProgressIndicator(
                       value: _steps / stepsTarget,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
+                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                       backgroundColor: Colors.grey[400],
                       strokeWidth: 5,
                     ),
@@ -75,7 +79,7 @@ class TileHeadWorkouts extends StatelessWidget {
                     height: size,
                     child: CircularProgressIndicator(
                       value: _burnCalories / burnCaloriesTarget,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
+                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                       backgroundColor: Colors.grey[400],
                       strokeWidth: 5,
                     ),
@@ -113,9 +117,16 @@ class TileHeadWorkouts extends StatelessWidget {
           }).toList();
 
           return TileExpansion(
-            onPressed: null,
+            onPressed: () => Navigator.of(context).pushNamed(
+              AppRoute.searchScreen,
+              arguments: SearchScreenArguments(searchType: SearchType.workouts),
+            ),
             head: _buildHead(
-                burnCalories: _burnCalories, burnCaloriesTarget: preference.targetBurnCalories, steps: _steps, stepsTarget: preference.targetSteps),
+                context: context,
+                burnCalories: _burnCalories,
+                burnCaloriesTarget: preference.targetBurnCalories,
+                steps: _steps,
+                stepsTarget: preference.targetSteps),
             listView: CustomListView(
               list: _list,
               type: EnumTileType.measurement,

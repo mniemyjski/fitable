@@ -8,7 +8,7 @@ class WorkoutsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.workouts()),
+      appBar: buildMainAppBar(context: context, name: Constants.workouts()),
       drawer: MainDrawer(),
       body: Container(),
     );

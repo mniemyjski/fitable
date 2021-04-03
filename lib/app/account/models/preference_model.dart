@@ -13,6 +13,7 @@ class Preference {
   final bool healthSync;
   final bool autoPlay;
   final bool mute;
+  final bool darkMode;
   final String localeBase;
   final String localeApp;
   final String formulaBMR;
@@ -44,6 +45,7 @@ class Preference {
     @required this.healthSync,
     @required this.autoPlay,
     @required this.mute,
+    @required this.darkMode,
     @required this.localeApp,
     @required this.localeBase,
     @required this.formulaBMR,
@@ -77,6 +79,7 @@ class Preference {
       'healthSync': healthSync,
       'autoPlay': autoPlay,
       'mute': mute,
+      'darkMode': darkMode,
       'localeApp': localeApp,
       'localeBase': localeBase,
       'formulaBMR': formulaBMR,
@@ -115,6 +118,7 @@ class Preference {
       healthSync: data['healthSync'],
       autoPlay: data['autoPlay'],
       mute: data['mute'],
+      darkMode: data['darkMode'],
       localeApp: data['localeApp'],
       localeBase: data['localeBase'],
       formulaBMR: data['formulaBMR'],

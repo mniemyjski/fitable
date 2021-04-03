@@ -11,7 +11,7 @@ class CustomIconButton extends StatelessWidget {
     Key key,
     this.onPressed,
     this.iconColor = Colors.white,
-    this.buttonColor = Colors.indigo,
+    this.buttonColor,
     this.buttonColorDisable = Colors.grey,
     this.icon = Icons.add,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: onPressed != null ? buttonColor : buttonColorDisable,
+      color: onPressed != null ? (buttonColor ?? Theme.of(context).primaryColor) : buttonColorDisable,
       child: Container(
         height: 48,
         width: 48,

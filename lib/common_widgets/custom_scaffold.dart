@@ -1,4 +1,6 @@
+import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/all.dart';
 
 class CustomScaffold extends StatelessWidget {
   final Widget body;
@@ -17,13 +19,18 @@ class CustomScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: drawer,
-      appBar: appBar,
-      backgroundColor: Colors.grey[200],
-      body: body,
-      floatingActionButton: floatingActionButton,
-      bottomNavigationBar: bottomNavigationBar,
-    );
+    return Consumer(builder: (context, watch, child) {
+      Preference preference;
+      watch(providerPreference).whenData((value) => preference = value);
+
+      return Scaffold(
+        drawer: drawer,
+        appBar: appBar,
+        backgroundColor: (preference?.darkMode ?? false) ? null : Colors.grey[200],
+        body: body,
+        floatingActionButton: floatingActionButton,
+        bottomNavigationBar: bottomNavigationBar,
+      );
+    });
   }
 }

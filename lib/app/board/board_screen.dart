@@ -8,7 +8,7 @@ class BoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.board()),
+      appBar: buildMainAppBar(context: context, name: Constants.board()),
       drawer: MainDrawer(),
       body: Container(),
     );

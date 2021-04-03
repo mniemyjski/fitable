@@ -52,12 +52,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.home()),
+      appBar: buildMainAppBar(context: context, name: Constants.home()),
       drawer: MainDrawer(),
       body: Column(children: [
         Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.4),

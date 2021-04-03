@@ -17,7 +17,6 @@ class Constants {
   static String home() => "home".tr();
   static String diets() => "diets".tr();
   static String recipes() => "recipes".tr();
-  static String workouts() => "workouts".tr();
   static String community() => "community".tr();
   static String board() => "board".tr();
   static String goals() => "goals".tr();
@@ -117,6 +116,14 @@ class Constants {
   static String products() => "products".tr();
   static String your_recipes() => "your_recipes".tr();
   static String see_everything() => "see_everything".tr();
-// static String account() => "account".tr();
-// static String accounts() => "accounts".tr();
+  static String friends() => "friends".tr();
+
+  static String followed() => "followed".tr();
+  static String followers() => "followers".tr();
+  static String no_following() => "no_following".tr();
+  static String no_followers() => "no_followers".tr();
+
+  static String delete_account() => "delete_account".tr();
+  static String exercises() => "exercises".tr();
+  static String workouts() => "workouts".tr();
 }

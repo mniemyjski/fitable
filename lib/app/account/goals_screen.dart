@@ -80,7 +80,7 @@ class GoalsScreen extends ConsumerWidget {
 
     _buildBody(Preference preference) {
       return CustomScaffold(
-          appBar: buildMainAppBar(context, Constants.goals()),
+          appBar: buildMainAppBar(context: context, name: Constants.goals()),
           drawer: MainDrawer(),
           body: Column(
             children: [

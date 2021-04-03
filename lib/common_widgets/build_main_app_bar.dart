@@ -2,7 +2,14 @@ import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-buildMainAppBar(BuildContext context, String name) {
+buildMainAppBar({
+  @required BuildContext context,
+  @required String name,
+  bool massage = true,
+  bool notifications = true,
+  List<Widget> actions,
+  PreferredSizeWidget bottom,
+}) {
   return AppBar(
     title: Text(name),
     actions: [
@@ -14,6 +21,8 @@ buildMainAppBar(BuildContext context, String name) {
         icon: Icon(FontAwesomeIcons.bell),
         onPressed: () => Navigator.pushNamed(context, AppRoute.notifications),
       ),
+      if (actions != null) ...actions,
     ],
+    bottom: bottom,
   );
 }

@@ -37,7 +37,7 @@ class RecipesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.recipes()),
+      appBar: buildMainAppBar(context: context, name: Constants.recipes()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, watch, child) {

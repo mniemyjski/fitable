@@ -6,7 +6,6 @@ final providerAppViewModel = ChangeNotifierProvider<AppViewModel>((ref) {
 });
 
 class AppViewModel extends ChangeNotifier {
-  bool darkMode = false;
   Color colorPrimary = Colors.lightBlue[700];
   Color colorSecondary = Colors.lightGreen[700];
   Color colorCards = Colors.white;
@@ -22,13 +21,6 @@ class AppViewModel extends ChangeNotifier {
   void chosenDateIncrementDecrement(int value) {
     DateTime _v = _chosenDate.add(new Duration(days: value));
     _chosenDate = DateTime(_v.year, _v.month, _v.day);
-    notifyListeners();
-  }
-
-  void darkModeSet(bool value) {
-    darkMode = value;
-    if (value) {
-    } else {}
     notifyListeners();
   }
 

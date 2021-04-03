@@ -21,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.settings()),
+      appBar: buildMainAppBar(context: context, name: Constants.settings()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, watch, child) {
@@ -89,11 +89,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Row(
                     children: <Widget>[
                       Switch(
-                          value: darkMode,
+                          value: pref.darkMode,
                           onChanged: (state) {
-                            setState(() {
-                              // data.darkModeOn(state);
-                            });
+                            db.updatePreference(name: 'darkMode', value: state);
                           }),
                       Text(Constants.dark_mode()),
                     ],

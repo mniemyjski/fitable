@@ -8,7 +8,7 @@ class StatisticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context, Constants.statistics()),
+      appBar: buildMainAppBar(context: context, name: Constants.statistics()),
       drawer: MainDrawer(),
       body: Container(),
     );

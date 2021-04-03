@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/common_widgets/fitable_header.dart';
 import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -58,17 +60,24 @@ class MyApp extends StatelessWidget {
         ),
       );
 
-    return MaterialApp(
-      // debugShowCheckedModeBanner: false,
-      title: 'Fitable',
-      theme: ThemeData(
-        fontFamily: 'Georgia',
-        // primaryColor: Colors.lightBlue[800],
-        // accentColor: Colors.lightBlue[700],
-        primarySwatch: Colors.indigo,
-      ),
-      initialRoute: '/',
-      routes: routes,
-    );
+    return Consumer(builder: (context, watch, child) {
+      Preference preference;
+      watch(providerPreference).whenData((value) => preference = value);
+
+      return MaterialApp(
+        // debugShowCheckedModeBanner: false,
+        title: 'Fitable',
+        theme: ThemeData(
+          fontFamily: 'Georgia',
+          primarySwatch: Colors.indigo,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+        ),
+        themeMode: (preference?.darkMode ?? false) ? ThemeMode.dark : ThemeMode.light,
+        initialRoute: '/',
+        routes: routes,
+      );
+    });
   }
 }

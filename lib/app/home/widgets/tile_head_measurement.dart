@@ -15,83 +15,87 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TileHeadMeasurement extends StatelessWidget {
-  _buildHead({@required double bodyWeight, @required double bodyWeightTarget, @required double bodyFat, @required double bodyFatTarget}) {
+  _buildHead({
+    @required BuildContext context,
+    @required double bodyWeight,
+    @required double bodyWeightTarget,
+    @required double bodyFat,
+    @required double bodyFatTarget,
+  }) {
     double size = 35;
     double _weight = bodyWeight > bodyWeightTarget ? (bodyWeightTarget / bodyWeight) : (bodyWeight / bodyWeightTarget);
     double _fat = bodyFat > bodyFatTarget ? (bodyFatTarget / bodyFat) : (bodyFat / bodyFatTarget);
 
-    return Consumer(builder: (context, watch, child) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 5),
-            child: FaIcon(FontAwesomeIcons.rulerHorizontal, color: Colors.grey[700]),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 5),
+          child: FaIcon(FontAwesomeIcons.rulerHorizontal, color: Colors.grey[700]),
+        ),
+        Container(
+          height: double.infinity,
+          child: Row(
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  FaIcon(FontAwesomeIcons.weight, color: Colors.grey.withOpacity(0.5), size: 20),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(bodyWeight.toStringAsFixed(1), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: CircularProgressIndicator(
+                      value: _weight,
+                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                      backgroundColor: Colors.grey[400],
+                      strokeWidth: 5,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 20),
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  FaIcon(FontAwesomeIcons.bacon, color: Colors.grey.withOpacity(0.5), size: 20),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(bodyFat.toStringAsFixed(1), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: size,
+                    height: size,
+                    child: CircularProgressIndicator(
+                      value: _fat,
+                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                      backgroundColor: Colors.grey[400],
+                      strokeWidth: 5,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10),
+            ],
           ),
-          Container(
-            height: double.infinity,
-            child: Row(
-              children: <Widget>[
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    FaIcon(FontAwesomeIcons.weight, color: Colors.grey.withOpacity(0.5), size: 20),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(bodyWeight.toStringAsFixed(1), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: CircularProgressIndicator(
-                        value: _weight,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
-                        backgroundColor: Colors.grey[400],
-                        strokeWidth: 5,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 20),
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    FaIcon(FontAwesomeIcons.bacon, color: Colors.grey.withOpacity(0.5), size: 20),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(bodyFat.toStringAsFixed(1), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: size,
-                      height: size,
-                      child: CircularProgressIndicator(
-                        value: _fat,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
-                        backgroundColor: Colors.grey[400],
-                        strokeWidth: 5,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 10),
-              ],
-            ),
-          ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 
   _show(BuildContext context) {
@@ -198,7 +202,11 @@ class TileHeadMeasurement extends StatelessWidget {
               _show(context);
             },
             head: _buildHead(
-                bodyWeight: _bodyWeight, bodyWeightTarget: preference.targetWeight, bodyFat: _bodyFat, bodyFatTarget: preference.targetFat),
+                context: context,
+                bodyWeight: _bodyWeight,
+                bodyWeightTarget: preference.targetWeight,
+                bodyFat: _bodyFat,
+                bodyFatTarget: preference.targetFat),
             listView: CustomListView(
               list: _list,
               type: EnumTileType.measurement,
