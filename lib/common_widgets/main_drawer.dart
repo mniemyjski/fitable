@@ -35,14 +35,14 @@ class _State extends State<MainDrawer> {
           //     onTap: () {
           //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
           //     }),
-          Divider(),
-          _createDrawerItem(
-              icon: FontAwesomeIcons.utensils,
-              text: Constants.diets(),
-              inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
-              }),
+          // Divider(),
+          // _createDrawerItem(
+          //     icon: FontAwesomeIcons.utensils,
+          //     text: Constants.diets(),
+          //     inactive: true,
+          //     onTap: () {
+          //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
+          //     }),
           _createDrawerItem(
               icon: Icons.fastfood,
               text: Constants.recipes(),
@@ -57,7 +57,7 @@ class _State extends State<MainDrawer> {
           //     onTap: () {
           //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.workoutsScreen, (_) => false);
           //     }),
-          Divider(),
+          // Divider(),
           _createDrawerItem(
               icon: Icons.stars,
               text: Constants.goals(),

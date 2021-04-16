@@ -3,8 +3,6 @@ import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
-import 'package:fitable/app/board/board_screen.dart';
-import 'package:fitable/app/community/community_screen.dart';
 import 'package:fitable/app/crop_image/crop_image_screen.dart';
 import 'package:fitable/app/diets/diets_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';
@@ -58,7 +56,6 @@ var routes = <String, WidgetBuilder>{
   AppRoute.productDetailsScreen: (context) => LandingScreen(body: ProductDetailsScreen()),
   AppRoute.goalsMacroScreen: (context) => LandingScreen(body: GoalsMacroScreen()),
   AppRoute.addBodyCircumferencesScreen: (context) => LandingScreen(body: AddBodyCircumferencesScreen()),
-  AppRoute.communityScreen: (context) => LandingScreen(body: CommunityScreen()),
   AppRoute.recipeScreen: (context) => LandingScreen(body: RecipesScreen()),
   AppRoute.recipeDetailsScreen: (context) => LandingScreen(body: RecipeDetailsScreen()),
   AppRoute.recipeCreateScreen: (context) => LandingScreen(body: RecipeCreateScreen()),
@@ -67,7 +64,6 @@ var routes = <String, WidgetBuilder>{
   AppRoute.cropImageScreen: (context) => LandingScreen(body: CropImageScreen()),
   AppRoute.notifications: (context) => LandingScreen(body: NotificationScreen()),
   AppRoute.massages: (context) => LandingScreen(body: MassagesScreen()),
-  AppRoute.board: (context) => LandingScreen(body: BoardScreen()),
   AppRoute.statistics: (context) => LandingScreen(body: StatisticsScreen()),
   AppRoute.accountDetails: (context) => LandingScreen(body: AccountDetailsScreen()),
 };
