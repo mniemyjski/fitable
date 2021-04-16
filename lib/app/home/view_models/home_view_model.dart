@@ -7,6 +7,7 @@ import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
@@ -100,7 +101,7 @@ class HomeViewModel extends ChangeNotifier {
 
     dynamic result = await Navigator.of(context).pushNamed(
       AppRoute.searchScreen,
-      arguments: SearchScreenArguments(searchType: SearchType.allFoods),
+      arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.allFoods, title: Constants.favorites()),
     );
 
     if (result != null) {

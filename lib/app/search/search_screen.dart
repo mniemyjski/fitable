@@ -1,3 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/widgets/build_actions_buttons.dart';
+import 'package:fitable/app/account/widgets/build_floating_action_button.dart';
+import 'package:fitable/app/account/widgets/build_tab.dart';
+import 'package:fitable/app/account/widgets/build_tab_bar_view.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
@@ -17,9 +22,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchScreenArguments {
-  final SearchType searchType;
+  final FavoriteScreen favoriteScreen;
+  final String title;
 
-  SearchScreenArguments({@required this.searchType});
+  SearchScreenArguments({@required this.favoriteScreen, @required this.title});
 }
 
 class SearchScreen extends StatefulWidget {
@@ -33,129 +39,12 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
     final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
     final model = context.read(providerSearchViewModel);
 
-    model.searchType = args.searchType;
-    _buildTab(model);
+    model.favoriteScreen = args.favoriteScreen;
+    model.title = args.title;
+    buildTab(model);
 
     model.controller = TabController(length: model.tabBar.length, vsync: this);
     super.didChangeDependencies();
-  }
-
-  _buildTab(SearchViewModel model) {
-    switch (model.searchType) {
-      case SearchType.onlyProducts:
-        model.tabBar = [
-          Tab(text: Constants.products()),
-        ];
-        break;
-      case SearchType.allFoods:
-        model.tabBar = [
-          Tab(text: Constants.products()),
-          Tab(text: Constants.recipes()),
-          Tab(text: Constants.your_recipes()),
-        ];
-        break;
-      case SearchType.workouts:
-        model.tabBar = [
-          Tab(text: Constants.exercises()),
-          Tab(text: Constants.workouts()),
-        ];
-        break;
-      case SearchType.users:
-        model.tabBar = [
-          Tab(text: Constants.followed()),
-          Tab(text: Constants.followers()),
-        ];
-        break;
-    }
-  }
-
-  _buildTabBarView(Database db, List<Favorite> favoritesProduct, List<Favorite> favoritesRecipe, SearchViewModel model) {
-    _buildList({
-      @required Stream stream,
-      @required EnumTileType type,
-      @required ValueChanged<dynamic> onPressed,
-    }) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StreamBuilder(
-            stream: stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) Center(child: Text(Constants.error()));
-              if (snapshot.hasData)
-                return CustomListView(
-                  list: snapshot.data,
-                  type: type,
-                  direction: DismissDirection.none,
-                  onPressed: onPressed,
-                );
-
-              return Container(child: Center(child: Text(Constants.empty())));
-            }),
-      );
-    }
-
-    switch (model.searchType) {
-      case SearchType.onlyProducts:
-        return [
-          _buildList(
-            stream: db.streamProducts(favoritesProduct),
-            type: EnumTileType.product,
-            onPressed: (element) => model.productDetails(context, element),
-          )
-        ];
-        break;
-      case SearchType.allFoods:
-        return [
-          _buildList(
-            stream: db.streamProducts(favoritesProduct),
-            type: EnumTileType.product,
-            onPressed: (element) => model.productDetails(context, element),
-          ),
-          _buildList(
-              stream: db.streamFavoriteRecipes(favoritesRecipe),
-              type: EnumTileType.recipe,
-              onPressed: (element) => model.recipeDetails(context, element)),
-          _buildList(stream: db.streamYourRecipes(), type: EnumTileType.recipe, onPressed: (element) => model.recipeDetails(context, element))
-        ];
-        break;
-      case SearchType.workouts:
-        return [
-          Tab(text: Constants.exercises()),
-          Tab(text: Constants.workouts()),
-        ];
-        break;
-      case SearchType.users:
-        return [
-          Tab(text: Constants.followed()),
-          Tab(text: Constants.followers()),
-        ];
-        break;
-    }
-  }
-
-  _buildFloatingActionButton() {
-    final model = context.read(providerSearchViewModel);
-
-    if (model.selectedIndex == 2) {
-      return FloatingActionButton(
-        onPressed: () {
-          model.selectedIndex = model.controller.index = 0;
-          return Navigator.pushNamed(context, AppRoute.recipeCreateScreen);
-        },
-        child: Icon(Icons.add, color: Colors.white),
-      );
-    } else {
-      return null;
-    }
-  }
-
-  List<Widget> _actions(bool mobilePlatform, SearchType searchType) {
-    return [
-      IconButton(
-          icon: Icon(FontAwesomeIcons.search, color: Colors.white), onPressed: () => context.read(providerSearchViewModel).searchOnPress(context)),
-      if (mobilePlatform && (searchType == SearchType.onlyProducts || searchType == SearchType.allFoods))
-        IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => context.read(providerSearchViewModel).barcodeOnPress(context))
-    ];
   }
 
   @override
@@ -171,8 +60,8 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
 
       return CustomScaffold(
           appBar: AppBar(
-            title: Text(Constants.favorites()),
-            actions: _actions(model.mobilePlatform(), model.searchType),
+            title: Text(model.title),
+            actions: buildActionButtons(context, model.mobilePlatform(), model.favoriteScreen),
             bottom: CustomTabBar(
               color: Theme.of(context).primaryColor,
               tabBar: TabBar(
@@ -187,12 +76,19 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
             final db = watch(providerDatabase);
 
             return favorites.when(
-              data: (data) => TabBarView(controller: model.controller, children: _buildTabBarView(db, data, data, model)),
+              data: (data) => TabBarView(
+                  controller: model.controller,
+                  children: buildTabBarView(
+                    context: context,
+                    db: db,
+                    favorites: data,
+                    model: model,
+                  )),
               loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
               error: (err, stack) => Center(child: Text('Error: $err')),
             );
           }),
-          floatingActionButton: _buildFloatingActionButton());
+          floatingActionButton: buildFloatingActionButton(context));
     });
   }
 }

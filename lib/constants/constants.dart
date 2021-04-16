@@ -48,7 +48,7 @@ class Constants {
   static String youtube() => "youtube".tr();
   static String instagram() => "instagram".tr();
   static String facebook() => "facebook".tr();
-  static String bio() => "bio";
+  static String bio() => "bio".tr();
   static String access_date_birth() => "access_date_birth".tr();
   static String access_height() => "access_height".tr();
   static String access_gender() => "access_gender".tr();
@@ -128,4 +128,8 @@ class Constants {
   static String workouts() => "workouts".tr();
   static String error() => "error".tr();
   static String empty() => "empty".tr();
+
+  static String only_look_for_coaches() => "only_look_for_coaches".tr();
+  static String coach() => "coach".tr();
+  static String isCoach() => "isCoach".tr();
 }

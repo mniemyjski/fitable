@@ -21,14 +21,6 @@ class CommunityScreen extends StatelessWidget {
         appBar: buildMainAppBar(
           context: context,
           name: Constants.community(),
-          actions: [
-            IconButton(
-                icon: Icon(FontAwesomeIcons.userFriends),
-                onPressed: () => Navigator.of(context).pushNamed(
-                      AppRoute.searchScreen,
-                      arguments: SearchScreenArguments(searchType: SearchType.users),
-                    )),
-          ],
         ),
         drawer: MainDrawer(),
         body: Container(),

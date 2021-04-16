@@ -2,7 +2,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum EnumFavorite { products, recipes, exercise, trainings, users }
+enum EnumFavorite { products, recipes, exercise, trainings, accounts }
 
 final providerFavorite = StreamProvider<List<Favorite>>((ref) {
   final db = ref.watch(providerDatabase);
@@ -51,21 +51,6 @@ class Favorite {
 
   static String toText(EnumFavorite favorite) => favorite.toString().split('.').last;
 
-  // static toText(EnumFavorite favorite) {
-  //   switch (favorite) {
-  //     case EnumFavorite.products:
-  //       return 'products';
-  //     case EnumFavorite.recipes:
-  //       return 'recipes';
-  //     case EnumFavorite.exercise:
-  //       return 'exercise';
-  //     case EnumFavorite.trainings:
-  //       return 'trainings';
-  //     case EnumFavorite.users:
-  //       return 'users';
-  //   }
-  // }
-
   static toEnum(String favorite) {
     switch (favorite) {
       case 'products':
@@ -76,8 +61,8 @@ class Favorite {
         return EnumFavorite.exercise;
       case 'trainings':
         return EnumFavorite.trainings;
-      case 'users':
-        return EnumFavorite.users;
+      case 'accounts':
+        return EnumFavorite.accounts;
     }
   }
 }

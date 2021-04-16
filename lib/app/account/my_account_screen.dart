@@ -204,6 +204,18 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           Container(
+            child: Row(
+              children: <Widget>[
+                Switch(
+                    value: account.isCoach,
+                    onChanged: (state) {
+                      db.updateAccount(name: 'isCoach', value: state);
+                    }),
+                Text(Constants.coach()),
+              ],
+            ),
+          ),
+          Container(
             width: double.infinity,
             margin: EdgeInsets.only(top: 20, left: 10),
             child: Text(Constants.access() + ':', style: TextStyle(fontSize: 16)),

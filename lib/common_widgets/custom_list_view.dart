@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/widgets/tile_account.dart';
 import 'package:fitable/app/home/widgets/tile_measurement.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/recipe/widgets/tile_image_recipe.dart';
 import 'package:flutter/material.dart';
 
-enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe }
+enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe, account }
 
 class CustomListView extends StatelessWidget {
   final List list;
@@ -33,6 +35,8 @@ class CustomListView extends StatelessWidget {
         return TileProduct(element);
       case EnumTileType.meal:
         return TileProduct(element);
+      case EnumTileType.account:
+        return TileAccount(element);
       case EnumTileType.imageRecipe:
         return TileImageRecipe(recipe: element);
       case EnumTileType.measurement:
@@ -77,7 +81,6 @@ class CustomListView extends StatelessWidget {
                 height: double.infinity,
                 child: Container(
                     height: double.infinity,
-                    // alignment: Alignment.centerLeft,
                     color: Colors.red[600],
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

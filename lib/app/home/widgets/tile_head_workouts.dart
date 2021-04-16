@@ -4,6 +4,7 @@ import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class TileHeadWorkouts extends StatelessWidget {
           return TileExpansion(
             onPressed: () => Navigator.of(context).pushNamed(
               AppRoute.searchScreen,
-              arguments: SearchScreenArguments(searchType: SearchType.workouts),
+              arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.workouts, title: Constants.favorites()),
             ),
             head: _buildHead(
                 context: context,

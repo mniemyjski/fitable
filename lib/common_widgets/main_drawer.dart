@@ -28,27 +28,27 @@ class _State extends State<MainDrawer> {
               Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
             },
           ),
-          _createDrawerItem(
-              icon: FontAwesomeIcons.users,
-              text: Constants.community(),
-              // inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
-              }),
+          // _createDrawerItem(
+          //     icon: FontAwesomeIcons.users,
+          //     text: Constants.community(),
+          //     // inactive: true,
+          //     onTap: () {
+          //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.communityScreen, (_) => false);
+          //     }),
           Divider(),
-          _createDrawerItem(
-              icon: Icons.fastfood,
-              text: Constants.recipes(),
-              // inactive: true,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
-              }),
           _createDrawerItem(
               icon: FontAwesomeIcons.utensils,
               text: Constants.diets(),
               inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.dietsScreen, (_) => false);
+              }),
+          _createDrawerItem(
+              icon: Icons.fastfood,
+              text: Constants.recipes(),
+              // inactive: true,
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
               }),
           // _createDrawerItem(
           //     icon: FontAwesomeIcons.dumbbell,
@@ -57,7 +57,7 @@ class _State extends State<MainDrawer> {
           //     onTap: () {
           //       Navigator.pushNamedAndRemoveUntil(context, AppRoute.workoutsScreen, (_) => false);
           //     }),
-          // Divider(),
+          Divider(),
           _createDrawerItem(
               icon: Icons.stars,
               text: Constants.goals(),
@@ -110,20 +110,22 @@ class _State extends State<MainDrawer> {
                 bottom: 40.0,
                 left: 16.0,
                 child: CircleAvatar(
-                  radius: 40,
+                  radius: 55,
                   backgroundColor: Colors.black12,
                   child: CachedNetworkImage(
                     imageUrl: account?.avatarUrl ?? "",
                     imageBuilder: (context, imageProvider) => Container(
-                      width: 80.0,
-                      height: 80.0,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                        image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
                       ),
                     ),
                     placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.account_circle, size: 80),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.account_circle,
+                      size: 110,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

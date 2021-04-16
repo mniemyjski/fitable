@@ -1,6 +1,9 @@
 import 'package:algolia/algolia.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/account_details_screen.dart';
+import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/account/widgets/massage_flush_bar.dart';
 import 'package:fitable/app/product/product_create_screen.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
@@ -8,6 +11,7 @@ import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/app/search/widgets/data_search.dart';
+import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enum.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/application.dart';
@@ -27,56 +31,101 @@ class SearchViewModel extends ChangeNotifier {
   List<Widget> tabBar = [];
   Algolia algolia = Application.algolia;
   AlgoliaQuery _searchQuery;
-  SearchType searchType;
+  FavoriteScreen _favoriteScreen;
+  String title;
+
+  FavoriteScreen get favoriteScreen => _favoriteScreen;
+
+  set favoriteScreen(FavoriteScreen favoriteScreen) {
+    switch (favoriteScreen) {
+      case FavoriteScreen.onlyProducts:
+        _searchType = SearchType.products;
+        break;
+      case FavoriteScreen.allFoods:
+        _searchType = SearchType.products;
+        break;
+      case FavoriteScreen.workouts:
+        _searchType = SearchType.workouts;
+        break;
+      case FavoriteScreen.accounts:
+        _searchType = SearchType.accounts;
+        break;
+    }
+    _favoriteScreen = favoriteScreen;
+  }
+
+  SearchType _searchType;
+  SearchType get searchType => _searchType;
 
   bool _verification = false;
-
   bool get verification => _verification;
+  setVerification(BuildContext context, bool state) {
+    _verification = state;
+    if (_verification) massageFlushBar(context, Constants.search_verification_product_only());
+    notifyListeners();
+  }
 
-  set verification(bool verification) {
-    _verification = verification;
+  bool _isCoach = false;
+  bool get isCoach => _isCoach;
+  setIsCoach(BuildContext context, bool state) {
+    _isCoach = state;
+    if (_isCoach) massageFlushBar(context, Constants.only_look_for_coaches());
     notifyListeners();
   }
 
   bool _withBarcode = true;
-
   bool get withBarcode => _withBarcode;
-
-  set withBarcode(bool withBarcode) {
-    _withBarcode = withBarcode;
+  setWithBarcode(BuildContext context, bool state) {
+    _withBarcode = state;
+    if (_withBarcode) massageFlushBar(context, Constants.search_product_only_with_barcode());
     notifyListeners();
   }
 
   bool _recipes = false;
-
   bool get recipes => _recipes;
-
-  set recipes(bool recipes) {
-    _recipes = recipes;
+  setRecipes(BuildContext context, bool state) {
+    _recipes = state;
+    if (state) {
+      _searchType = SearchType.products;
+      massageFlushBar(context, Constants.search_recipes());
+    } else {
+      _searchType = SearchType.recipes;
+      massageFlushBar(context, Constants.search_products());
+    }
     notifyListeners();
   }
 
   bool _trainings = false;
-
   bool get trainings => _trainings;
-
   set trainings(bool trainings) {
     _trainings = trainings;
     notifyListeners();
   }
 
-  bool _coach = false;
+  Future getStream(BuildContext context, String id) {
+    final db = context.read(providerDatabase);
 
-  bool get coach => _coach;
-
-  set coach(bool coach) {
-    _coach = coach;
-    notifyListeners();
+    switch (searchType) {
+      case SearchType.recipes:
+        return db.getRecipe(id);
+        break;
+      case SearchType.products:
+        return db.getProduct(id: id);
+        break;
+      case SearchType.accounts:
+        return db.getAccount(id);
+        break;
+      case SearchType.workouts:
+        return db.getRecipe(id);
+        break;
+      default:
+        return null;
+    }
   }
 
   Future<AlgoliaQuerySnapshot> searchQuery(BuildContext context, String query) async {
     await context.read(providerPreference.last).then((preference) {
-      if (searchType == SearchType.onlyProducts || searchType == SearchType.allFoods) {
+      if (favoriteScreen == FavoriteScreen.onlyProducts || favoriteScreen == FavoriteScreen.allFoods) {
         if (recipes) {
           _searchQuery = algolia.instance.index('recipes').search(query);
           _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:true');
@@ -94,12 +143,12 @@ class SearchViewModel extends ChangeNotifier {
           }
         }
       }
-      if (searchType == SearchType.workouts) {
+      if (favoriteScreen == FavoriteScreen.workouts) {
         _searchQuery = algolia.instance.index('workouts').search(query);
       }
-      if (searchType == SearchType.users) {
-        _searchQuery = algolia.instance.index('users').search(query);
-        if (coach) _searchQuery = _searchQuery.setFilters('coach:true');
+      if (favoriteScreen == FavoriteScreen.accounts) {
+        _searchQuery = algolia.instance.index('accounts').search(query);
+        if (isCoach) _searchQuery = _searchQuery.setFilters('isCoach:true');
       }
     });
     return await _searchQuery.getObjects();
@@ -172,21 +221,30 @@ class SearchViewModel extends ChangeNotifier {
 
     if (value != null) {
       if (value.runtimeType == Product) {
-        var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
-            arguments: ProductDetailsScreenArguments(
-              product: value,
-            ));
+        var result = await Navigator.of(context).pushNamed(
+          AppRoute.productDetailsScreen,
+          arguments: ProductDetailsScreenArguments(product: value),
+        );
 
         Navigator.pop(context, result);
       }
 
       if (value.runtimeType == Recipe) {
-        var result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
-            arguments: RecipeDetailsScreenArguments(
-              recipe: value,
-            ));
+        var result = await Navigator.of(context).pushNamed(
+          AppRoute.recipeDetailsScreen,
+          arguments: RecipeDetailsScreenArguments(recipe: value),
+        );
 
         Navigator.pop(context, result);
+      }
+
+      if (value.runtimeType == Account) {
+        Navigator.of(context).pushNamed(
+          AppRoute.accountDetails,
+          arguments: AccountDetailsScreenArguments(account: value),
+        );
+
+        // Navigator.pop(context);
       }
     }
   }

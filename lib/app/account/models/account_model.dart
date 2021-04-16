@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,33 +33,36 @@ class Account {
   final List photosUrl;
   final String coach;
   final bool isCoach;
+  final bool isDelete;
 
-  Account(
-      {@required this.uid,
-      @required this.name,
-      @required this.gender,
-      @required this.height,
-      @required this.dateBirth,
-      @required this.email,
-      this.phone = "",
-      this.accessStats = AccessLevel.private,
-      this.accessMeals = AccessLevel.private,
-      this.accessMeasurement = AccessLevel.private,
-      this.accessDateBirth = AccessLevel.private,
-      this.accessHeight = AccessLevel.private,
-      this.accessGender = AccessLevel.private,
-      this.bio = "",
-      this.youtube = "",
-      this.instagram = "",
-      this.facebook = "",
-      this.avatarUrl = "",
-      @required this.photosUrl,
-      this.coach = "",
-      this.isCoach = false});
+  Account({
+    @required this.uid,
+    @required this.name,
+    @required this.gender,
+    @required this.height,
+    @required this.dateBirth,
+    @required this.email,
+    this.phone = "",
+    this.accessStats = AccessLevel.private,
+    this.accessMeals = AccessLevel.private,
+    this.accessMeasurement = AccessLevel.private,
+    this.accessDateBirth = AccessLevel.private,
+    this.accessHeight = AccessLevel.private,
+    this.accessGender = AccessLevel.private,
+    this.bio = "",
+    this.youtube = "",
+    this.instagram = "",
+    this.facebook = "",
+    this.avatarUrl = "",
+    @required this.photosUrl,
+    this.coach = "",
+    this.isCoach = false,
+    this.isDelete = false,
+  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({String uid}) {
     return {
-      'uid': uid,
+      'uid': uid ?? this.uid,
       'name': name,
       'gender': gender,
       'height': height,
@@ -79,10 +83,11 @@ class Account {
       'photosUrl': photosUrl,
       'coach': coach,
       'isCoach': isCoach,
+      'isDelete': isDelete,
     };
   }
 
-  factory Account.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Account.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
@@ -109,6 +114,7 @@ class Account {
       photosUrl: data['photosUrl'],
       coach: data['coach'],
       isCoach: data['isCoach'],
+      isDelete: data['isDelete'],
     );
   }
 

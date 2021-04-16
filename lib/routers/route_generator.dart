@@ -1,3 +1,4 @@
+import 'package:fitable/app/account/account_details_screen.dart';
 import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
@@ -43,6 +44,7 @@ class AppRoute {
   static const notifications = '/notifications';
   static const board = '/board';
   static const statistics = '/statistics';
+  static const accountDetails = '/accountDetails';
 }
 
 var routes = <String, WidgetBuilder>{
@@ -67,4 +69,5 @@ var routes = <String, WidgetBuilder>{
   AppRoute.massages: (context) => LandingScreen(body: MassagesScreen()),
   AppRoute.board: (context) => LandingScreen(body: BoardScreen()),
   AppRoute.statistics: (context) => LandingScreen(body: StatisticsScreen()),
+  AppRoute.accountDetails: (context) => LandingScreen(body: AccountDetailsScreen()),
 };

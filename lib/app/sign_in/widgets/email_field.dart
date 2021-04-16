@@ -1,4 +1,4 @@
-import 'package:fitable/app/sign_in/models/sign_in_view_model.dart';
+import 'package:fitable/app/sign_in/view_model/sign_in_view_model.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';

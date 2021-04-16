@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
@@ -13,6 +14,7 @@ import 'package:fitable/constants/enum.dart';
 import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -39,15 +41,36 @@ class Database {
   //endregion
 
   //#region Account
-  Future<void> createAccount(Account account) => _service.collection(Path.accounts()).doc(uid).set(account.toMap());
+  Future<void> createAccount(Account account) => _service.collection(Path.accounts()).doc(uid).set(account.toMap(uid: uid));
   Future<void> updateAccount({@required dynamic name, @required dynamic value}) =>
       _service.collection(Path.accounts()).doc(uid).update({name: value});
   Stream<Account> streamAccount() => _service.collection(Path.accounts()).doc(uid).snapshots().map(
-        (snapshot) => Account.fromMap(snapshot.data(), snapshot.id),
+        (snapshot) => Account.fromMap(snapshot.data()),
       );
   Future<Account> getName(String uid) => _service.collection(Path.accounts()).doc(uid).get().then(
-        (value) => Account.fromMap(value.data(), value.id),
+        (value) => Account.fromMap(value.data()),
       );
+  Future<Account> getAccount(String uid) => _service
+      .collection(Path.accounts())
+      .where(FieldPath.documentId, isEqualTo: uid)
+      .get()
+      .then((value) => value.docs.isNotEmpty ? Account.fromMap(value.docs.first.data()) : null);
+
+  Stream<List<Account>> streamAccounts(List list, bool followers) {
+    List<String> _list = [];
+    list.forEach((element) => followers ? _list.add(element.uid) : _list.add(element.id));
+
+    if (list.isNotEmpty) {
+      return _service
+          .collection(Path.accounts())
+          .where(FieldPath.documentId, whereIn: _list)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((snap) => Account.fromMap(snap.data())).toList());
+    } else {
+      return null;
+    }
+  }
+
   //#endregion
 
   //#region Preference
@@ -154,7 +177,7 @@ class Database {
     if (favorite.type == EnumFavorite.recipes) _path = Path.recipes();
     if (favorite.type == EnumFavorite.exercise) _path = Path.products();
     if (favorite.type == EnumFavorite.trainings) _path = Path.products();
-    if (favorite.type == EnumFavorite.users) _path = Path.products();
+    if (favorite.type == EnumFavorite.accounts) _path = Path.accounts();
 
     final DocumentReference ref = _service.collection(_path).doc(favorite.id).collection(Path.favorites()).doc(uid);
     bool _isFavorite = false;
@@ -174,6 +197,12 @@ class Database {
     final ref = _service.collectionGroup(Path.favorites()).where('uid', isEqualTo: uid).snapshots();
 
     return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
+  }
+
+  Stream<List<Favorite>> streamFollowers() {
+    final ref = _service.collection(Path.accounts()).doc(uid).collection(Path.favorites()).snapshots();
+    return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
+    // return ref.map((snapshot) => snapshot.docs.map((snap) => snap.id).toList());
   }
 
   //endregion

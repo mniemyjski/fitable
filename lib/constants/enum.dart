@@ -1,3 +1,4 @@
 enum SortType { last, best, popular }
 enum ConnStatus { loading, success, signInScreen, createAccount }
-enum SearchType { onlyProducts, allFoods, workouts, users }
+enum FavoriteScreen { onlyProducts, allFoods, workouts, accounts }
+enum SearchType { recipes, products, accounts, workouts }

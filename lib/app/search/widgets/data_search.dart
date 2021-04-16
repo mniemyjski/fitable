@@ -1,5 +1,8 @@
 import 'package:algolia/algolia.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:fitable/app/account/widgets/buildSliderMenu.dart';
+import 'package:fitable/app/account/widgets/build_title.dart';
+import 'package:fitable/app/account/widgets/massage_flush_bar.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/constants/constants.dart';
@@ -11,69 +14,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DataSearch extends SearchDelegate {
-  _massage(BuildContext context, String txt) {
-    FocusScope.of(context).requestFocus(FocusNode());
-    Flushbar(
-      margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),
-      animationDuration: Duration(milliseconds: 700),
-      message: txt,
-      duration: Duration(seconds: 2),
-    )..show(context);
-    query = "";
-  }
-
-  _searchProductOrRecipe(BuildContext context, bool state, SearchViewModel model) {
-    context.read(providerSearchViewModel).recipes = state;
-
-    if (model.recipes) {
-      _massage(context, Constants.search_recipes());
-    } else {
-      _massage(context, Constants.search_products());
-    }
-    query = "";
-  }
-
-  void _verification(BuildContext context, bool state, SearchViewModel model) {
-    context.read(providerSearchViewModel).verification = state;
-    if (model.verification) _massage(context, Constants.search_verification_product_only());
-  }
-
-  void _withBarcode(BuildContext context, bool state, SearchViewModel model) {
-    context.read(providerSearchViewModel).withBarcode = state;
-    if (model.withBarcode) _massage(context, Constants.search_product_only_with_barcode());
-  }
-
-  _sliderMenu(BuildContext context) {
-    return Consumer(builder: (context, watch, child) {
-      final model = watch(providerSearchViewModel);
-
-      return Container(
-        margin: EdgeInsets.only(right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            if (model.searchType == SearchType.allFoods) ...[
-              Icon(Icons.fastfood, color: Colors.lightBlue[800]),
-              Switch(value: model.recipes, onChanged: (state) => _searchProductOrRecipe(context, state, model)),
-            ],
-            if (model.searchType == SearchType.allFoods || model.searchType == SearchType.onlyProducts) ...[
-              FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
-              Switch(value: model.withBarcode, onChanged: (state) => _withBarcode(context, state, model)),
-              Icon(Icons.verified_user, color: Colors.lightBlue[800]),
-              Switch(value: model.verification, onChanged: (state) => _verification(context, state, model)),
-            ],
-          ],
-        ),
-      );
-    });
-  }
-
   @override
   Widget buildResults(BuildContext context) {
     if (query.length < 4) {
       return Column(
         children: [
-          _sliderMenu(context),
+          sliderMenu(context),
           Center(
             child: Container(
               margin: EdgeInsets.all(30),
@@ -104,7 +50,7 @@ class DataSearch extends SearchDelegate {
               } else {
                 return Column(
                   children: <Widget>[
-                    _sliderMenu(context),
+                    sliderMenu(context),
                     Divider(color: Colors.grey),
                     Expanded(
                       child: ListView.separated(
@@ -115,36 +61,19 @@ class DataSearch extends SearchDelegate {
                         itemCount: snapshot.data.hits.length,
                         itemBuilder: (context, index) {
                           final AlgoliaObjectSnapshot result = snapshot.data.hits[index];
-                          final db = context.read(providerDatabase);
-
-                          Future future;
-                          if (model.recipes) {
-                            future = db.getRecipe(result.objectID);
-                          } else {
-                            future = db.getProduct(id: result.objectID);
-                          }
 
                           return FutureBuilder(
-                              future: future,
+                              future: model.getStream(context, result.objectID),
                               builder: (BuildContext context, AsyncSnapshot snap) {
-                                switch (snap.connectionState) {
-                                  case ConnectionState.waiting:
-                                    return Container();
-                                  default:
-                                    if (snap.hasData) {
-                                      return GestureDetector(
-                                          onTap: () {
-                                            close(context, snap.data);
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(left: 5, right: 5),
-                                            child: TileProduct(snap.data),
-                                          ));
-                                    } else if (snap.hasError) {
-                                      return Text('error'.tr() + ': ${snap.error}');
-                                    } else {
-                                      return Text('error'.tr());
-                                    }
+                                if (snap.hasData) {
+                                  return GestureDetector(
+                                    onTap: () => close(context, snap.data),
+                                    child: getTitleType(model.searchType, snap.data),
+                                  );
+                                } else if (snap.hasError) {
+                                  return Text('error'.tr() + ': ${snap.error}');
+                                } else {
+                                  return Text('error'.tr());
                                 }
                               });
                         },
@@ -173,7 +102,7 @@ class DataSearch extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     return Column(
       children: <Widget>[
-        _sliderMenu(context),
+        sliderMenu(context),
       ],
     );
   }
