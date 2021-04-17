@@ -52,6 +52,7 @@ dependencies:
   cupertino_icons: ^1.0.1
 
   intl: ^0.16.1
+  introduction_screen: ^2.1.0
 
   youtube_player_iframe: ^1.2.0+2
   carousel_slider: ^3.0.0

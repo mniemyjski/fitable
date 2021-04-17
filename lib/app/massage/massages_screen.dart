@@ -6,8 +6,9 @@ class MassagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: AppBar(title: Text(Constants.massages())),
-      body: Container(),
-    );
+        appBar: AppBar(title: Text(Constants.massages())),
+        body: Center(
+          child: Image.asset("resources/images/work_in_progress.jpg"),
+        ));
   }
 }

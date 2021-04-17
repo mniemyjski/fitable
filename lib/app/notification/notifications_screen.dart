@@ -8,8 +8,9 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: AppBar(title: Text(Constants.notifications())),
-      body: Container(),
-    );
+        appBar: AppBar(title: Text(Constants.notifications())),
+        body: Center(
+          child: Image.asset("resources/images/work_in_progress.jpg"),
+        ));
   }
 }

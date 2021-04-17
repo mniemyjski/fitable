@@ -132,4 +132,8 @@ class Constants {
   static String only_look_for_coaches() => "only_look_for_coaches".tr();
   static String coach() => "coach".tr();
   static String isCoach() => "isCoach".tr();
+  static String help() => "help".tr();
+  static String next() => "next".tr();
+  static String skip() => "skip".tr();
+  static String done() => "done".tr();
 }

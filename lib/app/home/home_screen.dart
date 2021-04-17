@@ -60,10 +60,10 @@ class HomeScreen extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
+                  color: Theme.of(context).primaryColorDark.withOpacity(0.6),
                   spreadRadius: 1,
-                  blurRadius: 7,
-                  offset: Offset(0, 1), // changes position of shadow
+                  blurRadius: 1,
+                  offset: Offset(0, 1),
                 ),
               ],
             ),

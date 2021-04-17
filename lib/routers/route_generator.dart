@@ -6,6 +6,7 @@ import 'package:fitable/app/account/settings_screen.dart';
 import 'package:fitable/app/crop_image/crop_image_screen.dart';
 import 'package:fitable/app/diets/diets_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';
+import 'package:fitable/app/introduction/intro_screen.dart';
 import 'package:fitable/app/massage/massages_screen.dart';
 import 'package:fitable/app/measurement/add_body_circumferences_screen.dart';
 import 'package:fitable/app/notification/notifications_screen.dart';
@@ -43,11 +44,13 @@ class AppRoute {
   static const board = '/board';
   static const statistics = '/statistics';
   static const accountDetails = '/accountDetails';
+  static const introduction = '/introduction';
 }
 
 var routes = <String, WidgetBuilder>{
   '/': (context) => LandingScreen(body: HomeScreen()),
   AppRoute.homeScreen: (context) => LandingScreen(body: HomeScreen()),
+  AppRoute.introduction: (context) => LandingScreen(body: IntroScreen()),
   AppRoute.myAccountScreen: (context) => LandingScreen(body: MyAccountScreen()),
   AppRoute.settingsScreen: (context) => LandingScreen(body: SettingsScreen()),
   AppRoute.goalsScreen: (context) => LandingScreen(body: GoalsScreen()),

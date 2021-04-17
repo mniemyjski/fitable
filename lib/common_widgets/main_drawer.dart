@@ -79,6 +79,12 @@ class _State extends State<MainDrawer> {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.settingsScreen, (_) => false);
               }),
           _createDrawerItem(
+              icon: FontAwesomeIcons.question,
+              text: Constants.help(),
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.introduction, (_) => false);
+              }),
+          _createDrawerItem(
             icon: Icons.exit_to_app,
             text: Constants.sign_out(),
             onTap: () async {
@@ -97,47 +103,60 @@ class _State extends State<MainDrawer> {
     return Consumer(builder: (context, watch, child) {
       final account = watch(providerAccount).data.value;
 
-      return DrawerHeader(
-          margin: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, AppRoute.myAccountScreen, (_) => false);
-            },
-            child: Stack(children: <Widget>[
-              Positioned(
-                bottom: 40.0,
-                left: 16.0,
-                child: CircleAvatar(
-                  radius: 55,
-                  backgroundColor: Colors.black12,
-                  child: CachedNetworkImage(
-                    imageUrl: account?.avatarUrl ?? "",
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+      return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).primaryColorDark.withOpacity(0.6),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: DrawerHeader(
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoute.myAccountScreen, (_) => false);
+              },
+              child: Stack(children: <Widget>[
+                Positioned(
+                  bottom: 40.0,
+                  left: 16.0,
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundColor: Colors.black12,
+                    child: CachedNetworkImage(
+                      imageUrl: account?.avatarUrl ?? "",
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                        ),
                       ),
-                    ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(
-                      Icons.account_circle,
-                      size: 110,
-                      color: Colors.white,
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.account_circle,
+                        size: 110,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                  bottom: 8.0,
-                  left: 16.0,
-                  child: Text(
-                    account?.name ?? "",
-                    style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
-                  )),
-            ]),
-          ));
+                Positioned(
+                    bottom: 8.0,
+                    left: 16.0,
+                    child: Text(
+                      account?.name ?? "",
+                      style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+                    )),
+              ]),
+            )),
+      );
     });
   }
 
