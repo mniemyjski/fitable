@@ -1,25 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/crop_image/crop_image_screen.dart';
-import 'package:fitable/app/product/add_key_words_screen.dart';
-import 'package:fitable/app/product/add_portions_screen.dart';
-import 'package:fitable/app/product/models/ingredient_model.dart';
-import 'package:fitable/app/product/product_details_screen.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
-import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
-import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:logger/logger.dart';
 
 final providerCarouselViewModel = ChangeNotifierProvider.autoDispose<CarouselViewModel>((ref) {
   return CarouselViewModel();

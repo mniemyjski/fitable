@@ -1,6 +1,5 @@
-import 'package:fitable/app/add_details/add_details_screen.dart';
+import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/view_models/create_product_view_model.dart';
@@ -65,7 +64,7 @@ _submitKeyWords(BuildContext context) async {
   List result = await Navigator.push(
     context,
     MaterialPageRoute(builder: (context) {
-      return AddDetailsScreen(tileType: EnumTileType.keyWord, list: model.keyWords, title: Constants.key_words(), unit: model.unit);
+      return AddToListScreen(tileType: EnumTileType.keyWord, list: model.keyWords, title: Constants.key_words(), unit: model.unit);
     }),
   );
 

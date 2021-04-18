@@ -4,7 +4,6 @@ import 'package:fitable/app/account/view_models/account_details_view_model.dart'
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';

@@ -1,7 +1,6 @@
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/add_details/add_details_screen.dart';
-import 'package:fitable/app/product/add_key_words_screen.dart';
+import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
@@ -156,7 +155,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
     List result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddDetailsScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Constants.key_words(), unit: unit);
+        return AddToListScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Constants.key_words(), unit: unit);
       }),
     );
 

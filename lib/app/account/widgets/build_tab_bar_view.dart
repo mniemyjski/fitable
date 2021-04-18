@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/account_details_screen.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';

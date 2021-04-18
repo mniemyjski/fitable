@@ -1,4 +1,4 @@
-import 'package:fitable/app/add_details/add_details_view_model.dart';
+import 'package:fitable/app/add_to_list/add_to_list_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
@@ -19,13 +19,13 @@ _floatAction(BuildContext context, EnumTileType detailsType) {
             child: Consumer(builder: (context, watch, child) {
               return CustomTextField(
                 onChanged: (v) {
-                  context.read(providerAddDetailsViewModel).valueListener = v;
+                  context.read(providerAddToListViewModel).valueListener = v;
                 },
-                controller: watch(providerAddDetailsViewModel).controller,
+                controller: watch(providerAddToListViewModel).controller,
               );
             }),
           ),
-          CustomIconButton(onPressed: () => context.read(providerAddDetailsViewModel).addToList(context)),
+          CustomIconButton(onPressed: () => context.read(providerAddToListViewModel).addToList(context)),
         ],
       ),
     );
@@ -40,10 +40,10 @@ _floatAction(BuildContext context, EnumTileType detailsType) {
           child: Consumer(builder: (context, watch, child) {
             return CustomDropDownButton(
               name: Constants.portion(),
-              value: watch(providerAddDetailsViewModel).portionListener,
+              value: watch(providerAddToListViewModel).portionListener,
               list: <String>['package', 'portion', 'glass', 'teaspoon', 'spoon'],
               onChanged: (v) {
-                context.read(providerAddDetailsViewModel).portionListener = v;
+                context.read(providerAddToListViewModel).portionListener = v;
               },
             );
           }),
@@ -52,38 +52,38 @@ _floatAction(BuildContext context, EnumTileType detailsType) {
           child: Consumer(builder: (context, watch, child) {
             return CustomTextField(
               onChanged: (v) {
-                context.read(providerAddDetailsViewModel).valueListener = v;
+                context.read(providerAddToListViewModel).valueListener = v;
               },
               keyboardType: TextInputType.number,
-              controller: watch(providerAddDetailsViewModel).controller,
+              controller: watch(providerAddToListViewModel).controller,
             );
           }),
         ),
-        CustomIconButton(onPressed: () => context.read(providerAddDetailsViewModel).addToList(context)),
+        CustomIconButton(onPressed: () => context.read(providerAddToListViewModel).addToList(context)),
       ],
     ),
   );
 }
 
-class AddDetailsScreen extends StatelessWidget {
+class AddToListScreen extends StatelessWidget {
   final EnumTileType tileType;
   final String title;
   final List list;
   final String unit;
 
-  AddDetailsScreen({@required this.tileType, @required this.list, @required this.title, @required this.unit});
+  AddToListScreen({@required this.tileType, @required this.list, @required this.title, @required this.unit});
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final model = watch(providerAddDetailsViewModel);
+      final model = watch(providerAddToListViewModel);
       model.initState(list, tileType, unit);
 
       return CustomScaffold(
         appBar: AppBar(title: Text(title), actions: [
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () => context.read(providerAddDetailsViewModel).onCheck(context),
+            onPressed: () => context.read(providerAddToListViewModel).onCheck(context),
           )
         ]),
         body: Padding(
@@ -92,7 +92,7 @@ class AddDetailsScreen extends StatelessWidget {
             child: CustomListView(
               type: model.tileType,
               list: model.list,
-              onDismissed: (element) => context.read(providerAddDetailsViewModel).onDismissed(element),
+              onDismissed: (element) => context.read(providerAddToListViewModel).onDismissed(element),
             ),
           ),
         ),

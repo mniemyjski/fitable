@@ -1,17 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/add_details/portion_model.dart';
+import 'package:fitable/app/add_to_list/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'file:///C:/Project/fitable/lib/common_widgets/massage_flush_bar.dart';
 
-final providerAddDetailsViewModel = ChangeNotifierProvider.autoDispose<AddDetailsViewModel>((ref) {
-  return AddDetailsViewModel();
+final providerAddToListViewModel = ChangeNotifierProvider.autoDispose<AddToListViewModel>((ref) {
+  return AddToListViewModel();
 });
 
-class AddDetailsViewModel extends ChangeNotifier {
+class AddToListViewModel extends ChangeNotifier {
   List list;
   EnumTileType tileType;
   String unit;
