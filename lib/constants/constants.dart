@@ -136,4 +136,7 @@ class Constants {
   static String next() => "next".tr();
   static String skip() => "skip".tr();
   static String done() => "done".tr();
+
+  static String portion() => "portion".tr();
+  static String portion_cannot_be_empty() => "portion_cannot_be_empty".tr();
 }

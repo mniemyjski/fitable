@@ -8,7 +8,7 @@ import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/recipe/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';

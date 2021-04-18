@@ -1,5 +1,5 @@
 import 'package:fitable/app/search/view_models/search_view_model.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

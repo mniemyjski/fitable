@@ -1,6 +1,6 @@
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

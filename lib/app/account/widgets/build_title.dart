@@ -1,7 +1,7 @@
 import 'package:fitable/app/account/widgets/tile_account.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 
 Widget getTitleType(SearchType searchType, dynamic data) {

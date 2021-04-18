@@ -18,12 +18,11 @@ class CustomInputBar extends StatelessWidget {
             Expanded(
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.only(left: 6, top: 8, bottom: 8),
+                padding: const EdgeInsets.only(left: 6, top: 8, bottom: 7),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("${name.tr()}:", style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
                     Text(value ?? ""),
                   ],
                 ),

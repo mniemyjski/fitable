@@ -1,3 +1,4 @@
+import 'package:fitable/app/add_details/add_details_screen.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
@@ -5,10 +6,13 @@ import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/product/view_models/create_product_view_model.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
+import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/constants/enums.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,13 +65,11 @@ _submitKeyWords(BuildContext context) async {
   List result = await Navigator.push(
     context,
     MaterialPageRoute(builder: (context) {
-      return AddKeyWordsScreen(model.keyWords);
+      return AddDetailsScreen(tileType: EnumTileType.keyWord, list: model.keyWords, title: Constants.key_words(), unit: model.unit);
     }),
   );
 
-  if (result != null) {
-    model.keyWords = result;
-  }
+  if (result != null) model.keyWords = result;
 }
 
 _submitPortions(BuildContext context) async {

@@ -4,7 +4,7 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/database.dart';
 import 'package:flutter/material.dart';

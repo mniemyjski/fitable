@@ -1,13 +1,15 @@
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/add_details/add_details_screen.dart';
 import 'package:fitable/app/product/add_key_words_screen.dart';
 import 'package:fitable/app/product/add_portions_screen.dart';
 import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/product_details_screen.dart';
 import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
+import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -151,18 +153,14 @@ class RecipeCreateViewModel extends ChangeNotifier {
   }
 
   submitKeyWords(BuildContext context) async {
-    final model = context.read(providerRecipeCreateViewModel);
-
     List result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddKeyWordsScreen(model.keyWords);
+        return AddDetailsScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Constants.key_words(), unit: unit);
       }),
     );
 
-    if (result != null) {
-      model.keyWords = result;
-    }
+    if (result != null) keyWords = result;
   }
 
   submitPortions(BuildContext context) async {

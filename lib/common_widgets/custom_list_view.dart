@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/widgets/tile_account.dart';
+import 'package:fitable/app/add_details/widgets/tile_key_word.dart';
+import 'package:fitable/app/add_details/widgets/tile_portion.dart';
 import 'package:fitable/app/home/widgets/tile_measurement.dart';
 import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/recipe/widgets/tile_image_recipe.dart';
 import 'package:flutter/material.dart';
 
-enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe, account }
+enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe, account, keyWord, portion }
 
 class CustomListView extends StatelessWidget {
   final List list;
@@ -25,7 +27,7 @@ class CustomListView extends StatelessWidget {
       this.scrollDirection = Axis.vertical})
       : super(key: key);
 
-  Widget _buildTile(dynamic element) {
+  Widget _buildTile(dynamic element, int index) {
     switch (type) {
       case EnumTileType.product:
         return TileProduct(element);
@@ -41,6 +43,10 @@ class CustomListView extends StatelessWidget {
         return TileImageRecipe(recipe: element);
       case EnumTileType.measurement:
         return TileMeasurement(measurement: element);
+      case EnumTileType.keyWord:
+        return TileKeyWord(index: index, element: element);
+      case EnumTileType.portion:
+        return TilePortion(index: index, element: element);
       default:
         return Text(element);
     }
@@ -63,7 +69,7 @@ class CustomListView extends StatelessWidget {
         final element = list.elementAt(index);
 
         // final key = type == EnumTileType.recipe || type == EnumTileType.ingredient ? list.elementAt(index).toString() : list.elementAt(index).id;
-        final Widget child = _buildTile(element);
+        final Widget child = _buildTile(element, index);
 
         if (onDismissed == null) {
           return GestureDetector(

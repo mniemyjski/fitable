@@ -10,7 +10,7 @@ import 'package:fitable/app/product/models/ingredient_model.dart';
 import 'package:fitable/app/product/models/product_model.dart';
 import 'package:fitable/app/rating/models/rating_model.dart';
 import 'package:fitable/app/recipe/models/recipe_model.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

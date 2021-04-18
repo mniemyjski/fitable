@@ -1,6 +1,6 @@
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enum.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 
 buildTab(SearchViewModel model) {

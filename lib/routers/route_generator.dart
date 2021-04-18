@@ -3,6 +3,7 @@ import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
+import 'package:fitable/app/add_details/add_details_screen.dart';
 import 'package:fitable/app/crop_image/crop_image_screen.dart';
 import 'package:fitable/app/diets/diets_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';

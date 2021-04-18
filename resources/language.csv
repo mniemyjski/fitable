@@ -248,3 +248,4 @@ help,Pomoc,Help
 skip,Pomiń,Skip
 next,Następny,Next
 done,Zakończ,Done
+portion_cannot_be_empty,Poracja nie może być pusta,portion_cannot_be_empty

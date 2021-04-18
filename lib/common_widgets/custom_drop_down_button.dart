@@ -24,7 +24,7 @@ class CustomDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(left: 5, bottom: 2.5, right: 5, top: 2.5),
+      margin: EdgeInsets.only(left: 5, bottom: 8.5, right: 5, top: 8.5),
       child: Column(
         children: <Widget>[
           Container(
