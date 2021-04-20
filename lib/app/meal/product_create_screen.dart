@@ -1,8 +1,8 @@
 import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
+import 'package:fitable/app/meal/add_portions_screen.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/add_portions_screen.dart';
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/product/view_models/create_product_view_model.dart';
+import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/app/meal/view_models/create_product_view_model.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
@@ -13,9 +13,9 @@ import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductCreateScreenArguments {
   final String barcode;

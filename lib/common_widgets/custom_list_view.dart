@@ -3,8 +3,8 @@ import 'package:fitable/app/account/widgets/tile_account.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_key_word.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_portion.dart';
 import 'package:fitable/app/home/widgets/tile_measurement.dart';
-import 'package:fitable/app/product/widget/tile_product.dart';
-import 'package:fitable/app/recipe/widgets/tile_image_recipe.dart';
+import 'package:fitable/app/meal/widget/tile_image_recipe.dart';
+import 'package:fitable/app/meal/widget/tile_product.dart';
 import 'package:flutter/material.dart';
 
 enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe, account, keyWord, portion }

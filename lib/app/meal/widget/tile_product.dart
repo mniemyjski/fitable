@@ -1,7 +1,7 @@
+import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/models/ingredient_model.dart';
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
+import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

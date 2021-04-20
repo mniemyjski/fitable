@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/product/models/ingredient_model.dart';
+import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:flutter/material.dart';
 
 class Recipe {

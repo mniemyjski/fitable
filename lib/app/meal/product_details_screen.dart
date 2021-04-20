@@ -1,17 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
-import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/models/ingredient_model.dart';
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/product/view_models/product_details_view_model.dart';
-import 'package:fitable/app/product/widget/nutritional.dart';
+import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/app/meal/view_models/product_details_view_model.dart';
+import 'package:fitable/app/meal/widget/nutritional.dart';
+
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 

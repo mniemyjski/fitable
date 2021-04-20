@@ -1,4 +1,4 @@
-import 'package:fitable/app/add_to_list/portion_model.dart';
+import 'file:///C:/Project/fitable/lib/app/meal/models/portion_model.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';

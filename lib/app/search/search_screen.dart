@@ -5,8 +5,6 @@ import 'package:fitable/app/account/widgets/build_tab.dart';
 import 'package:fitable/app/account/widgets/build_tab_bar_view.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';

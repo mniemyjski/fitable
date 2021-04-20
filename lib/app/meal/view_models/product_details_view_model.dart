@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
+import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/product/models/ingredient_model.dart';
-import 'package:fitable/app/product/product_create_screen.dart';
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
+import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/add_to_list/portion_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/constants/constants.dart';
@@ -53,7 +53,7 @@ class AddToListViewModel extends ChangeNotifier {
     }
     if (tileType == EnumTileType.portion) {
       if (_portionListener != null) {
-        list.add(new Portion(name: _portionListener, size: int.tryParse(valueListener), unit: Enums.unitTypeToEnum(unit)));
+        list.add(new Portion(name: _portionListener, size: double.tryParse(valueListener), unit: Enums.unitTypeToEnum(unit)));
         controller.text = '';
         _portionListener = null;
         _reorderList();

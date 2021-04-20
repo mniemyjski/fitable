@@ -1,10 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
-import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
-import 'package:fitable/app/recipe/widgets/custom_carousel_slider.dart';
-import 'package:fitable/app/recipe/widgets/box_video.dart';
-import 'package:fitable/app/recipe/widgets/tile_head_ingredients.dart';
+import 'package:fitable/app/meal/view_models/carousel_view_model.dart';
+import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
+import 'package:fitable/app/meal/widget/custom_carousel_slider.dart';
+import 'package:fitable/app/meal/widget/tile_head_ingredients.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -15,7 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class RecipeCreateScreen extends StatefulWidget {
   @override

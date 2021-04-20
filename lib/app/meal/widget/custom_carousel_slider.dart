@@ -3,15 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/crop_image/crop_image_screen.dart';
-import 'package:fitable/app/recipe/view_models/carousel_view_model.dart';
-import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
-import 'package:fitable/app/recipe/widgets/box_video.dart';
+import 'package:fitable/app/meal/view_models/carousel_view_model.dart';
+import 'package:fitable/app/meal/widget/box_video.dart';
+
 import 'package:fitable/common_widgets/custom_icon_button.dart';
-import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomCarouselSlider extends ConsumerWidget {
   final String videoUrl;

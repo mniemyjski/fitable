@@ -1,5 +1,5 @@
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/recipe/models/recipe_model.dart';
+import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 
 class Ingredient {

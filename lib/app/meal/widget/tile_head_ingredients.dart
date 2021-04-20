@@ -1,7 +1,5 @@
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/app/product/models/ingredient_model.dart';
-import 'package:fitable/app/product/models/product_model.dart';
-import 'package:fitable/app/recipe/view_models/recipe_create_view_model.dart';
+import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

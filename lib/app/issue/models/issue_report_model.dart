@@ -1,4 +1,4 @@
-import 'package:fitable/app/product/models/product_model.dart';
+import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 enum EnumIssue { product, recipe, user, comment }

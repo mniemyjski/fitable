@@ -1,5 +1,5 @@
 import 'package:fitable/app/account/widgets/tile_account.dart';
-import 'package:fitable/app/product/widget/tile_product.dart';
+import 'package:fitable/app/meal/widget/tile_product.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';

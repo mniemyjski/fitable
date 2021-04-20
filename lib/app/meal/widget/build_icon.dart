@@ -1,4 +1,4 @@
-import 'package:fitable/app/recipe/recipe_details_screen.dart';
+import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:flutter/material.dart';
 
 Icon buildIcon(BuildContext context) {

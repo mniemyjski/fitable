@@ -1,5 +1,5 @@
-import 'package:fitable/app/recipe/recipe_details_screen.dart';
-import 'package:fitable/app/recipe/view_models/recipe_details_view_model.dart';
+import 'package:fitable/app/meal/recipe_details_screen.dart';
+import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';

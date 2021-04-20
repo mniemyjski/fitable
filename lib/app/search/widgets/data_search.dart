@@ -2,8 +2,6 @@ import 'package:algolia/algolia.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:fitable/app/account/widgets/buildSliderMenu.dart';
 import 'package:fitable/app/account/widgets/build_title.dart';
-import 'file:///C:/Project/fitable/lib/common_widgets/massage_flush_bar.dart';
-import 'package:fitable/app/product/widget/tile_product.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';

@@ -13,8 +13,7 @@ import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class MyAccountScreen extends ConsumerWidget {
