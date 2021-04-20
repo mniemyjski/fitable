@@ -31,9 +31,7 @@ class CropImageViewModel extends ChangeNotifier {
     var fileData = i.encodeJpg(src);
 
     File file = File(path);
-    printError(file.path);
     file = File(path + 'x')..writeAsBytesSync(fileData);
-    printError(file.path);
     Navigator.pop(context, file);
   }
 }

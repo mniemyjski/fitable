@@ -50,6 +50,11 @@ class Database {
   Future<Account> getName(String uid) => _service.collection(Path.accounts()).doc(uid).get().then(
         (value) => Account.fromMap(value.data()),
       );
+
+  Future<bool> nameAvailable(String name) => _service.collection(Path.accounts()).where('name', isEqualTo: name).get().then(
+        (value) => value.docs.isNotEmpty ? true : false,
+      );
+
   Future<Account> getAccount(String uid) => _service
       .collection(Path.accounts())
       .where(FieldPath.documentId, isEqualTo: uid)

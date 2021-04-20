@@ -7,6 +7,7 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
+import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/constants/constants.dart';
@@ -73,9 +74,24 @@ class MyAccountScreen extends ConsumerWidget {
                 context: context,
                 labelText: Constants.name(),
                 initValue: account.name,
-                onPressed: () {
-                  //TODO create function set name in model with validate (non empty and unique)
-                  db.updateAccount(name: 'name', value: _value);
+                onPressed: () async {
+                  print('wynik: $_value, ${account.name}');
+                  bool nameAvailable = await context.read(providerDatabase).nameAvailable(_value);
+
+                  if (_value == account.name || _value == null) {
+                    Navigator.pop(context);
+                    return;
+                  }
+                  if (_value == '') {
+                    massageFlushBar(context, Constants.name_is_not_empty());
+                    return;
+                  }
+                  if (nameAvailable) {
+                    massageFlushBar(context, Constants.name_is_not_avilablea());
+                    return;
+                  }
+
+                  context.read(providerDatabase).updateAccount(name: 'name', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {

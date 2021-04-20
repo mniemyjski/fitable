@@ -139,4 +139,8 @@ class Constants {
 
   static String portion() => "portion".tr();
   static String portion_cannot_be_empty() => "portion_cannot_be_empty".tr();
+  static String name_is_not_avilablea() => "name_is_not_avilablea".tr();
+  static String name_is_not_empty() => "name_is_not_empty".tr();
+  static String pl() => "pl".tr();
+  static String en() => "en".tr();
 }

@@ -34,17 +34,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomDropDownButton(
                     name: Constants.localeApp(),
                     value: pref.localeApp,
-                    list: <String>['pl_PL', 'en_US'],
+                    list: <String>['pl', 'en'],
                     onChanged: (String state) {
                       setState(() {
-                        context.locale = Locale(state.substring(0, state.indexOf('_')), state.substring(state.indexOf('_') + 1, state.length));
+                        context.setLocale(Locale(state));
                         db.updatePreference(name: 'localeApp', value: state);
                       });
                     }),
                 CustomDropDownButton(
                     name: Constants.localeBase(),
                     value: pref.localeBase,
-                    list: <String>['pl_PL'],
+                    list: <String>['pl'],
                     onChanged: (state) {
                       db.updatePreference(name: 'localeBase', value: state);
                     }),

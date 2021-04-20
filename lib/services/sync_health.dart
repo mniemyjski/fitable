@@ -90,9 +90,7 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
       if (x.type == HealthDataType.ACTIVE_ENERGY_BURNED) {
         burn += (x.value as double);
       }
-      if (x.type == HealthDataType.BODY_FAT_PERCENTAGE) {
-        printError("BODY_FAT_PERCENTAGE: ${x.value}");
-      }
+      if (x.type == HealthDataType.BODY_FAT_PERCENTAGE) {}
     });
 
     // printError("Steps: $steps");

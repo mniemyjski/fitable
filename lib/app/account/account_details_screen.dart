@@ -9,12 +9,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AccountDetailsScreenArguments {
   final Account account;
 
   AccountDetailsScreenArguments({@required this.account});
 }
+
+void _launchURL(String url) async => await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
 class AccountDetailsScreen extends StatelessWidget {
   @override
@@ -70,15 +73,15 @@ class AccountDetailsScreen extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.youtube, color: args.account.youtube != '' ? Colors.red : Colors.grey),
-                  onPressed: () => null,
+                  onPressed: () => _launchURL(args.account.youtube),
                 ),
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.facebook, color: args.account.instagram != '' ? Colors.blue[800] : Colors.grey),
-                  onPressed: () => null,
+                  onPressed: () => _launchURL(args.account.instagram),
                 ),
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.instagram, color: args.account.facebook != '' ? Colors.blue[800] : Colors.grey),
-                  onPressed: () => null,
+                  onPressed: () => _launchURL(args.account.facebook),
                 ),
               ],
             ),

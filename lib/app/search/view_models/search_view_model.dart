@@ -18,8 +18,12 @@ import 'package:fitable/services/application.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/services.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 final providerSearchViewModel = ChangeNotifierProvider.autoDispose<SearchViewModel>((ref) {
   return SearchViewModel();
@@ -183,12 +187,12 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   barcodeOnPress(BuildContext context) async {
-    String result = await FlutterBarcodeScanner.scanBarcode("#ff6666", "CANCEL", true, ScanMode.BARCODE);
-    final SearchScreenArguments args = ModalRoute.of(context).settings.arguments;
-    selectedIndex = controller.index = 0;
-    if (result != '-1') {
+    await Permission.camera.request();
+    var barcode = await scanner.scan();
+
+    if (barcode != null) {
       final db = context.read(providerDatabase);
-      Product product = await db.getProduct(barcode: result);
+      Product product = await db.getProduct(barcode: barcode);
 
       if (product != null) {
         var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
@@ -199,7 +203,7 @@ class SearchViewModel extends ChangeNotifier {
       } else {
         Navigator.of(context).pushNamed(AppRoute.createProductScreen,
             arguments: ProductCreateScreenArguments(
-              barcode: result,
+              barcode: barcode,
             ));
       }
     }
