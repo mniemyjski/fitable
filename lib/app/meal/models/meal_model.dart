@@ -22,7 +22,7 @@ class Meal {
   final DateTime dateCreation;
   final MealType mealType;
   final Ingredient ingredient;
-  final bool suggest;
+  final bool isSuggested;
 
   Meal({
     this.id,
@@ -31,18 +31,18 @@ class Meal {
     @required this.dateTime,
     @required this.mealType,
     @required this.ingredient,
-    this.suggest = false,
+    this.isSuggested = false,
   });
 
-  Map<String, dynamic> toMap(String id) {
+  Map<String, dynamic> toMap(String id, String uid) {
     return {
       'id': id,
-      'uid': uid,
+      'uid': uid != null ? uid : this.uid,
       'dateTime': DateTime(dateTime.year, dateTime.month, dateTime.day),
       'dateCreation': dateCreation == null ? DateTime.now() : dateCreation,
       'mealType': toText(mealType),
       'ingredient': ingredient.toMap(),
-      'suggest': suggest,
+      'isSuggested': isSuggested,
     };
   }
 
@@ -56,6 +56,7 @@ class Meal {
         dateTime: data['dateTime'].toDate(),
         dateCreation: data['dateCreation'].toDate(),
         mealType: toEnum(data['mealType']),
+        isSuggested: data['isSuggested'],
         id: id,
         ingredient: Ingredient.fromMap(data['ingredient']));
   }

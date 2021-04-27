@@ -77,7 +77,11 @@ class ImageSliderViewModel extends ChangeNotifier {
   }
 
   cropImage(BuildContext context, File file) async {
-    var result = await Navigator.pushNamed(context, AppRoute.cropImageScreen, arguments: CropImageScreenArguments(file: file));
+    var result = await Navigator.pushNamed(
+      context,
+      AppRoute.cropImageScreen,
+      arguments: CropImageScreenArguments(file: file, current: current),
+    );
 
     if (result != null) {
       File _file = result;

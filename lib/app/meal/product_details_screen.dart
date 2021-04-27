@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
+import 'package:fitable/app/issue/issue_report.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_details_view_model.dart';
@@ -9,6 +10,7 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/services/macro.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
@@ -133,9 +135,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              if (args.element == Product)
+              if (!args.isMeal)
                 TextButton(
-                    onPressed: () => model.bugReport(context),
+                    onPressed: () => issueReport(context, args.element, ElementType.product),
                     child: Text(
                       Constants.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),

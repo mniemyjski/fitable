@@ -18,7 +18,7 @@ class CropImageViewModel extends ChangeNotifier {
     editorKey.currentState.reset();
   }
 
-  crop(BuildContext context, String path) async {
+  crop(BuildContext context, String path, int current) async {
     final Rect cropRect = editorKey.currentState.getCropRect();
     var data = editorKey.currentState.rawImageData;
 
@@ -30,7 +30,7 @@ class CropImageViewModel extends ChangeNotifier {
     var fileData = i.encodeJpg(src);
 
     File file = File(path);
-    file = File(path + 'x')..writeAsBytesSync(fileData);
+    file = File(path + current.toStringAsFixed(0))..writeAsBytesSync(fileData);
     Navigator.pop(context, file);
   }
 }

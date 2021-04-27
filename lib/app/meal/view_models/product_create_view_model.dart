@@ -12,6 +12,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logger/logger.dart';
 
 final providerProductCreateViewModel = ChangeNotifierProvider.autoDispose<ProductCreateViewModel>((ref) {
   return ProductCreateViewModel();
@@ -524,7 +525,7 @@ class ProductCreateViewModel extends ChangeNotifier {
   createProduct({@required BuildContext context, @required String barcode, String id, String description}) {
     final db = context.read(providerDatabase);
 
-    context.read(providerPreference.last).then((preference) {
+    context.read(providerPreference.last).then((preference) async {
       Product product = Product(
           barcode: barcode,
           id: id,
@@ -579,14 +580,15 @@ class ProductCreateViewModel extends ChangeNotifier {
 
       if (id != null) {
         Issue issuesReport = Issue(
-          type: EnumIssue.product,
+          elementType: ElementType.product,
           id: id,
           dateCreate: DateTime.now(),
           description: description,
-          product: product,
+          element: product,
+          issueType: IssueType.correct,
         );
 
-        db.createIssue(issuesReport);
+        Navigator.pop(context, issuesReport);
       } else {
         db.createProduct(product);
       }
@@ -603,49 +605,49 @@ class ProductCreateViewModel extends ChangeNotifier {
       _categoryPrimary = product.categoryPrimary;
       _categorySecondary = product.categorySecondary;
       _keyWords = product.keyWords;
-      calories = product.calories;
-      proteins = product.proteins;
-      carbs = product.carbs;
-      fats = product.fats;
+      _calories = product.calories;
+      _proteins = product.proteins;
+      _carbs = product.carbs;
+      _fats = product.fats;
       _portions = product.portions;
       _unit = product.portions.first.unit;
 
-      sugar = product.sugar;
-      animalProteins = product.animalProteins;
-      plantProteins = product.plantProteins;
-      saturated = product.saturated;
-      unsaturated = product.unsaturated;
-      omega3 = product.omega3;
-      omega6 = product.omega6;
-      fiber = product.fiber;
-      caffeine = product.caffeine;
-      cholesterol = product.cholesterol;
-      salt = product.salt;
-      vitaminA = product.vitaminA;
-      vitaminC = product.vitaminC;
-      vitaminD = product.vitaminD;
-      vitaminE = product.vitaminE;
-      vitaminK = product.vitaminK;
-      vitaminB1 = product.vitaminB1;
-      vitaminB2 = product.vitaminB2;
-      vitaminB3 = product.vitaminB3;
-      vitaminB5 = product.vitaminB5;
-      vitaminB6 = product.vitaminB6;
-      vitaminB7 = product.vitaminB7;
-      vitaminB9 = product.vitaminB9;
-      vitaminB12 = product.vitaminB12;
-      potassium = product.potassium;
-      sodium = product.sodium;
-      calcium = product.calcium;
-      magnesium = product.magnesium;
-      phosphorus = product.phosphorus;
-      iron = product.iron;
-      copper = product.copper;
-      zinc = product.zinc;
-      selenium = product.selenium;
-      manganese = product.manganese;
-      iodine = product.iodine;
-      chromium = product.chromium;
+      _sugar = product.sugar;
+      _animalProteins = product.animalProteins;
+      _plantProteins = product.plantProteins;
+      _saturated = product.saturated;
+      _unsaturated = product.unsaturated;
+      _omega3 = product.omega3;
+      _omega6 = product.omega6;
+      _fiber = product.fiber;
+      _caffeine = product.caffeine;
+      _cholesterol = product.cholesterol;
+      _salt = product.salt;
+      _vitaminA = product.vitaminA;
+      _vitaminC = product.vitaminC;
+      _vitaminD = product.vitaminD;
+      _vitaminE = product.vitaminE;
+      _vitaminK = product.vitaminK;
+      _vitaminB1 = product.vitaminB1;
+      _vitaminB2 = product.vitaminB2;
+      _vitaminB3 = product.vitaminB3;
+      _vitaminB5 = product.vitaminB5;
+      _vitaminB6 = product.vitaminB6;
+      _vitaminB7 = product.vitaminB7;
+      _vitaminB9 = product.vitaminB9;
+      _vitaminB12 = product.vitaminB12;
+      _potassium = product.potassium;
+      _sodium = product.sodium;
+      _calcium = product.calcium;
+      _magnesium = product.magnesium;
+      _phosphorus = product.phosphorus;
+      _iron = product.iron;
+      _copper = product.copper;
+      _zinc = product.zinc;
+      _selenium = product.selenium;
+      _manganese = product.manganese;
+      _iodine = product.iodine;
+      _chromium = product.chromium;
       _photosUrl = product.photosUrl;
     }
   }
@@ -653,10 +655,11 @@ class ProductCreateViewModel extends ChangeNotifier {
   save(BuildContext context) async {
     if (product != null) {
       String _value;
-      await showInputPicker(
+      return showInputPicker(
         context: context,
-        labelText: Constants.description(),
+        hintText: Constants.describe_error(),
         multiLine: true,
+        isCancel: true,
         buttonTextYes: Constants.send(),
         onPressed: () {
           createProduct(context: context, barcode: barcode, id: product.id, description: _value);

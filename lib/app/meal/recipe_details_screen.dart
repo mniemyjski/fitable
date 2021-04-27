@@ -1,5 +1,6 @@
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
+import 'package:fitable/app/issue/issue_report.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
@@ -14,6 +15,7 @@ import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/services/macro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -126,7 +128,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                 ),
               if (!args.isMeal)
                 TextButton(
-                    onPressed: () => model.bugReport(context, args.recipe),
+                    onPressed: () => issueReport(context, args.recipe, ElementType.recipe),
                     child: Text(
                       Constants.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),

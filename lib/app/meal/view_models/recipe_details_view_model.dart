@@ -62,11 +62,6 @@ class RecipeDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bugReport(BuildContext context, Recipe recipe) {
-    // Navigator.of(context)
-    //     .pushNamed(AppRoute.createProductScreen, arguments: ProductCreateScreenArguments(product: product, barcode: product.barcode));
-  }
-
   submit({@required BuildContext context}) {
     final RecipeDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
     Ingredient result = Ingredient(selectedPortion: selectedPortion, recipe: recipe, size: sizeListener);
@@ -82,7 +77,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
         mealType: _mealType,
         ingredient: result,
       );
-      db.setMeal(meal: _meal);
+      db.addMeal(meal: _meal);
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
     } else {
       Navigator.pop(context, result);

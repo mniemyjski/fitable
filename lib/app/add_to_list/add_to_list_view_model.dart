@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
@@ -46,6 +48,12 @@ class AddToListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  addSuggested(String name) {
+    list.add(name);
+    list = LinkedHashSet<String>.from(list).toList();
+    notifyListeners();
+  }
+
   addToList(BuildContext context) {
     if (tileType == EnumTileType.keyWord) {
       list.add(sizeListener);
@@ -65,6 +73,7 @@ class AddToListViewModel extends ChangeNotifier {
         massageFlushBar(context, Constants.portion_cannot_be_empty());
       }
     }
+    list = LinkedHashSet<String>.from(list).toList();
     FocusScope.of(context).unfocus();
     notifyListeners();
   }

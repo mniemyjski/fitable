@@ -47,16 +47,23 @@ class HomeViewModel extends ChangeNotifier {
     _fats = 0.0;
 
     mealList.forEach((element) {
-      _calories += Macro.calculateCalories(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-      _proteins += Macro.calculateProteins(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-      _carbs += Macro.calculateCarbs(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-      _fats += Macro.calculateFats(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+      if (!element.isSuggested) {
+        _calories += Macro.calculateCalories(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+        _proteins += Macro.calculateProteins(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+        _carbs += Macro.calculateCarbs(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+        _fats += Macro.calculateFats(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+      }
     });
   }
 
   onPressed(BuildContext context, Meal element, MealType mealType) async {
     final db = context.read(providerDatabase);
     dynamic result;
+
+    if (element.isSuggested) {
+      db.updateSuggested(meal: element, suggested: false);
+      return;
+    }
 
     if (element.ingredient.product != null) {
       result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
@@ -97,7 +104,7 @@ class HomeViewModel extends ChangeNotifier {
 
     if (result != null) {
       Ingredient ingredient = result;
-      db.setMeal(meal: new Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
+      db.addMeal(meal: new Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
     }
   }
 

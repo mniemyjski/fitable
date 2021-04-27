@@ -58,15 +58,6 @@ class _BoxVideoState extends State<BoxVideo> {
             controller: model.controller,
             // aspectRatio: 16 / 9,
           ),
-          Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                  iconSize: 60,
-                  icon: Icon(
-                    Icons.navigate_next,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => _onPressed(context))),
         ],
       );
     });

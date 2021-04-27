@@ -5,8 +5,9 @@ import 'package:fitable/services/macro.dart';
 
 class TileProduct extends StatelessWidget {
   final element;
+  final isSuggested;
 
-  const TileProduct(this.element);
+  const TileProduct({@required this.element, bool this.isSuggested = false});
 
   @override
   Widget build(BuildContext context) {
@@ -37,51 +38,72 @@ class TileProduct extends StatelessWidget {
       Macro.getSelectedPortion(element),
     ).toStringAsFixed(1)}g';
 
+    String dash = Theme.of(context).brightness == Brightness.light ? "resources/images/dash_2.png" : "resources/images/dash_1.png";
+    Color color = isSuggested ? Theme.of(context).textTheme.bodyText2.color.withOpacity(0.2) : Theme.of(context).textTheme.bodyText2.color;
+
     return Row(
       children: <Widget>[
         Expanded(
           child: Container(
-            margin: EdgeInsets.all(1),
-            decoration: BoxDecoration(),
+            decoration: isSuggested
+                ? BoxDecoration(
+                    image: DecorationImage(
+                    image: AssetImage(dash),
+                    fit: BoxFit.cover,
+                  ))
+                : BoxDecoration(),
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: 0),
-                        width: double.infinity,
-                        child: Text(_name,
-                            style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(bottom: 0),
-                          width: double.infinity,
-                          child: Text(_size,
-                              style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic))),
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Text(_calories,
-                              style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4, bottom: 4, left: 2),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 0),
+                                child: Text(_name, style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                              ),
+                            ),
+                            Expanded(flex: 1, child: Text('')),
+                            Expanded(flex: 1, child: Text('')),
+                            if (isSuggested)
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 0),
+                                  child: Text(Constants.suggested(), style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                                ),
+                              ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(_proteins,
-                              style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(_carbs,
-                              style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(_fats,
-                              style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic)),
-                        ),
-                      ]),
-                    ],
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0),
+                            width: double.infinity,
+                            child: Text(_size, style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic))),
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Text(_calories, style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(_proteins, style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(_carbs, style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(_fats, style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                          ),
+                        ]),
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -253,3 +253,11 @@ name_is_not_avilablea,Nazwa nie jest dostępna,Name is not avilablea
 pl,PL,PL
 en,EN,EN
 send,Wyślij,Send
+report_correction,Zgłoś korektę,Report correction
+report_bug,Zgłoś błąd,Report bug
+cancel,Anuluj,Cancel
+describe_error,Opisz dokładny powód zgłoszenia,Describe the exact reason for the report
+change,Zmień,Change
+is_aready_issue,"Wcześniej zgłoszony przez Ciebie błąd nie został jeszcze zweryfikowany, czy chcesz zmienić zgłoszenie?",is_aready_issue
+suggested,Sugerowane,Suggested
+gluten_free,Gluten free,Gluten free

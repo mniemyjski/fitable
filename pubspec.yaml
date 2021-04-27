@@ -67,6 +67,8 @@ flutter:
 
   assets:
     - resources/images/
+    - resources/images/dash_1.png
+    - resources/images/dash_2.png
     - resources/languages/
     - resources/
 #    - resources/images/google-logo.png

@@ -6,6 +6,7 @@ import 'package:fitable/app/home/widgets/tile_measurement.dart';
 import 'package:fitable/app/meal/widgets/tile_image_recipe.dart';
 import 'package:fitable/app/meal/widgets/tile_product.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe, account, keyWord, portion }
 
@@ -28,28 +29,13 @@ class CustomListView extends StatelessWidget {
       : super(key: key);
 
   Widget _buildTile(dynamic element, int index) {
-    switch (type) {
-      case EnumTileType.product:
-        return TileProduct(element);
-      case EnumTileType.ingredient:
-        return TileProduct(element);
-      case EnumTileType.recipe:
-        return TileProduct(element);
-      case EnumTileType.meal:
-        return TileProduct(element.ingredient);
-      case EnumTileType.account:
-        return TileAccount(element);
-      case EnumTileType.imageRecipe:
-        return TileImageRecipe(recipe: element);
-      case EnumTileType.measurement:
-        return TileMeasurement(measurement: element);
-      case EnumTileType.keyWord:
-        return TileKeyWord(index: index, element: element);
-      case EnumTileType.portion:
-        return TilePortion(index: index, element: element);
-      default:
-        return Text(element);
-    }
+    if (type == EnumTileType.imageRecipe) return TileImageRecipe(recipe: element);
+    if (type == EnumTileType.measurement) return TileMeasurement(measurement: element);
+    if (type == EnumTileType.account) return TileAccount(element);
+    if (type == EnumTileType.keyWord) return TileKeyWord(index: index, element: element);
+    if (type == EnumTileType.portion) return TilePortion(index: index, element: element);
+    if (type == EnumTileType.meal) return TileProduct(element: element.ingredient, isSuggested: element.isSuggested);
+    return TileProduct(element: element);
   }
 
   @override
@@ -68,7 +54,6 @@ class CustomListView extends StatelessWidget {
       itemBuilder: (_, int index) {
         final element = list.elementAt(index);
 
-        // final key = type == EnumTileType.recipe || type == EnumTileType.ingredient ? list.elementAt(index).toString() : list.elementAt(index).id;
         final Widget child = _buildTile(element, index);
 
         if (onDismissed == null) {

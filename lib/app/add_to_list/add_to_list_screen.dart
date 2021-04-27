@@ -9,31 +9,63 @@ import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-_floatAction(BuildContext context, EnumTileType detailsType) {
+_tileKeyWord(BuildContext context, String name) {
+  return GestureDetector(
+    onTap: () => context.read(providerAddToListViewModel).addSuggested(name),
+    child: Card(
+        child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(name),
+    )),
+  );
+}
+
+_bottomActionbar(BuildContext context, EnumTileType detailsType) {
   if (detailsType == EnumTileType.keyWord)
     return Container(
-      height: 65,
+      height: 170,
+      color: Theme.of(context).primaryColorDark.withOpacity(0.6),
       width: MediaQuery.of(context).size.width - 30,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Consumer(builder: (context, watch, child) {
-              return CustomTextField(
-                  onChanged: (v) => context.read(providerAddToListViewModel).sizeListener = v,
-                  controller: watch(providerAddToListViewModel).controller);
-            }),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 6, bottom: 8),
+            child: Text(Constants.suggested() + ':', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
           ),
-          CustomIconButton(onPressed: () => context.read(providerAddToListViewModel).addToList(context)),
+          Wrap(
+            children: [
+              _tileKeyWord(context, Constants.ketogenic()),
+              _tileKeyWord(context, Constants.low_fats()),
+              _tileKeyWord(context, Constants.high_protein()),
+              _tileKeyWord(context, Constants.gluten_free()),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Consumer(builder: (context, watch, child) {
+                  return CustomTextField(
+                      onChanged: (v) => context.read(providerAddToListViewModel).sizeListener = v,
+                      controller: watch(providerAddToListViewModel).controller);
+                }),
+              ),
+              CustomIconButton(onPressed: () => context.read(providerAddToListViewModel).addToList(context)),
+            ],
+          ),
         ],
       ),
     );
 
   return Container(
-    height: 65,
+    height: 70,
+    color: Theme.of(context).primaryColorDark.withOpacity(0.6),
     width: MediaQuery.of(context).size.width - 30,
     child: Row(
       children: <Widget>[
         Container(
+          height: 65,
           width: 125,
           child: Consumer(builder: (context, watch, child) {
             return CustomDropDownButton(
@@ -80,17 +112,14 @@ class AddToListScreen extends StatelessWidget {
             onPressed: () => context.read(providerAddToListViewModel).save(context),
           )
         ]),
-        body: Padding(
-          padding: const EdgeInsets.only(bottom: 80),
-          child: SingleChildScrollView(
-            child: CustomListView(
-              type: model.tileType,
-              list: model.list,
-              onDismissed: (element) => context.read(providerAddToListViewModel).onDismissed(element),
-            ),
+        body: SingleChildScrollView(
+          child: CustomListView(
+            type: model.tileType,
+            list: model.list,
+            onDismissed: (element) => context.read(providerAddToListViewModel).onDismissed(element),
           ),
         ),
-        floatingActionButton: _floatAction(context, model.tileType),
+        floatingActionButton: _bottomActionbar(context, model.tileType),
       );
     });
   }

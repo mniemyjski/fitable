@@ -28,6 +28,32 @@ class RecipeCreateViewModel extends ChangeNotifier {
   List _keyWords;
   UnitType _unit;
   String _access;
+  String _videoId;
+
+  String get videoId => _videoId;
+
+  set videoId(String videoId) {
+    _videoId = convertUrlToId(videoId);
+    notifyListeners();
+  }
+
+  static String convertUrlToId(String url, {bool trimWhitespaces = true}) {
+    assert(url?.isNotEmpty ?? false, 'Url cannot be empty');
+    if (!url.contains("http") && (url.length == 11)) return url;
+    if (trimWhitespaces) url = url.trim();
+
+    for (var exp in [
+      RegExp(r"^https:\/\/(?:www\.|m\.)?youtube\.com\/watch\?v=([_\-a-zA-Z0-9]{11}).*$"),
+      RegExp(r"^https:\/\/(?:www\.|m\.)?youtube(?:-nocookie)?\.com\/embed\/([_\-a-zA-Z0-9]{11}).*$"),
+      RegExp(r"^https:\/\/youtu\.be\/([_\-a-zA-Z0-9]{11}).*$")
+    ]) {
+      Match match = exp.firstMatch(url);
+      if (match != null && match.groupCount >= 1) return match.group(1);
+    }
+
+    return null;
+  }
+
   Duration _timePreparation = Duration(seconds: 0);
 
   Duration get timePreparation => _timePreparation;

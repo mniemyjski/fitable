@@ -8,10 +8,10 @@ Widget getTitleType(SearchType searchType, dynamic data) {
   print(data);
   switch (searchType) {
     case SearchType.recipes:
-      return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(data));
+      return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: data));
       break;
     case SearchType.products:
-      return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(data));
+      return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: data));
       break;
     case SearchType.accounts:
       return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileAccount(data));

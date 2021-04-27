@@ -8,8 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CropImageScreenArguments {
   final File file;
+  final int current;
 
-  CropImageScreenArguments({this.file});
+  CropImageScreenArguments({@required this.file, @required this.current});
 }
 
 class CropImageScreen extends ConsumerWidget {
@@ -23,7 +24,7 @@ class CropImageScreen extends ConsumerWidget {
         title: Text('Crop'),
         actions: <Widget>[
           IconButton(
-            onPressed: () => context.read(providerCropImageViewModel).crop(context, args.file.path),
+            onPressed: () => context.read(providerCropImageViewModel).crop(context, args.file.path, args.current),
             icon: Icon(Icons.save),
           )
         ],
@@ -35,7 +36,6 @@ class CropImageScreen extends ConsumerWidget {
               color: Colors.white,
               padding: EdgeInsets.all(8),
               child: ExtendedImage.file(
-                // 'https://firebasestorage.googleapis.com/v0/b/fitable-76dce.appspot.com/o/recipes%2FOx4QeARgP8l29cBzb5q8%2F0?alt=media&token=04b47889-8def-40e9-a217-f5e06aee1167',
                 args.file,
                 fit: BoxFit.contain,
                 // enableLoadState: true,

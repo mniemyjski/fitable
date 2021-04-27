@@ -1,3 +1,5 @@
+import 'package:fitable/common_widgets/custom_button.dart';
+import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -5,12 +7,14 @@ showInputPicker(
     {@required BuildContext context,
     String labelText,
     String title,
-    String buttonTextNo = 'cancel',
+    String buttonTextNo,
     String buttonTextYes = 'save',
+    String hintText = '',
     String initValue,
     @required VoidCallback onPressed,
-    @required ValueChanged<String> onChanged,
+    ValueChanged<String> onChanged,
     bool isCancel = false,
+    bool isTextField = true,
     bool multiLine = false}) async {
   showDialog(
       context: context,
@@ -19,7 +23,7 @@ showInputPicker(
           return Dialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)), //this right here
             child: Container(
-              height: 125 + (multiLine ? 120.0 : 0.0) + (title != null ? 25.0 : 0.0),
+              height: 135 + (multiLine ? 120.0 : 0.0) + (title != null ? 25.0 : 0.0),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -27,57 +31,43 @@ showInputPicker(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (title != null) Text(title, style: TextStyle(fontSize: 16)),
-                    TextFormField(
-                      textCapitalization: TextCapitalization.sentences,
-                      initialValue: initValue,
-                      autofocus: true,
-                      minLines: (multiLine ? 8 : 1),
-                      maxLines: (multiLine ? 8 : 1),
-                      onChanged: onChanged,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8),
-                        labelText: labelText?.tr(),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(),
+                    if (isTextField)
+                      TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+                        initialValue: initValue,
+                        autofocus: true,
+                        minLines: (multiLine ? 8 : 1),
+                        maxLines: (multiLine ? 8 : 1),
+                        onChanged: onChanged,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          labelText: labelText?.tr(),
+                          hintText: hintText,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: BorderSide(),
+                          ),
                         ),
                       ),
-                    ),
                     Row(
                       children: <Widget>[
                         if (isCancel) ...[
                           Expanded(
-                            child: RaisedButton(
-                              color: Colors.red,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                height: 45,
-                                child: Center(
-                                  child: Text(buttonTextNo.tr(), style: TextStyle(color: Colors.white, fontSize: 20)),
-                                ),
-                              ),
-                            ),
-                          ),
+                              child: CustomButton(
+                            child: Text(buttonTextNo != null ? buttonTextNo : Constants.cancel()),
+                            color: Colors.indigo,
+                            textColor: Colors.white,
+                            onPressed: () => Navigator.pop(context),
+                          )),
                           SizedBox(width: 10)
                         ],
                         Expanded(
-                          child: RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                            onPressed: onPressed,
-                            child: Container(
-                              width: double.infinity,
-                              height: 45,
-                              child: Center(
-                                child: Text(buttonTextYes.tr(), style: TextStyle(color: Colors.white, fontSize: 20)),
-                              ),
-                            ),
-                          ),
-                        ),
+                            child: CustomButton(
+                          child: Text(buttonTextYes != null ? buttonTextYes : Constants.save()),
+                          color: Colors.indigo,
+                          textColor: Colors.white,
+                          onPressed: onPressed,
+                        ))
                       ],
                     ),
                   ],

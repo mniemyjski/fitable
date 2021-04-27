@@ -1,38 +1,35 @@
 import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 
-enum EnumIssue { product, recipe, user, comment }
-
 class Issue {
-  final EnumIssue type;
+  final ElementType elementType;
+  final IssueType issueType;
   final String id;
   final String uid;
   final DateTime dateCreate;
   final String description;
-  final Product product;
-  // final Recipe recipe;
-  // final User user;
-  // final Comment comment;
+  final dynamic element;
 
   Issue({
     this.uid,
-    @required this.type,
+    @required this.issueType,
     @required this.id,
     @required this.dateCreate,
     @required this.description,
-    this.product,
+    @required this.elementType,
+    this.element,
   });
 
   Map<String, dynamic> toMap(String uid) {
     return {
-      'type': toText(type),
+      'elementType': Enums.toText(elementType),
+      'issueType': Enums.toText(issueType),
       'id': id,
       'uid': uid,
       'dateCreate': dateCreate,
       'description': description,
-      'product': product?.toMap(),
+      'element': element?.toMap(),
     };
   }
-
-  static String toText(EnumIssue issuesReport) => issuesReport.toString().split('.').last;
 }

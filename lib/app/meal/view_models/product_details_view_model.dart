@@ -1,18 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
-import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/product_model.dart';
-import 'package:fitable/app/meal/product_create_screen.dart';
-import 'package:fitable/constants/enums.dart';
-import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/macro.dart';
-import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 
 final providerProductDetailsViewModel = ChangeNotifierProvider.autoDispose<ProductDetailsViewModel>((ref) {
   return ProductDetailsViewModel();
@@ -83,12 +74,5 @@ class ProductDetailsViewModel extends ChangeNotifier {
     Ingredient result = Ingredient(selectedPortion: selectedPortion, product: Macro.getProduct(element), size: sizeListener);
 
     Navigator.pop(context, result);
-  }
-
-  bugReport(BuildContext context) {
-    Product product = Macro.getProduct(element);
-
-    Navigator.of(context)
-        .pushNamed(AppRoute.createProductScreen, arguments: ProductCreateScreenArguments(product: product, barcode: product.barcode));
   }
 }

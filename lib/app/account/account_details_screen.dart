@@ -76,12 +76,12 @@ class AccountDetailsScreen extends StatelessWidget {
                   onPressed: () => _launchURL(args.account.youtube),
                 ),
                 IconButton(
-                  icon: FaIcon(FontAwesomeIcons.facebook, color: args.account.instagram != '' ? Colors.blue[800] : Colors.grey),
-                  onPressed: () => _launchURL(args.account.instagram),
+                  icon: FaIcon(FontAwesomeIcons.facebook, color: args.account.facebook != '' ? Colors.blue[800] : Colors.grey),
+                  onPressed: () => _launchURL(args.account.facebook),
                 ),
                 IconButton(
-                  icon: FaIcon(FontAwesomeIcons.instagram, color: args.account.facebook != '' ? Colors.blue[800] : Colors.grey),
-                  onPressed: () => _launchURL(args.account.facebook),
+                  icon: FaIcon(FontAwesomeIcons.instagram, color: args.account.instagram != '' ? Colors.purple[800] : Colors.grey),
+                  onPressed: () => _launchURL(args.account.instagram),
                 ),
               ],
             ),

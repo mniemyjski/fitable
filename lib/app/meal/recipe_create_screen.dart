@@ -78,14 +78,14 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
 
           return Column(
             children: [
-              ImageSlider(edit: true),
+              ImageSlider(edit: true, videoUrl: model.videoId),
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(
                   name: Constants.youtube(),
                   hintText: Constants.enter_youtube_id(),
                   onChanged: (v) {
-                    context.read(providerImageSliderViewModel).videoId = v;
+                    context.read(providerRecipeCreateViewModel).videoId = v;
                   },
                 ),
               ),

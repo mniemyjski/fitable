@@ -8,13 +8,14 @@ import 'package:fitable/app/media/widgets/box_video.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 class ImageSlider extends ConsumerWidget {
   final String videoUrl;
   final List photosUrl;
   final bool edit;
 
-  ImageSlider({this.videoUrl = '', this.photosUrl, this.edit = false});
+  ImageSlider({this.videoUrl, this.photosUrl, this.edit = false});
 
   _buttonList(BuildContext context, bool crop, file) {
     if (!edit) return [Container()];
@@ -44,12 +45,12 @@ class ImageSlider extends ConsumerWidget {
   List<Widget> _imageSliders(BuildContext context, ImageSliderViewModel model) {
     if (!edit) {
       model.sliderList = [];
-      if (videoUrl.isNotEmpty) model.sliderList.add(videoUrl);
+      if (videoUrl != null) model.sliderList.add(videoUrl);
       if (photosUrl != null) model.sliderList.addAll(photosUrl);
     }
 
     return model.sliderList.map((item) {
-      if (model.sliderList.indexOf(item) == 0)
+      if (model.sliderList.indexOf(item) == 0 && videoUrl != null)
         return Consumer(builder: (context, watch, child) {
           return watch(providerPreference).when(
             data: (pref) => BoxVideo(videoUrl: videoUrl, pref: pref),
@@ -60,7 +61,7 @@ class ImageSlider extends ConsumerWidget {
           );
         });
 
-      if (model.sliderList.indexOf(item) != 0) {
+      if (model.sliderList.indexOf(item) != 0 || videoUrl == null) {
         File file = File(item);
 
         return Container(
@@ -120,31 +121,56 @@ class ImageSlider extends ConsumerWidget {
 
     return Column(
       children: [
-        CarouselSlider(
-          items: _imageSliders(context, model),
-          carouselController: model.carouselController,
-          options: CarouselOptions(
-              enableInfiniteScroll: false,
-              viewportFraction: 1.0,
-              onPageChanged: (index, reason) {
-                model.current = index;
-              }),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: model.sliderList.map((url) {
-            int index = model.sliderList.indexOf(url);
-            return Container(
-              width: 12.0,
-              height: 12.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: model.current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+        if (_imageSliders(context, model).isNotEmpty)
+          CarouselSlider(
+            items: _imageSliders(context, model),
+            carouselController: model.carouselController,
+            options: CarouselOptions(
+                enableInfiniteScroll: false,
+                viewportFraction: 1.0,
+                onPageChanged: (index, reason) {
+                  model.current = index;
+                }),
+          ),
+        if (_imageSliders(context, model).length > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      // iconSize: 60,
+                      icon: Icon(
+                        Icons.navigate_before,
+                        // color: Colors.white,
+                      ),
+                      onPressed: () => context.read(providerImageSliderViewModel).carouselController.previousPage())),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: model.sliderList.map((url) {
+                  int index = model.sliderList.indexOf(url);
+                  return Container(
+                    width: 12.0,
+                    height: 12.0,
+                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: model.current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+                    ),
+                  );
+                }).toList(),
               ),
-            );
-          }).toList(),
-        ),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      // iconSize: 60,
+                      icon: Icon(
+                        Icons.navigate_next,
+                        // color: Colors.white,
+                      ),
+                      onPressed: () => context.read(providerImageSliderViewModel).carouselController.nextPage())),
+            ],
+          ),
       ],
     );
   }

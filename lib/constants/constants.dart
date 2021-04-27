@@ -197,4 +197,12 @@ abstract class Constants {
   static String recipe_name() => "recipe_name".tr();
   static String create_new_recipe() => "create_new_recipe".tr();
   static String enter_youtube_id() => "enter_youtube_id".tr();
+  static String report_correction() => "report_correction".tr();
+  static String report_bug() => "report_bug".tr();
+  static String cancel() => "cancel".tr();
+  static String describe_error() => "describe_error".tr();
+  static String change() => "change".tr();
+  static String is_aready_issue() => "is_aready_issue".tr();
+  static String suggested() => "suggested".tr();
+  static String gluten_free() => "gluten_free".tr();
 }

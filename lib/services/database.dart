@@ -118,17 +118,32 @@ class Database {
     }
   }
 
+  //#endregion
+
+  //#region Issues
   Future<void> createIssue(Issue issuesReport) {
-    final DocumentReference ref = _service.collection(Path.products()).doc(issuesReport.id).collection(Path.issues()).doc(uid);
+    String _path;
+    if (issuesReport.elementType == ElementType.product) _path = Path.products();
+    if (issuesReport.elementType == ElementType.recipe) _path = Path.recipes();
+
+    final DocumentReference ref = _service.collection(_path).doc(issuesReport.id).collection(Path.issues()).doc(uid);
     return ref.set(issuesReport.toMap(uid));
   }
 
+  Future<bool> alreadyIssue(String id, ElementType elementType) {
+    String _path;
+    if (elementType == ElementType.product) _path = Path.products();
+    if (elementType == ElementType.recipe) _path = Path.recipes();
+    return _service.collection(_path).doc(id).collection(Path.issues()).doc(uid).get().then(
+          (value) => value.data() != null ? true : false,
+        );
+  }
   //#endregion
 
   //#region Meals
-  Future<void> setMeal({@required Meal meal, String id}) {
-    final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(id ?? null);
-    return ref.set(meal.toMap(ref.id));
+  Future<void> addMeal({@required Meal meal}) {
+    final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc();
+    return ref.set(meal.toMap(ref.id, uid));
   }
 
   Future<void> updateMeal({
@@ -137,6 +152,14 @@ class Database {
   }) =>
       _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
         'ingredient': ingredient.toMap(),
+      });
+
+  Future<void> updateSuggested({
+    @required Meal meal,
+    @required bool suggested,
+  }) =>
+      _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
+        'isSuggested': suggested,
       });
 
   Future<void> deleteMeal(Meal meal) => _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).delete();
