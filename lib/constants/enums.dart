@@ -3,6 +3,7 @@ enum ConnStatus { loading, success, signInScreen, createAccount }
 enum FavoriteScreen { onlyProducts, allFoods, workouts, accounts }
 enum SearchType { recipes, products, accounts, workouts }
 enum UnitType { kg, g, l, ml }
+enum TypeMacro { size, calories, proteins, carbs, fats }
 
 class Enums {
   static String toText(dynamic element) => element.toString().split('.').last;

@@ -1,3 +1,5 @@
+import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 
 class Product {
@@ -9,9 +11,10 @@ class Product {
   final String categorySecondary;
   final String localeBase;
   final List keyWords;
-  final Map portions;
-  final String unit;
+  final List<Portion> portions;
   final bool verification;
+  final DateTime dateCreation;
+  final DateTime dateLastUpdate;
   final Map photosUrl;
   final int calories;
   final double proteins, carbs, fats;
@@ -32,49 +35,50 @@ class Product {
       @required this.localeBase,
       @required this.keyWords,
       @required this.portions,
-      @required this.unit,
       @required this.verification,
       @required this.calories,
       @required this.proteins,
       @required this.carbs,
       @required this.fats,
-      @required this.photosUrl,
-      @required this.sugar,
-      @required this.animalProteins,
-      @required this.plantProteins,
-      @required this.saturated,
-      @required this.unsaturated,
-      @required this.omega3,
-      @required this.omega6,
-      @required this.fiber,
-      @required this.caffeine,
-      @required this.cholesterol,
-      @required this.salt,
-      @required this.vitaminA,
-      @required this.vitaminC,
-      @required this.vitaminD,
-      @required this.vitaminE,
-      @required this.vitaminK,
-      @required this.vitaminB1,
-      @required this.vitaminB2,
-      @required this.vitaminB3,
-      @required this.vitaminB5,
-      @required this.vitaminB6,
-      @required this.vitaminB7,
-      @required this.vitaminB9,
-      @required this.vitaminB12,
-      @required this.potassium,
-      @required this.sodium,
-      @required this.calcium,
-      @required this.magnesium,
-      @required this.phosphorus,
-      @required this.iron,
-      @required this.copper,
-      @required this.zinc,
-      @required this.selenium,
-      @required this.manganese,
-      @required this.iodine,
-      @required this.chromium});
+      this.dateCreation,
+      this.dateLastUpdate,
+      this.photosUrl,
+      this.sugar,
+      this.animalProteins,
+      this.plantProteins,
+      this.saturated,
+      this.unsaturated,
+      this.omega3,
+      this.omega6,
+      this.fiber,
+      this.caffeine,
+      this.cholesterol,
+      this.salt,
+      this.vitaminA,
+      this.vitaminC,
+      this.vitaminD,
+      this.vitaminE,
+      this.vitaminK,
+      this.vitaminB1,
+      this.vitaminB2,
+      this.vitaminB3,
+      this.vitaminB5,
+      this.vitaminB6,
+      this.vitaminB7,
+      this.vitaminB9,
+      this.vitaminB12,
+      this.potassium,
+      this.sodium,
+      this.calcium,
+      this.magnesium,
+      this.phosphorus,
+      this.iron,
+      this.copper,
+      this.zinc,
+      this.selenium,
+      this.manganese,
+      this.iodine,
+      this.chromium});
 
   Map<String, dynamic> toMap({String id}) {
     return {
@@ -86,9 +90,10 @@ class Product {
       'categorySecondary': categorySecondary,
       'localeBase': localeBase,
       'keyWords': keyWords,
-      'portions': portions,
-      'unit': unit,
+      'portions': Portion.toListToMap(portions),
       'verification': verification,
+      'dateCreation': dateCreation == null ? DateTime.now() : dateCreation,
+      'dateLastUpdate': dateLastUpdate == null ? DateTime.now() : dateLastUpdate,
       'calories': calories,
       'proteins': proteins,
       'carbs': carbs,
@@ -146,9 +151,11 @@ class Product {
       categorySecondary: data['categorySecondary'],
       localeBase: data['localeBase'],
       keyWords: data['keyWords'],
-      portions: data['portions'],
-      unit: data['unit'],
+      portions: Portion.toListFromMap(data['portions']),
+      // unit: Enums.unitTypeToEnum(data['unit']),
       verification: data['verification'],
+      dateCreation: data['dateCreation'].toDate(),
+      dateLastUpdate: data['dateLastUpdate'].toDate(),
       calories: data['calories'],
       proteins: data['proteins'],
       carbs: data['carbs'],

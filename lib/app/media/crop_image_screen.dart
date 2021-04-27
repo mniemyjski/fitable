@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:fitable/app/crop_image/crop_Image_view_model.dart';
+import 'package:fitable/app/media/view_models/crop_Image_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,15 +13,6 @@ class CropImageScreenArguments {
 }
 
 class CropImageScreen extends ConsumerWidget {
-  // void _cropImage(BuildContext context) async {
-  //   final model = context.read(providerCropImageViewModel);
-  //
-  //   var data = model.editorKey.currentState.rawImageData;
-  //   print(data);
-  //
-  //   // Navigator.pop(context);
-  // }
-
   @override
   Widget build(BuildContext context, watch) {
     final CropImageScreenArguments args = ModalRoute.of(context).settings.arguments;
@@ -41,11 +32,14 @@ class CropImageScreen extends ConsumerWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              color: Colors.black,
+              color: Colors.white,
               padding: EdgeInsets.all(8),
               child: ExtendedImage.file(
+                // 'https://firebasestorage.googleapis.com/v0/b/fitable-76dce.appspot.com/o/recipes%2FOx4QeARgP8l29cBzb5q8%2F0?alt=media&token=04b47889-8def-40e9-a217-f5e06aee1167',
                 args.file,
                 fit: BoxFit.contain,
+                // enableLoadState: true,
+                cacheRawData: true,
                 mode: ExtendedImageMode.editor,
                 extendedImageEditorKey: model.editorKey,
                 initEditorConfigHandler: (state) {
@@ -65,38 +59,6 @@ class CropImageScreen extends ConsumerWidget {
                 tooltip: 'Undo',
                 onPressed: () => context.read(providerCropImageViewModel).reset(),
               ),
-              // PopupMenuButton<double>(
-              //   icon: Icon(Icons.aspect_ratio),
-              //   itemBuilder: (context) => [
-              //     PopupMenuItem(
-              //       child: Text("Original"),
-              //       value: 1000 / 667.0,
-              //     ),
-              //     PopupMenuDivider(),
-              //     PopupMenuItem(
-              //       child: Text("16:9"),
-              //       value: 16.0 / 9.0,
-              //     ),
-              //     PopupMenuItem(
-              //       child: Text("4:3"),
-              //       value: 4.0 / 3.0,
-              //     ),
-              //     PopupMenuItem(
-              //       child: Text("1:1"),
-              //       value: 1,
-              //     ),
-              //     PopupMenuItem(
-              //       child: Text("3:4"),
-              //       value: 3.0 / 4.0,
-              //     ),
-              //     PopupMenuItem(
-              //       child: Text("9:16"),
-              //       value: 9.0 / 16.0,
-              //     ),
-              //   ],
-              //   tooltip: 'Aspect Ratio',
-              //   onSelected: (x) => null,
-              // ),
             ],
           ),
         ],

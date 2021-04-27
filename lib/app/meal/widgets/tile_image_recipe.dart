@@ -11,6 +11,8 @@ class TileImageRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _imageURL = recipe.photosUrl.isNotEmpty ? recipe.photosUrl[0] : '';
+
     return Column(
       children: <Widget>[
         Container(
@@ -27,7 +29,7 @@ class TileImageRecipe extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               CachedNetworkImage(
-                imageUrl: recipe.photosUrl[0],
+                imageUrl: _imageURL,
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                     // shape: BoxShape.circle,

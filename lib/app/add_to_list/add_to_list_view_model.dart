@@ -14,20 +14,20 @@ final providerAddToListViewModel = ChangeNotifierProvider.autoDispose<AddToListV
 class AddToListViewModel extends ChangeNotifier {
   List list;
   EnumTileType tileType;
-  String unit;
-  String valueListener;
-  String _portionListener;
+  UnitType unit;
+  String sizeListener;
+  String _typeListener;
 
-  String get portionListener => _portionListener;
+  String get portionListener => _typeListener;
 
   set portionListener(String portionListener) {
-    _portionListener = portionListener;
+    _typeListener = portionListener;
     notifyListeners();
   }
 
   TextEditingController controller = TextEditingController(text: '');
 
-  initState(List list, EnumTileType detailsType, String unit) {
+  initState(List list, EnumTileType detailsType, UnitType unit) {
     if (this.list == null) {
       this.list = List.from(list);
       this.tileType = detailsType;
@@ -36,7 +36,7 @@ class AddToListViewModel extends ChangeNotifier {
     }
   }
 
-  onCheck(BuildContext context) {
+  save(BuildContext context) {
     Navigator.pop(context, list);
   }
 
@@ -48,14 +48,18 @@ class AddToListViewModel extends ChangeNotifier {
 
   addToList(BuildContext context) {
     if (tileType == EnumTileType.keyWord) {
-      list.add(valueListener);
+      list.add(sizeListener);
       controller.text = '';
     }
     if (tileType == EnumTileType.portion) {
-      if (_portionListener != null) {
-        list.add(new Portion(name: _portionListener, size: double.tryParse(valueListener), unit: Enums.unitTypeToEnum(unit)));
+      if (_typeListener != null) {
+        list.add(new Portion(
+            name: '${Enums.toText(_typeListener)} $sizeListener${Enums.toText(unit)}',
+            type: _typeListener,
+            size: double.tryParse(sizeListener),
+            unit: unit));
         controller.text = '';
-        _portionListener = null;
+        _typeListener = null;
         _reorderList();
       } else {
         massageFlushBar(context, Constants.portion_cannot_be_empty());
@@ -67,12 +71,18 @@ class AddToListViewModel extends ChangeNotifier {
 
   _reorderList() {
     if (tileType == EnumTileType.portion) {
-      list.removeWhere((element) => element.name == unit);
+      list.removeWhere((element) => element.type == Enums.toText(unit));
       List _list = [];
-      _list.add(new Portion(name: unit, size: 1, unit: Enums.unitTypeToEnum(unit)));
+      _list.add(
+        new Portion(
+          name: '${Enums.toText(unit)}',
+          type: Enums.toText(unit),
+          size: 1,
+          unit: unit,
+        ),
+      );
       _list.addAll(list);
       list = List.from(_list);
-      notifyListeners();
     }
   }
 }

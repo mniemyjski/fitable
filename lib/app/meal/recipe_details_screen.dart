@@ -1,18 +1,20 @@
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
-import 'package:fitable/app/meal/widget/build_choose_meal_type.dart';
-import 'package:fitable/app/meal/widget/build_icon.dart';
-import 'package:fitable/app/meal/widget/build_title.dart';
-import 'package:fitable/app/meal/widget/custom_carousel_slider.dart';
-import 'package:fitable/app/meal/widget/nutritional.dart';
+import 'package:fitable/app/meal/widgets/build_choose_meal_type.dart';
+import 'package:fitable/app/meal/widgets/build_icon.dart';
+import 'package:fitable/app/meal/widgets/build_title.dart';
+import 'package:fitable/app/media/widgets/custom_carousel_slider.dart';
+import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/app/rating/vew_models/rating_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/constants/constants.dart';
+import 'package:fitable/services/macro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,12 +23,11 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class RecipeDetailsScreenArguments {
   final Recipe recipe;
-  final String portionChosen;
-  final double portionSize;
+  final Portion selectedPortion;
   final bool chooseMealType;
   final bool isMeal;
 
-  RecipeDetailsScreenArguments({@required this.recipe, this.portionChosen, this.portionSize, this.chooseMealType = false, this.isMeal = false});
+  RecipeDetailsScreenArguments({@required this.recipe, this.selectedPortion, this.chooseMealType = false, this.isMeal = false});
 }
 
 class RecipeDetailsScreen extends StatelessWidget {
@@ -74,20 +75,16 @@ class RecipeDetailsScreen extends StatelessWidget {
                     width: 150,
                     child: CustomTextField(
                       keyboardType: TextInputType.number,
-                      hintText: args.portionSize?.toStringAsFixed(0) ?? '100',
-                      onChanged: (v) {
-                        model.portionSize = double.tryParse(v);
-                      },
+                      hintText: model.sizeListener.toString(),
+                      onChanged: (v) => model.sizeListener = double.tryParse(v),
                     ),
                   ),
                   Expanded(
                       child: CustomDropDownButton(
                           name: '',
-                          value: model.portionChosen,
-                          list: model.portions.keys.toList(),
-                          onChanged: (v) {
-                            model.portionChosen = v;
-                          }))
+                          value: model.selectedPortion.name,
+                          list: Macro.getPortionsStrings(args.recipe),
+                          onChanged: (v) => model.setSelectedPortion(v)))
                 ],
               ),
               buildChooseMealType(context),
@@ -172,7 +169,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              nutritional(recipe: args.recipe),
+              nutritional(element: args.recipe),
               SizedBox(height: 100),
             ],
           ),

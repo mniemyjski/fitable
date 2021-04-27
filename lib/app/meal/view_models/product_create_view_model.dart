@@ -1,22 +1,46 @@
+import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/app/issue/models/issue_report_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/app/meal/product_create_screen.dart';
+import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/common_widgets/show_input_picker.dart';
+import 'package:fitable/constants/constants.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-final providerCreateProductViewModel = ChangeNotifierProvider.autoDispose<CreateProductViewModel>((ref) {
-  return CreateProductViewModel();
+final providerProductCreateViewModel = ChangeNotifierProvider.autoDispose<ProductCreateViewModel>((ref) {
+  return ProductCreateViewModel();
 });
 
-class CreateProductViewModel extends ChangeNotifier {
+class ProductCreateViewModel extends ChangeNotifier {
   Product _oldProduct;
   String _categoryPrimary;
   String _categorySecondary;
   String _localeBase;
-  String _unit;
-  List _keyWords;
-  Map _portions;
+  UnitType _unit;
+  List _keyWords = [];
+  List<Portion> _portions;
   Map _photosUrl;
+  String barcode;
+  Product product;
+
+  List<String> get listPrimary {
+    return [
+      'fruits_vegetables_mushrooms',
+      'dairy_eggs',
+      'meat',
+      'groceries',
+      'frozen_foods',
+      'supplements',
+      'drinks',
+      'other',
+    ];
+  }
 
   List<String> get listSecondary {
     switch (_categoryPrimary) {
@@ -42,129 +66,6 @@ class CreateProductViewModel extends ChangeNotifier {
     }
   }
 
-  submit({@required BuildContext context, @required String barcode, String id, String description}) {
-    final db = context.read(providerDatabase);
-
-    Product product = Product(
-        barcode: barcode,
-        id: id,
-        name: productName,
-        categoryPrimary: categoryPrimary,
-        categorySecondary: categorySecondary,
-        localeBase: localeBase,
-        keyWords: keyWords,
-        portions: portions,
-        unit: unit,
-        verification: false,
-        calories: calories,
-        proteins: proteins,
-        carbs: carbs,
-        fats: fats,
-        photosUrl: _photosUrl,
-        sugar: sugar,
-        animalProteins: animalProteins,
-        plantProteins: plantProteins,
-        saturated: saturated,
-        unsaturated: unsaturated,
-        omega3: omega3,
-        omega6: omega6,
-        fiber: fiber,
-        caffeine: caffeine,
-        cholesterol: cholesterol,
-        salt: salt,
-        vitaminA: vitaminA,
-        vitaminC: vitaminC,
-        vitaminD: vitaminD,
-        vitaminE: vitaminE,
-        vitaminK: vitaminK,
-        vitaminB1: vitaminB1,
-        vitaminB2: vitaminB2,
-        vitaminB3: vitaminB3,
-        vitaminB5: vitaminB5,
-        vitaminB6: vitaminB6,
-        vitaminB7: vitaminB7,
-        vitaminB9: vitaminB9,
-        vitaminB12: vitaminB12,
-        potassium: potassium,
-        sodium: sodium,
-        calcium: calcium,
-        magnesium: magnesium,
-        phosphorus: phosphorus,
-        iron: iron,
-        copper: copper,
-        zinc: zinc,
-        selenium: selenium,
-        manganese: manganese,
-        iodine: iodine,
-        chromium: chromium);
-
-    if (id != null) {
-      Issue issuesReport = Issue(
-        type: EnumIssue.product,
-        id: id,
-        dateCreate: DateTime.now(),
-        description: description,
-        product: product,
-      );
-
-      db.createIssue(issuesReport);
-    } else {
-      db.createProduct(product);
-    }
-  }
-
-  initProduct(Product product) {
-    _oldProduct = product;
-    _productName = product.name;
-    _categoryPrimary = product.categoryPrimary;
-    _categorySecondary = product.categorySecondary;
-    _keyWords = product.keyWords;
-    calories = product.calories;
-    proteins = product.proteins;
-    carbs = product.carbs;
-    fats = product.fats;
-    _portions = product.portions;
-    _unit = product.unit;
-
-    sugar = product.sugar;
-    animalProteins = product.animalProteins;
-    plantProteins = product.plantProteins;
-    saturated = product.saturated;
-    unsaturated = product.unsaturated;
-    omega3 = product.omega3;
-    omega6 = product.omega6;
-    fiber = product.fiber;
-    caffeine = product.caffeine;
-    cholesterol = product.cholesterol;
-    salt = product.salt;
-    vitaminA = product.vitaminA;
-    vitaminC = product.vitaminC;
-    vitaminD = product.vitaminD;
-    vitaminE = product.vitaminE;
-    vitaminK = product.vitaminK;
-    vitaminB1 = product.vitaminB1;
-    vitaminB2 = product.vitaminB2;
-    vitaminB3 = product.vitaminB3;
-    vitaminB5 = product.vitaminB5;
-    vitaminB6 = product.vitaminB6;
-    vitaminB7 = product.vitaminB7;
-    vitaminB9 = product.vitaminB9;
-    vitaminB12 = product.vitaminB12;
-    potassium = product.potassium;
-    sodium = product.sodium;
-    calcium = product.calcium;
-    magnesium = product.magnesium;
-    phosphorus = product.phosphorus;
-    iron = product.iron;
-    copper = product.copper;
-    zinc = product.zinc;
-    selenium = product.selenium;
-    manganese = product.manganese;
-    iodine = product.iodine;
-    chromium = product.chromium;
-    _photosUrl = product.photosUrl;
-  }
-
   List get keyWords {
     if (_keyWords == null) _keyWords = [];
     return _keyWords;
@@ -175,20 +76,20 @@ class CreateProductViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get unit => _unit != null ? _unit : _unit = 'g';
-  set unit(String unit) {
-    if (unit.isNotEmpty) {
-      _unit = unit;
-      notifyListeners();
-    }
+  UnitType get unit => _unit != null ? _unit : _unit = UnitType.g;
+  set unit(UnitType unit) {
+    _unit = unit;
+    _portions.clear();
+    _portions.add(new Portion(name: '${Enums.toText(unit)}', type: Enums.toText(unit), size: 1, unit: unit));
+    notifyListeners();
   }
 
-  Map get portions {
-    if (_portions == null) _portions = new Map<String, double>();
+  List<Portion> get portions {
+    if (_portions == null) _portions = [];
     return _portions;
   }
 
-  set portions(Map portions) {
+  set portions(List<Portion> portions) {
     _portions = portions;
     notifyListeners();
   }
@@ -218,15 +119,6 @@ class CreateProductViewModel extends ChangeNotifier {
     _productNameColor = (_oldProduct != null && _oldProduct.name != productName) ? Colors.indigo : null;
     if (productName.isNotEmpty) _productName = productName;
     notifyListeners();
-  }
-
-  String get localeBase {
-    if (_localeBase == null) _localeBase = 'pl_PL';
-    return _localeBase;
-  }
-
-  set localeBase(String localeBase) {
-    if (localeBase.isNotEmpty) _localeBase = localeBase;
   }
 
   int _calories;
@@ -627,5 +519,189 @@ class CreateProductViewModel extends ChangeNotifier {
     _chromiumColor = (_oldProduct != null && _oldProduct.chromium != chromium) ? Colors.indigo : null;
     if (chromium != null) _chromium = chromium;
     notifyListeners();
+  }
+
+  createProduct({@required BuildContext context, @required String barcode, String id, String description}) {
+    final db = context.read(providerDatabase);
+
+    context.read(providerPreference.last).then((preference) {
+      Product product = Product(
+          barcode: barcode,
+          id: id,
+          name: productName,
+          categoryPrimary: categoryPrimary,
+          categorySecondary: categorySecondary,
+          localeBase: preference.localeBase,
+          keyWords: keyWords,
+          portions: portions,
+          verification: false,
+          calories: calories,
+          proteins: proteins,
+          carbs: carbs,
+          fats: fats,
+          photosUrl: _photosUrl,
+          sugar: sugar,
+          animalProteins: animalProteins,
+          plantProteins: plantProteins,
+          saturated: saturated,
+          unsaturated: unsaturated,
+          omega3: omega3,
+          omega6: omega6,
+          fiber: fiber,
+          caffeine: caffeine,
+          cholesterol: cholesterol,
+          salt: salt,
+          vitaminA: vitaminA,
+          vitaminC: vitaminC,
+          vitaminD: vitaminD,
+          vitaminE: vitaminE,
+          vitaminK: vitaminK,
+          vitaminB1: vitaminB1,
+          vitaminB2: vitaminB2,
+          vitaminB3: vitaminB3,
+          vitaminB5: vitaminB5,
+          vitaminB6: vitaminB6,
+          vitaminB7: vitaminB7,
+          vitaminB9: vitaminB9,
+          vitaminB12: vitaminB12,
+          potassium: potassium,
+          sodium: sodium,
+          calcium: calcium,
+          magnesium: magnesium,
+          phosphorus: phosphorus,
+          iron: iron,
+          copper: copper,
+          zinc: zinc,
+          selenium: selenium,
+          manganese: manganese,
+          iodine: iodine,
+          chromium: chromium);
+
+      if (id != null) {
+        Issue issuesReport = Issue(
+          type: EnumIssue.product,
+          id: id,
+          dateCreate: DateTime.now(),
+          description: description,
+          product: product,
+        );
+
+        db.createIssue(issuesReport);
+      } else {
+        db.createProduct(product);
+      }
+    });
+  }
+
+  initState(Product product, String barcode) {
+    this.barcode = barcode;
+    this.product = product;
+
+    if (product != null) {
+      _oldProduct = product;
+      _productName = product.name;
+      _categoryPrimary = product.categoryPrimary;
+      _categorySecondary = product.categorySecondary;
+      _keyWords = product.keyWords;
+      calories = product.calories;
+      proteins = product.proteins;
+      carbs = product.carbs;
+      fats = product.fats;
+      _portions = product.portions;
+      _unit = product.portions.first.unit;
+
+      sugar = product.sugar;
+      animalProteins = product.animalProteins;
+      plantProteins = product.plantProteins;
+      saturated = product.saturated;
+      unsaturated = product.unsaturated;
+      omega3 = product.omega3;
+      omega6 = product.omega6;
+      fiber = product.fiber;
+      caffeine = product.caffeine;
+      cholesterol = product.cholesterol;
+      salt = product.salt;
+      vitaminA = product.vitaminA;
+      vitaminC = product.vitaminC;
+      vitaminD = product.vitaminD;
+      vitaminE = product.vitaminE;
+      vitaminK = product.vitaminK;
+      vitaminB1 = product.vitaminB1;
+      vitaminB2 = product.vitaminB2;
+      vitaminB3 = product.vitaminB3;
+      vitaminB5 = product.vitaminB5;
+      vitaminB6 = product.vitaminB6;
+      vitaminB7 = product.vitaminB7;
+      vitaminB9 = product.vitaminB9;
+      vitaminB12 = product.vitaminB12;
+      potassium = product.potassium;
+      sodium = product.sodium;
+      calcium = product.calcium;
+      magnesium = product.magnesium;
+      phosphorus = product.phosphorus;
+      iron = product.iron;
+      copper = product.copper;
+      zinc = product.zinc;
+      selenium = product.selenium;
+      manganese = product.manganese;
+      iodine = product.iodine;
+      chromium = product.chromium;
+      _photosUrl = product.photosUrl;
+    }
+  }
+
+  save(BuildContext context) async {
+    if (product != null) {
+      String _value;
+      await showInputPicker(
+        context: context,
+        labelText: Constants.description(),
+        multiLine: true,
+        buttonTextYes: Constants.send(),
+        onPressed: () {
+          createProduct(context: context, barcode: barcode, id: product.id, description: _value);
+          Navigator.pop(context);
+        },
+        onChanged: (String v) {
+          _value = v;
+        },
+      );
+    } else {
+      createProduct(context: context, barcode: barcode);
+    }
+
+    Navigator.pop(context);
+  }
+
+  submitKeyWords(BuildContext context) async {
+    List result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return AddToListScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Constants.key_words());
+      }),
+    );
+
+    if (result != null) keyWords = result;
+  }
+
+  String portionsTXT() {
+    String portionsTXT = '';
+    _portions.forEach((element) => portionsTXT += '${Enums.toText(element.type).tr()} ${element.size}${Enums.toText(element.unit)}, ');
+    return portionsTXT;
+  }
+
+  submitPortions(BuildContext context) async {
+    dynamic result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return AddToListScreen(tileType: EnumTileType.portion, list: portions, title: Constants.portion(), unit: unit);
+      }),
+    );
+
+    if (result != null) {
+      List<Portion> list = [];
+      result.forEach((element) => list.add(element));
+      portions = list;
+    }
   }
 }

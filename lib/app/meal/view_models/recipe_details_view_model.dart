@@ -3,30 +3,33 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/macro.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 final providerRecipeDetailsViewModel = ChangeNotifierProvider.autoDispose<RecipeDetailsViewModel>((ref) {
   return RecipeDetailsViewModel();
 });
 
 class RecipeDetailsViewModel extends ChangeNotifier {
-  String _id;
   int _calories;
   double _proteins;
   double _carbs;
   double _fats;
-  double _portionSize;
-  String _portionChosen;
-  Map _portions;
+  double _sizeListener;
+  Portion _selectedPortion;
   bool _isFavorite = false;
   List<String> listMealType = ['breakfast', 'lunch', 'dinner', 'supper', 'snack'];
   MealType _mealType = MealType.breakfast;
+  Recipe recipe;
 
   chooseMealType(String mealType) {
     _mealType = Meal.toEnum(mealType);
@@ -37,26 +40,25 @@ class RecipeDetailsViewModel extends ChangeNotifier {
     return Meal.toText(_mealType);
   }
 
-  Map get portions => _portions;
-  String get portionChosen => _portionChosen;
-  double get portionSize => _portionSize;
+  Portion get selectedPortion => _selectedPortion;
+  double get sizeListener => _sizeListener;
   int get calories => _calories;
   double get proteins => _proteins;
   double get carbs => _carbs;
   double get fats => _fats;
   bool get isFavorite => _isFavorite;
-  String get id => _id;
+  bool initState = true;
 
   bool _createScreen = true;
   bool get createScreen => _createScreen;
 
-  set portionSize(double portionSize) {
-    _portionSize = portionSize;
+  set sizeListener(double sizeListener) {
+    _sizeListener = sizeListener != null ? sizeListener : Macro.getSize(recipe);
     notifyListeners();
   }
 
-  set portionChosen(String portionSize) {
-    _portionChosen = portionSize;
+  setSelectedPortion(String name) {
+    _selectedPortion = Macro.getPortions(recipe).firstWhere((element) => element.name == name);
     notifyListeners();
   }
 
@@ -67,20 +69,19 @@ class RecipeDetailsViewModel extends ChangeNotifier {
 
   submit({@required BuildContext context}) {
     final RecipeDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
-    Ingredient result = Ingredient(portionSize: _portionSize, portionChosen: _portionChosen, recipe: args.recipe);
+    Ingredient result = Ingredient(selectedPortion: selectedPortion, recipe: recipe, size: sizeListener);
 
     if (args.chooseMealType) {
       final db = context.read(providerDatabase);
       final app = context.read(providerAppViewModel);
 
       Meal _meal = Meal(
-          uid: db.uid,
-          dateTime: app.chosenDate,
-          dateCreation: DateTime.now(),
-          mealType: _mealType,
-          portionSize: _portionSize,
-          portionChosen: _portionChosen,
-          recipe: args.recipe);
+        uid: db.uid,
+        dateTime: app.chosenDate,
+        dateCreation: DateTime.now(),
+        mealType: _mealType,
+        ingredient: result,
+      );
       db.setMeal(meal: _meal);
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
     } else {
@@ -96,43 +97,43 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   seeProduct(BuildContext context, Ingredient ingredient) async {
     Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
-          ingredient: ingredient,
+          element: ingredient,
           edit: false,
         ));
   }
 
   build(Recipe recipe, List<Favorite> favorites) {
-    double multiplier;
-
     _createScreen = true;
 
-    _id = recipe.id;
-    _portions = recipe.portions;
+    if (initState) {
+      this.recipe = recipe;
+      _sizeListener = Macro.getSize(recipe);
+      _selectedPortion = Macro.getSelectedPortion(recipe);
+      initState = false;
+    }
 
     _calories = 0;
     _proteins = 0;
     _carbs = 0;
     _fats = 0;
 
+    double _sizeTotal = 0;
+
     recipe.ingredients.forEach((element) {
-      _calories = (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
-      _proteins = element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100;
-      _carbs = element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100;
-      _fats = element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100;
+      _sizeTotal += element.size;
     });
 
-    if (_portionSize == null) _portionSize = 100.0;
-    if (_portionChosen == null) _portionChosen = recipe.portions.keys.first;
-    multiplier = _portions[_portionChosen];
-    _calories = (_calories * _portionSize * multiplier / 100).round();
-    _proteins = _proteins * _portionSize * multiplier / 100;
-    _carbs = _carbs * _portionSize * multiplier / 100;
-    _fats = _fats * _portionSize * multiplier / 100;
+    recipe.ingredients.forEach((element) {
+      _calories += Macro.calculateCalories(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
+      _proteins += Macro.calculateProteins(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
+      _carbs += Macro.calculateCarbs(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
+      _fats += Macro.calculateFats(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
+    });
 
     _isFavorite = false;
 
-    favorites.forEach((element) {
-      if (element.id == _id && element.type == EnumFavorite.recipes) {
+    favorites.forEach((e) {
+      if (e.id == Macro.getId(recipe) && e.type == EnumFavorite.recipes) {
         _isFavorite = true;
       }
     });

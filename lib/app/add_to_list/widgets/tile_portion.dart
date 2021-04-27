@@ -1,4 +1,4 @@
-import 'file:///C:/Project/fitable/lib/app/meal/models/portion_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,6 +11,6 @@ class TilePortion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(margin: EdgeInsets.all(8), child: Text('${index + 1}. ${element.name.tr()}: ${element.size}${Enums.toText(element.unit)}'));
+    return Container(margin: EdgeInsets.all(8), child: Text('${index + 1}. ${element.type.tr()}: ${element.size}${Enums.toText(element.unit)}'));
   }
 }

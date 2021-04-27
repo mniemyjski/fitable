@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 
 class Portion {
   final String name;
+  final String type;
   final double size;
   final UnitType unit;
 
-  Portion({@required this.name, @required this.size, @required this.unit});
+  Portion({this.name, @required this.type, @required this.size, @required this.unit});
 
-  Map<String, dynamic> toMap(String id) {
+  Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'name': '$type: $size${Enums.toText(unit)}',
+      'type': type,
       'size': size,
-      'unit': unit,
+      'unit': Enums.toText(unit),
     };
   }
 
@@ -23,8 +25,26 @@ class Portion {
 
     return Portion(
       name: data['name'],
+      type: data['type'],
       size: data['size'],
-      unit: data['unit'],
+      unit: Enums.unitTypeToEnum(data['unit']),
     );
+  }
+
+  static List toListToMap(List portions) {
+    List _portions = [];
+    portions.forEach((element) {
+      _portions.add(element.toMap());
+    });
+    return _portions;
+  }
+
+  static List<Portion> toListFromMap(List portions) {
+    List<Portion> _portions = [];
+    portions.forEach((element) {
+      _portions.add(Portion.fromMap(element));
+    });
+
+    return _portions;
   }
 }

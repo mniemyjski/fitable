@@ -1,11 +1,13 @@
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logger/logger.dart';
 
-nutritional({Product product, Recipe recipe}) {
-  String _unit = '';
+nutritional({dynamic element}) {
+  UnitType _unit;
   int _calories = 0;
   double _proteins = 0;
   double _carbs = 0;
@@ -46,54 +48,53 @@ nutritional({Product product, Recipe recipe}) {
   double _manganese = 0;
   double _iodine = 0;
   double _chromium = 0;
-
-  if (product != null) {
-    _unit = product.unit;
-    _calories = product.calories;
-    _proteins = product.proteins;
-    _carbs = product.carbs;
-    _fats = product.fats;
-    _sugar = product.sugar;
-    _animalProteins = product.animalProteins;
-    _plantProteins = product.plantProteins;
-    _saturated = product.saturated;
-    _unsaturated = product.unsaturated;
-    _omega3 = product.omega3;
-    _omega6 = product.omega6;
-    _fiber = product.fiber;
-    _caffeine = product.caffeine;
-    _cholesterol = product.cholesterol;
-    _salt = product.salt;
-    _vitaminA = product.vitaminA;
-    _vitaminC = product.vitaminC;
-    _vitaminD = product.vitaminD;
-    _vitaminE = product.vitaminE;
-    _vitaminK = product.vitaminK;
-    _vitaminB1 = product.vitaminB1;
-    _vitaminB2 = product.vitaminB2;
-    _vitaminB3 = product.vitaminB3;
-    _vitaminB5 = product.vitaminB5;
-    _vitaminB6 = product.vitaminB6;
-    _vitaminB7 = product.vitaminB7;
-    _vitaminB9 = product.vitaminB9;
-    _vitaminB12 = product.vitaminB12;
-    _potassium = product.potassium;
-    _sodium = product.sodium;
-    _calcium = product.calcium;
-    _magnesium = product.magnesium;
-    _phosphorus = product.phosphorus;
-    _iron = product.iron;
-    _copper = product.copper;
-    _zinc = product.zinc;
-    _selenium = product.selenium;
-    _manganese = product.manganese;
-    _iodine = product.iodine;
-    _chromium = product.chromium;
+  if (element.runtimeType == Product) {
+    _unit = element.portions.first.unit;
+    _calories = element.calories;
+    _proteins = element.proteins;
+    _carbs = element.carbs;
+    _fats = element.fats;
+    _sugar = element.sugar;
+    _animalProteins = element.animalProteins;
+    _plantProteins = element.plantProteins;
+    _saturated = element.saturated;
+    _unsaturated = element.unsaturated;
+    _omega3 = element.omega3;
+    _omega6 = element.omega6;
+    _fiber = element.fiber;
+    _caffeine = element.caffeine;
+    _cholesterol = element.cholesterol;
+    _salt = element.salt;
+    _vitaminA = element.vitaminA;
+    _vitaminC = element.vitaminC;
+    _vitaminD = element.vitaminD;
+    _vitaminE = element.vitaminE;
+    _vitaminK = element.vitaminK;
+    _vitaminB1 = element.vitaminB1;
+    _vitaminB2 = element.vitaminB2;
+    _vitaminB3 = element.vitaminB3;
+    _vitaminB5 = element.vitaminB5;
+    _vitaminB6 = element.vitaminB6;
+    _vitaminB7 = element.vitaminB7;
+    _vitaminB9 = element.vitaminB9;
+    _vitaminB12 = element.vitaminB12;
+    _potassium = element.potassium;
+    _sodium = element.sodium;
+    _calcium = element.calcium;
+    _magnesium = element.magnesium;
+    _phosphorus = element.phosphorus;
+    _iron = element.iron;
+    _copper = element.copper;
+    _zinc = element.zinc;
+    _selenium = element.selenium;
+    _manganese = element.manganese;
+    _iodine = element.iodine;
+    _chromium = element.chromium;
   }
-  if (recipe != null) {
-    _unit = recipe.unit;
+  if (element.runtimeType == Recipe) {
+    _unit = element.portions.first.unit;
 
-    recipe.ingredients.forEach((element) {
+    element.ingredients.forEach((element) {
       _calories = element.product.calories;
       _proteins = element.product.proteins;
       _carbs = element.product.carbs;
@@ -142,7 +143,7 @@ nutritional({Product product, Recipe recipe}) {
       margin: EdgeInsets.only(bottom: 5),
       width: double.infinity,
       child: Text(
-        'nutritional_values_out_of_100'.tr() + '$_unit:',
+        'nutritional_values_out_of_100'.tr() + '${Enums.toText(_unit)}:',
         style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
       ),
     ),

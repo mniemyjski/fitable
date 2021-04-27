@@ -4,6 +4,7 @@ import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/progress_bar.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,20 +31,20 @@ class MacroAggregation extends ConsumerWidget {
 
       if (ingredients != null) {
         ingredients.forEach((element) {
-          _oldCalories = (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
-          _oldProteins = element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100;
-          _oldCarbs = element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100;
-          _oldFats = element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100;
+          Portion portion;
+          element.product.portions.forEach((v) {
+            if (v.name == element.selectedPortion.name) {
+              portion = v;
+            }
+            return;
+          });
+
+          _oldCalories = (element.product.calories * element.selectedPortion.size * portion.size / 100).round();
+          _oldProteins = element.product.proteins * element.selectedPortion.size * portion.size / 100;
+          _oldCarbs = element.product.carbs * element.selectedPortion.size * portion.size / 100;
+          _oldFats = element.product.fats * element.selectedPortion.size * portion.size / 100;
         });
       }
-      // if (ingredient?.product != null)
-      //   _oldCalories = ingredient.product.calories * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
-      // if (ingredient?.product != null)
-      //   _oldProteins = ingredient.product.proteins * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
-      // if (ingredient?.product != null)
-      //   _oldCarbs = ingredient.product.carbs * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
-      // if (ingredient?.product != null)
-      //   _oldFats = ingredient.product.fats * ingredient.portionSize * ingredient.product.portions[ingredient.portionChosen] / 100;
 
       return Container(
           height: 60,

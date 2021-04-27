@@ -23,7 +23,7 @@ dependencies:
 
   cloud_firestore: ^1.0.5
   cloud_functions: ^1.0.3
-  firebase_storage: ^8.0.3
+  firebase_storage: ^8.0.5
   firebase_analytics: ^8.0.0
 
   firebase_in_app_messaging: ^0.5.0
@@ -35,14 +35,13 @@ dependencies:
   facebook_audience_network: ^0.9.0
   in_app_purchase: ^0.5.2
 
+  cached_network_image: ^3.0.0
+
   extended_image: ^4.0.1
-  image: ^3.0.2
   file_picker: ^3.0.1
 
   health: ^3.0.5
   qrscan: ^0.3.1
-
-  cached_network_image: ^3.0.0
 
   font_awesome_flutter: ^9.0.0
   google_fonts: ^2.0.0
@@ -52,7 +51,7 @@ dependencies:
 
   youtube_player_iframe: ^2.0.0
   carousel_slider: ^3.0.0
-  another_flushbar: ^1.10.17
+  another_flushbar: ^1.10.20
   auto_size_text: ^2.1.0
   smooth_star_rating: ^1.1.1
   checklist: ^0.1.4

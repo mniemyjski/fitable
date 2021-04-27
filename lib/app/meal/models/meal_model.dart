@@ -1,3 +1,5 @@
+import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/services/providers.dart';
@@ -19,22 +21,16 @@ class Meal {
   final DateTime dateTime;
   final DateTime dateCreation;
   final MealType mealType;
-  final Product product;
-  final Recipe recipe;
-  final double portionSize;
-  final String portionChosen;
+  final Ingredient ingredient;
   final bool suggest;
 
   Meal({
     this.id,
-    @required this.uid,
+    this.uid,
+    this.dateCreation,
     @required this.dateTime,
-    @required this.dateCreation,
     @required this.mealType,
-    @required this.portionSize,
-    @required this.portionChosen,
-    this.product,
-    this.recipe,
+    @required this.ingredient,
     this.suggest = false,
   });
 
@@ -43,12 +39,9 @@ class Meal {
       'id': id,
       'uid': uid,
       'dateTime': DateTime(dateTime.year, dateTime.month, dateTime.day),
-      'dateCreation': dateCreation,
+      'dateCreation': dateCreation == null ? DateTime.now() : dateCreation,
       'mealType': toText(mealType),
-      'portionSize': portionSize,
-      'portionChosen': portionChosen,
-      'product': product?.toMap(),
-      'recipe': recipe?.toMap(),
+      'ingredient': ingredient.toMap(),
       'suggest': suggest,
     };
   }
@@ -64,10 +57,7 @@ class Meal {
         dateCreation: data['dateCreation'].toDate(),
         mealType: toEnum(data['mealType']),
         id: id,
-        portionSize: data['portionSize'],
-        portionChosen: data['portionChosen'],
-        product: Product.fromMap(data['product']),
-        recipe: Recipe.fromMap(data['recipe']));
+        ingredient: Ingredient.fromMap(data['ingredient']));
   }
 
   static toEnum(String mealType) {

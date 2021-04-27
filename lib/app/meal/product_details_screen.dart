@@ -4,11 +4,12 @@ import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_details_view_model.dart';
-import 'package:fitable/app/meal/widget/nutritional.dart';
-
+import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
+import 'package:fitable/constants/constants.dart';
+import 'package:fitable/services/macro.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,36 +17,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailsScreenArguments {
-  final Product product;
-  final Ingredient ingredient;
+  final dynamic element;
   final bool edit;
   final bool isMeal;
 
-  ProductDetailsScreenArguments({this.product, this.ingredient, this.edit = true, this.isMeal = false});
+  ProductDetailsScreenArguments({@required this.element, this.edit = true, this.isMeal = false});
 }
 
 _buildFloatingActionButton(BuildContext context) {
   final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
-  Product _product = args?.product ?? args.ingredient.product;
 
   if (!args.edit) return null;
 
-  if (args.ingredient != null) {
+  if (args.isMeal) {
     return FloatingActionButton(
-      onPressed: () => context.read(providerProductDetailsViewModel).submit(context: context, product: _product),
+      onPressed: () => context.read(providerProductDetailsViewModel).submit(context: context),
       child: Icon(Icons.edit, color: Colors.white),
     );
   } else {
     return FloatingActionButton(
-      onPressed: () => context.read(providerProductDetailsViewModel).submit(context: context, product: _product),
+      onPressed: () => context.read(providerProductDetailsViewModel).submit(context: context),
       child: Icon(Icons.add, color: Colors.white),
     );
   }
 }
 
 _submitFavorite(BuildContext context) {
-  final model = context.read(providerProductDetailsViewModel);
-  Favorite _favorite = Favorite(type: EnumFavorite.products, id: model.id);
+  final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
+
+  Favorite _favorite = Favorite(type: EnumFavorite.products, id: Macro.getId(args.element));
   context.read(providerDatabase).updateFavorite(context, _favorite);
 }
 
@@ -54,10 +54,9 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
       final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
-      Product _product = args?.product ?? args.ingredient.product;
 
       final model = watch(providerProductDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.build(args.product, args.ingredient, favorites));
+      watch(providerFavorite).whenData((favorites) => model.build(args.element, favorites));
 
       if (model.createScreen)
         return Scaffold(
@@ -84,7 +83,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                       child: AutoSizeText(
-                    model.name,
+                    Macro.getName(args.element),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     maxLines: 1,
                   )),
@@ -96,7 +95,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 proteins: model.proteins,
                 carbs: model.carbs,
                 fats: model.fats,
-                ingredients: args.ingredient?.toList() ?? null,
+                ingredients: model.isIngredient(),
               )),
               Row(
                 children: [
@@ -105,48 +104,43 @@ class ProductDetailsScreen extends StatelessWidget {
                     child: CustomTextField(
                       enabled: args.edit,
                       keyboardType: TextInputType.number,
-                      hintText: args?.ingredient?.portionSize?.toString() ?? '100',
-                      onChanged: (v) {
-                        model.portionSize = double.tryParse(v);
-                      },
+                      hintText: Macro.getSize(args.element).toString(),
+                      onChanged: (v) => model.sizeListener = double.tryParse(v),
                     ),
                   ),
                   Expanded(
                       child: CustomDropDownButton(
                           name: '',
                           enabled: args.edit,
-                          value: model.portionChosen,
-                          list: model.portions.keys.toList(),
-                          onChanged: (v) {
-                            model.portionChosen = v;
-                          }))
+                          value: model.selectedPortion.name,
+                          list: Macro.getPortionsStrings(args.element),
+                          onChanged: (v) => model.selectedPortion = Macro.getPortions(args.element).firstWhere((element) => element.name == v)))
                 ],
               ),
               Card(
                 child: Container(
                   padding: EdgeInsets.all(4),
                   width: double.infinity,
-                  // child: Center(child: Text(model.name)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("key_words".tr() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(Constants.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(
-                        model.keyWords.toString().substring(1, model.keyWords.toString().length - 1),
+                        Macro.getKeyWords(args.element).toString().substring(1, Macro.getKeyWords(args.element).toString().length - 1),
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ],
                   ),
                 ),
               ),
-              if (args.ingredient == null)
+              if (args.element == Product)
                 TextButton(
-                    onPressed: () => model.bugReport(context, args.product),
+                    onPressed: () => model.bugReport(context),
                     child: Text(
-                      'bug_report'.tr(),
+                      Constants.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                     )),
-              nutritional(product: _product, recipe: null)
+              nutritional(element: Macro.getProduct(args.element))
             ],
           ),
         ),

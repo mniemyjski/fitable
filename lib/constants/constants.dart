@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-class Constants {
+abstract class Constants {
   static String email() => 'email'.tr();
   static String password() => "password".tr();
   static String forgot_your_password() => "forgot_your_password".tr();
@@ -15,6 +15,7 @@ class Constants {
   static String sign_in_with_facebook() => "Sign in with Facebook".tr();
 
   static String home() => "home".tr();
+  static String kcal() => "kcal".tr();
   static String diets() => "diets".tr();
   static String recipes() => "recipes".tr();
   static String community() => "community".tr();
@@ -138,9 +139,62 @@ class Constants {
   static String done() => "done".tr();
 
   static String portion() => "portion".tr();
+  static String portions() => "portions".tr();
   static String portion_cannot_be_empty() => "portion_cannot_be_empty".tr();
   static String name_is_not_avilablea() => "name_is_not_avilablea".tr();
   static String name_is_not_empty() => "name_is_not_empty".tr();
   static String pl() => "pl".tr();
   static String en() => "en".tr();
+  static String send() => "send".tr();
+
+  static String proteins() => "proteins".tr();
+  static String fats() => "fats".tr();
+  static String carbs() => "carbs".tr();
+  static String unit() => "unit".tr();
+
+  static String more_about_the_product() => "more_about_the_product".tr();
+
+  static String saturated() => "saturated".tr();
+  static String unsaturated() => "unsaturated".tr();
+  static String omega3() => "omega3".tr();
+  static String omega6() => "omega6".tr();
+  static String animal_proteins() => "animal_proteins".tr();
+  static String plant_proteins() => "plant_proteins".tr();
+  static String others() => "others".tr();
+  static String fiber() => "fiber".tr();
+  static String caffeine() => "caffeine".tr();
+  static String sugar() => "sugar".tr();
+  static String salt() => "salt".tr();
+  static String cholesterol() => "cholesterol".tr();
+  static String vitamins() => "vitamins".tr();
+  static String A() => "A".tr();
+  static String C() => "C".tr();
+  static String D() => "C".tr();
+  static String E() => "C".tr();
+  static String B1() => "C".tr();
+  static String B2() => "C".tr();
+  static String B3() => "C".tr();
+  static String B5() => "vitamins".tr();
+  static String B6() => "vitamins".tr();
+  static String B7() => "vitamins".tr();
+  static String B9() => "vitamins".tr();
+  static String B12() => "vitamins".tr();
+  static String potassium() => "potassium".tr();
+  static String sodium() => "sodium".tr();
+  static String calcium() => "calcium".tr();
+  static String magnesium() => "magnesium".tr();
+  static String phosphorus() => "phosphorus".tr();
+  static String micro() => "micro".tr();
+  static String iron() => "iron".tr();
+  static String copper() => "copper".tr();
+  static String zinc() => "zinc".tr();
+  static String selenium() => "selenium".tr();
+  static String manganese() => "manganese".tr();
+  static String iodine() => "iodine".tr();
+  static String chromium() => "chromium".tr();
+  static String visible() => "visible".tr();
+  static String time() => "time".tr();
+  static String recipe_name() => "recipe_name".tr();
+  static String create_new_recipe() => "create_new_recipe".tr();
+  static String enter_youtube_id() => "enter_youtube_id".tr();
 }

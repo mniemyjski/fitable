@@ -6,11 +6,13 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/issue/models/issue_report_model.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/rating/models/rating_model.dart';
 import 'package:fitable/constants/enums.dart';
+import 'package:fitable/services/application.dart';
 import 'package:fitable/services/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -18,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:logger/logger.dart';
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -29,13 +32,11 @@ class Database {
   final _service = FirebaseFirestore.instance;
 
   //#region UploadFile
-  Future<String> uploadImage({@required File file, @required String folderName, String name}) async {
-    firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instanceFor(bucket: 'gs://fitable-76dce.appspot.com/');
-
+  Future<String> uploadToFirebaseStorage({@required File file, @required String folderName, String name}) async {
+    firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
     String filePath = folderName == 'accounts' ? '$folderName/$uid/avatar/$uid' : '$folderName/$name';
-
     await storage.ref(filePath).putFile(file);
-    return storage.ref(filePath).getDownloadURL();
+    return await storage.ref(filePath).getDownloadURL();
   }
 
   //endregion
@@ -132,12 +133,10 @@ class Database {
 
   Future<void> updateMeal({
     @required Meal meal,
-    @required double portionSize,
-    @required String portionChosen,
+    @required Ingredient ingredient,
   }) =>
       _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
-        'portionSize': portionSize,
-        'portionChosen': portionChosen,
+        'ingredient': ingredient.toMap(),
       });
 
   Future<void> deleteMeal(Meal meal) => _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).delete();
@@ -224,8 +223,7 @@ class Database {
     @required List keyWords,
     @required List photos,
     @required List<Ingredient> ingredients,
-    @required String unit,
-    @required Map portions,
+    @required List<Portion> portions,
   }) async {
     final DocumentReference ref = _service.collection(Path.recipes()).doc();
 
@@ -233,7 +231,7 @@ class Database {
 
     for (var element in photos) {
       File _file = File(element);
-      String url = await uploadImage(file: _file, folderName: "recipes/${ref.id}", name: photos.indexOf(element).toString());
+      String url = await uploadToFirebaseStorage(file: _file, folderName: "recipes/${ref.id}", name: photos.indexOf(element).toString());
       _photosUrl.add(url);
     }
 
@@ -248,7 +246,6 @@ class Database {
       access: access,
       ingredients: ingredients,
       portions: portions,
-      unit: unit,
       timePreparation: timePreparation,
       verification: false,
     );

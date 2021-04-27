@@ -1,13 +1,15 @@
-import 'package:fitable/app/meal/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/carousel_view_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
-import 'package:fitable/app/meal/widget/custom_carousel_slider.dart';
-import 'package:fitable/app/meal/widget/tile_head_ingredients.dart';
+import 'package:fitable/app/media/widgets/custom_carousel_slider.dart';
+import 'package:fitable/app/meal/widgets/tile_head_ingredients.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
+import 'package:fitable/constants/constants.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -45,7 +47,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
                       child: CustomButton(
                           color: Colors.indigo,
                           child: Text(
-                            'save'.tr(),
+                            Constants.save(),
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
@@ -65,7 +67,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBar: AppBar(
-        title: Text('create_new_recipe'.tr()),
+        title: Text(Constants.create_new_recipe()),
         actions: [
           IconButton(icon: Icon(Icons.check), onPressed: () => context.read(providerRecipeCreateViewModel).createRecipe(context)),
         ],
@@ -80,8 +82,8 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(
-                  name: 'youtube'.tr(),
-                  hintText: 'enter_youtube_id'.tr(),
+                  name: Constants.youtube(),
+                  hintText: Constants.enter_youtube_id(),
                   onChanged: (v) {
                     context.read(providerCarouselViewModel).videoId = v;
                   },
@@ -90,7 +92,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: CustomTextField(
-                  name: 'recipe_name'.tr(),
+                  name: Constants.recipe_name(),
                   onChanged: (v) {
                     context.read(providerRecipeCreateViewModel).name = v;
                   },
@@ -99,7 +101,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: CustomTextField(
-                  name: 'description'.tr(),
+                  name: Constants.description(),
                   maxLines: 20,
                   minLines: 10,
                   keyboardType: TextInputType.multiline,
@@ -115,32 +117,34 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
                   children: [
                     Expanded(
                       child: CustomInputBar(
-                        name: 'time'.tr(),
+                        name: Constants.time(),
                         value: '${model.timePreparation.inHours}h ${(model.timePreparation.inMinutes % 60).toString().padLeft(2, '0')} min',
                         onPressed: _buildTimer,
                       ),
                     ),
                     Expanded(
                         child: CustomDropDownButton(
-                            name: 'visible'.tr() + ':',
+                            name: Constants.visible() + ':',
                             value: model.access,
                             list: ['private', 'public'],
                             onChanged: (v) => context.read(providerRecipeCreateViewModel).access = v)),
                     Expanded(
                         child: CustomDropDownButton(
-                            name: 'unit'.tr() + ':',
-                            value: model.unit,
+                            name: Constants.unit() + ':',
+                            value: Enums.toText(model.unit),
                             list: <String>['g', 'ml'],
-                            onChanged: (v) => context.read(providerRecipeCreateViewModel).unit = v)),
+                            onChanged: (v) => context.read(providerRecipeCreateViewModel).unit = Enums.unitTypeToEnum(v))),
                   ],
                 ),
               ),
               CustomBarList(
-                  name: "key_words".tr(),
-                  value: model.keyWords,
+                  name: Constants.key_words(),
+                  value: model.keyWords.toString().substring(1, model.keyWords.toString().length - 1),
                   onPressed: () => context.read(providerRecipeCreateViewModel).submitKeyWords(context)),
               CustomBarList(
-                  name: "portions".tr(), value: model.portions, onPressed: () => context.read(providerRecipeCreateViewModel).submitPortions(context)),
+                  name: Constants.portions(),
+                  value: model.portionsTXT(),
+                  onPressed: () => context.read(providerRecipeCreateViewModel).submitPortions(context)),
               TileHeadIngredients(),
               SizedBox(height: 60)
             ],

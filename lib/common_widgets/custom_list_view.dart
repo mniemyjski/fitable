@@ -3,8 +3,8 @@ import 'package:fitable/app/account/widgets/tile_account.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_key_word.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_portion.dart';
 import 'package:fitable/app/home/widgets/tile_measurement.dart';
-import 'package:fitable/app/meal/widget/tile_image_recipe.dart';
-import 'package:fitable/app/meal/widget/tile_product.dart';
+import 'package:fitable/app/meal/widgets/tile_image_recipe.dart';
+import 'package:fitable/app/meal/widgets/tile_product.dart';
 import 'package:flutter/material.dart';
 
 enum EnumTileType { ingredient, product, recipe, meal, measurement, imageRecipe, account, keyWord, portion }
@@ -36,7 +36,7 @@ class CustomListView extends StatelessWidget {
       case EnumTileType.recipe:
         return TileProduct(element);
       case EnumTileType.meal:
-        return TileProduct(element);
+        return TileProduct(element.ingredient);
       case EnumTileType.account:
         return TileAccount(element);
       case EnumTileType.imageRecipe:

@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/crop_image/crop_image_screen.dart';
-import 'package:fitable/app/meal/view_models/carousel_view_model.dart';
-import 'package:fitable/app/meal/widget/box_video.dart';
-
+import 'package:fitable/app/media/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/widgets/box_video.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,26 +23,20 @@ class CustomCarouselSlider extends ConsumerWidget {
       CustomIconButton(
         buttonColor: Colors.grey.withOpacity(0.5),
         icon: Icons.upload_rounded,
-        onPressed: () async {
-          context.read(providerCarouselViewModel).addImage();
-        },
+        onPressed: () => context.read(providerCarouselViewModel).addImage(),
       ),
       if (crop) SizedBox(width: 25),
       if (crop)
         CustomIconButton(
           buttonColor: Colors.grey.withOpacity(0.5),
           icon: Icons.crop,
-          onPressed: () async {
-            context.read(providerCarouselViewModel).cropImage(context, file);
-          },
+          onPressed: () => context.read(providerCarouselViewModel).cropImage(context, file),
         ),
       SizedBox(width: 25),
       CustomIconButton(
         buttonColor: Colors.grey.withOpacity(0.5),
         icon: Icons.delete,
-        onPressed: () {
-          context.read(providerCarouselViewModel).removeImage();
-        },
+        onPressed: () => context.read(providerCarouselViewModel).removeImage(),
       ),
     ];
   }
@@ -51,13 +44,8 @@ class CustomCarouselSlider extends ConsumerWidget {
   List<Widget> _imageSliders(BuildContext context, CarouselViewModel model) {
     if (!edit) {
       model.sliderList = [];
-      if (videoUrl.isNotEmpty) {
-        model.sliderList.add(videoUrl);
-      }
-
-      if (photosUrl != null) {
-        model.sliderList.addAll(photosUrl);
-      }
+      if (videoUrl.isNotEmpty) model.sliderList.add(videoUrl);
+      if (photosUrl != null) model.sliderList.addAll(photosUrl);
     }
 
     return model.sliderList.map((item) {
@@ -81,10 +69,10 @@ class CustomCarouselSlider extends ConsumerWidget {
             child: Stack(
               children: <Widget>[
                 if (edit && file.path.length > 3)
-                  Image.file(
+                  ExtendedImage.file(
                     file,
-                    width: 1000.0,
-                    height: 1000.0,
+                    width: double.infinity,
+                    height: double.infinity,
                     fit: BoxFit.fill,
                   ),
                 if (!edit)

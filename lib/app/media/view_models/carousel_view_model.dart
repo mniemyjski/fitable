@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:fitable/app/crop_image/crop_image_screen.dart';
+import 'package:fitable/app/media/crop_image_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,13 +66,7 @@ class CarouselViewModel extends ChangeNotifier {
 
     if (result != null) {
       File _file = File(result.files.single.path);
-
-      var path = _file.path;
-      var lastSeparator = path.lastIndexOf(Platform.pathSeparator);
-      var newPath = path.substring(0, lastSeparator + 1) + current.toString();
-      await _file.rename(newPath);
-
-      sliderList[current] = newPath;
+      sliderList[current] = _file.path;
     }
 
     if (sliderList.length == current + 1 && sliderList.length < 7) {

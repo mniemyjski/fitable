@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/meal/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/carousel_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';

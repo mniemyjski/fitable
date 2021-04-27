@@ -83,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                     model: model,
                   )),
               loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+              error: (err, stack) => Center(child: Text(Constants.error())),
             );
           }),
           floatingActionButton: buildFloatingActionButton(context));

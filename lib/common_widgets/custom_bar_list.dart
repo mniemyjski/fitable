@@ -14,18 +14,15 @@ class CustomBarList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 12, left: 6),
-            child: Card(
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(name + ":", style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(value.toString().substring(1, value.toString().length - 1)),
-                  ],
-                ),
+          child: Card(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(name + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(value),
+                ],
               ),
             ),
           ),

@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/constants/enums.dart';
 import 'package:flutter/material.dart';
 
 class Recipe {
@@ -15,21 +17,21 @@ class Recipe {
   final List keyWords;
   final List photosUrl;
   final List<Ingredient> ingredients;
-  final String unit;
-  final Map portions;
+  final List<Portion> portions;
   final bool verification;
   final double ratingsAvg;
   final int ratingsCount;
   final int favoritesCount;
   final int commentsCount;
   final DateTime dateCreation;
+  final DateTime dateLastUpdate;
 
   Recipe(
       {this.uid,
+      this.id,
       @required this.localeBase,
       @required this.authorName,
       @required this.name,
-      this.id,
       @required this.keyWords,
       @required this.description,
       @required this.videoUrl,
@@ -37,14 +39,14 @@ class Recipe {
       @required this.access,
       @required this.ingredients,
       @required this.portions,
-      @required this.unit,
       @required this.timePreparation,
       @required this.verification,
       this.ratingsAvg,
       this.ratingsCount,
       this.favoritesCount,
       this.commentsCount,
-      this.dateCreation});
+      this.dateCreation,
+      this.dateLastUpdate});
 
   Map<String, dynamic> toMap({String uid, String id}) {
     List _ingredients = [];
@@ -63,16 +65,16 @@ class Recipe {
       'videoUrl': videoUrl,
       'photosUrl': photosUrl,
       'access': access,
-      'ingredient': _ingredients,
-      'portions': portions,
-      'unit': unit,
+      'ingredients': _ingredients,
+      'portions': Portion.toListToMap(portions),
       'timePreparation': timePreparation.inMinutes,
       'verification': verification,
       'ratingsAvg': ratingsAvg ?? 0.0,
       'ratingsCount': ratingsCount ?? 0,
       'favoritesCount': favoritesCount ?? 0,
       'commentsCount': commentsCount ?? 0,
-      'dateCreation': DateTime.now(),
+      'dateCreation': dateCreation == null ? DateTime.now() : dateCreation,
+      'dateLastUpdate': dateLastUpdate == null ? DateTime.now() : dateLastUpdate,
     };
   }
 
@@ -82,7 +84,7 @@ class Recipe {
     }
 
     List<Ingredient> ingredients = [];
-    data['ingredient'].forEach((element) {
+    data['ingredients'].forEach((element) {
       ingredients.add(Ingredient.fromMap(element));
     });
 
@@ -97,8 +99,7 @@ class Recipe {
       videoUrl: data['videoUrl'],
       photosUrl: data['photosUrl'],
       access: data['access'],
-      portions: data['portions'],
-      unit: data['unit'],
+      portions: Portion.toListFromMap(data['portions']),
       timePreparation: Duration(minutes: data['timePreparation']),
       verification: data['verification'],
       ratingsAvg: data['ratingsAvg'].toDouble(),
@@ -107,6 +108,7 @@ class Recipe {
       commentsCount: data['commentsCount'],
       ingredients: ingredients,
       dateCreation: data['dateCreation'].toDate(),
+      dateLastUpdate: data['dateLastUpdate'].toDate(),
     );
   }
 }

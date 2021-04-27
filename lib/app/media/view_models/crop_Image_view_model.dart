@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:math';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as i;
+import 'package:logger/logger.dart';
 
 final providerCropImageViewModel = ChangeNotifierProvider.autoDispose<CropImageViewModel>((ref) {
   return CropImageViewModel();
@@ -14,7 +12,6 @@ final providerCropImageViewModel = ChangeNotifierProvider.autoDispose<CropImageV
 class CropImageViewModel extends ChangeNotifier {
   final GlobalKey<ExtendedImageEditorState> editorKey = GlobalKey<ExtendedImageEditorState>();
 
-  // Key editorKey;
   double aspectRatio = 1;
 
   reset() {
@@ -26,6 +23,8 @@ class CropImageViewModel extends ChangeNotifier {
     var data = editorKey.currentState.rawImageData;
 
     i.Image src = i.decodeImage(data);
+    src = i.bakeOrientation(src);
+
     src = i.copyCrop(src, cropRect.left.toInt(), cropRect.top.toInt(), cropRect.width.toInt(), cropRect.height.toInt());
 
     var fileData = i.encodeJpg(src);

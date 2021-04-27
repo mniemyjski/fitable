@@ -4,15 +4,18 @@ import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/macro.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 final providerHomeViewModel = ChangeNotifierProvider.autoDispose<HomeViewModel>((ref) {
   return HomeViewModel();
@@ -44,21 +47,10 @@ class HomeViewModel extends ChangeNotifier {
     _fats = 0.0;
 
     mealList.forEach((element) {
-      if (element.product != null) {
-        _calories = _calories + (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
-        _proteins = _proteins + (element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100);
-        _carbs = _carbs + (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
-        _fats = _fats + (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
-      }
-
-      if (element.recipe != null) {
-        element.recipe.ingredients.forEach((rec) {
-          _calories = _calories + (rec.product.calories * rec.portionSize * rec.product.portions[rec.portionChosen] / 100).round();
-          _proteins = _proteins + (rec.product.proteins * rec.portionSize * rec.product.portions[rec.portionChosen] / 100);
-          _carbs = _carbs + (rec.product.carbs * rec.portionSize * rec.product.portions[rec.portionChosen] / 100);
-          _fats = _fats + (rec.product.fats * rec.portionSize * rec.product.portions[rec.portionChosen] / 100);
-        });
-      }
+      _calories += Macro.calculateCalories(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+      _proteins += Macro.calculateProteins(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+      _carbs += Macro.calculateCarbs(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
+      _fats += Macro.calculateFats(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
     });
   }
 
@@ -66,28 +58,27 @@ class HomeViewModel extends ChangeNotifier {
     final db = context.read(providerDatabase);
     dynamic result;
 
-    if (element.product != null) {
-      Ingredient ingredient = Ingredient(portionSize: element.portionSize, portionChosen: element.portionChosen, product: element.product);
-
+    if (element.ingredient.product != null) {
       result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
           arguments: ProductDetailsScreenArguments(
-            ingredient: ingredient,
+            element: element.ingredient,
+            isMeal: true,
           ));
     }
 
-    if (element.recipe != null) {
+    if (element.ingredient.recipe != null) {
       result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
           arguments: RecipeDetailsScreenArguments(
-            recipe: element.recipe,
-            portionSize: element.portionSize,
-            portionChosen: element.portionChosen,
+            recipe: element.ingredient.recipe,
+            selectedPortion: element.ingredient.selectedPortion,
             isMeal: true,
           ));
     }
 
     if (result != null) {
       Ingredient ingredient = result;
-      db.updateMeal(meal: element, portionSize: ingredient.portionSize, portionChosen: ingredient.portionChosen);
+
+      db.updateMeal(meal: element, ingredient: ingredient);
     }
   }
 
@@ -106,34 +97,13 @@ class HomeViewModel extends ChangeNotifier {
 
     if (result != null) {
       Ingredient ingredient = result;
-
-      if (ingredient.product != null) {
-        Meal _meal = Meal(
-            uid: db.uid,
-            dateTime: app.chosenDate,
-            dateCreation: DateTime.now(),
-            mealType: mealType,
-            portionSize: ingredient.portionSize,
-            portionChosen: ingredient.portionChosen,
-            product: ingredient.product);
-        db.setMeal(meal: _meal);
-      }
-
-      if (ingredient.recipe != null) {
-        Meal _meal = Meal(
-            uid: db.uid,
-            dateTime: app.chosenDate,
-            dateCreation: DateTime.now(),
-            mealType: mealType,
-            portionSize: ingredient.portionSize,
-            portionChosen: ingredient.portionChosen,
-            recipe: ingredient.recipe);
-        db.setMeal(meal: _meal);
-      }
+      db.setMeal(meal: new Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
     }
   }
 
   calculateBMR({@required BuildContext context, double weight, double fat}) {
+    //TODO Move calculateBMR to other place
+
     final preference = context.read(providerPreference);
     final account = context.read(providerAccount);
 

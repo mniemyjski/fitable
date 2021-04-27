@@ -18,7 +18,6 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
@@ -130,30 +129,25 @@ class SearchViewModel extends ChangeNotifier {
     await context.read(providerPreference.last).then((preference) {
       if (favoriteScreen == FavoriteScreen.onlyProducts || favoriteScreen == FavoriteScreen.allFoods) {
         if (recipes) {
-          _searchQuery = algolia.instance.index('recipes').search(query);
-          _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:true');
+          _searchQuery = algolia.instance.index('recipes').query(query);
+          _searchQuery = _searchQuery.facetFilter('localeBase:${preference.localeBase}');
+          if (verification) _searchQuery = _searchQuery.facetFilter('verification:true');
         } else {
-          _searchQuery = algolia.instance.index('products').search(query);
-          if (verification && !withBarcode) {
-            _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND verification:${verification.toString()}');
-          } else if (withBarcode && !verification) {
-            _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()}');
-          } else if (withBarcode && verification) {
-            _searchQuery = _searchQuery.setFilters(
-                'localeBase:${preference.localeBase} AND withBarcode:${withBarcode.toString()} AND verification:${verification.toString()}');
-          } else {
-            _searchQuery = _searchQuery.setFilters('localeBase:${preference.localeBase}');
-          }
+          _searchQuery = algolia.instance.index('products').query(query);
+          _searchQuery = _searchQuery.facetFilter('localeBase:${preference.localeBase}');
+          if (verification) _searchQuery = _searchQuery.facetFilter('verification:true');
+          if (withBarcode) _searchQuery = _searchQuery.facetFilter('withBarcode:true');
         }
       }
       if (favoriteScreen == FavoriteScreen.workouts) {
-        _searchQuery = algolia.instance.index('workouts').search(query);
+        _searchQuery = algolia.instance.index('workouts').query(query);
       }
       if (favoriteScreen == FavoriteScreen.accounts) {
-        _searchQuery = algolia.instance.index('accounts').search(query);
-        if (isCoach) _searchQuery = _searchQuery.setFilters('isCoach:true');
+        _searchQuery = algolia.instance.index('accounts').query(query);
+        if (isCoach) _searchQuery = _searchQuery.facetFilter('isCoach:true');
       }
     });
+
     return await _searchQuery.getObjects();
   }
 
@@ -161,7 +155,7 @@ class SearchViewModel extends ChangeNotifier {
     // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
-          product: element,
+          element: element,
         ));
 
     if (result != null) Navigator.pop(context, result);
@@ -196,7 +190,7 @@ class SearchViewModel extends ChangeNotifier {
       if (product != null) {
         var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
             arguments: ProductDetailsScreenArguments(
-              product: product,
+              element: product,
             ));
         Navigator.pop(context, result);
       } else {
@@ -226,7 +220,7 @@ class SearchViewModel extends ChangeNotifier {
       if (value.runtimeType == Product) {
         var result = await Navigator.of(context).pushNamed(
           AppRoute.productDetailsScreen,
-          arguments: ProductDetailsScreenArguments(product: value),
+          arguments: ProductDetailsScreenArguments(element: value),
         );
 
         Navigator.pop(context, result);

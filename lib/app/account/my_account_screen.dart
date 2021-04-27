@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
@@ -22,14 +23,13 @@ class MyAccountScreen extends ConsumerWidget {
     final account = watch(providerAccount).data.value;
     final db = watch(providerDatabase);
 
-    _onPressed() async {
-      final db = context.read(providerDatabase);
-
+    void _onPressed() async {
       FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image);
 
       if (result != null) {
+        final db = context.read(providerDatabase);
         File _file = File(result.files.single.path);
-        String url = await db.uploadImage(file: _file, folderName: 'accounts');
+        String url = await db.uploadToFirebaseStorage(file: _file, folderName: 'accounts');
         db.updateAccount(name: 'avatarUrl', value: url);
       }
     }
@@ -45,20 +45,15 @@ class MyAccountScreen extends ConsumerWidget {
             child: GestureDetector(
               onTap: _onPressed,
               child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.black12,
-                child: CachedNetworkImage(
-                  imageUrl: account?.avatarUrl ?? "",
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 80.0,
-                    height: 80.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                    ),
-                  ),
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.account_circle, size: 80),
+                radius: 50,
+                child: ExtendedImage.network(
+                  account?.avatarUrl ?? "",
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fill,
+                  cache: true,
+                  border: Border.all(color: Colors.black87, width: 1.0),
+                  shape: BoxShape.circle,
                 ),
               ),
             ),

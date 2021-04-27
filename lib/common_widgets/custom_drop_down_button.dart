@@ -13,7 +13,7 @@ class CustomDropDownButton extends StatelessWidget {
   const CustomDropDownButton(
       {Key key,
       @required this.name,
-      @required this.value,
+      this.value,
       @required this.list,
       @required this.onChanged,
       this.description = false,

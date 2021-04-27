@@ -1,18 +1,21 @@
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
-import 'package:fitable/app/meal/add_portions_screen.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
-import 'package:fitable/app/meal/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/carousel_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/macro.dart';
 import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeCreateViewModel>((ref) {
   return RecipeCreateViewModel();
@@ -21,9 +24,9 @@ final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeC
 class RecipeCreateViewModel extends ChangeNotifier {
   List<Ingredient> ingredients = [];
 
-  Map _portions;
+  List<Portion> _portions = [new Portion(name: '${Enums.toText(UnitType.g)}', type: Enums.toText(UnitType.g), size: 1, unit: UnitType.g)];
   List _keyWords;
-  String _unit;
+  UnitType _unit;
   String _access;
   Duration _timePreparation = Duration(seconds: 0);
 
@@ -37,24 +40,71 @@ class RecipeCreateViewModel extends ChangeNotifier {
   String name;
   String description;
 
+  String get access => _access != null ? _access : _access = 'private';
+
+  set access(String access) {
+    if (access.isNotEmpty) {
+      _access = access;
+      notifyListeners();
+    }
+  }
+
+  List get keyWords {
+    if (_keyWords == null) _keyWords = [];
+    return _keyWords;
+  }
+
+  set keyWords(List keywords) {
+    _keyWords = keywords;
+    notifyListeners();
+  }
+
+  UnitType get unit => _unit != null ? _unit : _unit = UnitType.g;
+  set unit(UnitType unit) {
+    _unit = unit;
+    _portions.clear();
+    _portions.add(new Portion(name: '${Enums.toText(unit)}', type: Enums.toText(unit), size: 1, unit: unit));
+    notifyListeners();
+  }
+
+  List<Portion> get portions {
+    if (_portions == null) _portions = [];
+    return _portions;
+  }
+
+  set portions(List<Portion> portions) {
+    _portions = portions;
+    notifyListeners();
+  }
+
+  int _calories = 0;
+  int get calories => _calories;
+
+  double _proteins = 0;
+  double get proteins => _proteins;
+
+  double _carbs = 0;
+  double get carbs => _carbs;
+
+  double _fats = 0;
+  double get fats => _fats;
+
   createRecipe(BuildContext context) {
+    //TODO Replace string to constants
     FocusScope.of(context).unfocus();
 
     if ((name?.length ?? 0) < 4) {
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(SnackBar(content: Text('The name of the recipe cannot be empty and must contain more than 3 characters.')));
+      massageFlushBar(context, 'The name of the recipe cannot be empty and must contain more than 3 characters.');
       return;
     }
 
     if ((description?.length ?? 0) < 11) {
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(SnackBar(content: Text('The description of the recipe cannot be empty and must contain more than 10 characters.')));
+      massageFlushBar(context, 'The description of the recipe cannot be empty and must contain more than 10 characters.');
       return;
     }
 
     if (ingredients.length < 2) {
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(SnackBar(content: Text('The recipe must consist of at least 2 ingredients.')));
+      massageFlushBar(context, 'The recipe must consist of at least 2 ingredients.');
       return;
     }
 
@@ -77,7 +127,6 @@ class RecipeCreateViewModel extends ChangeNotifier {
               keyWords: keyWords,
               photos: _photosUrl,
               ingredients: ingredients,
-              unit: unit,
               portions: portions,
             );
 
@@ -86,55 +135,6 @@ class RecipeCreateViewModel extends ChangeNotifier {
     });
   }
 
-  String get access => _access != null ? _access : _access = 'private';
-
-  set access(String access) {
-    if (access.isNotEmpty) {
-      _access = access;
-      notifyListeners();
-    }
-  }
-
-  List get keyWords {
-    if (_keyWords == null) _keyWords = [];
-    return _keyWords;
-  }
-
-  set keyWords(List keywords) {
-    _keyWords = keywords;
-    notifyListeners();
-  }
-
-  String get unit => _unit != null ? _unit : _unit = 'g';
-  set unit(String unit) {
-    if (unit.isNotEmpty) {
-      _unit = unit;
-      notifyListeners();
-    }
-  }
-
-  Map get portions {
-    if (_portions == null) _portions = new Map<String, double>();
-    return _portions;
-  }
-
-  set portions(Map portions) {
-    _portions = portions;
-    notifyListeners();
-  }
-
-  int _calories = 0;
-  int get calories => _calories;
-
-  double _proteins = 0;
-  double get proteins => _proteins;
-
-  double _carbs = 0;
-  double get carbs => _carbs;
-
-  double _fats = 0;
-  double get fats => _fats;
-
   _calc() {
     _calories = 0;
     _proteins = 0;
@@ -142,10 +142,10 @@ class RecipeCreateViewModel extends ChangeNotifier {
     _fats = 0;
 
     ingredients.forEach((element) {
-      _calories = _calories + (element.product.calories * element.portionSize * element.product.portions[element.portionChosen] / 100).round();
-      _proteins = _proteins + (element.product.proteins * element.portionSize * element.product.portions[element.portionChosen] / 100);
-      _carbs = _carbs + (element.product.carbs * element.portionSize * element.product.portions[element.portionChosen] / 100);
-      _fats = _fats + (element.product.fats * element.portionSize * element.product.portions[element.portionChosen] / 100);
+      _calories += Macro.calculateCalories(element, element.size, element.selectedPortion);
+      _proteins += Macro.calculateProteins(element, element.size, element.selectedPortion);
+      _carbs += Macro.calculateCarbs(element, element.size, element.selectedPortion);
+      _fats += Macro.calculateFats(element, element.size, element.selectedPortion);
     });
 
     notifyListeners();
@@ -163,25 +163,31 @@ class RecipeCreateViewModel extends ChangeNotifier {
   }
 
   submitPortions(BuildContext context) async {
-    final model = context.read(providerRecipeCreateViewModel);
-
-    Map result = await Navigator.push(
+    dynamic result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddPortionsScreen(unit: model.unit, map: model.portions);
+        return AddToListScreen(tileType: EnumTileType.portion, list: portions, title: Constants.portion(), unit: unit);
       }),
     );
 
     if (result != null) {
-      model.portions = result;
+      List<Portion> list = [];
+      result.forEach((element) => list.add(element));
+      portions = list;
     }
   }
 
+  String portionsTXT() {
+    String portionsTXT = '';
+    _portions.forEach((element) => portionsTXT += '${Enums.toText(element.type).tr()}: ${element.size}${Enums.toText(element.unit)}, ');
+    return portionsTXT;
+  }
+
   onPressed(BuildContext context, dynamic element) async {
-    var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
-        arguments: ProductDetailsScreenArguments(
-          ingredient: element,
-        ));
+    var result = await Navigator.of(context).pushNamed(
+      AppRoute.productDetailsScreen,
+      arguments: ProductDetailsScreenArguments(element: element),
+    );
 
     if (result != null) {
       ingredients[ingredients.indexOf(element)] = result;
