@@ -1,6 +1,6 @@
-import 'package:fitable/app/media/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/image_slider_view_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
-import 'package:fitable/app/media/widgets/custom_carousel_slider.dart';
+import 'package:fitable/app/media/widgets/image_slider.dart';
 import 'package:fitable/app/meal/widgets/tile_head_ingredients.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
@@ -78,14 +78,14 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
 
           return Column(
             children: [
-              CustomCarouselSlider(edit: true),
+              ImageSlider(edit: true),
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(
                   name: Constants.youtube(),
                   hintText: Constants.enter_youtube_id(),
                   onChanged: (v) {
-                    context.read(providerCarouselViewModel).videoId = v;
+                    context.read(providerImageSliderViewModel).videoId = v;
                   },
                 ),
               ),

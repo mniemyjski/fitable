@@ -4,7 +4,7 @@ import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
-import 'package:fitable/app/media/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/image_slider_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
@@ -108,7 +108,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
       return;
     }
 
-    List sliderList = context.read(providerCarouselViewModel).sliderList;
+    List sliderList = context.read(providerImageSliderViewModel).sliderList;
 
     List _photosUrl = new List.of(sliderList);
     _photosUrl.remove(sliderList[0]);

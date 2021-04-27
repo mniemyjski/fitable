@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-final providerCarouselViewModel = ChangeNotifierProvider.autoDispose<CarouselViewModel>((ref) {
-  return CarouselViewModel();
+final providerImageSliderViewModel = ChangeNotifierProvider.autoDispose<ImageSliderViewModel>((ref) {
+  return ImageSliderViewModel();
 });
 
-class CarouselViewModel extends ChangeNotifier {
+class ImageSliderViewModel extends ChangeNotifier {
   final CarouselController carouselController = CarouselController();
   YoutubePlayerController controller;
 

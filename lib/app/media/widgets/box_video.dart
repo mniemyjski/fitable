@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/media/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/image_slider_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -23,7 +23,7 @@ class _BoxVideoState extends State<BoxVideo> {
 
   @override
   void initState() {
-    final model = context.read(providerCarouselViewModel);
+    final model = context.read(providerImageSliderViewModel);
 
     model.controller = YoutubePlayerController(
       initialVideoId: videoUrl,
@@ -43,14 +43,14 @@ class _BoxVideoState extends State<BoxVideo> {
   }
 
   _onPressed(BuildContext context) {
-    final model = context.read(providerCarouselViewModel);
+    final model = context.read(providerImageSliderViewModel);
     model.carouselController.nextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final model = watch(providerCarouselViewModel);
+      final model = watch(providerImageSliderViewModel);
 
       return Stack(
         children: [

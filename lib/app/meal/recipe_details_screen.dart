@@ -6,7 +6,7 @@ import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
 import 'package:fitable/app/meal/widgets/build_choose_meal_type.dart';
 import 'package:fitable/app/meal/widgets/build_icon.dart';
 import 'package:fitable/app/meal/widgets/build_title.dart';
-import 'package:fitable/app/media/widgets/custom_carousel_slider.dart';
+import 'package:fitable/app/media/widgets/image_slider.dart';
 import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/app/rating/vew_models/rating_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -59,7 +59,7 @@ class RecipeDetailsScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CustomCarouselSlider(photosUrl: args.recipe.photosUrl, videoUrl: args.recipe.videoUrl, edit: false),
+              ImageSlider(photosUrl: args.recipe.photosUrl, videoUrl: args.recipe.videoUrl, edit: false),
               buildTitle(context),
               Card(
                   child: MacroAggregation(

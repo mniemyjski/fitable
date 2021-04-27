@@ -3,18 +3,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/media/view_models/carousel_view_model.dart';
+import 'package:fitable/app/media/view_models/image_slider_view_model.dart';
 import 'package:fitable/app/media/widgets/box_video.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomCarouselSlider extends ConsumerWidget {
+class ImageSlider extends ConsumerWidget {
   final String videoUrl;
   final List photosUrl;
   final bool edit;
 
-  CustomCarouselSlider({this.videoUrl = '', this.photosUrl, this.edit = false});
+  ImageSlider({this.videoUrl = '', this.photosUrl, this.edit = false});
 
   _buttonList(BuildContext context, bool crop, file) {
     if (!edit) return [Container()];
@@ -23,25 +23,25 @@ class CustomCarouselSlider extends ConsumerWidget {
       CustomIconButton(
         buttonColor: Colors.grey.withOpacity(0.5),
         icon: Icons.upload_rounded,
-        onPressed: () => context.read(providerCarouselViewModel).addImage(),
+        onPressed: () => context.read(providerImageSliderViewModel).addImage(),
       ),
       if (crop) SizedBox(width: 25),
       if (crop)
         CustomIconButton(
           buttonColor: Colors.grey.withOpacity(0.5),
           icon: Icons.crop,
-          onPressed: () => context.read(providerCarouselViewModel).cropImage(context, file),
+          onPressed: () => context.read(providerImageSliderViewModel).cropImage(context, file),
         ),
       SizedBox(width: 25),
       CustomIconButton(
         buttonColor: Colors.grey.withOpacity(0.5),
         icon: Icons.delete,
-        onPressed: () => context.read(providerCarouselViewModel).removeImage(),
+        onPressed: () => context.read(providerImageSliderViewModel).removeImage(),
       ),
     ];
   }
 
-  List<Widget> _imageSliders(BuildContext context, CarouselViewModel model) {
+  List<Widget> _imageSliders(BuildContext context, ImageSliderViewModel model) {
     if (!edit) {
       model.sliderList = [];
       if (videoUrl.isNotEmpty) model.sliderList.add(videoUrl);
@@ -116,7 +116,7 @@ class CustomCarouselSlider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
-    final model = watch(providerCarouselViewModel);
+    final model = watch(providerImageSliderViewModel);
 
     return Column(
       children: [
