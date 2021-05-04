@@ -1,13 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/app/meal/models/recipe_model.dart';
+
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/issue/issue_report.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
 import 'package:fitable/app/meal/widgets/build_choose_meal_type.dart';
 import 'package:fitable/app/meal/widgets/build_icon.dart';
 import 'package:fitable/app/meal/widgets/build_title.dart';
-import 'package:fitable/app/media/widgets/image_slider.dart';
+import 'package:fitable/common_widgets/carousel/carousel.dart';
 import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/app/rating/vew_models/rating_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
@@ -17,8 +19,6 @@ import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:fitable/services/macro.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -61,7 +61,7 @@ class RecipeDetailsScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ImageSlider(photosUrl: args.recipe.photosUrl, videoUrl: args.recipe.videoUrl, edit: false),
+              Carousel(photosUrl: args.recipe.photosUrl, videoUrl: args.recipe.videoUrl),
               buildTitle(context),
               Card(
                   child: MacroAggregation(

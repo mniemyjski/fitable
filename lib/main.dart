@@ -39,28 +39,28 @@ class MyApp extends StatelessWidget {
     //   DeviceOrientation.landscapeLeft,
     // ]);
 
-    if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS)
-      return MaterialApp(
-        // debugShowCheckedModeBanner: false,
-        title: 'Fitable',
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: ThemeData(
-          fontFamily: 'Georgia',
-          primaryColor: Colors.lightBlue[800],
-          // primarySwatch: Colors.indigo,
-        ),
-        home: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FitableHeader(),
-              Image.asset("resources/images/work_in_progress.jpg"),
-            ],
-          ),
-        ),
-      );
+    // if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS)
+    //   return MaterialApp(
+    //     // debugShowCheckedModeBanner: false,
+    //     title: 'Fitable',
+    //     localizationsDelegates: context.localizationDelegates,
+    //     supportedLocales: context.supportedLocales,
+    //     locale: context.locale,
+    //     theme: ThemeData(
+    //       fontFamily: 'Georgia',
+    //       primaryColor: Colors.lightBlue[800],
+    //       // primarySwatch: Colors.indigo,
+    //     ),
+    //     home: SingleChildScrollView(
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           FitableHeader(),
+    //           Image.asset("resources/images/work_in_progress.jpg"),
+    //         ],
+    //       ),
+    //     ),
+    //   );
 
     return Consumer(builder: (context, watch, child) {
       Preference preference;

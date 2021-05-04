@@ -80,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                     context: context,
                     db: db,
                     favorites: data,
-                    model: model,
+                    favoriteScreen: model.favoriteScreen,
                   )),
               loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
               error: (err, stack) => Center(child: Text(Constants.error())),

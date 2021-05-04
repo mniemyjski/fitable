@@ -1,6 +1,6 @@
-import 'package:fitable/app/media/view_models/image_slider_view_model.dart';
+import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
-import 'package:fitable/app/media/widgets/image_slider.dart';
+import 'package:fitable/common_widgets/carousel/carousel.dart';
 import 'package:fitable/app/meal/widgets/tile_head_ingredients.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
@@ -78,7 +78,13 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
 
           return Column(
             children: [
-              ImageSlider(edit: true, videoUrl: model.videoId),
+              Carousel(
+                create: true,
+                videoUrl: model.videoId,
+                onChanged: (v) {
+                  context.read(providerRecipeCreateViewModel).photosUrl = v;
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(

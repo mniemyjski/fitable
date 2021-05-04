@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
+import 'package:fitable/common_widgets/image_render.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
@@ -16,6 +16,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyAccountScreen extends ConsumerWidget {
   @override
@@ -24,11 +25,12 @@ class MyAccountScreen extends ConsumerWidget {
     final db = watch(providerDatabase);
 
     void _onPressed() async {
-      FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image);
+      final picker = ImagePicker();
+      final result = await picker.getImage(source: ImageSource.gallery);
 
       if (result != null) {
         final db = context.read(providerDatabase);
-        File _file = File(result.files.single.path);
+        File _file = File(result.path);
         String url = await db.uploadToFirebaseStorage(file: _file, folderName: 'accounts');
         db.updateAccount(name: 'avatarUrl', value: url);
       }
@@ -45,15 +47,23 @@ class MyAccountScreen extends ConsumerWidget {
             child: GestureDetector(
               onTap: _onPressed,
               child: CircleAvatar(
-                radius: 50,
-                child: ExtendedImage.network(
-                  account?.avatarUrl ?? "",
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.fill,
-                  cache: true,
-                  border: Border.all(color: Colors.black87, width: 1.0),
-                  shape: BoxShape.circle,
+                radius: 55,
+                backgroundColor: Colors.black12,
+                child: CachedNetworkImage(
+                  imageUrl: account?.avatarUrl ?? "",
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.black87, width: 1.0),
+                      image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                    ),
+                  ),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.account_circle,
+                    size: 110,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

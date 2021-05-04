@@ -4,7 +4,8 @@ import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
-import 'package:fitable/app/media/view_models/image_slider_view_model.dart';
+import 'package:fitable/common_widgets/carousel/models/box_model.dart';
+import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
@@ -16,6 +17,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logger/logger.dart';
 
 final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeCreateViewModel>((ref) {
   return RecipeCreateViewModel();
@@ -30,11 +32,13 @@ class RecipeCreateViewModel extends ChangeNotifier {
   String _access;
   String _videoId;
 
-  String get videoId => _videoId;
+  String get videoId => _videoId != null ? _videoId : '';
 
   set videoId(String videoId) {
-    _videoId = convertUrlToId(videoId);
-    notifyListeners();
+    if (videoId.isNotEmpty) {
+      _videoId = convertUrlToId(videoId);
+      notifyListeners();
+    }
   }
 
   static String convertUrlToId(String url, {bool trimWhitespaces = true}) {
@@ -51,7 +55,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
       if (match != null && match.groupCount >= 1) return match.group(1);
     }
 
-    return null;
+    return '';
   }
 
   Duration _timePreparation = Duration(seconds: 0);
@@ -115,6 +119,8 @@ class RecipeCreateViewModel extends ChangeNotifier {
   double _fats = 0;
   double get fats => _fats;
 
+  List<String> photosUrl;
+
   createRecipe(BuildContext context) {
     //TODO Replace string to constants
     FocusScope.of(context).unfocus();
@@ -134,12 +140,6 @@ class RecipeCreateViewModel extends ChangeNotifier {
       return;
     }
 
-    List sliderList = context.read(providerImageSliderViewModel).sliderList;
-
-    List _photosUrl = new List.of(sliderList);
-    _photosUrl.remove(sliderList[0]);
-    _photosUrl.removeWhere((element) => element.toString().length < 2);
-
     context.read(providerAccount.last).then((account) {
       context.read(providerPreference.last).then((preference) {
         context.read(providerDatabase).createRecipe(
@@ -149,9 +149,9 @@ class RecipeCreateViewModel extends ChangeNotifier {
               access: access,
               description: description,
               timePreparation: timePreparation,
-              videoUrl: sliderList[0],
+              videoUrl: videoId,
               keyWords: keyWords,
-              photos: _photosUrl,
+              photos: photosUrl,
               ingredients: ingredients,
               portions: portions,
             );

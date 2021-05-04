@@ -7,12 +7,14 @@ import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 buildTabBarView({
   @required BuildContext context,
   @required Database db,
   @required List<Favorite> favorites,
-  @required SearchViewModel model,
+  // @required SearchViewModel model,
+  @required FavoriteScreen favoriteScreen,
 }) {
   _buildList({
     @required Stream stream,
@@ -38,13 +40,13 @@ buildTabBarView({
     );
   }
 
-  switch (model.favoriteScreen) {
+  switch (favoriteScreen) {
     case FavoriteScreen.onlyProducts:
       return [
         _buildList(
           stream: db.streamProducts(favorites),
           type: EnumTileType.product,
-          onPressed: (element) => model.productDetails(context, element),
+          onPressed: (element) => context.read(providerSearchViewModel).productDetails(context, element),
         )
       ];
       break;
@@ -53,14 +55,18 @@ buildTabBarView({
         _buildList(
           stream: db.streamProducts(favorites),
           type: EnumTileType.product,
-          onPressed: (element) => model.productDetails(context, element),
+          onPressed: (element) => context.read(providerSearchViewModel).productDetails(context, element),
         ),
         _buildList(
           stream: db.streamFavoriteRecipes(favorites),
           type: EnumTileType.recipe,
-          onPressed: (element) => model.recipeDetails(context, element),
+          onPressed: (element) => context.read(providerSearchViewModel).recipeDetails(context, element),
         ),
-        _buildList(stream: db.streamYourRecipes(), type: EnumTileType.recipe, onPressed: (element) => model.recipeDetails(context, element))
+        _buildList(
+          stream: db.streamYourRecipes(),
+          type: EnumTileType.recipe,
+          onPressed: (element) => context.read(providerSearchViewModel).recipeDetails(context, element),
+        )
       ];
       break;
     case FavoriteScreen.workouts:

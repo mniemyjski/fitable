@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/common_widgets/image_render.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/providers.dart';
@@ -135,6 +136,7 @@ class _State extends State<MainDrawer> {
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black87, width: 1.0),
                           image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
                         ),
                       ),
