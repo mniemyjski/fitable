@@ -7,9 +7,9 @@ import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
-import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/common_widgets/show_loading_dialog.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/constants/enums.dart';
@@ -145,8 +145,10 @@ class RecipeCreateViewModel extends ChangeNotifier {
     }
 
     context.read(providerAccount.last).then((account) {
-      context.read(providerPreference.last).then((preference) {
-        context.read(providerDatabase).createRecipe(
+      context.read(providerPreference.last).then((preference) async {
+        showLoadingDialog(context);
+
+        await context.read(providerDatabase).createRecipe(
             authorName: account.name,
             localeBase: preference.localeBase,
             name: name,

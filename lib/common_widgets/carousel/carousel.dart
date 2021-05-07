@@ -1,12 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitable/app/crop/crop_image_screen.dart';
+import 'package:fitable/common_widgets/carousel/circles.dart';
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
 import 'package:fitable/common_widgets/carousel/tile_box.dart';
-import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
+import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'dart:io';
 
-class Carousel extends StatelessWidget {
+class Carousel extends StatefulWidget {
   final String videoUrl;
   final List photosUrl;
   final bool edit;
@@ -15,74 +18,160 @@ class Carousel extends StatelessWidget {
 
   Carousel({this.videoUrl = '', this.photosUrl, this.edit = false, this.isShow = true, this.onChanged});
 
-  List<Widget> _circles(BuildContext context, CarouselViewModel model) {
-    List<Widget> _list = [];
+  @override
+  _CarouselState createState() => _CarouselState();
+}
 
-    for (int index = 0; index < model.boxes.length; index++) {
-      Widget item = Container(
-        width: 12.0,
-        height: 12.0,
-        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: model.current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
-        ),
-      );
+class _CarouselState extends State<Carousel> {
+  final CarouselController controllerCarousel = CarouselController();
+  int current = 0;
+  List<Box> boxes = [];
 
-      _list.add(item);
-    }
-
-    return _list;
+  @override
+  void initState() {
+    if (widget.videoUrl.isNotEmpty) boxes.add(new Box(url: widget.videoUrl, isVideo: true));
+    if (widget.photosUrl != null)
+      widget.photosUrl.forEach((element) {
+        boxes.add(Box(url: element, isEdit: widget.edit));
+      });
+    if (widget.edit) boxes.add(Box(isEdit: true));
+    super.initState();
   }
 
-  List<Widget> _sliders(BuildContext context, CarouselViewModel model) {
-    if (edit) onChanged(model.getOnlyPhotosUrl());
-    return model.boxes.map((item) {
-      return TileBox(item);
+  List<String> _getOnlyPhotosUrl(List<Box> boxes) {
+    List<Box> _list = [];
+    List<String> _urls = [];
+    _list = List.from(boxes);
+    _list.removeWhere((element) => element.isVideo);
+    _list.forEach((element) {
+      if (element.url != '') _urls.add(element.url);
+    });
+
+    return _urls;
+  }
+
+  void _add() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (boxes[current].url == '') {
+        boxes.add(Box(isEdit: true));
+        controllerCarousel.nextPage();
+      }
+
+      boxes[current] = Box(url: pickedFile.path, isEdit: true);
+    });
+    widget.onChanged(_getOnlyPhotosUrl(boxes));
+  }
+
+  void _crop() async {
+    File _file = File(boxes[current].url);
+
+    var result = await Navigator.pushNamed(
+      context,
+      AppRoute.cropImageScreen,
+      arguments: CropImageScreenArguments(file: _file, current: current),
+    );
+
+    if (result != null) {
+      File _file = result;
+      setState(() {
+        boxes[current] = Box(url: _file.path, isEdit: true);
+      });
+    }
+  }
+
+  void _remove() {
+    setState(() {
+      if (boxes.length > 1 + (widget.videoUrl.isNotEmpty ? 1 : 0)) {
+        boxes.removeAt(current);
+        controllerCarousel.previousPage();
+      } else {
+        if (widget.videoUrl.isNotEmpty) {
+          boxes.removeAt(current);
+          boxes.add(Box(isEdit: true));
+        } else {
+          boxes.removeAt(current);
+          boxes.add(Box(isEdit: true));
+          // boxes.clear();
+          // boxes.add(Box(isEdit: true));
+          // controllerCarousel.previousPage();
+        }
+      }
+    });
+
+    widget.onChanged(_getOnlyPhotosUrl(boxes));
+  }
+
+  List<Widget> _sliders(BuildContext context) {
+    if (widget.edit) widget.onChanged(_getOnlyPhotosUrl(boxes));
+    return boxes.map((item) {
+      return TileBox(
+        box: item,
+        add: () => _add(),
+        crop: () => _crop(),
+        remove: () => _remove(),
+      );
     }).toList();
+  }
+
+  _checkVideoUrl() {
+    if (widget.videoUrl != '' && !boxes[0].isVideo) {
+      List<Box> list = [];
+      list.add(new Box(url: widget.videoUrl, isVideo: true));
+      list.addAll(boxes);
+      boxes = list;
+      if (widget.edit) {
+        controllerCarousel.jumpToPage(1);
+        controllerCarousel.previousPage();
+      }
+    }
+
+    if (widget.videoUrl == '' && boxes[0].isVideo) {
+      boxes.removeAt(0);
+      controllerCarousel.jumpToPage(0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!isShow) return Container();
+    if (!widget.isShow) return Container();
 
-    return Consumer(builder: (context, watch, child) {
-      final model = watch(providerCarouselViewModel);
-      model.initState(videoUrl, photosUrl, edit);
+    _checkVideoUrl();
 
-      return Column(
-        children: [
-          if (model.boxes.isNotEmpty)
-            CarouselSlider(
-              items: _sliders(context, model),
-              carouselController: model.controllerCarousel,
-              options: CarouselOptions(
-                enableInfiniteScroll: false,
-                viewportFraction: 1.0,
-                onPageChanged: (index, reason) => context.read(providerCarouselViewModel).current = index,
-              ),
+    return Column(
+      children: [
+        if (boxes.isNotEmpty)
+          CarouselSlider(
+            items: _sliders(context),
+            carouselController: controllerCarousel,
+            options: CarouselOptions(
+              enableInfiniteScroll: false,
+              viewportFraction: 1.0,
+              onPageChanged: (index, reason) => setState(() => current = index),
             ),
-          if (model.boxes.length > 1)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: Icon(Icons.navigate_before),
-                      onPressed: () => context.read(providerCarouselViewModel).controllerCarousel.previousPage(),
-                    )),
-                Row(children: _circles(context, model)),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: Icon(Icons.navigate_next),
-                      onPressed: () => context.read(providerCarouselViewModel).controllerCarousel.nextPage(),
-                    )),
-              ],
-            ),
-        ],
-      );
-    });
+          ),
+        if (boxes.length > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: Icon(Icons.navigate_before),
+                    onPressed: () => controllerCarousel.previousPage(),
+                  )),
+              Row(children: circles(context, boxes.length, current)),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: Icon(Icons.navigate_next),
+                    onPressed: () => controllerCarousel.nextPage(),
+                  )),
+            ],
+          ),
+      ],
+    );
   }
 }

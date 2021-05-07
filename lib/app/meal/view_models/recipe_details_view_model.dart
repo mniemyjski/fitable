@@ -8,7 +8,6 @@ import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
-import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/constants/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/macro.dart';

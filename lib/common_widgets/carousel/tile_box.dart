@@ -1,19 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
-import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:fitable/common_widgets/image_render.dart';
-import 'package:fitable/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 class TileBox extends StatefulWidget {
   final Box box;
+  final VoidCallback add;
+  final VoidCallback crop;
+  final VoidCallback remove;
 
-  const TileBox(this.box);
+  const TileBox({Key key, @required this.box, @required this.add, @required this.crop, @required this.remove}) : super(key: key);
 
   @override
   _TileBoxState createState() => _TileBoxState();
@@ -38,6 +36,18 @@ class _TileBoxState extends State<TileBox> {
     super.initState();
   }
 
+  bool _showCropButton() {
+    if (widget.box.url.isEmpty) return false;
+    if (widget.box.url.substring(0, 4) == 'http') return false;
+    return true;
+  }
+
+  bool _showRemoveButton() {
+    bool v = false;
+    if (widget.box.url.isNotEmpty) v = true;
+    return v;
+  }
+
   @override
   Widget build(BuildContext context) {
     _buttonList() {
@@ -46,22 +56,26 @@ class _TileBoxState extends State<TileBox> {
         CustomIconButton(
           buttonColor: Colors.grey.withOpacity(0.5),
           icon: Icons.upload_rounded,
-          onPressed: () => context.read(providerCarouselViewModel).addImage(),
+          onPressed: widget.add,
         ),
-        if (widget.box.url.isNotEmpty) ...[
-          SizedBox(width: 25),
-          CustomIconButton(
-            buttonColor: Colors.grey.withOpacity(0.5),
-            icon: Icons.crop,
-            onPressed: () => context.read(providerCarouselViewModel).cropImage(context, widget.box.url),
+        if (_showCropButton())
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: CustomIconButton(
+              buttonColor: Colors.grey.withOpacity(0.5),
+              icon: Icons.crop,
+              onPressed: widget.crop,
+            ),
           ),
-          SizedBox(width: 25),
-          CustomIconButton(
-            buttonColor: Colors.grey.withOpacity(0.5),
-            icon: Icons.delete,
-            onPressed: () => context.read(providerCarouselViewModel).removeImage(),
+        if (_showRemoveButton())
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: CustomIconButton(
+              buttonColor: Colors.grey.withOpacity(0.5),
+              icon: Icons.delete,
+              onPressed: widget.remove,
+            ),
           ),
-        ],
       ];
     }
 
@@ -80,7 +94,7 @@ class _TileBoxState extends State<TileBox> {
       child: Container(
         child: Stack(
           children: <Widget>[
-            imageRender(url: widget.box.url, network: !widget.box.isEdit),
+            imageRender(url: widget.box.url),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

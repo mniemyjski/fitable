@@ -13,16 +13,22 @@ _getIcon(Icon errorIcon) {
   );
 }
 
+bool _showNetworkImage(String url) {
+  if (url.isEmpty) return false;
+  if (url.substring(0, 4) != 'http') return false;
+  if (kIsWeb && url.substring(0, 4) == 'http') return false;
+  return true;
+}
+
 imageRender({
   @required String url,
-  bool network = true,
   BoxBorder border,
   BoxShape shape = BoxShape.rectangle,
   Icon errorIcon,
 }) {
   if (url == null) return Container();
 
-  if (kIsWeb || network) {
+  if (_showNetworkImage(url)) {
     return CachedNetworkImage(
       imageUrl: url,
       imageBuilder: (context, imageProvider) => Container(

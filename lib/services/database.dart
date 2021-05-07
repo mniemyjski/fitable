@@ -243,7 +243,7 @@ class Database {
 
   Future<void> deleteRecipe(Recipe recipe) => _service.collection(Path.recipes()).doc(recipe.id).delete();
 
-  Future<void> createRecipe({
+  Future<bool> createRecipe({
     @required String authorName,
     @required String localeBase,
     @required String name,
@@ -290,7 +290,10 @@ class Database {
       commentsCount: oldRecipe?.commentsCount ?? null,
       dateCreation: oldRecipe?.dateCreation ?? null,
     );
-    return ref.set(_recipe.toMap(uid: uid, id: ref.id));
+
+    await ref.set(_recipe.toMap(uid: uid, id: ref.id));
+
+    return true;
   }
 
   Future<Recipe> getRecipe(String id) => _service
