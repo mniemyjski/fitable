@@ -88,10 +88,10 @@ class SearchViewModel extends ChangeNotifier {
   setRecipes(BuildContext context, bool state) {
     _recipes = state;
     if (state) {
-      _searchType = SearchType.products;
+      _searchType = SearchType.recipes;
       massageFlushBar(context, Constants.search_recipes());
     } else {
-      _searchType = SearchType.recipes;
+      _searchType = SearchType.products;
       massageFlushBar(context, Constants.search_products());
     }
     notifyListeners();
@@ -106,7 +106,6 @@ class SearchViewModel extends ChangeNotifier {
 
   Future getStream(BuildContext context, String id) {
     final db = context.read(providerDatabase);
-
     switch (searchType) {
       case SearchType.recipes:
         return db.getRecipe(id);

@@ -69,7 +69,6 @@ class TileProduct extends StatelessWidget {
                               ),
                             ),
                             Expanded(flex: 1, child: Text('')),
-                            Expanded(flex: 1, child: Text('')),
                             if (isSuggested)
                               Expanded(
                                 flex: 1,

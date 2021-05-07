@@ -48,20 +48,20 @@ class _TileBoxState extends State<TileBox> {
           icon: Icons.upload_rounded,
           onPressed: () => context.read(providerCarouselViewModel).addImage(),
         ),
-        if (widget.box.url != null) ...[
+        if (widget.box.url.isNotEmpty) ...[
           SizedBox(width: 25),
           CustomIconButton(
             buttonColor: Colors.grey.withOpacity(0.5),
             icon: Icons.crop,
             onPressed: () => context.read(providerCarouselViewModel).cropImage(context, widget.box.url),
           ),
+          SizedBox(width: 25),
+          CustomIconButton(
+            buttonColor: Colors.grey.withOpacity(0.5),
+            icon: Icons.delete,
+            onPressed: () => context.read(providerCarouselViewModel).removeImage(),
+          ),
         ],
-        SizedBox(width: 25),
-        CustomIconButton(
-          buttonColor: Colors.grey.withOpacity(0.5),
-          icon: Icons.delete,
-          onPressed: () => context.read(providerCarouselViewModel).removeImage(),
-        ),
       ];
     }
 

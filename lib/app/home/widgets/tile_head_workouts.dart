@@ -118,10 +118,11 @@ class TileHeadWorkouts extends StatelessWidget {
           }).toList();
 
           return TileExpansion(
-            onPressed: () => Navigator.of(context).pushNamed(
-              AppRoute.searchScreen,
-              arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.workouts, title: Constants.favorites()),
-            ),
+            onPressed: null,
+            // onPressed: () => Navigator.of(context).pushNamed(
+            //   AppRoute.searchScreen,
+            //   arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.workouts, title: Constants.favorites()),
+            // ),
             head: _buildHead(
                 context: context,
                 burnCalories: _burnCalories,

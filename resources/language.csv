@@ -262,3 +262,8 @@ is_aready_issue,"Wcześniej zgłoszony przez Ciebie błąd nie został jeszcze z
 suggested,Sugerowane,Suggested
 gluten_free,Gluten free,Gluten free
 create_new_recipe,Utworz nowy przepis,Create new recipe
+edit,Edytuj,Edit
+delete_recipe,Usuń przepis,Delete recipe
+are_you_sure_delete_recipe,Tej operacji nie bedzie można cofnąć. Czy na pewno chcesz usunąć ten przepis?,This operation cannot be undone. Are you sure you want to delete this recipe?
+yes,Tak,Yes
+no,Nie,No

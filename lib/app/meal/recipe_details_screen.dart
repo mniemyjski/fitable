@@ -1,3 +1,6 @@
+import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
@@ -32,6 +35,76 @@ class RecipeDetailsScreenArguments {
   RecipeDetailsScreenArguments({@required this.recipe, this.selectedPortion, this.chooseMealType = false, this.isMeal = false});
 }
 
+_areYouSure(BuildContext context, Recipe recipe) {
+  buildShowDialog(
+      context: context,
+      height: 138,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(Constants.are_you_sure_delete_recipe()),
+          Row(
+            children: [
+              Expanded(
+                  child: CustomButton(
+                child: Text(Constants.no()),
+                color: Colors.indigo,
+                textColor: Colors.white,
+                onPressed: () => Navigator.pop(context),
+              )),
+              SizedBox(width: 10),
+              Expanded(
+                child: CustomButton(
+                    child: Text(Constants.yes()),
+                    color: Colors.indigo,
+                    textColor: Colors.white,
+                    onPressed: () => context.read(providerRecipeDetailsViewModel).deleteRecipe(context, recipe)),
+              ),
+            ],
+          ),
+        ],
+      ));
+}
+
+Widget _buildReportButton({@required Recipe recipe, @required bool isMeal}) {
+  return Consumer(builder: (context, watch, child) {
+    return watch(providerAccount).when(
+      data: (account) {
+        if (!isMeal && account.uid != recipe.uid)
+          return TextButton(
+              onPressed: () => issueReport(context, recipe, ElementType.recipe),
+              child: Text(
+                Constants.bug_report(),
+                style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+              ));
+
+        if (!isMeal && account.uid == recipe.uid)
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                  onPressed: () => context.read(providerRecipeDetailsViewModel).editRecipe(context, recipe),
+                  child: Text(
+                    Constants.edit(),
+                    style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                  )),
+              TextButton(
+                  onPressed: () => _areYouSure(context, recipe),
+                  child: Text(
+                    Constants.delete_recipe(),
+                    style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+                  )),
+            ],
+          );
+
+        return Container();
+      },
+      loading: () => Container(),
+      error: (e, v) => Container(),
+    );
+  });
+}
+
 class RecipeDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,7 +123,6 @@ class RecipeDetailsScreen extends StatelessWidget {
 
       return CustomScaffold(
         appBar: AppBar(
-          title: Text(Constants.recipe_details()),
           actions: [
             IconButton(
               icon: model.isFavorite ? Icon(FontAwesomeIcons.solidHeart) : Icon(FontAwesomeIcons.heart),
@@ -61,7 +133,11 @@ class RecipeDetailsScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Carousel(photosUrl: args.recipe.photosUrl, videoUrl: args.recipe.videoUrl),
+              Carousel(
+                photosUrl: args.recipe.photosUrl,
+                videoUrl: args.recipe.videoUrl,
+                isShow: !args.isMeal,
+              ),
               buildTitle(context),
               Card(
                   child: MacroAggregation(
@@ -126,13 +202,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                         spacing: 8.0),
                   ),
                 ),
-              if (!args.isMeal)
-                TextButton(
-                    onPressed: () => issueReport(context, args.recipe, ElementType.recipe),
-                    child: Text(
-                      Constants.bug_report(),
-                      style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
-                    )),
+              _buildReportButton(recipe: args.recipe, isMeal: args.isMeal),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

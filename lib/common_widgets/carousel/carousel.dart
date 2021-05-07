@@ -9,11 +9,11 @@ import 'package:logger/logger.dart';
 class Carousel extends StatelessWidget {
   final String videoUrl;
   final List photosUrl;
-  final bool create;
   final bool edit;
+  final bool isShow;
   final ValueChanged<List<String>> onChanged;
 
-  Carousel({this.videoUrl = '', this.photosUrl, this.edit = false, this.create = false, this.onChanged});
+  Carousel({this.videoUrl = '', this.photosUrl, this.edit = false, this.isShow = true, this.onChanged});
 
   List<Widget> _circles(BuildContext context, CarouselViewModel model) {
     List<Widget> _list = [];
@@ -36,7 +36,7 @@ class Carousel extends StatelessWidget {
   }
 
   List<Widget> _sliders(BuildContext context, CarouselViewModel model) {
-    if (create || edit) onChanged(model.getOnlyPhotosUrl());
+    if (edit) onChanged(model.getOnlyPhotosUrl());
     return model.boxes.map((item) {
       return TileBox(item);
     }).toList();
@@ -44,9 +44,11 @@ class Carousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!isShow) return Container();
+
     return Consumer(builder: (context, watch, child) {
       final model = watch(providerCarouselViewModel);
-      model.initState(videoUrl, photosUrl, create, edit);
+      model.initState(videoUrl, photosUrl, edit);
 
       return Column(
         children: [

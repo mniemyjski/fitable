@@ -1,3 +1,4 @@
+import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
 import 'package:fitable/common_widgets/carousel/carousel.dart';
@@ -15,54 +16,55 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RecipeCreateScreen extends StatefulWidget {
-  @override
-  _RecipeCreateScreenState createState() => _RecipeCreateScreenState();
+class RecipeCreateScreenArguments {
+  final Recipe recipe;
+
+  RecipeCreateScreenArguments({this.recipe});
 }
 
-class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
-  _buildTimer() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Consumer(builder: (context, watch, child) {
-            final model = watch(providerRecipeCreateViewModel);
-            Duration timer = model.timePreparation;
-            return Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
-              child: Container(
-                height: 300,
-                child: Column(
-                  children: <Widget>[
-                    CupertinoTimerPicker(
-                      mode: CupertinoTimerPickerMode.hm,
-                      minuteInterval: 1,
-                      initialTimerDuration: model.timePreparation,
-                      onTimerDurationChanged: (Duration changedTimer) {
-                        timer = changedTimer;
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomButton(
-                          color: Colors.indigo,
-                          child: Text(
-                            Constants.save(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            context.read(providerRecipeCreateViewModel).timePreparation = timer;
-                            Navigator.pop(context);
-                          }),
-                    )
-                  ],
-                ),
+_buildTimer(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Consumer(builder: (context, watch, child) {
+          final model = watch(providerRecipeCreateViewModel);
+          Duration timer = model.timePreparation;
+          return Dialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Container(
+              height: 300,
+              child: Column(
+                children: <Widget>[
+                  CupertinoTimerPicker(
+                    mode: CupertinoTimerPickerMode.hm,
+                    minuteInterval: 1,
+                    initialTimerDuration: model.timePreparation,
+                    onTimerDurationChanged: (Duration changedTimer) {
+                      timer = changedTimer;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                        color: Colors.indigo,
+                        child: Text(
+                          Constants.save(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          context.read(providerRecipeCreateViewModel).timePreparation = timer;
+                          Navigator.pop(context);
+                        }),
+                  )
+                ],
               ),
-            );
-          });
+            ),
+          );
         });
-  }
+      });
+}
 
+class RecipeCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -74,21 +76,24 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
       ),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, watch, child) {
+          final RecipeCreateScreenArguments args = ModalRoute.of(context).settings.arguments;
           final model = watch(providerRecipeCreateViewModel);
+
+          model.initState(args?.recipe);
 
           return Column(
             children: [
               Carousel(
-                create: true,
+                edit: true,
                 videoUrl: model.videoId,
-                onChanged: (v) {
-                  context.read(providerRecipeCreateViewModel).photosUrl = v;
-                },
+                photosUrl: model.photosUrl,
+                onChanged: (v) => context.read(providerRecipeCreateViewModel).photosUrl = v,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(
                   name: Constants.youtube(),
+                  initialValue: model.videoId,
                   hintText: Constants.enter_youtube_id(),
                   onChanged: (v) {
                     context.read(providerRecipeCreateViewModel).videoId = v;
@@ -99,6 +104,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
                 padding: const EdgeInsets.only(left: 6),
                 child: CustomTextField(
                   name: Constants.recipe_name(),
+                  initialValue: model.name,
                   onChanged: (v) {
                     context.read(providerRecipeCreateViewModel).name = v;
                   },
@@ -110,6 +116,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
                   name: Constants.description(),
                   maxLines: 20,
                   minLines: 10,
+                  initialValue: model.description,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
                   onChanged: (v) {
@@ -125,7 +132,7 @@ class _RecipeCreateScreenState extends State<RecipeCreateScreen> {
                       child: CustomInputBar(
                         name: Constants.time(),
                         value: '${model.timePreparation.inHours}h ${(model.timePreparation.inMinutes % 60).toString().padLeft(2, '0')} min',
-                        onPressed: _buildTimer,
+                        onPressed: () => _buildTimer(context),
                       ),
                     ),
                     Expanded(

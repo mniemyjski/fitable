@@ -205,4 +205,9 @@ abstract class Constants {
   static String is_aready_issue() => "is_aready_issue".tr();
   static String suggested() => "suggested".tr();
   static String gluten_free() => "gluten_free".tr();
+  static String edit() => "edit".tr();
+  static String delete_recipe() => "delete_recipe".tr();
+  static String are_you_sure_delete_recipe() => "are_you_sure_delete_recipe".tr();
+  static String yes() => "yes".tr();
+  static String no() => "no".tr();
 }

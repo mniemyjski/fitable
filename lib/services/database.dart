@@ -21,6 +21,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:logger/logger.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -35,7 +36,11 @@ class Database {
   Future<String> uploadToFirebaseStorage({@required File file, @required String folderName, String name}) async {
     firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
     String filePath = folderName == 'accounts' ? '$folderName/$uid/avatar/$uid' : '$folderName/$name';
-    await storage.ref(filePath).putFile(file);
+
+    try {
+      await storage.ref(filePath).putFile(file);
+    } on firebase_core.FirebaseException catch (e) {}
+
     return await storage.ref(filePath).getDownloadURL();
   }
 
@@ -235,6 +240,9 @@ class Database {
   //endregion
 
   //#region recipe
+
+  Future<void> deleteRecipe(Recipe recipe) => _service.collection(Path.recipes()).doc(recipe.id).delete();
+
   Future<void> createRecipe({
     @required String authorName,
     @required String localeBase,
@@ -247,18 +255,23 @@ class Database {
     @required List photos,
     @required List<Ingredient> ingredients,
     @required List<Portion> portions,
+    Recipe oldRecipe,
   }) async {
-    final DocumentReference ref = _service.collection(Path.recipes()).doc();
+    final DocumentReference ref = _service.collection(Path.recipes()).doc(oldRecipe?.id ?? null);
 
     List _photosUrl = [];
 
-    for (var element in photos) {
-      File _file = File(element);
-      String url = await uploadToFirebaseStorage(file: _file, folderName: "recipes/${ref.id}", name: photos.indexOf(element).toString());
-      _photosUrl.add(url);
+    for (String element in photos) {
+      if (element.substring(0, 4) != 'http') {
+        File _file = File(element);
+        String url = await uploadToFirebaseStorage(file: _file, folderName: "recipes/${ref.id}", name: photos.indexOf(element).toString());
+        _photosUrl.add(url);
+      } else {
+        _photosUrl.add(element);
+      }
     }
 
-    Recipe recipe = Recipe(
+    Recipe _recipe = Recipe(
       authorName: authorName,
       localeBase: localeBase,
       name: name,
@@ -271,9 +284,13 @@ class Database {
       portions: portions,
       timePreparation: timePreparation,
       verification: false,
+      ratingsAvg: oldRecipe?.ratingsAvg ?? null,
+      ratingsCount: oldRecipe?.ratingsCount ?? null,
+      favoritesCount: oldRecipe?.favoritesCount ?? null,
+      commentsCount: oldRecipe?.commentsCount ?? null,
+      dateCreation: oldRecipe?.dateCreation ?? null,
     );
-
-    return ref.set(recipe.toMap(uid: uid, id: ref.id));
+    return ref.set(_recipe.toMap(uid: uid, id: ref.id));
   }
 
   Future<Recipe> getRecipe(String id) => _service

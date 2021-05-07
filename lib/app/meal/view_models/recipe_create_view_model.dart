@@ -3,7 +3,9 @@ import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
+import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
 import 'package:fitable/common_widgets/carousel/view_models/carousel_view_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
@@ -17,6 +19,7 @@ import 'package:fitable/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 
 final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeCreateViewModel>((ref) {
@@ -122,6 +125,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
   List<String> photosUrl;
 
   createRecipe(BuildContext context) {
+    final RecipeCreateScreenArguments args = ModalRoute.of(context).settings.arguments;
     //TODO Replace string to constants
     FocusScope.of(context).unfocus();
 
@@ -143,19 +147,20 @@ class RecipeCreateViewModel extends ChangeNotifier {
     context.read(providerAccount.last).then((account) {
       context.read(providerPreference.last).then((preference) {
         context.read(providerDatabase).createRecipe(
-              authorName: account.name,
-              localeBase: preference.localeBase,
-              name: name,
-              access: access,
-              description: description,
-              timePreparation: timePreparation,
-              videoUrl: videoId,
-              keyWords: keyWords,
-              photos: photosUrl,
-              ingredients: ingredients,
-              portions: portions,
-            );
+            authorName: account.name,
+            localeBase: preference.localeBase,
+            name: name,
+            access: access,
+            description: description,
+            timePreparation: timePreparation,
+            videoUrl: videoId,
+            keyWords: keyWords,
+            photos: photosUrl,
+            ingredients: ingredients,
+            portions: portions,
+            oldRecipe: args?.recipe);
 
+        Navigator.pop(context);
         Navigator.pop(context);
       });
     });
@@ -231,5 +236,24 @@ class RecipeCreateViewModel extends ChangeNotifier {
         arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.onlyProducts, title: Constants.favorites()));
     if (result != null) ingredients.add(result);
     _calc();
+  }
+
+  bool _init = true;
+  initState(Recipe recipe) {
+    if (_init && recipe != null) {
+      _videoId = recipe.videoUrl;
+      photosUrl = List.from(recipe.photosUrl);
+      name = recipe.name;
+      description = recipe.description;
+      _keyWords = List.from(recipe.keyWords);
+      _portions = List.from(recipe.portions);
+      _unit = recipe.portions.first.unit;
+      _timePreparation = recipe.timePreparation;
+      _access = recipe.access;
+      ingredients = List.from(recipe.ingredients);
+      WidgetsBinding.instance.addPostFrameCallback((_) => _calc());
+
+      _init = false;
+    }
   }
 }

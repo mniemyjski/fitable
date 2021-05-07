@@ -13,10 +13,13 @@ _tileKeyWord(BuildContext context, String name) {
   return GestureDetector(
     onTap: () => context.read(providerAddToListViewModel).addSuggested(name),
     child: Card(
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
         child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(name),
-    )),
+          padding: const EdgeInsets.all(8.0),
+          child: Text(name),
+        )),
   );
 }
 
@@ -36,10 +39,10 @@ _bottomActionbar(BuildContext context, EnumTileType detailsType) {
           ),
           Wrap(
             children: [
-              _tileKeyWord(context, Constants.ketogenic()),
-              _tileKeyWord(context, Constants.low_fats()),
-              _tileKeyWord(context, Constants.high_protein()),
-              _tileKeyWord(context, Constants.gluten_free()),
+              _tileKeyWord(context, Constants.ketogenic().toLowerCase()),
+              _tileKeyWord(context, Constants.low_fats().toLowerCase()),
+              _tileKeyWord(context, Constants.high_protein().toLowerCase()),
+              _tileKeyWord(context, Constants.gluten_free().toLowerCase()),
             ],
           ),
           Row(

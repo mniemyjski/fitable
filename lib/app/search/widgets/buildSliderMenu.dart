@@ -18,8 +18,10 @@ sliderMenu(BuildContext context) {
             Switch(value: model.recipes, onChanged: (state) => context.read(providerSearchViewModel).setRecipes(context, state)),
           ],
           if (model.favoriteScreen == FavoriteScreen.allFoods || model.favoriteScreen == FavoriteScreen.onlyProducts) ...[
-            FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
-            Switch(value: model.withBarcode, onChanged: (state) => context.read(providerSearchViewModel).setWithBarcode(context, state)),
+            if (!model.recipes) ...[
+              FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
+              Switch(value: model.withBarcode, onChanged: (state) => context.read(providerSearchViewModel).setWithBarcode(context, state)),
+            ],
             Icon(Icons.verified_user, color: Colors.lightBlue[800]),
             Switch(value: model.verification, onChanged: (state) => context.read(providerSearchViewModel).setVerification(context, state)),
           ],

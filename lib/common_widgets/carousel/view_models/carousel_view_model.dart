@@ -47,33 +47,35 @@ class CarouselViewModel extends ChangeNotifier {
     return _urls;
   }
 
-  initState(String videoUrl, List photosUrl, bool create, bool edit) {
-    if (videoUrl != '' && !_isVideo) {
-      List<Box> list = [];
-      list.add(new Box(url: videoUrl, isVideo: true));
-      list.addAll(boxes);
-      boxes = list;
-      _isVideo = true;
-      if (create || edit) {
-        controllerCarousel.jumpToPage(1);
-        controllerCarousel.previousPage();
-      }
-    }
-
-    if (videoUrl == '' && _isVideo) {
-      _isVideo = false;
-      controllerCarousel.jumpToPage(1);
-      boxes.removeAt(0);
-      controllerCarousel.previousPage();
-      notifyListeners();
-    }
+  initState(String videoUrl, List photosUrl, bool edit) {
+    // if (videoUrl != '' && !_isVideo) {
+    //   List<Box> list = [];
+    //   list.add(new Box(url: videoUrl, isVideo: true));
+    //   list.addAll(boxes);
+    //   boxes = list;
+    //   _isVideo = true;
+    //   if (edit) {
+    //     controllerCarousel.jumpToPage(1);
+    //     controllerCarousel.previousPage();
+    //   }
+    // }
+    //
+    // if (videoUrl == '' && _isVideo) {
+    //   _isVideo = false;
+    //   controllerCarousel.jumpToPage(1);
+    //   boxes.removeAt(0);
+    //   controllerCarousel.previousPage();
+    //   notifyListeners();
+    // }
 
     if (init) {
+      _boxes.clear();
+      if (videoUrl.isNotEmpty) _boxes.add(new Box(url: videoUrl, isVideo: true));
       if (photosUrl != null)
         photosUrl.forEach((element) {
-          boxes.add(Box(url: element));
+          _boxes.add(Box(url: element, isEdit: edit));
         });
-      if (create) boxes.add(Box(isEdit: true));
+      if (edit) _boxes.add(Box(isEdit: true));
       init = false;
     }
   }
