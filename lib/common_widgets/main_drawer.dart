@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/common_widgets/image_render.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -24,7 +24,7 @@ class _State extends State<MainDrawer> {
           _createHeader(context),
           _createDrawerItem(
             icon: Icons.home,
-            text: Constants.home(),
+            text: Languages.home(),
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
             },
@@ -46,7 +46,7 @@ class _State extends State<MainDrawer> {
           //     }),
           _createDrawerItem(
               icon: Icons.fastfood,
-              text: Constants.recipes(),
+              text: Languages.recipes(),
               // inactive: true,
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.recipeScreen, (_) => false);
@@ -61,7 +61,7 @@ class _State extends State<MainDrawer> {
           // Divider(),
           _createDrawerItem(
               icon: Icons.stars,
-              text: Constants.goals(),
+              text: Languages.goals(),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.goalsScreen, (_) => false);
               }),
@@ -75,19 +75,19 @@ class _State extends State<MainDrawer> {
           Divider(),
           _createDrawerItem(
               icon: Icons.settings,
-              text: Constants.settings(),
+              text: Languages.settings(),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.settingsScreen, (_) => false);
               }),
           _createDrawerItem(
               icon: FontAwesomeIcons.question,
-              text: Constants.help(),
+              text: Languages.help(),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, AppRoute.introduction, (_) => false);
               }),
           _createDrawerItem(
             icon: Icons.exit_to_app,
-            text: Constants.sign_out(),
+            text: Languages.sign_out(),
             onTap: () async {
               final auth = context.read(providerAuthBase);
               try {

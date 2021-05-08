@@ -9,11 +9,11 @@ import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_tab_bar.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/database.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -83,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
                     favoriteScreen: model.favoriteScreen,
                   )),
               loading: () => Center(child: Container(height: 100, width: 100, child: CircularProgressIndicator())),
-              error: (err, stack) => Center(child: Text(Constants.error())),
+              error: (err, stack) => Center(child: Text(Languages.error())),
             );
           }),
           floatingActionButton: buildFloatingActionButton(context));

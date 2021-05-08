@@ -19,9 +19,9 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
-import 'package:fitable/services/macro.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
+import 'package:fitable/utilities/macro.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -42,12 +42,12 @@ _areYouSure(BuildContext context, Recipe recipe) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(Constants.are_you_sure_delete_recipe()),
+          Text(Languages.are_you_sure_delete_recipe()),
           Row(
             children: [
               Expanded(
                   child: CustomButton(
-                child: Text(Constants.no()),
+                child: Text(Languages.no()),
                 color: Colors.indigo,
                 textColor: Colors.white,
                 onPressed: () => Navigator.pop(context),
@@ -55,7 +55,7 @@ _areYouSure(BuildContext context, Recipe recipe) {
               SizedBox(width: 10),
               Expanded(
                 child: CustomButton(
-                    child: Text(Constants.yes()),
+                    child: Text(Languages.yes()),
                     color: Colors.indigo,
                     textColor: Colors.white,
                     onPressed: () => context.read(providerRecipeDetailsViewModel).deleteRecipe(context, recipe)),
@@ -74,7 +74,7 @@ Widget _buildReportButton({@required Recipe recipe, @required bool isMeal}) {
           return TextButton(
               onPressed: () => issueReport(context, recipe, ElementType.recipe),
               child: Text(
-                Constants.bug_report(),
+                Languages.bug_report(),
                 style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
               ));
 
@@ -85,13 +85,13 @@ Widget _buildReportButton({@required Recipe recipe, @required bool isMeal}) {
               TextButton(
                   onPressed: () => context.read(providerRecipeDetailsViewModel).editRecipe(context, recipe),
                   child: Text(
-                    Constants.edit(),
+                    Languages.edit(),
                     style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                   )),
               TextButton(
                   onPressed: () => _areYouSure(context, recipe),
                   child: Text(
-                    Constants.delete_recipe(),
+                    Languages.delete_recipe(),
                     style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
                   )),
             ],
@@ -175,7 +175,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(Constants.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(Languages.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                         Text(
                           args.recipe.keyWords.toString().substring(1, args.recipe.keyWords.toString().length - 1),
                           style: TextStyle(fontStyle: FontStyle.italic),
@@ -211,7 +211,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(Constants.ingredients() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(Languages.ingredients() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       CustomListView(
                         list: args.recipe.ingredients,
@@ -234,7 +234,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(Constants.description() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(Languages.description() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       Text(args.recipe.description),
                     ],

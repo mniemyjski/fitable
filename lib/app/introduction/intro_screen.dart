@@ -1,4 +1,4 @@
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -49,9 +49,9 @@ class IntroScreen extends StatelessWidget {
     return IntroductionScreen(
       pages: pages(),
       showSkipButton: true,
-      skip: Text(Constants.skip(), style: TextStyle(fontWeight: FontWeight.w600)),
-      next: Text(Constants.next(), style: TextStyle(fontWeight: FontWeight.w600)),
-      done: Text(Constants.done(), style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: Text(Languages.skip(), style: TextStyle(fontWeight: FontWeight.w600)),
+      next: Text(Languages.next(), style: TextStyle(fontWeight: FontWeight.w600)),
+      done: Text(Languages.done(), style: TextStyle(fontWeight: FontWeight.w600)),
       onDone: () => Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false),
     );
   }

@@ -5,8 +5,8 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +33,7 @@ class CreateAccount extends ConsumerWidget {
           child: Column(
             children: [
               CustomInputBar(
-                name: Constants.name(),
+                name: Languages.name(),
                 value: model.name,
                 onPressed: () {
                   //TODO create function set name in model with validate (non empty and unique)
@@ -41,7 +41,7 @@ class CreateAccount extends ConsumerWidget {
 
                   showInputPicker(
                     context: context,
-                    labelText: Constants.name(),
+                    labelText: Languages.name(),
                     initValue: model?.name ?? "",
                     onPressed: () {
                       model.name = _value;
@@ -55,7 +55,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.date_birth(),
+                name: Languages.date_birth(),
                 value: model?.dateBirth != null ? DateFormat('y-MM-dd').format(model.dateBirth) : "",
                 onPressed: () {
                   showDatePicker(
@@ -69,7 +69,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.height(),
+                name: Languages.height(),
                 value: model.height?.toStringAsFixed(0) ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -87,7 +87,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomDropDownButton(
-                name: Constants.gender(),
+                name: Languages.gender(),
                 value: model.gender,
                 list: <String>["male", "female"],
                 onChanged: (v) {
@@ -96,7 +96,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomDropDownButton(
-                name: Constants.daytime_activities(),
+                name: Languages.daytime_activities(),
                 value: model.dayTimeActivities,
                 list: <String>['very_low', 'low', 'normal', 'medium', 'high'],
                 onChanged: (v) {
@@ -105,7 +105,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 10.0),
               CustomInputBar(
-                name: Constants.weight(),
+                name: Languages.weight(),
                 value: model.weight?.toString() ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -123,7 +123,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.target_weight(),
+                name: Languages.target_weight(),
                 value: model.targetWeight?.toStringAsFixed(0) ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -142,7 +142,7 @@ class CreateAccount extends ConsumerWidget {
               ),
               SizedBox(height: 4.0),
               CustomInputBar(
-                name: Constants.target_fat(),
+                name: Languages.target_fat(),
                 value: model.targetFat?.toStringAsFixed(0) ?? "",
                 onPressed: () {
                   showValuePicker(
@@ -168,7 +168,7 @@ class CreateAccount extends ConsumerWidget {
                     color: Colors.teal[700],
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                    child: Text(Constants.save()),
+                    child: Text(Languages.save()),
                     onPressed: () {
                       final db = context.read(providerDatabase);
                       final auth = context.read(providerAuthState);

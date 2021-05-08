@@ -1,6 +1,6 @@
 import 'package:fitable/app/sign_in/view_model/sign_in_view_model.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -42,7 +42,7 @@ class EmailField extends ConsumerWidget {
             TextField(
               controller: emailController,
               focusNode: emailFocusNode,
-              decoration: InputDecoration(labelText: Constants.email()),
+              decoration: InputDecoration(labelText: Languages.email()),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
@@ -53,7 +53,7 @@ class EmailField extends ConsumerWidget {
             TextField(
               controller: passwordController,
               focusNode: passwordFocusNode,
-              decoration: InputDecoration(labelText: Constants.password()),
+              decoration: InputDecoration(labelText: Languages.password()),
               obscureText: true,
               textInputAction: TextInputAction.done,
               onEditingComplete: onPressedSubmit,
@@ -66,7 +66,7 @@ class EmailField extends ConsumerWidget {
               textColor: Colors.white,
               onPressed: onPressedSubmit,
             ),
-            if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text(Constants.forgot_your_password())),
+            if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text(Languages.forgot_your_password())),
             FlatButton(
               onPressed: onPressedRegister,
               child: Text(model.secondaryButtonText),

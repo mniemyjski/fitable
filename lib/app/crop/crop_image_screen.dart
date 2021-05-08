@@ -24,7 +24,7 @@ class CropImageScreen extends ConsumerWidget {
         title: Text('Crop'),
         actions: <Widget>[
           IconButton(
-            onPressed: () => context.read(providerCropImageViewModel).crop(context, args.file.path, args.current),
+            onPressed: () => context.read(providerCropImageViewModel).crop(context, args.file.absolute.path, args.current),
             icon: Icon(Icons.save),
           )
         ],

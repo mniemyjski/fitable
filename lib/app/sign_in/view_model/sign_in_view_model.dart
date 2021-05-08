@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitable/app/sign_in/validators.dart';
 import 'package:fitable/common_widgets/show_exception_alert_dialog.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/services/auth.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,11 +75,11 @@ class SignInViewModel with EmailAndPasswordValidators, ChangeNotifier {
   Future<User> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
 
   String get primaryButtonText {
-    return formType == EmailFormType.signIn ? Constants.sign_in() : Constants.create_account();
+    return formType == EmailFormType.signIn ? Languages.sign_in() : Languages.create_account();
   }
 
   String get secondaryButtonText {
-    return formType == EmailFormType.signIn ? Constants.need_register() : Constants.have_account_sign_in();
+    return formType == EmailFormType.signIn ? Languages.need_register() : Languages.have_account_sign_in();
   }
 
   bool get canSubmit {

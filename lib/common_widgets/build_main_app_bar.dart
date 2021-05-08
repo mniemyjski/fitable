@@ -1,6 +1,6 @@
 import 'package:fitable/app/search/search_screen.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,7 +28,7 @@ buildMainAppBar({
           icon: Icon(FontAwesomeIcons.userFriends),
           onPressed: () => Navigator.of(context).pushNamed(
                 AppRoute.searchScreen,
-                arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.accounts, title: Constants.community()),
+                arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.accounts, title: Languages.community()),
               )),
       if (actions != null) ...actions,
     ],

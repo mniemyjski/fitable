@@ -11,11 +11,11 @@ import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_loading_dialog.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/macro.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/macro.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -164,6 +164,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
 
         Navigator.pop(context);
         Navigator.pop(context);
+        Navigator.pop(context);
       });
     });
   }
@@ -188,7 +189,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
     List result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddToListScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Constants.key_words(), unit: unit);
+        return AddToListScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Languages.key_words(), unit: unit);
       }),
     );
 
@@ -199,7 +200,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
     dynamic result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddToListScreen(tileType: EnumTileType.portion, list: portions, title: Constants.portion(), unit: unit);
+        return AddToListScreen(tileType: EnumTileType.portion, list: portions, title: Languages.portion(), unit: unit);
       }),
     );
 
@@ -212,7 +213,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
 
   String portionsTXT() {
     String portionsTXT = '';
-    _portions.forEach((element) => portionsTXT += '${Enums.toText(element.type).tr()}: ${element.size}${Enums.toText(element.unit)}, ');
+    portions.forEach((element) => portionsTXT += '${Enums.toText(element.type).tr()}: ${element.size}${Enums.toText(element.unit)}, ');
     return portionsTXT;
   }
 
@@ -235,7 +236,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
 
   onSearch(BuildContext context) async {
     var result = await Navigator.of(context).pushNamed(AppRoute.searchScreen,
-        arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.onlyProducts, title: Constants.favorites()));
+        arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.onlyProducts, title: Languages.favorites()));
     if (result != null) ingredients.add(result);
     _calc();
   }

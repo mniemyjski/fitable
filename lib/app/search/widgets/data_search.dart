@@ -2,7 +2,7 @@ import 'package:algolia/algolia.dart';
 import 'package:fitable/app/search/widgets/buildSliderMenu.dart';
 import 'package:fitable/app/account/widgets/build_title.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -18,7 +18,7 @@ class DataSearch extends SearchDelegate {
             child: Container(
               margin: EdgeInsets.all(30),
               child: Text(
-                Constants.search_term_must_be_longer(),
+                Languages.search_term_must_be_longer(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
               ),
@@ -34,7 +34,7 @@ class DataSearch extends SearchDelegate {
       return FutureBuilder(
         future: model.searchQuery(context, query),
         builder: (BuildContext context, AsyncSnapshot<AlgoliaQuerySnapshot> snapshot) {
-          if (snapshot.hasError) return Center(child: Text(Constants.error()));
+          if (snapshot.hasError) return Center(child: Text(Languages.error()));
           if (snapshot.hasData)
             return Column(
               children: <Widget>[
@@ -53,7 +53,7 @@ class DataSearch extends SearchDelegate {
                       return FutureBuilder(
                           future: model.getStream(context, result.objectID),
                           builder: (BuildContext context, AsyncSnapshot snap) {
-                            if (snap.hasError) return Center(child: Text(Constants.error()));
+                            if (snap.hasError) return Center(child: Text(Languages.error()));
                             if (snap.hasData) {
                               // Meal m;
                               // m.ingredient

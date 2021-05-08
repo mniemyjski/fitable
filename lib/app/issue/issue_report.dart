@@ -4,11 +4,11 @@ import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/macro.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/macro.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,9 +28,9 @@ void _correctIssue(BuildContext context, dynamic element) async {
 void _otherIssue(BuildContext context, dynamic element, ElementType elementType) {
   String _description;
   showInputPicker(
-    hintText: Constants.describe_error(),
+    hintText: Languages.describe_error(),
     context: context,
-    buttonTextYes: Constants.send(),
+    buttonTextYes: Languages.send(),
     multiLine: true,
     isCancel: true,
     onChanged: (v) => _description = v,
@@ -61,13 +61,13 @@ _typeIssue(BuildContext context, dynamic element, ElementType elementType) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomButton(
-            child: Text(Constants.report_correction()),
+            child: Text(Languages.report_correction()),
             color: Colors.indigo,
             textColor: Colors.white,
             onPressed: () => _correctIssue(context, element),
           ),
           CustomButton(
-              child: Text(Constants.report_bug()),
+              child: Text(Languages.report_bug()),
               color: Colors.indigo,
               textColor: Colors.white,
               onPressed: () {
@@ -88,12 +88,12 @@ issueReport(BuildContext context, dynamic element, ElementType elementType) asyn
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(Constants.is_aready_issue()),
+            Text(Languages.is_aready_issue()),
             Row(
               children: [
                 Expanded(
                     child: CustomButton(
-                  child: Text(Constants.cancel()),
+                  child: Text(Languages.cancel()),
                   color: Colors.indigo,
                   textColor: Colors.white,
                   onPressed: () => Navigator.pop(context),
@@ -101,7 +101,7 @@ issueReport(BuildContext context, dynamic element, ElementType elementType) asyn
                 SizedBox(width: 10),
                 Expanded(
                   child: CustomButton(
-                      child: Text(Constants.change()),
+                      child: Text(Languages.change()),
                       color: Colors.indigo,
                       textColor: Colors.white,
                       onPressed: () {

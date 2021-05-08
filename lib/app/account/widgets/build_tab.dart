@@ -1,32 +1,32 @@
 import 'package:fitable/app/search/view_models/search_view_model.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
 buildTab(SearchViewModel model) {
   switch (model.favoriteScreen) {
     case FavoriteScreen.onlyProducts:
       model.tabBar = [
-        Tab(text: Constants.products()),
+        Tab(text: Languages.products()),
       ];
       break;
     case FavoriteScreen.allFoods:
       model.tabBar = [
-        Tab(text: Constants.products()),
-        Tab(text: Constants.recipes()),
-        Tab(text: Constants.your_recipes()),
+        Tab(text: Languages.products()),
+        Tab(text: Languages.recipes()),
+        Tab(text: Languages.your_recipes()),
       ];
       break;
     case FavoriteScreen.workouts:
       model.tabBar = [
-        Tab(text: Constants.exercises()),
-        Tab(text: Constants.workouts()),
+        Tab(text: Languages.exercises()),
+        Tab(text: Languages.workouts()),
       ];
       break;
     case FavoriteScreen.accounts:
       model.tabBar = [
-        Tab(text: Constants.followed()),
-        Tab(text: Constants.followers()),
+        Tab(text: Languages.followed()),
+        Tab(text: Languages.followers()),
       ];
       break;
   }

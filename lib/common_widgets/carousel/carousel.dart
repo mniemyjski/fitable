@@ -52,7 +52,12 @@ class _CarouselState extends State<Carousel> {
 
   void _add() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+      maxWidth: 1080,
+      maxHeight: 1920,
+    );
 
     setState(() {
       if (boxes[current].url == '') {
@@ -94,9 +99,6 @@ class _CarouselState extends State<Carousel> {
         } else {
           boxes.removeAt(current);
           boxes.add(Box(isEdit: true));
-          // boxes.clear();
-          // boxes.add(Box(isEdit: true));
-          // controllerCarousel.previousPage();
         }
       }
     });

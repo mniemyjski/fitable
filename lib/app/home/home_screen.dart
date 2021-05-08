@@ -12,8 +12,8 @@ import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:fitable/services/sync_health.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context: context, name: Constants.home()),
+      appBar: buildMainAppBar(context: context, name: Languages.home()),
       drawer: MainDrawer(),
       body: Column(children: [
         Container(

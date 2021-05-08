@@ -6,9 +6,9 @@ import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -657,10 +657,10 @@ class ProductCreateViewModel extends ChangeNotifier {
       String _value;
       return showInputPicker(
         context: context,
-        hintText: Constants.describe_error(),
+        hintText: Languages.describe_error(),
         multiLine: true,
         isCancel: true,
-        buttonTextYes: Constants.send(),
+        buttonTextYes: Languages.send(),
         onPressed: () {
           createProduct(context: context, barcode: barcode, id: product.id, description: _value);
           Navigator.pop(context);
@@ -680,7 +680,7 @@ class ProductCreateViewModel extends ChangeNotifier {
     List result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddToListScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Constants.key_words());
+        return AddToListScreen(tileType: EnumTileType.keyWord, list: keyWords, title: Languages.key_words());
       }),
     );
 
@@ -689,7 +689,7 @@ class ProductCreateViewModel extends ChangeNotifier {
 
   String portionsTXT() {
     String portionsTXT = '';
-    _portions.forEach((element) => portionsTXT += '${Enums.toText(element.type).tr()} ${element.size}${Enums.toText(element.unit)}, ');
+    portions.forEach((element) => portionsTXT += '${Enums.toText(element.type).tr()}: ${element.size}${Enums.toText(element.unit)}, ');
     return portionsTXT;
   }
 
@@ -697,7 +697,7 @@ class ProductCreateViewModel extends ChangeNotifier {
     dynamic result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return AddToListScreen(tileType: EnumTileType.portion, list: portions, title: Constants.portion(), unit: unit);
+        return AddToListScreen(tileType: EnumTileType.portion, list: portions, title: Languages.portion(), unit: unit);
       }),
     );
 

@@ -2,7 +2,7 @@ import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

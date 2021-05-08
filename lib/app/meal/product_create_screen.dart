@@ -4,8 +4,8 @@ import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -73,38 +73,38 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         ],
                       )),
                 CustomTextField(
-                    name: Constants.product_name(),
+                    name: Languages.product_name(),
                     initialValue: model.productName,
                     suffix: "",
                     textColor: model.productNameColor,
                     onChanged: (v) => model.productName = v),
                 CustomDropDownButton(
-                    name: Constants.category_primary(),
+                    name: Languages.category_primary(),
                     value: model.categoryPrimary,
                     list: model.listPrimary,
                     onChanged: (v) => model.categoryPrimary = v),
                 if (model.listSecondary.isNotEmpty)
                   CustomDropDownButton(
-                      name: Constants.category_secondary(),
+                      name: Languages.category_secondary(),
                       value: model.categorySecondary,
                       list: model.listSecondary,
                       onChanged: (v) => model.categorySecondary = v),
                 CustomBarList(
-                    name: Constants.key_words(),
+                    name: Languages.key_words(),
                     value: model.keyWords.toString().substring(1, model.keyWords.toString().length - 1),
                     onPressed: () => context.read(providerProductCreateViewModel).submitKeyWords(context)),
                 Container(
                     margin: EdgeInsets.only(left: 5, top: 15),
                     width: double.infinity,
                     child: Text(
-                      Constants.nutritional_values_out_of_100() + ':',
+                      Languages.nutritional_values_out_of_100() + ':',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )),
                 Row(
                   children: [
                     Expanded(
                       child: CustomTextField(
-                          name: Constants.calories(),
+                          name: Languages.calories(),
                           suffix: "kcal",
                           initialValue: model.calories.toString(),
                           textColor: model.caloriesColor,
@@ -113,7 +113,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                     ),
                     Expanded(
                       child: CustomDropDownButton(
-                        name: Constants.unit(),
+                        name: Languages.unit(),
                         value: Enums.toText(model.unit),
                         list: <String>['g', 'ml'],
                         onChanged: (v) => model.unit = Enums.unitTypeToEnum(v),
@@ -125,7 +125,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   children: [
                     Expanded(
                         child: CustomTextField(
-                            name: Constants.proteins(),
+                            name: Languages.proteins(),
                             suffix: "g",
                             initialValue: model.proteins.toString(),
                             textColor: model.proteinsColor,
@@ -135,7 +135,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                             })),
                     Expanded(
                         child: CustomTextField(
-                            name: Constants.carbs(),
+                            name: Languages.carbs(),
                             suffix: "g",
                             initialValue: model.carbs.toString(),
                             textColor: model.carbsColor,
@@ -145,7 +145,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                             })),
                     Expanded(
                         child: CustomTextField(
-                            name: Constants.fats(),
+                            name: Languages.fats(),
                             suffix: "g",
                             initialValue: model.fats.toString(),
                             textColor: model.fatsColor,
@@ -154,13 +154,13 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   ],
                 ),
                 CustomBarList(
-                    name: Constants.portions(),
+                    name: Languages.portions(),
                     value: model.portionsTXT(),
                     onPressed: () => context.read(providerProductCreateViewModel).submitPortions(context)),
                 ExpansionTile(
                   title: Center(
                     child: Text(
-                      Constants.more_about_the_product(),
+                      Languages.more_about_the_product(),
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -169,14 +169,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         margin: EdgeInsets.only(left: 5),
                         width: double.infinity,
                         child: Text(
-                          Constants.fats() + ':',
+                          Languages.fats() + ':',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                     Row(
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.saturated(),
+                                name: Languages.saturated(),
                                 suffix: "g",
                                 initialValue: model.saturated.toString(),
                                 textColor: model.saturatedColor,
@@ -186,7 +186,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.unsaturated(),
+                                name: Languages.unsaturated(),
                                 suffix: "g",
                                 initialValue: model.unsaturated.toString(),
                                 textColor: model.unsaturatedColor,
@@ -200,7 +200,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.omega3(),
+                                name: Languages.omega3(),
                                 suffix: "g",
                                 initialValue: model.omega3.toString(),
                                 textColor: model.omega3Color,
@@ -210,7 +210,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.omega6(),
+                                name: Languages.omega6(),
                                 suffix: "g",
                                 initialValue: model.omega6.toString(),
                                 textColor: model.omega6Color,
@@ -224,14 +224,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         margin: EdgeInsets.only(left: 5, top: 15),
                         width: double.infinity,
                         child: Text(
-                          Constants.proteins() + ':',
+                          Languages.proteins() + ':',
                           style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold),
                         )),
                     Row(
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.animal_proteins(),
+                                name: Languages.animal_proteins(),
                                 keyboardType: TextInputType.number,
                                 suffix: "g",
                                 initialValue: model.animalProteins.toString(),
@@ -241,7 +241,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.plant_proteins(),
+                                name: Languages.plant_proteins(),
                                 initialValue: model.plantProteins.toString(),
                                 textColor: model.plantProteinsColor,
                                 keyboardType: TextInputType.number,
@@ -255,14 +255,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         margin: EdgeInsets.only(left: 5, top: 15),
                         width: double.infinity,
                         child: Text(
-                          Constants.others() + ':',
+                          Languages.others() + ':',
                           style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold),
                         )),
                     Row(
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.fiber(),
+                                name: Languages.fiber(),
                                 suffix: "g",
                                 initialValue: model.fiber.toString(),
                                 textColor: model.fiberColor,
@@ -272,7 +272,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.caffeine(),
+                                name: Languages.caffeine(),
                                 suffix: "g",
                                 initialValue: model.caffeine.toString(),
                                 textColor: model.caffeineColor,
@@ -282,7 +282,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.sugar(),
+                                name: Languages.sugar(),
                                 suffix: "g",
                                 initialValue: model.sugar.toString(),
                                 textColor: model.sugarColor,
@@ -296,7 +296,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.salt(),
+                                name: Languages.salt(),
                                 suffix: "g",
                                 initialValue: model.salt.toString(),
                                 textColor: model.saltColor,
@@ -306,7 +306,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.cholesterol(),
+                                name: Languages.cholesterol(),
                                 suffix: "g",
                                 initialValue: model.cholesterol.toString(),
                                 textColor: model.cholesterolColor,
@@ -320,14 +320,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         margin: EdgeInsets.only(left: 5, top: 15),
                         width: double.infinity,
                         child: Text(
-                          Constants.vitamins() + ':',
+                          Languages.vitamins() + ':',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                     Row(
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.A(),
+                                name: Languages.A(),
                                 suffix: "mg",
                                 initialValue: model.vitaminA.toString(),
                                 textColor: model.vitaminAColor,
@@ -337,7 +337,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.C(),
+                                name: Languages.C(),
                                 suffix: "mg",
                                 initialValue: model.vitaminC.toString(),
                                 textColor: model.vitaminCColor,
@@ -347,7 +347,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.D(),
+                                name: Languages.D(),
                                 suffix: "mg",
                                 initialValue: model.vitaminD.toString(),
                                 textColor: model.vitaminDColor,
@@ -357,7 +357,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.E(),
+                                name: Languages.E(),
                                 suffix: "mg",
                                 initialValue: model.vitaminE.toString(),
                                 textColor: model.vitaminEColor,
@@ -371,7 +371,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B1(),
+                                name: Languages.B1(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB1.toString(),
                                 textColor: model.vitaminB1Color,
@@ -381,7 +381,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B2(),
+                                name: Languages.B2(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB2.toString(),
                                 textColor: model.vitaminB2Color,
@@ -391,7 +391,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B3(),
+                                name: Languages.B3(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB3.toString(),
                                 textColor: model.vitaminB3Color,
@@ -401,7 +401,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B5(),
+                                name: Languages.B5(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB5.toString(),
                                 textColor: model.vitaminB5Color,
@@ -415,7 +415,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B6(),
+                                name: Languages.B6(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB6.toString(),
                                 textColor: model.vitaminB6Color,
@@ -425,7 +425,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B7(),
+                                name: Languages.B7(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB7.toString(),
                                 textColor: model.vitaminB7Color,
@@ -435,7 +435,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B9(),
+                                name: Languages.B9(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB9.toString(),
                                 textColor: model.vitaminB9Color,
@@ -445,7 +445,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.B12(),
+                                name: Languages.B12(),
                                 suffix: "mg",
                                 initialValue: model.vitaminB12.toString(),
                                 textColor: model.vitaminB12eColor,
@@ -459,14 +459,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         margin: EdgeInsets.only(left: 5, top: 15),
                         width: double.infinity,
                         child: Text(
-                          Constants.macro() + ':',
+                          Languages.macro() + ':',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                     Row(
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.potassium(),
+                                name: Languages.potassium(),
                                 suffix: "mg",
                                 initialValue: model.potassium.toString(),
                                 textColor: model.potassiumColor,
@@ -476,7 +476,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.sodium(),
+                                name: Languages.sodium(),
                                 suffix: "mg",
                                 initialValue: model.sodium.toString(),
                                 textColor: model.sodiumColor,
@@ -486,7 +486,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.calcium(),
+                                name: Languages.calcium(),
                                 suffix: "mg",
                                 initialValue: model.calcium.toString(),
                                 textColor: model.calciumColor,
@@ -500,7 +500,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.magnesium(),
+                                name: Languages.magnesium(),
                                 suffix: "mg",
                                 initialValue: model.magnesium.toString(),
                                 textColor: model.magnesiumColor,
@@ -510,7 +510,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.phosphorus(),
+                                name: Languages.phosphorus(),
                                 suffix: "mg",
                                 initialValue: model.phosphorus.toString(),
                                 textColor: model.phosphorusColor,
@@ -524,14 +524,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         margin: EdgeInsets.only(left: 5, top: 15),
                         width: double.infinity,
                         child: Text(
-                          Constants.micro() + ':',
+                          Languages.micro() + ':',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                     Row(
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.iron(),
+                                name: Languages.iron(),
                                 suffix: "mg",
                                 initialValue: model.iron.toString(),
                                 textColor: model.ironColor,
@@ -541,7 +541,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.copper(),
+                                name: Languages.copper(),
                                 suffix: "mg",
                                 initialValue: model.copper.toString(),
                                 textColor: model.copperColor,
@@ -551,7 +551,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.zinc(),
+                                name: Languages.zinc(),
                                 suffix: "mg",
                                 initialValue: model.zinc.toString(),
                                 textColor: model.zincColor,
@@ -561,7 +561,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.selenium(),
+                                name: Languages.selenium(),
                                 suffix: "mg",
                                 initialValue: model.selenium.toString(),
                                 textColor: model.seleniumColor,
@@ -575,7 +575,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                       children: [
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.manganese(),
+                                name: Languages.manganese(),
                                 suffix: "mg",
                                 initialValue: model.manganese.toString(),
                                 textColor: model.manganeseColor,
@@ -585,7 +585,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.iodine(),
+                                name: Languages.iodine(),
                                 suffix: "mg",
                                 initialValue: model.iodine.toString(),
                                 textColor: model.iodineColor,
@@ -595,7 +595,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 })),
                         Expanded(
                             child: CustomTextField(
-                                name: Constants.chromium(),
+                                name: Languages.chromium(),
                                 suffix: "mg",
                                 initialValue: model.chromium.toString(),
                                 textColor: model.chromiumColor,

@@ -1,7 +1,7 @@
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:fitable/services/macro.dart';
+import 'package:fitable/utilities/macro.dart';
 
 class TileProduct extends StatelessWidget {
   final element;
@@ -14,25 +14,25 @@ class TileProduct extends StatelessWidget {
     String _name = Macro.getName(element);
     String _size = Macro.getSize(element).toStringAsFixed(1) + Macro.getUnit(element);
 
-    String _calories = '${Constants.kcal()}: ${Macro.calculateCalories(
+    String _calories = '${Languages.kcal()}: ${Macro.calculateCalories(
       element,
       Macro.getSize(element),
       Macro.getSelectedPortion(element),
     ).toStringAsFixed(0)}';
 
-    String _proteins = '${Constants.p()}: ${Macro.calculateProteins(
+    String _proteins = '${Languages.p()}: ${Macro.calculateProteins(
       element,
       Macro.getSize(element),
       Macro.getSelectedPortion(element),
     ).toStringAsFixed(1)}g';
 
-    String _carbs = '${Constants.c()}: ${Macro.calculateCarbs(
+    String _carbs = '${Languages.c()}: ${Macro.calculateCarbs(
       element,
       Macro.getSize(element),
       Macro.getSelectedPortion(element),
     ).toStringAsFixed(1)}g';
 
-    String _fats = '${Constants.f()}: ${Macro.calculateFats(
+    String _fats = '${Languages.f()}: ${Macro.calculateFats(
       element,
       Macro.getSize(element),
       Macro.getSelectedPortion(element),
@@ -74,7 +74,7 @@ class TileProduct extends StatelessWidget {
                                 flex: 1,
                                 child: Container(
                                   margin: EdgeInsets.only(bottom: 0),
-                                  child: Text(Constants.suggested(), style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
+                                  child: Text(Languages.suggested(), style: TextStyle(fontSize: 12, color: color, fontStyle: FontStyle.italic)),
                                 ),
                               ),
                           ],

@@ -2,8 +2,8 @@ import 'package:fitable/app/account/account_details_screen.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/database.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ buildTabBarView({
       child: StreamBuilder(
           stream: stream,
           builder: (context, snapshot) {
-            if (snapshot.hasError) Center(child: Text(Constants.error()));
+            if (snapshot.hasError) Center(child: Text(Languages.error()));
             if (snapshot.hasData)
               return CustomListView(
                 list: snapshot.data,
@@ -35,7 +35,7 @@ buildTabBarView({
                 onPressed: onPressed,
               );
 
-            return Container(child: Center(child: Text(Constants.empty())));
+            return Container(child: Center(child: Text(Languages.empty())));
           }),
     );
   }
@@ -71,8 +71,8 @@ buildTabBarView({
       break;
     case FavoriteScreen.workouts:
       return [
-        Tab(text: Constants.exercises()),
-        Tab(text: Constants.workouts()),
+        Tab(text: Languages.exercises()),
+        Tab(text: Languages.workouts()),
       ];
       break;
     case FavoriteScreen.accounts:
@@ -88,7 +88,7 @@ buildTabBarView({
         StreamBuilder(
             stream: db.streamFollowers(),
             builder: (context, snapshot) {
-              if (snapshot.hasError) return Center(child: Text(Constants.error()));
+              if (snapshot.hasError) return Center(child: Text(Languages.error()));
               if (snapshot.hasData) {
                 return _buildList(
                   stream: db.streamAccounts(snapshot.data, true),

@@ -267,3 +267,8 @@ delete_recipe,Usuń przepis,Delete recipe
 are_you_sure_delete_recipe,Tej operacji nie bedzie można cofnąć. Czy na pewno chcesz usunąć ten przepis?,This operation cannot be undone. Are you sure you want to delete this recipe?
 yes,Tak,Yes
 no,Nie,No
+create,Utwórz,Create
+send_photos,Wyślij zdjęcia,Send photos
+create_product,Utwórz produkt,create product
+product_not_found,"Produkt nie został znaleziony.",product_not_found
+product_not_found_desc,"Możesz go od razu dodać lub zrobić zdjęcia a my dodamy go w najbliższym możliwym terminie.",product_not_found_desc

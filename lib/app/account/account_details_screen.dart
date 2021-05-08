@@ -1,15 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/view_models/account_details_view_model.dart';
+import 'package:fitable/app/account/widgets/tile_detail.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:logger/logger.dart';
 
 class AccountDetailsScreenArguments {
   final Account account;
@@ -30,6 +32,10 @@ class AccountDetailsScreen extends StatelessWidget {
         actions: [
           Consumer(builder: (context, watch, child) {
             final model = watch(providerAccountDetailsViewModel);
+            final myAccount = watch(providerAccount).data.value;
+
+            if (myAccount.uid == args.account.uid) return Container();
+
             model.isFavorite = false;
             watch(providerFavorite).whenData((favorites) => favorites.forEach((element) => model.favoriteCheck(element, args.account.uid)));
             return IconButton(
@@ -86,34 +92,24 @@ class AccountDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Row(
-                children: <Widget>[
-                  Text(Constants.gender() + ': ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(args.account.gender.tr()),
-                ],
-              ),
+            TileDetail(
+              access: args.account.accessGender,
+              name: Languages.gender() + ': ',
+              value: args.account.gender.tr(),
+              account: args.account,
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Row(
-                children: <Widget>[
-                  Text(Constants.height() + ': ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(args.account.height.toString()),
-                ],
-              ),
+            TileDetail(
+              access: args.account.accessHeight,
+              name: Languages.height() + ': ',
+              value: args.account.height.toString(),
+              account: args.account,
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Row(
-                children: <Widget>[
-                  Text(Constants.date_birth() + ': ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(DateFormat('yyyy-MM-dd').format(args.account.dateBirth)),
-                ],
-              ),
-            ),
-            Text(Constants.bio() + ': ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TileDetail(
+                access: args.account.accessDateBirth,
+                name: Languages.date_birth() + ': ',
+                value: DateFormat('yyyy-MM-dd').format(args.account.dateBirth),
+                account: args.account),
+            Text(Languages.bio() + ': ', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(args.account?.bio ?? ''),
             Divider(),
           ],

@@ -27,10 +27,12 @@ class CropImageViewModel extends ChangeNotifier {
 
     src = i.copyCrop(src, cropRect.left.toInt(), cropRect.top.toInt(), cropRect.width.toInt(), cropRect.height.toInt());
 
-    var fileData = i.encodeJpg(src);
+    var fileData = i.encodeJpg(src, quality: 50);
+    var lastSeparator = path.lastIndexOf(Platform.pathSeparator);
+    var newPath = path.substring(0, lastSeparator + 1) + '${current.toStringAsFixed(0)}_' + path.substring(lastSeparator + 1, path.length);
 
     File file = File(path);
-    file = File(path + current.toStringAsFixed(0))..writeAsBytesSync(fileData);
+    file = File(newPath)..writeAsBytesSync(fileData);
     Navigator.pop(context, file);
   }
 }

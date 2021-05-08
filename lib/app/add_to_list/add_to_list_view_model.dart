@@ -4,8 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -70,7 +70,7 @@ class AddToListViewModel extends ChangeNotifier {
         _typeListener = null;
         _reorderList();
       } else {
-        massageFlushBar(context, Constants.portion_cannot_be_empty());
+        massageFlushBar(context, Languages.portion_cannot_be_empty());
       }
     }
     list = LinkedHashSet<String>.from(list).toList();

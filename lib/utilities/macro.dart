@@ -3,7 +3,7 @@ import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:logger/logger.dart';
 
 abstract class Macro {

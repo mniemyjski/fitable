@@ -1,4 +1,4 @@
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +8,12 @@ final providerFavorite = StreamProvider<List<Favorite>>((ref) {
   final db = ref.watch(providerDatabase);
 
   return db.streamFavorites();
+});
+
+final providerFollowers = StreamProvider<List<Favorite>>((ref) {
+  final db = ref.watch(providerDatabase);
+
+  return db.streamFollowers();
 });
 
 class Favorite {

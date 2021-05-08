@@ -11,17 +11,19 @@ import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/rating/models/rating_model.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/services/application.dart';
-import 'package:fitable/services/path.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fitable/routers/path.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:image/image.dart' as i;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -234,8 +236,11 @@ class Database {
   Stream<List<Favorite>> streamFollowers() {
     final ref = _service.collection(Path.accounts()).doc(uid).collection(Path.favorites()).snapshots();
     return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
-    // return ref.map((snapshot) => snapshot.docs.map((snap) => snap.id).toList());
   }
+
+  // Future<bool> isFollower(String follower) {
+  //   return _service.collection(Path.accounts()).doc(uid).collection(Path.favorites()).doc(follower).get().then((value) => value.data().isNotEmpty);
+  // }
 
   //endregion
 

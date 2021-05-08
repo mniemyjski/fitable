@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 
 class TileAccount extends StatelessWidget {
@@ -37,7 +37,7 @@ class TileAccount extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(account.name, style: TextStyle(fontWeight: FontWeight.bold)),
-              if (account.isCoach) Text("[${Constants.coach()}]"),
+              if (account.isCoach) Text("[${Languages.coach()}]"),
             ],
           ),
         ],

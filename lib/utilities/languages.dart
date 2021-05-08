@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-abstract class Constants {
+abstract class Languages {
   static String email() => 'email'.tr();
   static String password() => "password".tr();
   static String forgot_your_password() => "forgot_your_password".tr();
@@ -210,4 +210,9 @@ abstract class Constants {
   static String are_you_sure_delete_recipe() => "are_you_sure_delete_recipe".tr();
   static String yes() => "yes".tr();
   static String no() => "no".tr();
+  static String send_photos() => "send_photos".tr();
+  static String create_product() => "create_product".tr();
+  static String create() => "create".tr();
+  static String product_not_found() => "product_not_found".tr();
+  static String product_not_found_desc() => "product_not_found_desc".tr();
 }

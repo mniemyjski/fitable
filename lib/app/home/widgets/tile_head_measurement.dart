@@ -9,7 +9,7 @@ import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -8,8 +8,8 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -47,7 +47,7 @@ _buildTimer(BuildContext context) {
                     child: CustomButton(
                         color: Colors.indigo,
                         child: Text(
-                          Constants.save(),
+                          Languages.save(),
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
@@ -68,7 +68,7 @@ class RecipeCreateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBar: AppBar(
-        title: Text(Constants.create_new_recipe()),
+        title: Text(Languages.create_new_recipe()),
         actions: [
           IconButton(icon: Icon(Icons.check), onPressed: () => context.read(providerRecipeCreateViewModel).createRecipe(context)),
         ],
@@ -91,9 +91,9 @@ class RecipeCreateScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 6, top: 0),
                 child: CustomTextField(
-                  name: Constants.youtube(),
+                  name: Languages.youtube(),
                   initialValue: model.videoId,
-                  hintText: Constants.enter_youtube_id(),
+                  hintText: Languages.enter_youtube_id(),
                   onChanged: (v) {
                     context.read(providerRecipeCreateViewModel).videoId = v;
                   },
@@ -102,7 +102,7 @@ class RecipeCreateScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: CustomTextField(
-                  name: Constants.recipe_name(),
+                  name: Languages.recipe_name(),
                   initialValue: model.name,
                   onChanged: (v) {
                     context.read(providerRecipeCreateViewModel).name = v;
@@ -112,7 +112,7 @@ class RecipeCreateScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: CustomTextField(
-                  name: Constants.description(),
+                  name: Languages.description(),
                   maxLines: 20,
                   minLines: 10,
                   initialValue: model.description,
@@ -129,20 +129,20 @@ class RecipeCreateScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomInputBar(
-                        name: Constants.time(),
+                        name: Languages.time(),
                         value: '${model.timePreparation.inHours}h ${(model.timePreparation.inMinutes % 60).toString().padLeft(2, '0')} min',
                         onPressed: () => _buildTimer(context),
                       ),
                     ),
                     Expanded(
                         child: CustomDropDownButton(
-                            name: Constants.visible() + ':',
+                            name: Languages.visible() + ':',
                             value: model.access,
                             list: ['private', 'public'],
                             onChanged: (v) => context.read(providerRecipeCreateViewModel).access = v)),
                     Expanded(
                         child: CustomDropDownButton(
-                            name: Constants.unit() + ':',
+                            name: Languages.unit() + ':',
                             value: Enums.toText(model.unit),
                             list: <String>['g', 'ml'],
                             onChanged: (v) => context.read(providerRecipeCreateViewModel).unit = Enums.unitTypeToEnum(v))),
@@ -150,11 +150,11 @@ class RecipeCreateScreen extends StatelessWidget {
                 ),
               ),
               CustomBarList(
-                  name: Constants.key_words(),
+                  name: Languages.key_words(),
                   value: model.keyWords.toString().substring(1, model.keyWords.toString().length - 1),
                   onPressed: () => context.read(providerRecipeCreateViewModel).submitKeyWords(context)),
               CustomBarList(
-                  name: Constants.portions(),
+                  name: Languages.portions(),
                   value: model.portionsTXT(),
                   onPressed: () => context.read(providerRecipeCreateViewModel).submitPortions(context)),
               TileHeadIngredients(),

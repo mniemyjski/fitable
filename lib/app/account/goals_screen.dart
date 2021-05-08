@@ -8,9 +8,9 @@ import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,15 +25,15 @@ class GoalsScreen extends ConsumerWidget {
     String activitiesDescription(String value) {
       switch (value) {
         case 'very_low':
-          return Constants.no_activities_description();
+          return Languages.no_activities_description();
         case 'low':
-          return Constants.low_activities_description();
+          return Languages.low_activities_description();
         case 'normal':
-          return Constants.normal_activities_description();
+          return Languages.normal_activities_description();
         case 'medium':
-          return Constants.medium_activities_description();
+          return Languages.medium_activities_description();
         case 'high':
-          return Constants.high_activities_description();
+          return Languages.high_activities_description();
         default:
           return null;
       }
@@ -42,9 +42,9 @@ class GoalsScreen extends ConsumerWidget {
     String formulaDescription(String value) {
       switch (value) {
         case 'standard':
-          return Constants.formula_standard_description();
+          return Languages.formula_standard_description();
         case 'advanced':
-          return Constants.formula_advance_description();
+          return Languages.formula_advance_description();
         default:
           return null;
       }
@@ -60,19 +60,19 @@ class GoalsScreen extends ConsumerWidget {
       String _carbs = pref.goalCarbs.toStringAsFixed(0);
       String _fats = pref.goalFats.toStringAsFixed(0);
 
-      return Constants.calories() +
+      return Languages.calories() +
           ': ' +
           _calories +
           ', ' +
-          Constants.p() +
+          Languages.p() +
           ': ' +
           _proteins +
           '%, ' +
-          Constants.c() +
+          Languages.c() +
           ': ' +
           _carbs +
           '%, ' +
-          Constants.f() +
+          Languages.f() +
           ': ' +
           _fats +
           '%';
@@ -80,7 +80,7 @@ class GoalsScreen extends ConsumerWidget {
 
     _buildBody(Preference preference) {
       return CustomScaffold(
-          appBar: buildMainAppBar(context: context, name: Constants.goals()),
+          appBar: buildMainAppBar(context: context, name: Languages.goals()),
           drawer: MainDrawer(),
           body: Column(
             children: [
@@ -95,7 +95,7 @@ class GoalsScreen extends ConsumerWidget {
                     ))),
               ),
               CustomDropDownButton(
-                name: Constants.daytime_activities(),
+                name: Languages.daytime_activities(),
                 value: preference.dayTimeActivities,
                 description: true,
                 descFunc: activitiesDescription,
@@ -105,7 +105,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomDropDownButton(
-                name: Constants.formula_bmr(),
+                name: Languages.formula_bmr(),
                 value: preference.formulaBMR,
                 description: true,
                 descFunc: formulaDescription,
@@ -116,7 +116,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomInputBar(
-                name: Constants.speed_change_weight(),
+                name: Languages.speed_change_weight(),
                 value: preference.speedChangeWeight.toStringAsFixed(1),
                 onPressed: () {
                   showDialog(
@@ -172,7 +172,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomInputBar(
-                name: Constants.target_weight(),
+                name: Languages.target_weight(),
                 value: preference.targetWeight.toStringAsFixed(0),
                 onPressed: () {
                   showValuePicker(
@@ -189,7 +189,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomInputBar(
-                name: Constants.target_fat(),
+                name: Languages.target_fat(),
                 value: "${preference.targetFat.toStringAsFixed(0)}%",
                 onPressed: () {
                   showValuePicker(
@@ -206,7 +206,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomInputBar(
-                name: Constants.target_steps(),
+                name: Languages.target_steps(),
                 value: preference.targetSteps.toStringAsFixed(0),
                 onPressed: () {
                   showValuePicker(
@@ -224,7 +224,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomInputBar(
-                name: Constants.target_burn_calories(),
+                name: Languages.target_burn_calories(),
                 value: preference.targetBurnCalories.toStringAsFixed(0),
                 onPressed: () {
                   showValuePicker(
@@ -242,7 +242,7 @@ class GoalsScreen extends ConsumerWidget {
                 },
               ),
               CustomInputBar(
-                name: Constants.macro(),
+                name: Languages.macro(),
                 value: _calculate(context),
                 onPressed: () {
                   Navigator.of(context).pushNamed(AppRoute.goalsMacroScreen);

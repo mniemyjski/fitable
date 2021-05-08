@@ -3,10 +3,10 @@ import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +26,7 @@ class RecipesScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(right: 8, top: 8),
-              child: Text(Constants.see_everything(), style: TextStyle(color: Colors.blueAccent, fontStyle: FontStyle.italic, fontSize: 14)),
+              child: Text(Languages.see_everything(), style: TextStyle(color: Colors.blueAccent, fontStyle: FontStyle.italic, fontSize: 14)),
             ),
           ],
         ),
@@ -37,7 +37,7 @@ class RecipesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: buildMainAppBar(context: context, name: Constants.recipes()),
+      appBar: buildMainAppBar(context: context, name: Languages.recipes()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, watch, child) {
@@ -45,7 +45,7 @@ class RecipesScreen extends StatelessWidget {
 
           return Column(
             children: [
-              _buildHeading(Constants.last()),
+              _buildHeading(Languages.last()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -67,7 +67,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.best()),
+              _buildHeading(Languages.best()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -89,7 +89,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.popular()),
+              _buildHeading(Languages.popular()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -111,7 +111,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.ketogenic()),
+              _buildHeading(Languages.ketogenic()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -133,7 +133,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.high_protein()),
+              _buildHeading(Languages.high_protein()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
@@ -155,7 +155,7 @@ class RecipesScreen extends StatelessWidget {
                       return Container();
                     }),
               ),
-              _buildHeading(Constants.low_fats()),
+              _buildHeading(Languages.low_fats()),
               Container(
                 height: 235,
                 padding: const EdgeInsets.all(4.0),

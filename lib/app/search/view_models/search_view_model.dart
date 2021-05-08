@@ -10,11 +10,11 @@ import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/app/search/widgets/data_search.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/services/application.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,7 +63,7 @@ class SearchViewModel extends ChangeNotifier {
   bool get verification => _verification;
   setVerification(BuildContext context, bool state) {
     _verification = state;
-    if (_verification) massageFlushBar(context, Constants.search_verification_product_only());
+    if (_verification) massageFlushBar(context, Languages.search_verification_product_only());
     notifyListeners();
   }
 
@@ -71,7 +71,7 @@ class SearchViewModel extends ChangeNotifier {
   bool get isCoach => _isCoach;
   setIsCoach(BuildContext context, bool state) {
     _isCoach = state;
-    if (_isCoach) massageFlushBar(context, Constants.only_look_for_coaches());
+    if (_isCoach) massageFlushBar(context, Languages.only_look_for_coaches());
     notifyListeners();
   }
 
@@ -79,7 +79,7 @@ class SearchViewModel extends ChangeNotifier {
   bool get withBarcode => _withBarcode;
   setWithBarcode(BuildContext context, bool state) {
     _withBarcode = state;
-    if (_withBarcode) massageFlushBar(context, Constants.search_product_only_with_barcode());
+    if (_withBarcode) massageFlushBar(context, Languages.search_product_only_with_barcode());
     notifyListeners();
   }
 
@@ -89,10 +89,10 @@ class SearchViewModel extends ChangeNotifier {
     _recipes = state;
     if (state) {
       _searchType = SearchType.recipes;
-      massageFlushBar(context, Constants.search_recipes());
+      massageFlushBar(context, Languages.search_recipes());
     } else {
       _searchType = SearchType.products;
-      massageFlushBar(context, Constants.search_products());
+      massageFlushBar(context, Languages.search_products());
     }
     notifyListeners();
   }
@@ -193,10 +193,36 @@ class SearchViewModel extends ChangeNotifier {
             ));
         Navigator.pop(context, result);
       } else {
-        Navigator.of(context).pushNamed(AppRoute.createProductScreen,
-            arguments: ProductCreateScreenArguments(
-              barcode: barcode,
-            ));
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(Languages.product_not_found()),
+                content: Text(Languages.product_not_found_desc()),
+                actions: [
+                  TextButton(
+                    child: Text(Languages.cancel()),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  TextButton(
+                    child: Text(Languages.send()),
+                    // onPressed: () {
+                    //   Navigator.pop(context);
+                    // },
+                  ),
+                  TextButton(
+                    child: Text(Languages.create()),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).pushNamed(AppRoute.createProductScreen,
+                          arguments: ProductCreateScreenArguments(
+                            barcode: barcode,
+                          ));
+                    },
+                  ),
+                ],
+              );
+            });
       }
     }
   }

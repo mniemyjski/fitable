@@ -1,5 +1,5 @@
 import 'package:fitable/common_widgets/custom_button.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,7 +22,7 @@ class SignInButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Image.asset("resources/images/google-logo.png"),
               ),
-              Text(Constants.sign_in_with_google()),
+              Text(Languages.sign_in_with_google()),
               Container(),
             ],
           ),
@@ -36,7 +36,7 @@ class SignInButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Image.asset("resources/images/facebook-logo.png"),
               ),
-              Text(Constants.sign_in_with_facebook()),
+              Text(Languages.sign_in_with_facebook()),
               Container(),
             ],
           ),
@@ -51,7 +51,7 @@ class SignInButton extends StatelessWidget {
                 size: 40,
                 color: Colors.white,
               ),
-              Text(Constants.sign_in_with_email()),
+              Text(Languages.sign_in_with_email()),
               Container(),
             ],
           ),

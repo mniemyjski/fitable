@@ -8,11 +8,11 @@ import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/macro.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/macro.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -99,7 +99,7 @@ class HomeViewModel extends ChangeNotifier {
 
     dynamic result = await Navigator.of(context).pushNamed(
       AppRoute.searchScreen,
-      arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.allFoods, title: Constants.favorites()),
+      arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.allFoods, title: Languages.favorites()),
     );
 
     if (result != null) {

@@ -1,7 +1,7 @@
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -15,7 +15,7 @@ class TileHeadIngredients extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            child: Text(Constants.products(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            child: Text(Languages.products(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           ),
           SizedBox(height: 5),
           Row(
@@ -23,28 +23,28 @@ class TileHeadIngredients extends StatelessWidget {
               Expanded(
                   flex: 1,
                   child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                    Text(Constants.kcal() + ':', style: TextStyle(fontSize: 12)),
+                    Text(Languages.kcal() + ':', style: TextStyle(fontSize: 12)),
                     SizedBox(width: 2),
                     Text(model.calories.toString(), style: TextStyle(fontSize: 12)),
                   ])),
               Expanded(
                   flex: 1,
                   child: Row(children: <Widget>[
-                    Text(Constants.p() + ':', style: TextStyle(fontSize: 12)),
+                    Text(Languages.p() + ':', style: TextStyle(fontSize: 12)),
                     SizedBox(width: 2),
                     Text('${model.proteins.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
                   ])),
               Expanded(
                   flex: 1,
                   child: Row(children: <Widget>[
-                    Text(Constants.c() + ':', style: TextStyle(fontSize: 12)),
+                    Text(Languages.c() + ':', style: TextStyle(fontSize: 12)),
                     SizedBox(width: 2),
                     Text('${model.carbs.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
                   ])),
               Expanded(
                   flex: 1,
                   child: Row(children: <Widget>[
-                    Text(Constants.f() + ':', style: TextStyle(fontSize: 12)),
+                    Text(Languages.f() + ':', style: TextStyle(fontSize: 12)),
                     SizedBox(width: 2),
                     Text('${model.fats.toStringAsFixed(1)}g', style: TextStyle(fontSize: 12)),
                   ])),

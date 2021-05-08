@@ -1,4 +1,4 @@
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
 class Portion {

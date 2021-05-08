@@ -11,8 +11,8 @@ import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -26,7 +26,12 @@ class MyAccountScreen extends ConsumerWidget {
 
     void _onPressed() async {
       final picker = ImagePicker();
-      final result = await picker.getImage(source: ImageSource.gallery);
+      final result = await picker.getImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+        maxWidth: 1080,
+        maxHeight: 1920,
+      );
 
       if (result != null) {
         final db = context.read(providerDatabase);
@@ -37,7 +42,7 @@ class MyAccountScreen extends ConsumerWidget {
     }
 
     return CustomScaffold(
-      appBar: buildMainAppBar(context: context, name: Constants.profile()),
+      appBar: buildMainAppBar(context: context, name: Languages.profile()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
           child: Column(
@@ -69,17 +74,16 @@ class MyAccountScreen extends ConsumerWidget {
             ),
           ),
           CustomInputBar(
-            name: Constants.name(),
+            name: Languages.name(),
             value: account.name,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.name(),
+                labelText: Languages.name(),
                 initValue: account.name,
                 onPressed: () async {
-                  print('wynik: $_value, ${account.name}');
                   bool nameAvailable = await context.read(providerDatabase).nameAvailable(_value);
 
                   if (_value == account.name || _value == null) {
@@ -87,11 +91,11 @@ class MyAccountScreen extends ConsumerWidget {
                     return;
                   }
                   if (_value == '') {
-                    massageFlushBar(context, Constants.name_is_not_empty());
+                    massageFlushBar(context, Languages.name_is_not_empty());
                     return;
                   }
                   if (nameAvailable) {
-                    massageFlushBar(context, Constants.name_is_not_avilablea());
+                    massageFlushBar(context, Languages.name_is_not_avilablea());
                     return;
                   }
 
@@ -105,7 +109,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.date_birth(),
+            name: Languages.date_birth(),
             value: DateFormat('y-MM-dd').format(account.dateBirth),
             onPressed: () {
               showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
@@ -117,7 +121,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.height(),
+            name: Languages.height(),
             value: account.height.toStringAsFixed(0),
             onPressed: () {
               showValuePicker(
@@ -134,7 +138,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.gender(),
+            name: Languages.gender(),
             value: account.gender,
             list: <String>["male", "female"],
             onChanged: (value) {
@@ -142,14 +146,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.youtube(),
+            name: Languages.youtube(),
             value: account.youtube,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.youtube(),
+                labelText: Languages.youtube(),
                 initValue: account.youtube,
                 onPressed: () {
                   db.updateAccount(name: 'youtube', value: _value);
@@ -162,14 +166,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.instagram(),
+            name: Languages.instagram(),
             value: account.instagram,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.instagram(),
+                labelText: Languages.instagram(),
                 initValue: account.instagram,
                 onPressed: () {
                   db.updateAccount(name: 'instagram', value: _value);
@@ -182,14 +186,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.facebook(),
+            name: Languages.facebook(),
             value: account.facebook,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.facebook(),
+                labelText: Languages.facebook(),
                 initValue: account.facebook,
                 onPressed: () {
                   db.updateAccount(name: 'facebook', value: _value);
@@ -202,14 +206,14 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomInputBar(
-            name: Constants.bio(),
+            name: Languages.bio(),
             value: account.bio,
             onPressed: () {
               String _value;
 
               showInputPicker(
                 context: context,
-                labelText: Constants.bio(),
+                labelText: Languages.bio(),
                 initValue: account.bio,
                 multiLine: true,
                 onPressed: () {
@@ -230,17 +234,17 @@ class MyAccountScreen extends ConsumerWidget {
                     onChanged: (state) {
                       db.updateAccount(name: 'isCoach', value: state);
                     }),
-                Text(Constants.coach()),
+                Text(Languages.coach()),
               ],
             ),
           ),
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(top: 20, left: 10),
-            child: Text(Constants.access() + ':', style: TextStyle(fontSize: 16)),
+            child: Text(Languages.access() + ':', style: TextStyle(fontSize: 16)),
           ),
           CustomDropDownButton(
-            name: Constants.access_date_birth(),
+            name: Languages.access_date_birth(),
             value: Account.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -248,7 +252,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_height(),
+            name: Languages.access_height(),
             value: Account.toText(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -256,7 +260,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_gender(),
+            name: Languages.access_gender(),
             value: Account.toText(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -264,7 +268,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_meals(),
+            name: Languages.access_meals(),
             value: Account.toText(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -272,7 +276,7 @@ class MyAccountScreen extends ConsumerWidget {
             },
           ),
           CustomDropDownButton(
-            name: Constants.access_stats(),
+            name: Languages.access_stats(),
             value: Account.toText(account.accessStats),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
@@ -285,7 +289,7 @@ class MyAccountScreen extends ConsumerWidget {
             child: FlatButton(
               onPressed: () {},
               child: Text(
-                Constants.delete_account(),
+                Languages.delete_account(),
                 style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               ),
             ),

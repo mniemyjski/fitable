@@ -9,10 +9,10 @@ import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
-import 'package:fitable/services/macro.dart';
-import 'package:fitable/services/providers.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
+import 'package:fitable/utilities/macro.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -126,7 +126,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(Constants.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(Languages.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(
                         Macro.getKeyWords(args.element).toString().substring(1, Macro.getKeyWords(args.element).toString().length - 1),
                         style: TextStyle(fontStyle: FontStyle.italic),
@@ -139,7 +139,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 TextButton(
                     onPressed: () => issueReport(context, args.element, ElementType.product),
                     child: Text(
-                      Constants.bug_report(),
+                      Languages.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                     )),
               nutritional(element: Macro.getProduct(args.element))

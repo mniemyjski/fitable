@@ -1,5 +1,5 @@
 import 'package:fitable/common_widgets/custom_button.dart';
-import 'package:fitable/constants/constants.dart';
+import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -54,7 +54,7 @@ showInputPicker(
                         if (isCancel) ...[
                           Expanded(
                               child: CustomButton(
-                            child: Text(buttonTextNo != null ? buttonTextNo : Constants.cancel()),
+                            child: Text(buttonTextNo != null ? buttonTextNo : Languages.cancel()),
                             color: Colors.indigo,
                             textColor: Colors.white,
                             onPressed: () => Navigator.pop(context),
@@ -63,7 +63,7 @@ showInputPicker(
                         ],
                         Expanded(
                             child: CustomButton(
-                          child: Text(buttonTextYes != null ? buttonTextYes : Constants.save()),
+                          child: Text(buttonTextYes != null ? buttonTextYes : Languages.save()),
                           color: Colors.indigo,
                           textColor: Colors.white,
                           onPressed: onPressed,

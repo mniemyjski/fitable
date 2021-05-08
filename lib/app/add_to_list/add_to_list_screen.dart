@@ -4,8 +4,8 @@ import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/constants/constants.dart';
-import 'package:fitable/constants/enums.dart';
+import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,14 +35,14 @@ _bottomActionbar(BuildContext context, EnumTileType detailsType) {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 6, bottom: 8),
-            child: Text(Constants.suggested() + ':', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+            child: Text(Languages.suggested() + ':', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
           ),
           Wrap(
             children: [
-              _tileKeyWord(context, Constants.ketogenic().toLowerCase()),
-              _tileKeyWord(context, Constants.low_fats().toLowerCase()),
-              _tileKeyWord(context, Constants.high_protein().toLowerCase()),
-              _tileKeyWord(context, Constants.gluten_free().toLowerCase()),
+              _tileKeyWord(context, Languages.ketogenic().toLowerCase()),
+              _tileKeyWord(context, Languages.low_fats().toLowerCase()),
+              _tileKeyWord(context, Languages.high_protein().toLowerCase()),
+              _tileKeyWord(context, Languages.gluten_free().toLowerCase()),
             ],
           ),
           Row(
@@ -72,7 +72,7 @@ _bottomActionbar(BuildContext context, EnumTileType detailsType) {
           width: 125,
           child: Consumer(builder: (context, watch, child) {
             return CustomDropDownButton(
-              name: Constants.portion(),
+              name: Languages.portion(),
               value: watch(providerAddToListViewModel).portionListener,
               list: <String>['package', 'portion', 'glass', 'teaspoon', 'spoon'],
               onChanged: (v) => context.read(providerAddToListViewModel).portionListener = v,
