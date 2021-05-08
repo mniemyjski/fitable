@@ -271,4 +271,9 @@ create,Utwórz,Create
 send_photos,Wyślij zdjęcia,Send photos
 create_product,Utwórz produkt,create product
 product_not_found,"Produkt nie został znaleziony.",product_not_found
-product_not_found_desc,"Możesz go od razu dodać lub zrobić zdjęcia a my dodamy go w najbliższym możliwym terminie.",product_not_found_desc
+product_not_found_desc_1,"Możesz go utworzyć lub zrobić zdjęcia a my dodamy go w najbliższym możliwym terminie.",product_not_found_desc
+product_not_found_desc_2,"Otrzymaliśmy zdjecia tego produktu ale nie zdążyliśmy go jeszcze wprowadzić, możesz poczekać albo wprowadzić go sam.",product_not_found_desc_2
+image_product,Zdjęcie produktu,Image product
+image_macro,Zdjęcie makroskładników,Image macro
+image_support,Zdjęcie pomocniczne,Image support
+images_not_empty,Zdjęcia produktu i zdjęcie makrodskładników nie może byc puste.,images_not_empty

@@ -10,6 +10,7 @@ import 'package:fitable/app/introduction/intro_screen.dart';
 import 'package:fitable/app/massage/massages_screen.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
+import 'package:fitable/app/meal/product_not_found_screen.dart';
 import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/app/meal/recipes_screen.dart';
@@ -45,6 +46,7 @@ class AppRoute {
   static const statistics = '/statistics';
   static const accountDetails = '/accountDetails';
   static const introduction = '/introduction';
+  static const productNotFound = '/productNotFound';
 }
 
 var routes = <String, WidgetBuilder>{
@@ -69,4 +71,5 @@ var routes = <String, WidgetBuilder>{
   AppRoute.massages: (context) => LandingScreen(body: MassagesScreen()),
   AppRoute.statistics: (context) => LandingScreen(body: StatisticsScreen()),
   AppRoute.accountDetails: (context) => LandingScreen(body: AccountDetailsScreen()),
+  AppRoute.productNotFound: (context) => LandingScreen(body: ProductNotFound()),
 };

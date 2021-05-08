@@ -13,17 +13,15 @@ import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/rating/models/rating_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/services/application.dart';
-import 'package:fitable/routers/path.dart';
+import 'package:fitable/services/path.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:image/image.dart' as i;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -101,11 +99,37 @@ class Database {
     return ref.set(product.toMap(id: ref.id));
   }
 
+  productNotFound(String barcode) {
+    String date = DateFormat('yyyy_MM').format(DateTime.now());
+    _service.collection(Path.administration()).doc('not_found_$date').set({barcode: FieldValue.increment(1)}, SetOptions(merge: true));
+  }
+
+  Future<bool> productImagesToCreateAlready(String barcode) {
+    return _service.collection(Path.administration()).doc('images_to_create').get().then((value) {
+      if (value.exists) return value.data().containsKey(barcode);
+      return false;
+    });
+  }
+
+  productImagesToCreate({@required String barcode, @required List<String> images}) async {
+    List<String> list = [];
+    for (String element in images) {
+      File _file = File(element);
+      String url = await uploadToFirebaseStorage(file: _file, folderName: "images_to_create/$barcode", name: images.indexOf(element).toString());
+      list.add(url);
+    }
+
+    Map map = Map();
+    map['done'] = false;
+    map['images'] = list;
+    return await _service.collection(Path.administration()).doc('images_to_create').set({barcode: map});
+  }
+
   Future<Product> getProduct({String barcode, String id}) => _service
       .collection(Path.products())
       .where(barcode != null ? "barcode" : FieldPath.documentId, isEqualTo: barcode != null ? barcode : id)
       .get()
-      .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : null);
+      .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : productNotFound(barcode));
 
   Stream<List<Product>> streamProducts(List<Favorite> list) {
     List<String> _list = [];

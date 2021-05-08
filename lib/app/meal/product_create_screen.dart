@@ -1,5 +1,6 @@
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_create_view_model.dart';
+import 'package:fitable/app/meal/widgets/barcode_text.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_scaffold.dart';
@@ -52,26 +53,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (model.barcode != null)
-                  Container(
-                      padding: EdgeInsets.only(top: 5, left: 5, right: 2),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Stack(
-                        children: <Widget>[
-                          Text(model.barcode, style: GoogleFonts.libreBarcode39(textStyle: TextStyle(fontSize: 47))),
-                          Container(
-                            margin: EdgeInsets.only(top: 25),
-                            child: Text(model.barcode,
-                                style: TextStyle(
-                                  fontSize: 36,
-                                  letterSpacing: 4.0,
-                                )),
-                          ),
-                        ],
-                      )),
+                if (model.barcode != null) BarcodeText(model.barcode),
                 CustomTextField(
                     name: Languages.product_name(),
                     initialValue: model.productName,

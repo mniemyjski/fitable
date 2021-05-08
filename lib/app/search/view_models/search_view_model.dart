@@ -7,6 +7,7 @@ import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
+import 'package:fitable/app/meal/product_not_found_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/app/search/widgets/data_search.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
@@ -19,6 +20,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -193,25 +195,47 @@ class SearchViewModel extends ChangeNotifier {
             ));
         Navigator.pop(context, result);
       } else {
+        bool already = await context.read(providerDatabase).productImagesToCreateAlready(barcode);
+
+        String desc = already ? Languages.product_not_found_desc_2() : Languages.product_not_found_desc_1();
+
         showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text(Languages.product_not_found()),
-                content: Text(Languages.product_not_found_desc()),
+                content: Text(desc),
                 actions: [
                   TextButton(
                     child: Text(Languages.cancel()),
                     onPressed: () => Navigator.pop(context),
                   ),
+                  if (!already)
+                    TextButton(
+                      child: Row(
+                        children: [
+                          FaIcon(FontAwesomeIcons.images),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: Text(Languages.send()),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, AppRoute.productNotFound, arguments: ProductNotFoundArguments(barcode));
+                      },
+                    ),
                   TextButton(
-                    child: Text(Languages.send()),
-                    // onPressed: () {
-                    //   Navigator.pop(context);
-                    // },
-                  ),
-                  TextButton(
-                    child: Text(Languages.create()),
+                    child: Row(
+                      children: [
+                        FaIcon(FontAwesomeIcons.file),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Text(Languages.create()),
+                        ),
+                      ],
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.of(context).pushNamed(AppRoute.createProductScreen,

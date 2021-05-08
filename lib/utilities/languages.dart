@@ -214,5 +214,11 @@ abstract class Languages {
   static String create_product() => "create_product".tr();
   static String create() => "create".tr();
   static String product_not_found() => "product_not_found".tr();
-  static String product_not_found_desc() => "product_not_found_desc".tr();
+  static String product_not_found_desc_1() => "product_not_found_desc_1".tr();
+  static String product_not_found_desc_2() => "product_not_found_desc_2".tr();
+
+  static String image_macro() => "image_macro".tr();
+  static String image_product() => "image_product".tr();
+  static String image_support() => "image_support".tr();
+  static String images_not_empty() => "image_not_empty".tr();
 }
