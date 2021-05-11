@@ -99,7 +99,7 @@ class HomeViewModel extends ChangeNotifier {
 
     dynamic result = await Navigator.of(context).pushNamed(
       AppRoute.searchScreen,
-      arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.allFoods, title: Languages.favorites()),
+      arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.allFoods, title: Enums.toText(mealType).tr()),
     );
 
     if (result != null) {

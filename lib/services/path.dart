@@ -11,4 +11,5 @@ class Path {
   static String comments() => 'comments';
   static String issues() => 'issues';
   static String administration() => 'administration';
+  static String statistic() => 'statistic';
 }

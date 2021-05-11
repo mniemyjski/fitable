@@ -14,26 +14,23 @@ import 'package:fitable/app/rating/models/rating_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/services/application.dart';
 import 'package:fitable/services/path.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:universal_io/io.dart' as io;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class Database {
   Database({@required this.uid}) : assert(uid != null);
   final String uid;
-  // final DateTime chosenDate;
-
   final _service = FirebaseFirestore.instance;
 
   //#region UploadFile
-  Future<String> uploadToFirebaseStorage({@required File file, @required String folderName, String name}) async {
+  Future<String> uploadToFirebaseStorage({@required io.File file, @required String folderName, String name}) async {
     firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
     String filePath = folderName == 'accounts' ? '$folderName/$uid/avatar/$uid' : '$folderName/$name';
 
@@ -114,7 +111,7 @@ class Database {
   productImagesToCreate({@required String barcode, @required List<String> images}) async {
     List<String> list = [];
     for (String element in images) {
-      File _file = File(element);
+      io.File _file = io.File(element);
       String url = await uploadToFirebaseStorage(file: _file, folderName: "images_to_create/$barcode", name: images.indexOf(element).toString());
       list.add(url);
     }
@@ -292,7 +289,7 @@ class Database {
 
     for (String element in photos) {
       if (element.substring(0, 4) != 'http') {
-        File _file = File(element);
+        io.File _file = io.File(element);
         String url = await uploadToFirebaseStorage(file: _file, folderName: "recipes/${ref.id}", name: photos.indexOf(element).toString());
         _photosUrl.add(url);
       } else {

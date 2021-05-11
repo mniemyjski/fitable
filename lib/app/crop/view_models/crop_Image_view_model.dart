@@ -1,9 +1,10 @@
-import 'dart:io';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as i;
 import 'package:logger/logger.dart';
+import 'package:universal_io/io.dart' as io;
+import 'package:universal_io/io.dart';
 
 final providerCropImageViewModel = ChangeNotifierProvider.autoDispose<CropImageViewModel>((ref) {
   return CropImageViewModel();
@@ -28,11 +29,11 @@ class CropImageViewModel extends ChangeNotifier {
     src = i.copyCrop(src, cropRect.left.toInt(), cropRect.top.toInt(), cropRect.width.toInt(), cropRect.height.toInt());
 
     var fileData = i.encodeJpg(src, quality: 50);
-    var lastSeparator = path.lastIndexOf(Platform.pathSeparator);
+    var lastSeparator = path.lastIndexOf(io.Platform.pathSeparator);
     var newPath = path.substring(0, lastSeparator + 1) + '${current.toStringAsFixed(0)}_' + path.substring(lastSeparator + 1, path.length);
 
-    File file = File(path);
-    file = File(newPath)..writeAsBytesSync(fileData);
+    io.File file = io.File(path);
+    file = io.File(newPath)..writeAsBytesSync(fileData);
     Navigator.pop(context, file);
   }
 }

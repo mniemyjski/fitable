@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:universal_io/io.dart' as io;
 
 _getIcon(Icon errorIcon) {
   if (errorIcon != null) return errorIcon;
@@ -43,8 +44,8 @@ imageRender({
     );
   }
 
-  return ExtendedImage.file(
-    File(url),
+  return Image.file(
+    io.File(url),
     width: double.infinity,
     height: double.infinity,
     fit: BoxFit.fill,

@@ -1,12 +1,9 @@
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
-import 'package:fitable/common_widgets/image_render.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
@@ -15,8 +12,9 @@ import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:universal_io/io.dart';
 
 class MyAccountScreen extends ConsumerWidget {
   @override
@@ -41,7 +39,7 @@ class MyAccountScreen extends ConsumerWidget {
       }
     }
 
-    return CustomScaffold(
+    return Scaffold(
       appBar: buildMainAppBar(context: context, name: Languages.profile()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(

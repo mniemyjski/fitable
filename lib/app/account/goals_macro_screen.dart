@@ -1,6 +1,5 @@
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
@@ -183,7 +182,7 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
       final preference = watch(providerPreference);
       return preference.when(
         data: (data) {
-          return CustomScaffold(
+          return Scaffold(
               appBar: AppBar(
                 actions: [IconButton(icon: Icon(Icons.save), onPressed: () => _submit(context))],
               ),

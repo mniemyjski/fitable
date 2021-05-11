@@ -5,7 +5,6 @@ import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/utilities/languages.dart';
@@ -79,7 +78,7 @@ class GoalsScreen extends ConsumerWidget {
     }
 
     _buildBody(Preference preference) {
-      return CustomScaffold(
+      return Scaffold(
           appBar: buildMainAppBar(context: context, name: Languages.goals()),
           drawer: MainDrawer(),
           body: Column(

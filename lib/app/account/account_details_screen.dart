@@ -3,7 +3,6 @@ import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/view_models/account_details_view_model.dart';
 import 'package:fitable/app/account/widgets/tile_detail.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,7 +25,7 @@ class AccountDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final AccountDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
-    return CustomScaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(args.account.name),
         actions: [

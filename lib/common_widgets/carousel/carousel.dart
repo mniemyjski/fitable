@@ -7,7 +7,7 @@ import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 class Carousel extends StatefulWidget {
   final String videoUrl;

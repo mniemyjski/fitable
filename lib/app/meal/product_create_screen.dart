@@ -3,7 +3,6 @@ import 'package:fitable/app/meal/view_models/product_create_view_model.dart';
 import 'package:fitable/app/meal/widgets/barcode_text.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -39,7 +38,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
       final model = watch(providerProductCreateViewModel);
-      return CustomScaffold(
+      return Scaffold(
         appBar: AppBar(actions: [
           IconButton(
             icon: Icon(Icons.save),

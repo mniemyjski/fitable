@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.fitable">
 
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
    <application
         android:label="Fitable"
         android:icon="@mipmap/ic_launcher">
@@ -43,5 +47,9 @@
            android:name="com.yalantis.ucrop.UCropActivity"
            android:screenOrientation="portrait"
            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+       <service android:name="dk.cachet.activity_recognition_flutter.ActivityRecognizedService" />
+       <service android:name="dk.cachet.activity_recognition_flutter.ForegroundService" />
+
     </application>
 </manifest>

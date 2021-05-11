@@ -5,6 +5,8 @@ import 'package:fitable/services/database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:logger/logger.dart';
 
 enum AppState { DATA_NOT_FETCHED, FETCHING_DATA, DATA_READY, NO_DATA, AUTH_NOT_GRANTED }
 
@@ -30,7 +32,6 @@ void authorizationHealth() async {
 
 void syncHealth(DateTime dateTime, Preference preference, List<Measurement> measurement, Database db) async {
   if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
-
   List<HealthDataPoint> _healthDataList = [];
 
   /// Get everything from midnight until now
@@ -45,8 +46,10 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
   List<HealthDataType> types = _types();
 
   // bool accessWasGranted = await health.requestAuthorization(types);
+  var status = await Permission.activityRecognition.request();
+
   if (preference.healthSync) {
-    // if (accessWasGranted) {
+    // if (accessWasGranted && preference.healthSync) {
     try {
       List<HealthDataPoint> healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
       _healthDataList.addAll(healthData);

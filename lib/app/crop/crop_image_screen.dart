@@ -1,13 +1,12 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:fitable/app/crop/view_models/crop_Image_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:universal_io/io.dart' as io;
 
 class CropImageScreenArguments {
-  final File file;
+  final io.File file;
   final int current;
 
   CropImageScreenArguments({@required this.file, @required this.current});

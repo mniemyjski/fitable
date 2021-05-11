@@ -7,7 +7,6 @@ import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_details_view_model.dart';
 import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -67,7 +66,7 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         );
 
-      return CustomScaffold(
+      return Scaffold(
         appBar: AppBar(
           actions: [
             IconButton(

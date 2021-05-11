@@ -17,7 +17,6 @@ import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/app/rating/vew_models/rating_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -121,7 +120,7 @@ class RecipeDetailsScreen extends StatelessWidget {
           ),
         );
 
-      return CustomScaffold(
+      return Scaffold(
         appBar: AppBar(
           actions: [
             IconButton(

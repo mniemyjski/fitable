@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Georgia',
           primarySwatch: Colors.indigo,
+          canvasColor: (preference?.darkMode ?? false) ? null : Colors.grey[200],
         ),
         darkTheme: ThemeData(
           brightness: Brightness.dark,

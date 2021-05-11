@@ -7,7 +7,6 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_tab_bar.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -56,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
         });
       });
 
-      return CustomScaffold(
+      return Scaffold(
           appBar: AppBar(
             title: Text(model.title),
             actions: buildActionButtons(context, model.mobilePlatform(), model.favoriteScreen),

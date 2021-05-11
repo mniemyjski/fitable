@@ -1,7 +1,6 @@
 import 'package:fitable/app/account/models/preference_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/providers.dart';
@@ -20,7 +19,7 @@ bool darkMode = false;
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return Scaffold(
       appBar: buildMainAppBar(context: context, name: Languages.settings()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(

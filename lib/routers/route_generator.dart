@@ -3,6 +3,7 @@ import 'package:fitable/app/account/goals_macro_screen.dart';
 import 'package:fitable/app/account/goals_screen.dart';
 import 'package:fitable/app/account/my_account_screen.dart';
 import 'package:fitable/app/account/settings_screen.dart';
+import 'package:fitable/app/administration/administration_screen.dart';
 import 'package:fitable/app/crop/crop_image_screen.dart';
 import 'package:fitable/app/diets/diets_screen.dart';
 import 'package:fitable/app/home/home_screen.dart';
@@ -24,29 +25,30 @@ import 'package:flutter/material.dart';
 
 class AppRoute {
   static const landing = '/';
-  static const homeScreen = '/HomeScreen';
-  static const settingsScreen = '/SettingsScreen';
-  static const myAccountScreen = '/MyAccountScreen';
-  static const goalsScreen = '/GoalsScreen';
-  static const goalsMacroScreen = '/GoalsMacroScreen';
-  static const searchScreen = '/SearchScreen';
-  static const createProductScreen = '/CreateProductScreen';
-  static const productDetailsScreen = '/productDetailsScreen';
-  static const addBodyCircumferencesScreen = '/AddBodyCircumferencesScreen';
-  static const communityScreen = '/communityScreen';
-  static const recipeScreen = '/recipeScreen';
-  static const recipeDetailsScreen = '/recipeDetailsScreen';
-  static const recipeCreateScreen = '/recipeCreateScreen';
-  static const workoutsScreen = '/workoutsScreen';
-  static const dietsScreen = '/dietsScreen';
-  static const cropImageScreen = '/cropImageScreen';
+  static const homeScreen = '/home';
+  static const settingsScreen = '/settings';
+  static const myAccountScreen = '/profile';
+  static const goalsScreen = '/goals';
+  static const goalsMacroScreen = '/set-macro';
+  static const searchScreen = '/search';
+  static const createProductScreen = '/create-product';
+  static const productDetailsScreen = '/details-product';
+  static const addBodyCircumferencesScreen = '/circumferences';
+  static const communityScreen = '/community';
+  static const recipeScreen = '/recipes';
+  static const recipeDetailsScreen = '/details-recipe';
+  static const recipeCreateScreen = '/create-recipe';
+  static const workoutsScreen = '/workouts';
+  static const dietsScreen = '/diets';
+  static const cropImageScreen = '/crop-image';
   static const massages = '/massages';
   static const notifications = '/notifications';
   static const board = '/board';
   static const statistics = '/statistics';
-  static const accountDetails = '/accountDetails';
+  static const accountDetails = '/account';
   static const introduction = '/introduction';
-  static const productNotFound = '/productNotFound';
+  static const productNotFound = '/product-not-found';
+  static const administration = '/administration';
 }
 
 var routes = <String, WidgetBuilder>{
@@ -72,4 +74,5 @@ var routes = <String, WidgetBuilder>{
   AppRoute.statistics: (context) => LandingScreen(body: StatisticsScreen()),
   AppRoute.accountDetails: (context) => LandingScreen(body: AccountDetailsScreen()),
   AppRoute.productNotFound: (context) => LandingScreen(body: ProductNotFound()),
+  AppRoute.administration: (context) => LandingScreen(body: Administration()),
 };

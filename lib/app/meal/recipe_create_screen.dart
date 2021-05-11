@@ -6,7 +6,6 @@ import 'package:fitable/common_widgets/custom_bar_list.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -66,7 +65,7 @@ _buildTimer(BuildContext context) {
 class RecipeCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(Languages.create_new_recipe()),
         actions: [

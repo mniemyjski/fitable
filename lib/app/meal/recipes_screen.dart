@@ -1,7 +1,6 @@
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -36,7 +35,7 @@ class RecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return Scaffold(
       appBar: buildMainAppBar(context: context, name: Languages.recipes()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(

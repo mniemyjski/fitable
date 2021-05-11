@@ -1,9 +1,8 @@
-import 'package:extended_image/extended_image.dart';
+import 'package:universal_io/io.dart';
 import 'package:fitable/app/crop/crop_image_screen.dart';
 import 'package:fitable/app/meal/widgets/barcode_text.dart';
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
 import 'package:fitable/common_widgets/carousel/tile_box.dart';
-import 'package:fitable/common_widgets/custom_scaffold.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/common_widgets/show_loading_dialog.dart';
 import 'package:fitable/routers/route_generator.dart';
@@ -35,7 +34,7 @@ class _ProductNotFoundState extends State<ProductNotFound> {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(
       source: ImageSource.gallery,
-      imageQuality: 80,
+      imageQuality: 50,
       maxWidth: 1080,
       maxHeight: 1920,
     );
@@ -89,7 +88,7 @@ class _ProductNotFoundState extends State<ProductNotFound> {
   Widget build(BuildContext context) {
     final ProductNotFoundArguments args = ModalRoute.of(context).settings.arguments;
 
-    return CustomScaffold(
+    return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
