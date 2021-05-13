@@ -10,7 +10,6 @@ import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,12 +32,12 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   Recipe recipe;
 
   chooseMealType(String mealType) {
-    _mealType = Meal.toEnum(mealType);
+    _mealType = Enums.toEnum(value: mealType, typeEnum: TypeEnum.mealType);
     notifyListeners();
   }
 
   String getMealTypeString() {
-    return Meal.toText(_mealType);
+    return Enums.toText(_mealType);
   }
 
   Portion get selectedPortion => _selectedPortion;
@@ -54,12 +53,12 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   bool get createScreen => _createScreen;
 
   set sizeListener(double sizeListener) {
-    _sizeListener = sizeListener != null ? sizeListener : Macro.getSize(recipe);
+    _sizeListener = sizeListener != null ? sizeListener : 100;
     notifyListeners();
   }
 
   setSelectedPortion(String name) {
-    _selectedPortion = Macro.getPortions(recipe).firstWhere((element) => element.name == name);
+    _selectedPortion = recipe.portions.firstWhere((element) => element.name == name);
     notifyListeners();
   }
 
@@ -108,13 +107,13 @@ class RecipeDetailsViewModel extends ChangeNotifier {
         ));
   }
 
-  build(Recipe recipe, List<Favorite> favorites) {
+  init(Ingredient element, List<Favorite> favorites) {
     _createScreen = true;
 
     if (initState) {
-      this.recipe = recipe;
-      _sizeListener = Macro.getSize(recipe);
-      _selectedPortion = Macro.getSelectedPortion(recipe);
+      this.recipe = element.recipe;
+      _sizeListener = element.size;
+      _selectedPortion = element.selectedPortion;
       initState = false;
     }
 
@@ -123,27 +122,14 @@ class RecipeDetailsViewModel extends ChangeNotifier {
     _carbs = 0;
     _fats = 0;
 
-    double _sizeTotal = 0;
-
-    recipe.ingredients.forEach((element) {
-      _sizeTotal += element.size;
-    });
-
-    recipe.ingredients.forEach((element) {
-      _calories += Macro.calculateCalories(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
-      _proteins += Macro.calculateProteins(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
-      _carbs += Macro.calculateCarbs(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
-      _fats += Macro.calculateFats(element, element.size * sizeListener * _selectedPortion.size / _sizeTotal, element.selectedPortion);
-    });
+    _calories += (recipe.getCalories(_sizeListener, _selectedPortion.size)).round();
+    _proteins += recipe.getProteins(_sizeListener, _selectedPortion.size);
+    _carbs += recipe.getCarbs(_sizeListener, _selectedPortion.size);
+    _fats += recipe.getFats(_sizeListener, _selectedPortion.size);
 
     _isFavorite = false;
 
-    favorites.forEach((e) {
-      if (e.id == Macro.getId(recipe) && e.type == EnumFavorite.recipes) {
-        _isFavorite = true;
-      }
-    });
-
+    favorites.where((e) => (e.id == recipe.id && e.type == EnumFavorite.recipes) ? _isFavorite = true : null);
     _createScreen = false;
   }
 }

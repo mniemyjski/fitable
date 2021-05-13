@@ -27,11 +27,11 @@ class Portion {
       name: data['name'],
       type: data['type'],
       size: data['size'],
-      unit: Enums.unitTypeToEnum(data['unit']),
+      unit: Enums.toEnum(value: data['unit'], typeEnum: TypeEnum.unitType),
     );
   }
 
-  static List toListToMap(List portions) {
+  static List convertPortionsToMapList(List portions) {
     List _portions = [];
     portions.forEach((element) {
       _portions.add(element.toMap());
@@ -39,7 +39,7 @@ class Portion {
     return _portions;
   }
 
-  static List<Portion> toListFromMap(List portions) {
+  static List<Portion> convertPortionsToModelList(List portions) {
     List<Portion> _portions = [];
     portions.forEach((element) {
       _portions.add(Portion.fromMap(element));

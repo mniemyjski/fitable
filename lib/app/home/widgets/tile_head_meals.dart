@@ -4,6 +4,7 @@ import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +23,7 @@ class TileHeadMeals extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            child: Text(Meal.toText(mealType).tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            child: Text(Enums.toText(mealType).tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           ),
           SizedBox(height: 5),
           Row(

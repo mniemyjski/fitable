@@ -10,7 +10,6 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +17,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailsScreenArguments {
-  final dynamic element;
+  final Ingredient element;
   final bool edit;
   final bool isMeal;
 
@@ -46,7 +45,7 @@ _buildFloatingActionButton(BuildContext context) {
 _submitFavorite(BuildContext context) {
   final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
-  Favorite _favorite = Favorite(type: EnumFavorite.products, id: Macro.getId(args.element));
+  Favorite _favorite = Favorite(type: EnumFavorite.products, id: args.element.getId());
   context.read(providerDatabase).updateFavorite(context, _favorite);
 }
 
@@ -57,7 +56,7 @@ class ProductDetailsScreen extends StatelessWidget {
       final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
       final model = watch(providerProductDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.build(args.element, favorites));
+      watch(providerFavorite).whenData((favorites) => model.init(args.element, favorites));
 
       if (model.createScreen)
         return Scaffold(
@@ -84,7 +83,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                       child: AutoSizeText(
-                    Macro.getName(args.element),
+                    args.element.getName(),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     maxLines: 1,
                   )),
@@ -105,7 +104,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     child: CustomTextField(
                       enabled: args.edit,
                       keyboardType: TextInputType.number,
-                      hintText: Macro.getSize(args.element).toString(),
+                      hintText: args.element.size.toString(),
                       onChanged: (v) => model.sizeListener = double.tryParse(v),
                     ),
                   ),
@@ -114,8 +113,8 @@ class ProductDetailsScreen extends StatelessWidget {
                           name: '',
                           enabled: args.edit,
                           value: model.selectedPortion.name,
-                          list: Macro.getPortionsStrings(args.element),
-                          onChanged: (v) => model.selectedPortion = Macro.getPortions(args.element).firstWhere((element) => element.name == v)))
+                          list: args.element.getPortionsStrings(),
+                          onChanged: (v) => model.selectedPortion = args.element.getPortions().firstWhere((element) => element.name == v)))
                 ],
               ),
               Card(
@@ -127,7 +126,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     children: [
                       Text(Languages.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(
-                        Macro.getKeyWords(args.element).toString().substring(1, Macro.getKeyWords(args.element).toString().length - 1),
+                        args.element.getKeyWords().toString().substring(1, args.element.getKeyWords().toString().length - 1),
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ],
@@ -141,7 +140,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       Languages.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                     )),
-              nutritional(element: Macro.getProduct(args.element))
+              // nutritional(element: Macro.getProduct(args.element))
             ],
           ),
         ),

@@ -1,13 +1,9 @@
 import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/product_model.dart';
-import 'package:fitable/app/meal/models/recipe_model.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-enum MealType { breakfast, lunch, dinner, supper, snack }
 
 final providerMeals = StreamProvider<List<Meal>>((ref) {
   final db = ref.watch(providerDatabase);
@@ -40,7 +36,7 @@ class Meal {
       'uid': uid != null ? uid : this.uid,
       'dateTime': DateTime(dateTime.year, dateTime.month, dateTime.day),
       'dateCreation': dateCreation == null ? DateTime.now() : dateCreation,
-      'mealType': toText(mealType),
+      'mealType': Enums.toText(mealType),
       'ingredient': ingredient.toMap(),
       'isSuggested': isSuggested,
     };
@@ -55,41 +51,33 @@ class Meal {
         uid: data['uid'],
         dateTime: data['dateTime'].toDate(),
         dateCreation: data['dateCreation'].toDate(),
-        mealType: toEnum(data['mealType']),
+        mealType: Enums.toEnum(value: data['mealType'], typeEnum: TypeEnum.mealType),
         isSuggested: data['isSuggested'],
         id: id,
         ingredient: Ingredient.fromMap(data['ingredient']));
   }
 
-  static toEnum(String mealType) {
-    switch (mealType) {
-      case 'breakfast':
-        return MealType.breakfast;
-      case 'lunch':
-        return MealType.lunch;
-      case 'dinner':
-        return MealType.dinner;
-      case 'supper':
-        return MealType.supper;
-      case 'snack':
-        return MealType.snack;
-    }
+  int getCalories() {
+    if (!isSuggested) return ingredient.getCalories();
+    return 0;
   }
 
-  static String toText(MealType mealType) {
-    switch (mealType) {
-      case MealType.breakfast:
-        return 'breakfast';
-      case MealType.lunch:
-        return 'lunch';
-      case MealType.dinner:
-        return 'dinner';
-      case MealType.supper:
-        return 'supper';
-      case MealType.snack:
-        return 'snack';
-      default:
-        return null;
-    }
+  double getProteins() {
+    if (!isSuggested) return ingredient.getCarbs();
+    return 0;
   }
+
+  double getCarbs() {
+    if (!isSuggested) return ingredient.getCarbs();
+    return 0;
+  }
+
+  double getFats() {
+    if (!isSuggested) return ingredient.getFats();
+    return 0;
+  }
+
+  delete() {}
+  add() {}
+  update() {}
 }

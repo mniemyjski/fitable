@@ -24,27 +24,17 @@ class MacroAggregation extends ConsumerWidget {
       model.mealList = data.where((element) => element.dateTime == app.chosenDate).toList();
       model.calculateBMR(context: context);
 
-      int _oldCalories;
-      double _oldProteins;
-      double _oldCarbs;
-      double _oldFats;
+      int _oldCalories = 0;
+      double _oldProteins = 0;
+      double _oldCarbs = 0;
+      double _oldFats = 0;
 
-      if (ingredients != null) {
-        ingredients.forEach((element) {
-          Portion portion;
-          element.product.portions.forEach((v) {
-            if (v.name == element.selectedPortion.name) {
-              portion = v;
-            }
-            return;
-          });
-
-          _oldCalories = (element.product.calories * element.selectedPortion.size * portion.size / 100).round();
-          _oldProteins = element.product.proteins * element.selectedPortion.size * portion.size / 100;
-          _oldCarbs = element.product.carbs * element.selectedPortion.size * portion.size / 100;
-          _oldFats = element.product.fats * element.selectedPortion.size * portion.size / 100;
-        });
-      }
+      ingredients?.forEach((element) {
+        _oldCalories = element.getCalories();
+        _oldProteins = element.getProteins();
+        _oldCarbs = element.getCarbs();
+        _oldFats = element.getFats();
+      });
 
       return Container(
           height: 60,

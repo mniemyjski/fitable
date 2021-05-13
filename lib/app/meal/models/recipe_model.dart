@@ -14,8 +14,8 @@ class Recipe {
   final String description;
   final Duration timePreparation;
   final String videoUrl;
-  final List keyWords;
-  final List photosUrl;
+  final List<String> keyWords;
+  final List<String> photosUrl;
   final List<Ingredient> ingredients;
   final List<Portion> portions;
   final bool verification;
@@ -49,10 +49,10 @@ class Recipe {
       this.dateLastUpdate});
 
   Map<String, dynamic> toMap({String uid, String id}) {
-    List _ingredients = [];
-    ingredients.forEach((element) {
-      _ingredients.add(element.toMap());
-    });
+    // List _ingredients = [];
+    // ingredients.forEach((element) {
+    //   _ingredients.add(element.toMap());
+    // });
 
     return {
       'uid': uid ?? this.uid,
@@ -60,13 +60,13 @@ class Recipe {
       'authorName': authorName,
       'name': name,
       'id': id ?? this.id,
-      'keyWords': keyWords,
+      'keyWords': List.from(keyWords),
       'description': description,
       'videoUrl': videoUrl,
-      'photosUrl': photosUrl,
+      'photosUrl': List.from(photosUrl),
       'access': access,
-      'ingredients': _ingredients,
-      'portions': Portion.toListToMap(portions),
+      'ingredients': Ingredient.toListMap(ingredients),
+      'portions': Portion.convertPortionsToMapList(portions),
       'timePreparation': timePreparation.inMinutes,
       'verification': verification,
       'ratingsAvg': ratingsAvg ?? 0.0,
@@ -83,10 +83,10 @@ class Recipe {
       return null;
     }
 
-    List<Ingredient> ingredients = [];
-    data['ingredients'].forEach((element) {
-      ingredients.add(Ingredient.fromMap(element));
-    });
+    // List<Ingredient> ingredients = [];
+    // data['ingredients'].forEach((element) {
+    //   ingredients.add(Ingredient.fromMap(element));
+    // });
 
     return Recipe(
       uid: data['uid'],
@@ -94,21 +94,85 @@ class Recipe {
       authorName: data['authorName'],
       name: data['name'],
       id: data['id'],
-      keyWords: data['keyWords'],
+      keyWords: List.from(data['keyWords']),
       description: data['description'],
       videoUrl: data['videoUrl'],
-      photosUrl: data['photosUrl'],
+      photosUrl: List.from(data['photosUrl']),
       access: data['access'],
-      portions: Portion.toListFromMap(data['portions']),
+      portions: Portion.convertPortionsToModelList(data['portions']),
       timePreparation: Duration(minutes: data['timePreparation']),
       verification: data['verification'],
       ratingsAvg: data['ratingsAvg'].toDouble(),
       ratingsCount: data['ratingsCount'],
       favoritesCount: data['favoritesCount'],
       commentsCount: data['commentsCount'],
-      ingredients: ingredients,
+      ingredients: Ingredient.toListIngredient(data['ingredients']),
       dateCreation: data['dateCreation'].toDate(),
       dateLastUpdate: data['dateLastUpdate'].toDate(),
     );
   }
+
+  int getCalories(double portionSize, double selectedSize) {
+    double value = 0;
+    double _sizeTotal = 0;
+    ingredients.forEach((element) {
+      _sizeTotal += element.size / 100;
+    });
+
+    ingredients.forEach((Ingredient e) {
+      value += (e.product.calories * e.size * e.selectedPortion.size / 100);
+    });
+
+    return (value * portionSize * selectedSize / _sizeTotal / 100).round();
+  }
+
+  double getProteins(double portionSize, double selectedSize) {
+    double value = 0;
+    double _sizeTotal = 0;
+    ingredients.forEach((element) {
+      _sizeTotal += element.size / 100;
+    });
+
+    ingredients.forEach((Ingredient e) {
+      value += (e.product.proteins * e.size * e.selectedPortion.size / 100);
+    });
+    return (value * portionSize * selectedSize / _sizeTotal / 100);
+  }
+
+  double getCarbs(double portionSize, double selectedSize) {
+    double value = 0;
+    double _sizeTotal = 0;
+    ingredients.forEach((element) {
+      _sizeTotal += element.size / 100;
+    });
+
+    ingredients.forEach((Ingredient e) {
+      value += (e.product.carbs * e.size * e.selectedPortion.size / 100);
+    });
+    return (value * portionSize * selectedSize / _sizeTotal / 100);
+  }
+
+  double getFats(double portionSize, double selectedSize) {
+    double value = 0;
+    double _sizeTotal = 0;
+    ingredients.forEach((element) {
+      _sizeTotal += element.size / 100;
+    });
+    ingredients.forEach((Ingredient e) {
+      value += (e.product.fats * e.size * e.selectedPortion.size / 100);
+    });
+    return (value * portionSize * selectedSize / _sizeTotal / 100);
+  }
+
+  List getPortionsStrings() {
+    List<String> list = [];
+    portions.forEach((element) {
+      list.add('${element.name}');
+    });
+    return list;
+  }
+
+  delete() {}
+  add() {}
+  update() {}
 }

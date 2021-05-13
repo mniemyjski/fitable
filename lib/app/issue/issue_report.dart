@@ -7,7 +7,6 @@ import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +37,7 @@ void _otherIssue(BuildContext context, dynamic element, ElementType elementType)
       if (_description != null && _description.isNotEmpty) {
         Issue issuesReport = Issue(
           elementType: elementType,
-          id: Macro.getId(element),
+          id: element.id,
           dateCreate: DateTime.now(),
           description: _description,
           issueType: IssueType.other,

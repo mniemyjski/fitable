@@ -13,7 +13,6 @@ buildTabBarView({
   @required BuildContext context,
   @required Database db,
   @required List<Favorite> favorites,
-  // @required SearchViewModel model,
   @required FavoriteScreen favoriteScreen,
 }) {
   _buildList({

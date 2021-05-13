@@ -2,7 +2,6 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +21,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
   bool initState = true;
   Portion _selectedPortion;
   Portion get selectedPortion => _selectedPortion;
-  dynamic element;
+  Ingredient element;
 
   set selectedPortion(Portion selectedPortion) {
     _selectedPortion = selectedPortion;
@@ -37,7 +36,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
   double get sizeListener => _sizeListener;
 
   set sizeListener(double sizeListener) {
-    _sizeListener = sizeListener != null ? sizeListener : Macro.getSize(element);
+    _sizeListener = sizeListener != null ? sizeListener : element.size;
     notifyListeners();
   }
 
@@ -47,32 +46,34 @@ class ProductDetailsViewModel extends ChangeNotifier {
     return element.runtimeType == Ingredient ? element.toList() : null;
   }
 
-  build(dynamic element, List<Favorite> favorites) {
+  init(Ingredient element, List<Favorite> favorites) {
     _createScreen = true;
 
     if (initState) {
       this.element = element;
-      _sizeListener = Macro.getSize(element);
-      _selectedPortion = Macro.getSelectedPortion(element);
+      _sizeListener = element.size;
+      _selectedPortion = element.selectedPortion;
       initState = false;
     }
 
-    _calories = Macro.calculateCalories(element, sizeListener, _selectedPortion).round();
-    _proteins = Macro.calculateProteins(element, sizeListener, _selectedPortion);
-    _carbs = Macro.calculateCarbs(element, sizeListener, _selectedPortion);
-    _fats = Macro.calculateFats(element, sizeListener, _selectedPortion);
+    _calories = 0;
+    _proteins = 0;
+    _carbs = 0;
+    _fats = 0;
+    _calories = element.getCalories(portionSize: sizeListener, selectedSize: selectedPortion.size);
+    _proteins = element.getProteins(portionSize: sizeListener, selectedSize: selectedPortion.size);
+    _carbs = element.getCarbs(portionSize: sizeListener, selectedSize: selectedPortion.size);
+    _fats = element.getFats(portionSize: sizeListener, selectedSize: selectedPortion.size);
 
     _isFavorite = false;
 
-    favorites.forEach((e) {
-      if (e.id == Macro.getId(element) && e.type == EnumFavorite.products) _isFavorite = true;
-    });
+    favorites.where((e) => (e.id == element.getId() && e.type == EnumFavorite.products) ? _isFavorite = true : null);
 
     _createScreen = false;
   }
 
   submit({@required BuildContext context}) {
-    Ingredient result = Ingredient(selectedPortion: selectedPortion, product: Macro.getProduct(element), size: sizeListener);
+    Ingredient result = Ingredient(selectedPortion: selectedPortion, product: element.product, size: sizeListener);
 
     Navigator.pop(context, result);
   }

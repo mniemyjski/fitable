@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/account_details_screen.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
@@ -156,7 +157,7 @@ class SearchViewModel extends ChangeNotifier {
     // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
-          element: element,
+          element: Ingredient.initial(element),
         ));
 
     if (result != null) Navigator.pop(context, result);
@@ -166,7 +167,7 @@ class SearchViewModel extends ChangeNotifier {
     // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
         arguments: RecipeDetailsScreenArguments(
-          recipe: element,
+          element: Ingredient.initial(element),
         ));
 
     if (result != null) Navigator.pop(context, result);
@@ -191,7 +192,7 @@ class SearchViewModel extends ChangeNotifier {
       if (product != null) {
         var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
             arguments: ProductDetailsScreenArguments(
-              element: product,
+              element: Ingredient.initial(product),
             ));
         Navigator.pop(context, result);
       } else {
@@ -278,7 +279,7 @@ class SearchViewModel extends ChangeNotifier {
       if (value.runtimeType == Recipe) {
         var result = await Navigator.of(context).pushNamed(
           AppRoute.recipeDetailsScreen,
-          arguments: RecipeDetailsScreenArguments(recipe: value),
+          arguments: RecipeDetailsScreenArguments(element: Ingredient.initial(value)),
         );
 
         Navigator.pop(context, result);

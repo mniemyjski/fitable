@@ -11,6 +11,7 @@ import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:fitable/services/sync_health.dart';

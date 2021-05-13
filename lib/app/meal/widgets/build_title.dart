@@ -19,7 +19,7 @@ Card buildTitle(BuildContext context) {
         width: double.infinity,
         child: Center(
           child: AutoSizeText(
-            args.recipe.name,
+            args.element.getName(),
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             maxLines: 1,
           ),
@@ -37,7 +37,7 @@ Card buildTitle(BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AutoSizeText(
-            args.recipe.name,
+            args.element.getName(),
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             maxLines: 1,
           ),
@@ -46,7 +46,7 @@ Card buildTitle(BuildContext context) {
             children: [
               GestureDetector(
                 onTap: () async {
-                  Account author = await context.read(providerDatabase).getAccount(args.recipe.uid);
+                  Account author = await context.read(providerDatabase).getAccount(args.element.recipe.uid);
 
                   Navigator.of(context).pushNamed(
                     AppRoute.accountDetails,
@@ -54,7 +54,7 @@ Card buildTitle(BuildContext context) {
                   );
                 },
                 child: AutoSizeText(
-                  args.recipe.authorName,
+                  args.element.recipe.authorName,
                   style: TextStyle(color: Colors.blueAccent, fontStyle: FontStyle.italic, fontSize: 14),
                   maxLines: 1,
                 ),
@@ -64,19 +64,19 @@ Card buildTitle(BuildContext context) {
                 children: [
                   Row(
                     children: <Widget>[
-                      if (args.recipe.ratingsCount != 0) ...[
+                      if (args.element.recipe.ratingsCount != 0) ...[
                         FaIcon(FontAwesomeIcons.solidStar),
                         SizedBox(width: 5),
-                        Text(args.recipe.ratingsAvg.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        Text(args.element.recipe.ratingsAvg.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                       ],
                       SizedBox(width: 10),
                       FaIcon(FontAwesomeIcons.solidHeart),
                       SizedBox(width: 5),
-                      Text(args.recipe.favoritesCount.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      Text(args.element.recipe.favoritesCount.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                       SizedBox(width: 10),
                       FaIcon(FontAwesomeIcons.solidComments),
                       SizedBox(width: 5),
-                      Text(args.recipe.commentsCount.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      Text(args.element.recipe.commentsCount.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                 ],

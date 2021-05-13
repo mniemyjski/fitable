@@ -10,7 +10,7 @@ class Product {
   final String categoryPrimary;
   final String categorySecondary;
   final String localeBase;
-  final List keyWords;
+  final List<String> keyWords;
   final List<Portion> portions;
   final bool verification;
   final DateTime dateCreation;
@@ -89,8 +89,8 @@ class Product {
       'categoryPrimary': categoryPrimary,
       'categorySecondary': categorySecondary,
       'localeBase': localeBase,
-      'keyWords': keyWords,
-      'portions': Portion.toListToMap(portions),
+      'keyWords': List.from(keyWords),
+      'portions': Portion.convertPortionsToMapList(portions),
       'verification': verification,
       'dateCreation': dateCreation == null ? DateTime.now() : dateCreation,
       'dateLastUpdate': dateLastUpdate == null ? DateTime.now() : dateLastUpdate,
@@ -150,9 +150,8 @@ class Product {
       categoryPrimary: data['categoryPrimary'],
       categorySecondary: data['categorySecondary'],
       localeBase: data['localeBase'],
-      keyWords: data['keyWords'],
-      portions: Portion.toListFromMap(data['portions']),
-      // unit: Enums.unitTypeToEnum(data['unit']),
+      keyWords: List.from(data['keyWords']),
+      portions: Portion.convertPortionsToModelList(data['portions']),
       verification: data['verification'],
       dateCreation: data['dateCreation'].toDate(),
       dateLastUpdate: data['dateLastUpdate'].toDate(),
@@ -198,5 +197,29 @@ class Product {
       chromium: data['chromium'],
       photosUrl: {},
     );
+  }
+
+  int getCalories(double portionSize, double selectedSize) {
+    return (calories * portionSize * selectedSize / 100).round();
+  }
+
+  double getProteins(double portionSize, double selectedSize) {
+    return (proteins * portionSize * selectedSize / 100);
+  }
+
+  double getCarbs(double portionSize, double selectedSize) {
+    return (carbs * portionSize * selectedSize / 100);
+  }
+
+  double getFats(double portionSize, double selectedSize) {
+    return (fats * portionSize * selectedSize / 100);
+  }
+
+  List getPortionsStrings() {
+    List<String> list = [];
+    portions.forEach((element) {
+      list.add('${element.name}');
+    });
+    return list;
   }
 }

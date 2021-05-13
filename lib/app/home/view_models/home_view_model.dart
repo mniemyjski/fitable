@@ -11,7 +11,6 @@ import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,12 +46,10 @@ class HomeViewModel extends ChangeNotifier {
     _fats = 0.0;
 
     mealList.forEach((element) {
-      if (!element.isSuggested) {
-        _calories += Macro.calculateCalories(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-        _proteins += Macro.calculateProteins(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-        _carbs += Macro.calculateCarbs(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-        _fats += Macro.calculateFats(element.ingredient, element.ingredient.size, element.ingredient.selectedPortion);
-      }
+      _calories += element.getCalories();
+      _proteins += element.getProteins();
+      _carbs += element.getCarbs();
+      _fats += element.getFats();
     });
   }
 
@@ -76,8 +73,7 @@ class HomeViewModel extends ChangeNotifier {
     if (element.ingredient.recipe != null) {
       result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
           arguments: RecipeDetailsScreenArguments(
-            recipe: element.ingredient.recipe,
-            selectedPortion: element.ingredient.selectedPortion,
+            element: element.ingredient,
             isMeal: true,
           ));
     }
@@ -104,7 +100,7 @@ class HomeViewModel extends ChangeNotifier {
 
     if (result != null) {
       Ingredient ingredient = result;
-      db.addMeal(meal: new Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
+      db.addMeal(meal: Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +21,16 @@ import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class RecipeDetailsScreenArguments {
-  final Recipe recipe;
-  final Portion selectedPortion;
+  final Ingredient element;
   final bool chooseMealType;
   final bool isMeal;
 
-  RecipeDetailsScreenArguments({@required this.recipe, this.selectedPortion, this.chooseMealType = false, this.isMeal = false});
+  RecipeDetailsScreenArguments({@required this.element, this.chooseMealType = false, this.isMeal = false});
 }
 
 _areYouSure(BuildContext context, Recipe recipe) {
@@ -111,21 +110,21 @@ class RecipeDetailsScreen extends StatelessWidget {
       final RecipeDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
       final model = watch(providerRecipeDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.build(args.recipe, favorites));
+      watch(providerFavorite).whenData((favorites) => model.init(args.element, favorites));
 
-      if (model.createScreen)
-        return Scaffold(
-          body: Center(
-            child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-          ),
-        );
+      // if (model.createScreen)
+      //   return Scaffold(
+      //     body: Center(
+      //       child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+      //     ),
+      //   );
 
       return Scaffold(
         appBar: AppBar(
           actions: [
             IconButton(
               icon: model.isFavorite ? Icon(FontAwesomeIcons.solidHeart) : Icon(FontAwesomeIcons.heart),
-              onPressed: () => context.read(providerRecipeDetailsViewModel).submitFavorite(context, args.recipe.id),
+              onPressed: () => context.read(providerRecipeDetailsViewModel).submitFavorite(context, args.element.getId()),
             )
           ],
         ),
@@ -133,8 +132,8 @@ class RecipeDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               Carousel(
-                photosUrl: args.recipe.photosUrl,
-                videoUrl: args.recipe.videoUrl,
+                photosUrl: args.element.recipe.photosUrl,
+                videoUrl: args.element.recipe.videoUrl,
                 isShow: !args.isMeal,
               ),
               buildTitle(context),
@@ -144,7 +143,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                 proteins: model.proteins,
                 carbs: model.carbs,
                 fats: model.fats,
-                ingredients: args.recipe.ingredients,
+                ingredients: args.element.recipe.ingredients,
               )),
               Row(
                 children: [
@@ -160,7 +159,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                       child: CustomDropDownButton(
                           name: '',
                           value: model.selectedPortion.name,
-                          list: Macro.getPortionsStrings(args.recipe),
+                          list: args.element.getPortionsStrings(),
                           onChanged: (v) => model.setSelectedPortion(v)))
                 ],
               ),
@@ -176,7 +175,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                       children: [
                         Text(Languages.key_words() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                         Text(
-                          args.recipe.keyWords.toString().substring(1, args.recipe.keyWords.toString().length - 1),
+                          args.element.getKeyWords().toString().substring(1, args.element.getKeyWords().toString().length - 1),
                           style: TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ],
@@ -189,9 +188,9 @@ class RecipeDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: SmoothStarRating(
                         allowHalfRating: true,
-                        onRated: (value) => context.read(providerRatingViewModel).setRating(context, args.recipe.id, value),
+                        onRated: (value) => context.read(providerRatingViewModel).setRating(context, args.element.getId(), value),
                         starCount: 5,
-                        rating: args.recipe.ratingsAvg,
+                        rating: args.element.recipe.ratingsAvg,
                         size: 40.0,
                         defaultIconData: FontAwesomeIcons.star,
                         filledIconData: FontAwesomeIcons.solidStar,
@@ -201,7 +200,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                         spacing: 8.0),
                   ),
                 ),
-              _buildReportButton(recipe: args.recipe, isMeal: args.isMeal),
+              _buildReportButton(recipe: args.element.recipe, isMeal: args.isMeal),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -213,7 +212,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                         child: Text(Languages.ingredients() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       CustomListView(
-                        list: args.recipe.ingredients,
+                        list: args.element.recipe.ingredients,
                         type: EnumTileType.ingredient,
                         onPressed: (ingredient) => context.read(providerRecipeDetailsViewModel).seeProduct(
                               context,
@@ -235,12 +234,12 @@ class RecipeDetailsScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(Languages.description() + ":", style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
-                      Text(args.recipe.description),
+                      Text(args.element.recipe.description),
                     ],
                   ),
                 ),
               ),
-              nutritional(element: args.recipe),
+              nutritional(element: args.element.recipe),
               SizedBox(height: 100),
             ],
           ),

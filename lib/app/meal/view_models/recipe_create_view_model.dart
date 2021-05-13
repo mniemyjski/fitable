@@ -14,7 +14,6 @@ import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/macro.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -175,11 +174,16 @@ class RecipeCreateViewModel extends ChangeNotifier {
     _carbs = 0;
     _fats = 0;
 
+    double _sizeTotal = 0;
     ingredients.forEach((element) {
-      _calories += Macro.calculateCalories(element, element.size, element.selectedPortion);
-      _proteins += Macro.calculateProteins(element, element.size, element.selectedPortion);
-      _carbs += Macro.calculateCarbs(element, element.size, element.selectedPortion);
-      _fats += Macro.calculateFats(element, element.size, element.selectedPortion);
+      _sizeTotal += element.size / 100;
+    });
+
+    ingredients.forEach((element) {
+      _calories += (element.getCalories(portionSize: element.size, selectedSize: element.selectedPortion.size) / _sizeTotal).round();
+      _proteins += element.getProteins(portionSize: element.size, selectedSize: element.selectedPortion.size) / _sizeTotal;
+      _carbs += element.getCarbs(portionSize: element.size, selectedSize: element.selectedPortion.size) / _sizeTotal;
+      _fats += element.getFats(portionSize: element.size, selectedSize: element.selectedPortion.size) / _sizeTotal;
     });
 
     notifyListeners();

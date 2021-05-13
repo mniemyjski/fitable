@@ -1,43 +1,21 @@
+import 'package:fitable/app/meal/models/ingredient_model.dart';
 import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:fitable/utilities/macro.dart';
 
 class TileProduct extends StatelessWidget {
-  final element;
-  final isSuggested;
+  final Ingredient element;
+  final bool isSuggested;
 
   const TileProduct({@required this.element, bool this.isSuggested = false});
 
   @override
   Widget build(BuildContext context) {
-    String _name = Macro.getName(element);
-    String _size = Macro.getSize(element).toStringAsFixed(1) + Macro.getUnit(element);
-
-    String _calories = '${Languages.kcal()}: ${Macro.calculateCalories(
-      element,
-      Macro.getSize(element),
-      Macro.getSelectedPortion(element),
-    ).toStringAsFixed(0)}';
-
-    String _proteins = '${Languages.p()}: ${Macro.calculateProteins(
-      element,
-      Macro.getSize(element),
-      Macro.getSelectedPortion(element),
-    ).toStringAsFixed(1)}g';
-
-    String _carbs = '${Languages.c()}: ${Macro.calculateCarbs(
-      element,
-      Macro.getSize(element),
-      Macro.getSelectedPortion(element),
-    ).toStringAsFixed(1)}g';
-
-    String _fats = '${Languages.f()}: ${Macro.calculateFats(
-      element,
-      Macro.getSize(element),
-      Macro.getSelectedPortion(element),
-    ).toStringAsFixed(1)}g';
-
+    String _name = element.getName();
+    String _size = element.getSize().toStringAsFixed(1) + element.getUnit();
+    String _calories = '${Languages.kcal()}: ${element.getCalories().toStringAsFixed(0)}';
+    String _proteins = '${Languages.p()}: ${element.getProteins().toStringAsFixed(1)}g';
+    String _carbs = '${Languages.c()}: ${element.getCarbs().toStringAsFixed(1)}g';
+    String _fats = '${Languages.f()}: ${element.getFats().toStringAsFixed(1)}g';
     String dash = Theme.of(context).brightness == Brightness.light ? "resources/images/dash_2.png" : "resources/images/dash_1.png";
     Color color = isSuggested ? Theme.of(context).textTheme.bodyText2.color.withOpacity(0.2) : Theme.of(context).textTheme.bodyText2.color;
 
