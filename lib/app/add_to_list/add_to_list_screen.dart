@@ -9,7 +9,7 @@ class AddToListScreen extends StatelessWidget {
   final EnumTileType tileType;
   final String title;
   final List list;
-  final UnitType unit;
+  final TypeUnit unit;
 
   AddToListScreen({@required this.tileType, @required this.list, @required this.title, this.unit});
 

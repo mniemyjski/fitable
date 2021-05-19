@@ -1,87 +1,100 @@
-import 'package:flutter/cupertino.dart';
-
-enum TypeEnum {
-  sortType,
-  connStatus,
-  favoriteScreen,
-  searchType,
-  unitType,
-  macroType,
-  elementType,
-  issueType,
-  mealType,
-}
-
-enum SortType { last, best, popular }
-enum ConnStatus { loading, success, signInScreen, createAccount }
-enum FavoriteScreen { onlyProducts, allFoods, workouts, accounts }
-enum SearchType { recipes, products, accounts, workouts }
-enum UnitType { kg, g, l, ml }
-enum MacroType { size, calories, proteins, carbs, fats }
-enum ElementType { product, recipe, account, comment }
-enum IssueType { other, correct, regulations }
-enum MealType { breakfast, lunch, dinner, supper, snack }
+enum TypeSort { last, best, popular }
+enum TypeConnStatus { loading, success, signInScreen, createAccount }
+enum TypeSearch { recipes, products, accounts, workouts }
+enum TypeUnit { kg, g, l, ml }
+enum TypeMacro { size, calories, proteins, carbs, fats }
+enum TypeElement { product, recipe, account, comment }
+enum TypeIssue { other, correct, regulations }
+enum TypeMeal { breakfast, lunch, dinner, supper, snack }
+enum TypeFavoriteScreen { onlyProducts, allFoods, workouts, accounts }
+enum TypeFavorite { products, recipes, exercise, trainings, accounts }
 
 class Enums {
   static String toText(dynamic element) => element.toString().split('.').last;
 
-  static toEnum({@required String value, @required TypeEnum typeEnum}) {
-    switch (typeEnum) {
-      case TypeEnum.sortType:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.connStatus:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.favoriteScreen:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.searchType:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.unitType:
-        return _unitTypeToEnum(value);
-        break;
-      case TypeEnum.macroType:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.elementType:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.issueType:
-        // TODO: Handle this case.
-        break;
-      case TypeEnum.mealType:
-        return _mealTypeToEnum(value);
-        break;
+  static toEnum(String value, List<dynamic> enumValues) {
+    try {
+      return TypeSort.values.singleWhere((element) => toText(element) == value);
+    } on StateError catch (_) {
+      return null;
     }
   }
 
-  static _unitTypeToEnum(String value) {
-    switch (value) {
-      case 'kg':
-        return UnitType.kg;
-      case 'g':
-        return UnitType.g;
-      case 'l':
-        return UnitType.l;
-      case 'ml':
-        return UnitType.ml;
-    }
-  }
-
-  static _mealTypeToEnum(String value) {
-    switch (value) {
-      case 'breakfast':
-        return MealType.breakfast;
-      case 'lunch':
-        return MealType.lunch;
-      case 'dinner':
-        return MealType.dinner;
-      case 'supper':
-        return MealType.supper;
-      case 'snack':
-        return MealType.snack;
-    }
-  }
+  // static _toEnum({@required String value, @required dynamic enumType}) {
+  //   switch (enumType) {
+  //     case TypeSort:
+  //       //
+  //       break;
+  //     case TypeConnStatus:
+  //       //
+  //       break;
+  //     case TypeFavoriteScreen:
+  //       //
+  //       break;
+  //     case TypeSearch:
+  //       //
+  //       break;
+  //     case TypeUnit:
+  //       return _typeUnit(value);
+  //       break;
+  //     case TypeMacro:
+  //       //
+  //       break;
+  //     case TypeElement:
+  //       //
+  //       break;
+  //     case TypeIssue:
+  //       //
+  //       break;
+  //     case TypeMeal:
+  //       return _typeMeal(value);
+  //       break;
+  //     case TypeFavorite:
+  //       return _typeFavorite(value);
+  //       break;
+  //   }
+  // }
+  //
+  // static _typeFavorite(String favorite) {
+  //   switch (favorite) {
+  //     case 'products':
+  //       return TypeFavorite.products;
+  //     case 'recipes':
+  //       return TypeFavorite.recipes;
+  //     case 'exercise':
+  //       return TypeFavorite.exercise;
+  //     case 'trainings':
+  //       return TypeFavorite.trainings;
+  //     case 'accounts':
+  //       return TypeFavorite.accounts;
+  //   }
+  // }
+  //
+  // static _typeUnit(String value) {
+  //   switch (value) {
+  //     case 'kg':
+  //       return TypeUnit.kg;
+  //     case 'g':
+  //       return TypeUnit.g;
+  //     case 'l':
+  //       return TypeUnit.l;
+  //     case 'ml':
+  //       return TypeUnit.ml;
+  //   }
+  // }
+  //
+  // static _typeMeal(String value) {
+  //   switch (value) {
+  //     case 'breakfast':
+  //       return TypeMeal.breakfast;
+  //     case 'lunch':
+  //       return TypeMeal.lunch;
+  //     case 'dinner':
+  //       return TypeMeal.dinner;
+  //     case 'supper':
+  //       return TypeMeal.supper;
+  //     case 'snack':
+  //       return TypeMeal.snack;
+  //   }
+  // }
 }

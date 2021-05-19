@@ -4,19 +4,18 @@ import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
-Widget getTitleType(SearchType searchType, dynamic data) {
-  print(data);
+Widget getTitleType(TypeSearch searchType, dynamic data) {
   switch (searchType) {
-    case SearchType.recipes:
+    case TypeSearch.recipes:
       return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: data));
       break;
-    case SearchType.products:
+    case TypeSearch.products:
       return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: data));
       break;
-    case SearchType.accounts:
+    case TypeSearch.accounts:
       return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileAccount(data));
       break;
-    case SearchType.workouts:
+    case TypeSearch.workouts:
       return Text(data.name);
       break;
     default:

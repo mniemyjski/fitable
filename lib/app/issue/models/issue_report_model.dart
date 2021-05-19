@@ -3,8 +3,8 @@ import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
 class Issue {
-  final ElementType elementType;
-  final IssueType issueType;
+  final TypeElement elementType;
+  final TypeIssue issueType;
   final String id;
   final String uid;
   final DateTime dateCreate;

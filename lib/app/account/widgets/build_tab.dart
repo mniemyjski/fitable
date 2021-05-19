@@ -5,25 +5,25 @@ import 'package:flutter/material.dart';
 
 buildTab(SearchViewModel model) {
   switch (model.favoriteScreen) {
-    case FavoriteScreen.onlyProducts:
+    case TypeFavoriteScreen.onlyProducts:
       model.tabBar = [
         Tab(text: Languages.products()),
       ];
       break;
-    case FavoriteScreen.allFoods:
+    case TypeFavoriteScreen.allFoods:
       model.tabBar = [
         Tab(text: Languages.products()),
         Tab(text: Languages.recipes()),
         Tab(text: Languages.your_recipes()),
       ];
       break;
-    case FavoriteScreen.workouts:
+    case TypeFavoriteScreen.workouts:
       model.tabBar = [
         Tab(text: Languages.exercises()),
         Tab(text: Languages.workouts()),
       ];
       break;
-    case FavoriteScreen.accounts:
+    case TypeFavoriteScreen.accounts:
       model.tabBar = [
         Tab(text: Languages.followed()),
         Tab(text: Languages.followers()),

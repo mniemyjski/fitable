@@ -5,18 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final providerMeals = StreamProvider<List<Meal>>((ref) {
-  final db = ref.watch(providerDatabase);
-
-  return db.streamMeals();
-});
-
 class Meal {
   final String id;
   final String uid;
   final DateTime dateTime;
   final DateTime dateCreation;
-  final MealType mealType;
+  final TypeMeal mealType;
   final Ingredient ingredient;
   final bool isSuggested;
 
@@ -51,7 +45,7 @@ class Meal {
         uid: data['uid'],
         dateTime: data['dateTime'].toDate(),
         dateCreation: data['dateCreation'].toDate(),
-        mealType: Enums.toEnum(value: data['mealType'], typeEnum: TypeEnum.mealType),
+        mealType: Enums.toEnum(data['mealType'], TypeMeal.values),
         isSuggested: data['isSuggested'],
         id: id,
         ingredient: Ingredient.fromMap(data['ingredient']));

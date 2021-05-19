@@ -78,11 +78,11 @@ class HomeScreen extends StatelessWidget {
             child: ListView(
           children: [
             MonetizeAd(),
-            TileHeadMeals(mealType: MealType.breakfast),
-            TileHeadMeals(mealType: MealType.lunch),
-            TileHeadMeals(mealType: MealType.dinner),
-            TileHeadMeals(mealType: MealType.supper),
-            TileHeadMeals(mealType: MealType.snack),
+            TileHeadMeals(mealType: TypeMeal.breakfast),
+            TileHeadMeals(mealType: TypeMeal.lunch),
+            TileHeadMeals(mealType: TypeMeal.dinner),
+            TileHeadMeals(mealType: TypeMeal.supper),
+            TileHeadMeals(mealType: TypeMeal.snack),
             TileHeadWorkouts(),
             TileHeadMeasurement(),
             SizedBox(height: 40)

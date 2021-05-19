@@ -6,6 +6,7 @@ import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fitable/utilities/providers.dart';
 
 class AddBodyCircumferencesScreen extends ConsumerWidget {
   _submit(BuildContext context) async {

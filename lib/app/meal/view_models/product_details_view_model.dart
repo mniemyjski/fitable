@@ -4,6 +4,7 @@ import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fitable/utilities/enums.dart';
 
 final providerProductDetailsViewModel = ChangeNotifierProvider.autoDispose<ProductDetailsViewModel>((ref) {
   return ProductDetailsViewModel();
@@ -67,7 +68,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
 
     _isFavorite = false;
 
-    favorites.where((e) => (e.id == element.getId() && e.type == EnumFavorite.products) ? _isFavorite = true : null);
+    favorites.where((e) => (e.id == element.getId() && e.type == TypeFavorite.products) ? _isFavorite = true : null);
 
     _createScreen = false;
   }

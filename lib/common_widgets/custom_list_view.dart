@@ -36,7 +36,7 @@ class CustomListView extends StatelessWidget {
     if (type == EnumTileType.keyWord) return TileKeyWord(index: index, element: element);
     if (type == EnumTileType.portion) return TilePortion(index: index, element: element);
     if (type == EnumTileType.meal) return TileProduct(element: element.ingredient, isSuggested: element.isSuggested);
-    return TileProduct(element: Ingredient.initial(element));
+    return TileProduct(element: Ingredient.transform(element));
   }
 
   @override

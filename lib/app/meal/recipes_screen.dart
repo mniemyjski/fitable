@@ -50,7 +50,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(SortType.last),
+                    stream: db.streamRecipes(TypeSort.last),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -59,7 +59,7 @@ class RecipesScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           onPressed: (element) => Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
                               arguments: RecipeDetailsScreenArguments(
-                                element: Ingredient.initial(element),
+                                element: Ingredient.transform(element),
                                 chooseMealType: true,
                               )),
                         );
@@ -72,7 +72,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(SortType.best),
+                    stream: db.streamRecipes(TypeSort.best),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -81,7 +81,7 @@ class RecipesScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           onPressed: (element) => Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
                               arguments: RecipeDetailsScreenArguments(
-                                element: Ingredient.initial(element),
+                                element: Ingredient.transform(element),
                                 chooseMealType: true,
                               )),
                         );
@@ -94,7 +94,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(SortType.popular),
+                    stream: db.streamRecipes(TypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -103,7 +103,7 @@ class RecipesScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           onPressed: (element) => Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
                               arguments: RecipeDetailsScreenArguments(
-                                element: Ingredient.initial(element),
+                                element: Ingredient.transform(element),
                                 chooseMealType: true,
                               )),
                         );
@@ -116,7 +116,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(SortType.popular),
+                    stream: db.streamRecipes(TypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -125,7 +125,7 @@ class RecipesScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           onPressed: (element) => Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
                               arguments: RecipeDetailsScreenArguments(
-                                element: Ingredient.initial(element),
+                                element: Ingredient.transform(element),
                                 chooseMealType: true,
                               )),
                         );
@@ -138,7 +138,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(SortType.popular),
+                    stream: db.streamRecipes(TypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -147,7 +147,7 @@ class RecipesScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           onPressed: (element) => Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
                               arguments: RecipeDetailsScreenArguments(
-                                element: Ingredient.initial(element),
+                                element: Ingredient.transform(element),
                                 chooseMealType: true,
                               )),
                         );
@@ -160,7 +160,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(SortType.popular),
+                    stream: db.streamRecipes(TypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -169,7 +169,7 @@ class RecipesScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           onPressed: (element) => Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
                               arguments: RecipeDetailsScreenArguments(
-                                element: Ingredient.initial(element),
+                                element: Ingredient.transform(element),
                                 chooseMealType: true,
                               )),
                         );

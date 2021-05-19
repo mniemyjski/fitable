@@ -53,7 +53,7 @@ class HomeViewModel extends ChangeNotifier {
     });
   }
 
-  onPressed(BuildContext context, Meal element, MealType mealType) async {
+  onPressed(BuildContext context, Meal element, TypeMeal mealType) async {
     final db = context.read(providerDatabase);
     dynamic result;
 
@@ -89,13 +89,13 @@ class HomeViewModel extends ChangeNotifier {
     context.read(providerDatabase).deleteMeal(element);
   }
 
-  onSearch(BuildContext context, MealType mealType) async {
+  onSearch(BuildContext context, TypeMeal mealType) async {
     final db = context.read(providerDatabase);
     final app = context.read(providerAppViewModel);
 
     dynamic result = await Navigator.of(context).pushNamed(
       AppRoute.searchScreen,
-      arguments: SearchScreenArguments(favoriteScreen: FavoriteScreen.allFoods, title: Enums.toText(mealType).tr()),
+      arguments: SearchScreenArguments(favoriteScreen: TypeFavoriteScreen.allFoods, title: Enums.toText(mealType).tr()),
     );
 
     if (result != null) {

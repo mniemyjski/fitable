@@ -11,36 +11,45 @@ class LandingScreen extends ConsumerWidget {
 
   LandingScreen({@required this.body});
 
-  ConnStatus conn = ConnStatus.loading;
+  TypeConnStatus conn = TypeConnStatus.loading;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final authStateChanges = watch(providerAuthState);
     final account = watch(providerAccount);
+    final userData = watch(providerUserData);
 
     authStateChanges.whenData((user) {
       if (user != null) {
-        account.whenData((value) {
-          if (value != null) {
-            conn = ConnStatus.success;
+        userData.whenData((value) {
+          if (value?.account != null) {
+            conn = TypeConnStatus.success;
           } else {
-            conn = ConnStatus.createAccount;
+            conn = TypeConnStatus.createAccount;
           }
         });
+
+        // account.whenData((value) {
+        //   if (value != null) {
+        //     conn = TypeConnStatus.success;
+        //   } else {
+        //     conn = TypeConnStatus.createAccount;
+        //   }
+        // });
       } else {
-        conn = ConnStatus.signInScreen;
+        conn = TypeConnStatus.signInScreen;
       }
     });
 
-    if (conn == ConnStatus.loading)
+    if (conn == TypeConnStatus.loading)
       return Scaffold(
         body: Center(
           child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
         ),
       );
 
-    if (conn == ConnStatus.success) return body;
-    if (conn == ConnStatus.createAccount) return CreateAccount();
+    if (conn == TypeConnStatus.success) return body;
+    if (conn == TypeConnStatus.createAccount) return CreateAccount();
     return SignInScreen();
   }
 }

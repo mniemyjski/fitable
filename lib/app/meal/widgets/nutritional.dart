@@ -7,7 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
 
 nutritional({dynamic element}) {
-  UnitType _unit;
+  TypeUnit _unit;
   int _calories = 0;
   double _proteins = 0;
   double _carbs = 0;

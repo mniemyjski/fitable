@@ -52,7 +52,7 @@ class Ingredient {
     return _ingredients;
   }
 
-  static Ingredient initial(dynamic element) {
+  static Ingredient transform(dynamic element) {
     if (element.runtimeType == Product) return Ingredient(product: element, selectedPortion: element.portions.first, size: 100);
     if (element.runtimeType == Recipe) return Ingredient(recipe: element, selectedPortion: element.portions.first, size: 100);
     if (element.runtimeType == Ingredient) return element;

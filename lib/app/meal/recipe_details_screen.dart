@@ -24,6 +24,7 @@ import 'package:fitable/utilities/enums.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:fitable/utilities/providers.dart';
 
 class RecipeDetailsScreenArguments {
   final Ingredient element;
@@ -70,7 +71,7 @@ Widget _buildReportButton({@required Recipe recipe, @required bool isMeal}) {
       data: (account) {
         if (!isMeal && account.uid != recipe.uid)
           return TextButton(
-              onPressed: () => issueReport(context, recipe, ElementType.recipe),
+              onPressed: () => issueReport(context, recipe, TypeElement.recipe),
               child: Text(
                 Languages.bug_report(),
                 style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),

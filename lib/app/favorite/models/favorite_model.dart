@@ -1,24 +1,11 @@
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum EnumFavorite { products, recipes, exercise, trainings, accounts }
-
-final providerFavorite = StreamProvider<List<Favorite>>((ref) {
-  final db = ref.watch(providerDatabase);
-
-  return db.streamFavorites();
-});
-
-final providerFollowers = StreamProvider<List<Favorite>>((ref) {
-  final db = ref.watch(providerDatabase);
-
-  return db.streamFollowers();
-});
-
 class Favorite {
   final String uid;
-  final EnumFavorite type;
+  final TypeFavorite type;
   final String category;
   final String id;
   final DateTime dateCreation;
@@ -34,7 +21,7 @@ class Favorite {
   Map<String, dynamic> toMap(String uid) {
     return {
       'uid': uid,
-      'type': toText(type),
+      'type': Enums.toText(type),
       'category': category,
       'id': id,
       'dateCreation': DateTime.now(),
@@ -48,27 +35,10 @@ class Favorite {
 
     return Favorite(
       uid: data['uid'],
-      type: toEnum(data['type']),
+      type: Enums.toEnum(data['type'], TypeFavorite.values),
       category: data['category'],
       id: data['id'],
       dateCreation: data['dateCreation'].toDate(),
     );
-  }
-
-  static String toText(EnumFavorite favorite) => favorite.toString().split('.').last;
-
-  static toEnum(String favorite) {
-    switch (favorite) {
-      case 'products':
-        return EnumFavorite.products;
-      case 'recipes':
-        return EnumFavorite.recipes;
-      case 'exercise':
-        return EnumFavorite.exercise;
-      case 'trainings':
-        return EnumFavorite.trainings;
-      case 'accounts':
-        return EnumFavorite.accounts;
-    }
   }
 }

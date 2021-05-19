@@ -36,31 +36,31 @@ class SearchViewModel extends ChangeNotifier {
   List<Widget> tabBar = [];
   Algolia algolia = Application.algolia;
   AlgoliaQuery _searchQuery;
-  FavoriteScreen _favoriteScreen;
+  TypeFavoriteScreen _favoriteScreen;
   String title;
 
-  FavoriteScreen get favoriteScreen => _favoriteScreen;
+  TypeFavoriteScreen get favoriteScreen => _favoriteScreen;
 
-  set favoriteScreen(FavoriteScreen favoriteScreen) {
+  set favoriteScreen(TypeFavoriteScreen favoriteScreen) {
     switch (favoriteScreen) {
-      case FavoriteScreen.onlyProducts:
-        _searchType = SearchType.products;
+      case TypeFavoriteScreen.onlyProducts:
+        _searchType = TypeSearch.products;
         break;
-      case FavoriteScreen.allFoods:
-        _searchType = SearchType.products;
+      case TypeFavoriteScreen.allFoods:
+        _searchType = TypeSearch.products;
         break;
-      case FavoriteScreen.workouts:
-        _searchType = SearchType.workouts;
+      case TypeFavoriteScreen.workouts:
+        _searchType = TypeSearch.workouts;
         break;
-      case FavoriteScreen.accounts:
-        _searchType = SearchType.accounts;
+      case TypeFavoriteScreen.accounts:
+        _searchType = TypeSearch.accounts;
         break;
     }
     _favoriteScreen = favoriteScreen;
   }
 
-  SearchType _searchType;
-  SearchType get searchType => _searchType;
+  TypeSearch _searchType;
+  TypeSearch get searchType => _searchType;
 
   bool _verification = false;
   bool get verification => _verification;
@@ -91,10 +91,10 @@ class SearchViewModel extends ChangeNotifier {
   setRecipes(BuildContext context, bool state) {
     _recipes = state;
     if (state) {
-      _searchType = SearchType.recipes;
+      _searchType = TypeSearch.recipes;
       massageFlushBar(context, Languages.search_recipes());
     } else {
-      _searchType = SearchType.products;
+      _searchType = TypeSearch.products;
       massageFlushBar(context, Languages.search_products());
     }
     notifyListeners();
@@ -110,16 +110,16 @@ class SearchViewModel extends ChangeNotifier {
   Future getStream(BuildContext context, String id) {
     final db = context.read(providerDatabase);
     switch (searchType) {
-      case SearchType.recipes:
+      case TypeSearch.recipes:
         return db.getRecipe(id);
         break;
-      case SearchType.products:
+      case TypeSearch.products:
         return db.getProduct(id: id);
         break;
-      case SearchType.accounts:
+      case TypeSearch.accounts:
         return db.getAccount(id);
         break;
-      case SearchType.workouts:
+      case TypeSearch.workouts:
         return db.getRecipe(id);
         break;
       default:
@@ -129,7 +129,7 @@ class SearchViewModel extends ChangeNotifier {
 
   Future<AlgoliaQuerySnapshot> searchQuery(BuildContext context, String query) async {
     await context.read(providerPreference.last).then((preference) {
-      if (favoriteScreen == FavoriteScreen.onlyProducts || favoriteScreen == FavoriteScreen.allFoods) {
+      if (favoriteScreen == TypeFavoriteScreen.onlyProducts || favoriteScreen == TypeFavoriteScreen.allFoods) {
         if (recipes) {
           _searchQuery = algolia.instance.index('recipes').query(query);
           _searchQuery = _searchQuery.facetFilter('localeBase:${preference.localeBase}');
@@ -141,10 +141,10 @@ class SearchViewModel extends ChangeNotifier {
           if (withBarcode) _searchQuery = _searchQuery.facetFilter('withBarcode:true');
         }
       }
-      if (favoriteScreen == FavoriteScreen.workouts) {
+      if (favoriteScreen == TypeFavoriteScreen.workouts) {
         _searchQuery = algolia.instance.index('workouts').query(query);
       }
-      if (favoriteScreen == FavoriteScreen.accounts) {
+      if (favoriteScreen == TypeFavoriteScreen.accounts) {
         _searchQuery = algolia.instance.index('accounts').query(query);
         if (isCoach) _searchQuery = _searchQuery.facetFilter('isCoach:true');
       }
@@ -157,7 +157,7 @@ class SearchViewModel extends ChangeNotifier {
     // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
-          element: Ingredient.initial(element),
+          element: Ingredient.transform(element),
         ));
 
     if (result != null) Navigator.pop(context, result);
@@ -167,7 +167,7 @@ class SearchViewModel extends ChangeNotifier {
     // selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
         arguments: RecipeDetailsScreenArguments(
-          element: Ingredient.initial(element),
+          element: Ingredient.transform(element),
         ));
 
     if (result != null) Navigator.pop(context, result);
@@ -192,7 +192,7 @@ class SearchViewModel extends ChangeNotifier {
       if (product != null) {
         var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
             arguments: ProductDetailsScreenArguments(
-              element: Ingredient.initial(product),
+              element: Ingredient.transform(product),
             ));
         Navigator.pop(context, result);
       } else {
@@ -279,7 +279,7 @@ class SearchViewModel extends ChangeNotifier {
       if (value.runtimeType == Recipe) {
         var result = await Navigator.of(context).pushNamed(
           AppRoute.recipeDetailsScreen,
-          arguments: RecipeDetailsScreenArguments(element: Ingredient.initial(value)),
+          arguments: RecipeDetailsScreenArguments(element: Ingredient.transform(value)),
         );
 
         Navigator.pop(context, result);

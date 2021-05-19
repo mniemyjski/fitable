@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-List<Widget> buildActionButtons(BuildContext context, bool mobilePlatform, FavoriteScreen searchType) {
+List<Widget> buildActionButtons(BuildContext context, bool mobilePlatform, TypeFavoriteScreen searchType) {
   return [
     IconButton(
         icon: Icon(FontAwesomeIcons.search, color: Colors.white), onPressed: () => context.read(providerSearchViewModel).searchOnPress(context)),
-    if (mobilePlatform && (searchType == FavoriteScreen.onlyProducts || searchType == FavoriteScreen.allFoods))
+    if (mobilePlatform && (searchType == TypeFavoriteScreen.onlyProducts || searchType == TypeFavoriteScreen.allFoods))
       IconButton(icon: FaIcon(FontAwesomeIcons.barcode), onPressed: () => context.read(providerSearchViewModel).barcodeOnPress(context))
   ];
 }

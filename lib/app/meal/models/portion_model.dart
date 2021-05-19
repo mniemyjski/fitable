@@ -5,7 +5,7 @@ class Portion {
   final String name;
   final String type;
   final double size;
-  final UnitType unit;
+  final TypeUnit unit;
 
   Portion({this.name, @required this.type, @required this.size, @required this.unit});
 
@@ -27,7 +27,7 @@ class Portion {
       name: data['name'],
       type: data['type'],
       size: data['size'],
-      unit: Enums.toEnum(value: data['unit'], typeEnum: TypeEnum.unitType),
+      unit: Enums.toEnum(data['unit'], TypeUnit.values),
     );
   }
 

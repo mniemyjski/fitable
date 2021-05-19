@@ -2,12 +2,6 @@ import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final providerPreference = StreamProvider.autoDispose<Preference>((ref) {
-  final db = ref.watch(providerDatabase);
-
-  return db.streamPreference();
-});
-
 class Preference {
   final String uid;
   final bool healthSync;

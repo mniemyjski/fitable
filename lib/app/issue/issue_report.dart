@@ -24,7 +24,7 @@ void _correctIssue(BuildContext context, dynamic element) async {
   if (issuesReport != null) context.read(providerDatabase).createIssue(issuesReport);
 }
 
-void _otherIssue(BuildContext context, dynamic element, ElementType elementType) {
+void _otherIssue(BuildContext context, dynamic element, TypeElement elementType) {
   String _description;
   showInputPicker(
     hintText: Languages.describe_error(),
@@ -40,7 +40,7 @@ void _otherIssue(BuildContext context, dynamic element, ElementType elementType)
           id: element.id,
           dateCreate: DateTime.now(),
           description: _description,
-          issueType: IssueType.other,
+          issueType: TypeIssue.other,
         );
 
         context.read(providerDatabase).createIssue(issuesReport);
@@ -50,7 +50,7 @@ void _otherIssue(BuildContext context, dynamic element, ElementType elementType)
   );
 }
 
-_typeIssue(BuildContext context, dynamic element, ElementType elementType) {
+_typeIssue(BuildContext context, dynamic element, TypeElement elementType) {
   if (element.runtimeType != Product) return _otherIssue(context, element, elementType);
 
   return buildShowDialog(
@@ -77,7 +77,7 @@ _typeIssue(BuildContext context, dynamic element, ElementType elementType) {
       ));
 }
 
-issueReport(BuildContext context, dynamic element, ElementType elementType) async {
+issueReport(BuildContext context, dynamic element, TypeElement elementType) async {
   bool already = await context.read(providerDatabase).alreadyIssue(element.id, elementType);
 
   if (already)

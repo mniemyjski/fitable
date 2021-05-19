@@ -3,6 +3,7 @@ import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/utilities/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fitable/utilities/providers.dart';
 
 class TileDetail extends StatelessWidget {
   final AccessLevel access;

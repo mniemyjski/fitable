@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/models/account_model.dart';
 import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/app/account/models/account_data_model.dart';
 import 'package:fitable/app/favorite/models/favorite_model.dart';
 import 'package:fitable/app/issue/models/issue_report_model.dart';
 import 'package:fitable/app/meal/models/ingredient_model.dart';
@@ -11,15 +12,18 @@ import 'package:fitable/app/meal/models/product_model.dart';
 import 'package:fitable/app/meal/models/recipe_model.dart';
 import 'package:fitable/app/measurement/models/measurement_model.dart';
 import 'package:fitable/app/rating/models/rating_model.dart';
+import 'package:fitable/services/auth.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/services/application.dart';
 import 'package:fitable/services/path.dart';
+import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:rxdart/rxdart.dart';
 import 'package:universal_io/io.dart' as io;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -64,19 +68,11 @@ class Database {
       .get()
       .then((value) => value.docs.isNotEmpty ? Account.fromMap(value.docs.first.data()) : null);
 
-  Stream<List<Account>> streamAccounts(List list, bool followers) {
-    List<String> _list = [];
-    list.forEach((element) => followers ? _list.add(element.uid) : _list.add(element.id));
-
-    if (list.isNotEmpty) {
-      return _service
-          .collection(Path.accounts())
-          .where(FieldPath.documentId, whereIn: _list)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((snap) => Account.fromMap(snap.data())).toList());
-    } else {
-      return null;
-    }
+  Stream<AccountData> streamUserData() {
+    return Rx.combineLatest4(streamAccount(), streamPreference(), streamFavorites(), streamFollowers(),
+        (Account account, Preference preference, List<Favorite> favorites, List<Favorite> followers) {
+      return AccountData(account: account, preference: preference, favorite: favorites, followers: followers);
+    });
   }
 
   //#endregion
@@ -128,40 +124,22 @@ class Database {
       .get()
       .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : productNotFound(barcode));
 
-  Stream<List<Product>> streamProducts(List<Favorite> list) {
-    List<String> _list = [];
-
-    list.forEach((element) {
-      _list.add(element.id);
-    });
-
-    if (_list.isNotEmpty) {
-      return _service
-          .collection(Path.products())
-          .where(FieldPath.documentId, whereIn: _list)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((snap) => Product.fromMap(snap.data())).toList());
-    } else {
-      return null;
-    }
-  }
-
   //#endregion
 
   //#region Issues
   Future<void> createIssue(Issue issuesReport) {
     String _path;
-    if (issuesReport.elementType == ElementType.product) _path = Path.products();
-    if (issuesReport.elementType == ElementType.recipe) _path = Path.recipes();
+    if (issuesReport.elementType == TypeElement.product) _path = Path.products();
+    if (issuesReport.elementType == TypeElement.recipe) _path = Path.recipes();
 
     final DocumentReference ref = _service.collection(_path).doc(issuesReport.id).collection(Path.issues()).doc(uid);
     return ref.set(issuesReport.toMap(uid));
   }
 
-  Future<bool> alreadyIssue(String id, ElementType elementType) {
+  Future<bool> alreadyIssue(String id, TypeElement elementType) {
     String _path;
-    if (elementType == ElementType.product) _path = Path.products();
-    if (elementType == ElementType.recipe) _path = Path.recipes();
+    if (elementType == TypeElement.product) _path = Path.products();
+    if (elementType == TypeElement.recipe) _path = Path.recipes();
     return _service.collection(_path).doc(id).collection(Path.issues()).doc(uid).get().then(
           (value) => value.data() != null ? true : false,
         );
@@ -228,11 +206,11 @@ class Database {
   //#region Favorite
   updateFavorite(BuildContext context, Favorite favorite) {
     String _path;
-    if (favorite.type == EnumFavorite.products) _path = Path.products();
-    if (favorite.type == EnumFavorite.recipes) _path = Path.recipes();
-    if (favorite.type == EnumFavorite.exercise) _path = Path.products();
-    if (favorite.type == EnumFavorite.trainings) _path = Path.products();
-    if (favorite.type == EnumFavorite.accounts) _path = Path.accounts();
+    if (favorite.type == TypeFavorite.products) _path = Path.products();
+    if (favorite.type == TypeFavorite.recipes) _path = Path.recipes();
+    if (favorite.type == TypeFavorite.accounts) _path = Path.accounts();
+    if (favorite.type == TypeFavorite.exercise) _path = Path.products();
+    if (favorite.type == TypeFavorite.trainings) _path = Path.products();
 
     final DocumentReference ref = _service.collection(_path).doc(favorite.id).collection(Path.favorites()).doc(uid);
     bool _isFavorite = false;
@@ -259,13 +237,60 @@ class Database {
     return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
   }
 
-  // Future<bool> isFollower(String follower) {
-  //   return _service.collection(Path.accounts()).doc(uid).collection(Path.favorites()).doc(follower).get().then((value) => value.data().isNotEmpty);
-  // }
+  Stream<List<Account>> streamAccounts(List list, bool followers) {
+    List<String> _list = [];
+    list.forEach((element) => followers ? _list.add(element.uid) : _list.add(element.id));
+
+    if (list.isNotEmpty) {
+      return _service
+          .collection(Path.accounts())
+          .where(FieldPath.documentId, whereIn: _list)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((snap) => Account.fromMap(snap.data())).toList());
+    } else {
+      return null;
+    }
+  }
+
+  Stream<List<Recipe>> streamFavoriteRecipes(List<Favorite> list) {
+    List<String> _list = [];
+
+    list.forEach((element) {
+      _list.add(element.id);
+    });
+
+    if (_list.isNotEmpty) {
+      return _service
+          .collection(Path.recipes())
+          .where(FieldPath.documentId, whereIn: _list)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
+    } else {
+      return null;
+    }
+  }
+
+  Stream<List<Product>> streamProducts(List<Favorite> list) {
+    List<String> _list = [];
+
+    list.forEach((element) {
+      _list.add(element.id);
+    });
+
+    if (_list.isNotEmpty) {
+      return _service
+          .collection(Path.products())
+          .where(FieldPath.documentId, whereIn: _list)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((snap) => Product.fromMap(snap.data())).toList());
+    } else {
+      return null;
+    }
+  }
 
   //endregion
 
-  //#region recipe
+  //#region Recipe
 
   Future<void> deleteRecipe(Recipe recipe) => _service.collection(Path.recipes()).doc(recipe.id).delete();
 
@@ -328,24 +353,6 @@ class Database {
       .get()
       .then((value) => value.docs.isNotEmpty ? Recipe.fromMap(value.docs.first.data()) : null);
 
-  Stream<List<Recipe>> streamFavoriteRecipes(List<Favorite> list) {
-    List<String> _list = [];
-
-    list.forEach((element) {
-      _list.add(element.id);
-    });
-
-    if (_list.isNotEmpty) {
-      return _service
-          .collection(Path.recipes())
-          .where(FieldPath.documentId, whereIn: _list)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
-    } else {
-      return null;
-    }
-  }
-
   Stream<List<Recipe>> streamYourRecipes() {
     return _service
         .collection(Path.recipes())
@@ -354,12 +361,12 @@ class Database {
         .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
   }
 
-  Stream<List<Recipe>> streamRecipes(SortType sortType) {
+  Stream<List<Recipe>> streamRecipes(TypeSort sortType) {
     String name = "";
 
-    if (sortType == SortType.last) name = "dateCreation";
-    if (sortType == SortType.best) name = "ratingsAvg";
-    if (sortType == SortType.popular) name = "favoritesCount";
+    if (sortType == TypeSort.last) name = "dateCreation";
+    if (sortType == TypeSort.best) name = "ratingsAvg";
+    if (sortType == TypeSort.popular) name = "favoritesCount";
 
     return _service
         .collection(Path.recipes())

@@ -7,9 +7,10 @@ import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fitable/utilities/providers.dart';
 
 class TileHeadMeals extends StatelessWidget {
-  final MealType mealType;
+  final TypeMeal mealType;
 
   const TileHeadMeals({Key key, @required this.mealType}) : super(key: key);
 

@@ -4,12 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AccessLevel { private, coach, friends, public }
 
-final providerAccount = StreamProvider<Account>((ref) {
-  final db = ref.watch(providerDatabase);
-
-  return db.streamAccount();
-});
-
 class Account {
   final String uid;
   final String name;

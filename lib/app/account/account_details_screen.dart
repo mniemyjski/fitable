@@ -11,6 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:logger/logger.dart';
+import 'package:fitable/utilities/providers.dart';
 
 class AccountDetailsScreenArguments {
   final Account account;

@@ -7,6 +7,7 @@ import 'package:fitable/app/meal/models/meal_model.dart';
 import 'package:fitable/app/meal/models/portion_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fitable/utilities/providers.dart';
 
 class MacroAggregation extends ConsumerWidget {
   final int calories;
