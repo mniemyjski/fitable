@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 enum ETypeSort { last, best, popular }
 enum ETypeConnStatus { loading, success, signInScreen, createAccount }
 enum ETypeSearch { recipes, products, accounts, workouts }

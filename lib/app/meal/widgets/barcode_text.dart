@@ -17,7 +17,7 @@ class BarcodeText extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: BarcodeWidget(
-          barcode: Barcode.ean13(drawEndChar: true),
+          barcode: Barcode.codabar(),
           data: barcode,
           width: 400,
           height: 80,

@@ -77,11 +77,13 @@ class Database {
 
   //#region Product
   Future<void> createProduct(Product product) {
+    Logger().i('create product');
     final DocumentReference ref = _service.collection(Path.products()).doc();
     return ref.set(product.toMap(id: ref.id));
   }
 
   productNotFound(String barcode) {
+    Logger().i('product not found');
     String date = DateFormat('yyyy_MM').format(DateTime.now());
     _service.collection(Path.administration()).doc('not_found_$date').set({barcode: FieldValue.increment(1)}, SetOptions(merge: true));
   }
@@ -94,6 +96,7 @@ class Database {
   }
 
   productImagesToCreate({@required String barcode, @required List<String> images}) async {
+    Logger().i('product image create');
     List<String> list = [];
     for (String element in images) {
       io.File _file = io.File(element);
@@ -107,16 +110,20 @@ class Database {
     return await _service.collection(Path.administration()).doc('images_to_create').set({barcode: map});
   }
 
-  Future<Product> getProduct({String barcode, String id}) => _service
-      .collection(Path.products())
-      .where(barcode != null ? "barcode" : FieldPath.documentId, isEqualTo: barcode != null ? barcode : id)
-      .get()
-      .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : productNotFound(barcode));
+  Future<Product> getProduct({String barcode, String id}) {
+    Logger().i('get product');
+    return _service
+        .collection(Path.products())
+        .where(barcode != null ? "barcode" : FieldPath.documentId, isEqualTo: barcode != null ? barcode : id)
+        .get()
+        .then((value) => value.docs.isNotEmpty ? Product.fromMap(value.docs.first.data()) : productNotFound(barcode));
+  }
 
   //#endregion
 
   //#region Issues
   Future<void> createIssue(Issue issuesReport) {
+    Logger().i('create issue');
     String _path;
     if (issuesReport.elementType == ETypeElement.product) _path = Path.products();
     if (issuesReport.elementType == ETypeElement.recipe) _path = Path.recipes();
@@ -126,6 +133,7 @@ class Database {
   }
 
   Future<bool> alreadyIssue(String id, ETypeElement elementType) {
+    Logger().i('already issue');
     String _path;
     if (elementType == ETypeElement.product) _path = Path.products();
     if (elementType == ETypeElement.recipe) _path = Path.recipes();
@@ -137,6 +145,7 @@ class Database {
 
   //#region Meals
   Future<void> addMeal({@required Meal meal}) {
+    Logger().i('add meal');
     final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc();
     return ref.set(meal.toMap(ref.id, uid));
   }
@@ -144,48 +153,65 @@ class Database {
   Future<void> updateMeal({
     @required Meal meal,
     @required Ingredient ingredient,
-  }) =>
-      _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
-        'ingredient': ingredient.toMap(),
-      });
+  }) {
+    Logger().i('update meal');
+    return _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
+      'ingredient': ingredient.toMap(),
+    });
+  }
 
   Future<void> updateSuggested({
     @required Meal meal,
     @required bool suggested,
-  }) =>
-      _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
-        'isSuggested': suggested,
-      });
+  }) {
+    Logger().i('update suggested');
+    return _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).update({
+      'isSuggested': suggested,
+    });
+  }
 
-  Future<void> deleteMeal(Meal meal) => _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).delete();
+  Future<void> deleteMeal(Meal meal) {
+    Logger().i('delete meal');
+    return _service.collection(Path.accounts()).doc(uid).collection(Path.meals()).doc(meal.id).delete();
+  }
 
-  Stream<List<Meal>> streamMeals() => _service
-      .collection(Path.accounts())
-      .doc(uid)
-      .collection(Path.meals())
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((snap) => Meal.fromMap(snap.data(), snap.id)).toList());
+  Stream<List<Meal>> streamMeals() {
+    Logger().i('stream meal');
+    return _service
+        .collection(Path.accounts())
+        .doc(uid)
+        .collection(Path.meals())
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((snap) => Meal.fromMap(snap.data(), snap.id)).toList());
+  }
   //#endregion
 
   //#region Measurement
   Future<void> setMeasurement({@required Measurement measurement}) {
+    Logger().i('update measurement');
     final DocumentReference ref = _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(measurement.id ?? null);
     return ref.set(measurement.toMap(ref.id, uid));
   }
 
-  Future<void> deleteMeasurement(Measurement measurement) =>
-      _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(measurement.id).delete();
+  Future<void> deleteMeasurement(Measurement measurement) {
+    Logger().i('delete measurement');
+    return _service.collection(Path.accounts()).doc(uid).collection(Path.measurements()).doc(measurement.id).delete();
+  }
 
-  Stream<List<Measurement>> streamMeasurement() => _service
-      .collection(Path.accounts())
-      .doc(uid)
-      .collection(Path.measurements())
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((snap) => Measurement.fromMap(snap.data(), snap.id)).toList());
+  Stream<List<Measurement>> streamMeasurement() {
+    Logger().i('stream measurement');
+    return _service
+        .collection(Path.accounts())
+        .doc(uid)
+        .collection(Path.measurements())
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((snap) => Measurement.fromMap(snap.data(), snap.id)).toList());
+  }
   //endregion
 
   //#region Ratings
   updateRating(BuildContext context, Rating rating) {
+    Logger().i('update rating');
     final DocumentReference ref = _service.collection(Path.recipes()).doc(rating.id).collection(Path.ratings()).doc(uid);
 
     ref.set(rating.toMap(uid, rating.id));
@@ -194,6 +220,7 @@ class Database {
 
   //#region Favorite
   updateFavorite(BuildContext context, Favorite favorite) {
+    Logger().i('update favorite');
     String _path;
     if (favorite.type == ETypeFavorite.products) _path = Path.products();
     if (favorite.type == ETypeFavorite.recipes) _path = Path.recipes();
@@ -216,17 +243,20 @@ class Database {
   }
 
   Stream<List<Favorite>> streamFavorites() {
+    Logger().i('stream favorite');
     final ref = _service.collectionGroup(Path.favorites()).where('uid', isEqualTo: uid).snapshots();
 
     return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
   }
 
   Stream<List<Favorite>> streamFollowers() {
+    Logger().i('stream followers');
     final ref = _service.collection(Path.accounts()).doc(uid).collection(Path.favorites()).snapshots();
     return ref.map((snapshot) => snapshot.docs.map((snap) => Favorite.fromMap(snap.data(), snap.id)).toList());
   }
 
   Stream<List<Account>> streamAccounts(List list, bool followers) {
+    Logger().i('stream accounts');
     List<String> _list = [];
     list.forEach((element) => followers ? _list.add(element.uid) : _list.add(element.id));
 
@@ -249,6 +279,7 @@ class Database {
     });
 
     if (_list.isNotEmpty) {
+      Logger().i('stream favorite recipes');
       return _service
           .collection(Path.recipes())
           .where(FieldPath.documentId, whereIn: _list)
@@ -267,6 +298,7 @@ class Database {
     });
 
     if (_list.isNotEmpty) {
+      Logger().i('stream products');
       return _service
           .collection(Path.products())
           .where(FieldPath.documentId, whereIn: _list)
@@ -281,7 +313,10 @@ class Database {
 
   //#region Recipe
 
-  Future<void> deleteRecipe(Recipe recipe) => _service.collection(Path.recipes()).doc(recipe.id).delete();
+  Future<void> deleteRecipe(Recipe recipe) {
+    Logger().i('delete recipe');
+    return _service.collection(Path.recipes()).doc(recipe.id).delete();
+  }
 
   Future<bool> createRecipe({
     @required String authorName,
@@ -297,6 +332,7 @@ class Database {
     @required List<Portion> portions,
     Recipe oldRecipe,
   }) async {
+    Logger().i('create recipes');
     final DocumentReference ref = _service.collection(Path.recipes()).doc(oldRecipe?.id ?? null);
 
     List _photosUrl = [];
@@ -336,13 +372,17 @@ class Database {
     return true;
   }
 
-  Future<Recipe> getRecipe(String id) => _service
-      .collection(Path.recipes())
-      .where(FieldPath.documentId, isEqualTo: id)
-      .get()
-      .then((value) => value.docs.isNotEmpty ? Recipe.fromMap(value.docs.first.data()) : null);
+  Future<Recipe> getRecipe(String id) {
+    Logger().i('get recipe');
+    return _service
+        .collection(Path.recipes())
+        .where(FieldPath.documentId, isEqualTo: id)
+        .get()
+        .then((value) => value.docs.isNotEmpty ? Recipe.fromMap(value.docs.first.data()) : null);
+  }
 
   Stream<List<Recipe>> streamYourRecipes() {
+    Logger().i('stream your recipes');
     return _service
         .collection(Path.recipes())
         .where('uid', isEqualTo: uid)
@@ -357,6 +397,7 @@ class Database {
     if (sortType == ETypeSort.best) name = "ratingsAvg";
     if (sortType == ETypeSort.popular) name = "favoritesCount";
 
+    Logger().i('stream recipes');
     return _service
         .collection(Path.recipes())
         .orderBy(name, descending: true)

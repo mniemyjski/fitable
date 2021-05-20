@@ -270,7 +270,7 @@ class SearchViewModel extends ChangeNotifier {
       if (value.runtimeType == Product) {
         var result = await Navigator.of(context).pushNamed(
           AppRoute.productDetailsScreen,
-          arguments: ProductDetailsScreenArguments(element: value),
+          arguments: ProductDetailsScreenArguments(element: Ingredient.transform(value)),
         );
 
         Navigator.pop(context, result);

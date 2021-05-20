@@ -135,7 +135,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               if (!args.isMeal)
                 TextButton(
-                    onPressed: () => issueReport(context, args.element, ETypeElement.product),
+                    onPressed: () => issueReport(context, args.element.product, ETypeElement.product),
                     child: Text(
                       Languages.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
