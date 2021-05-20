@@ -1,7 +1,7 @@
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/app/measurement/models/measurement_model.dart';
+import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/utilities/languages.dart';

@@ -1,4 +1,4 @@
-import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';

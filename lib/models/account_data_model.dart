@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/models/preference_model.dart';
+import 'package:fitable/models/favorite_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'account_model.dart';

@@ -1,5 +1,5 @@
-import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/models/account_model.dart';
+import 'package:fitable/models/favorite_model.dart';
 
 abstract class Validators {
   static bool isAccess(AccessLevel access, String myUid, Account account, List<Favorite> followers) {

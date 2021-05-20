@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/account/models/account_data_model.dart';
-import 'package:fitable/app/favorite/models/favorite_model.dart';
-import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/services/auth.dart';
+import 'package:fitable/models/account_model.dart';
+import 'package:fitable/models/preference_model.dart';
+import 'package:fitable/models/account_data_model.dart';
+import 'package:fitable/models/favorite_model.dart';
+import 'package:fitable/models/meal_model.dart';
+import 'package:fitable/services/auth_service.dart';
 import 'package:fitable/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,8 +49,8 @@ final providerFollowers = StreamProvider<List<Favorite>>((ref) {
   return db.streamFollowers();
 });
 
-final providerUserData = StreamProvider<AccountData>((ref) {
-  final db = ref.watch(providerDatabase);
-
-  return db.streamUserData();
-});
+// final providerUserData = StreamProvider<AccountData>((ref) {
+//   final db = ref.watch(providerDatabase);
+//
+//   return db.streamUserData();
+// });

@@ -1,4 +1,4 @@
-import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';

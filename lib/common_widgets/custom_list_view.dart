@@ -3,7 +3,7 @@ import 'package:fitable/app/account/widgets/tile_account.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_key_word.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_portion.dart';
 import 'package:fitable/app/home/widgets/tile_measurement.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/app/meal/widgets/tile_image_recipe.dart';
 import 'package:fitable/app/meal/widgets/tile_product.dart';
 import 'package:flutter/material.dart';

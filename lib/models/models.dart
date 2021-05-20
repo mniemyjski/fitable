@@ -1,0 +1,12 @@
+import 'package:fitable/models/account_model.dart';
+import 'package:fitable/models/comment_model.dart';
+import 'package:fitable/models/favorite_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
+import 'package:fitable/models/issue_report_model.dart';
+import 'package:fitable/models/meal_model.dart';
+import 'package:fitable/models/measurement_model.dart';
+import 'package:fitable/models/portion_model.dart';
+import 'package:fitable/models/preference_model.dart';
+import 'package:fitable/models/product_model.dart';
+import 'package:fitable/models/rating_model.dart';
+import 'package:fitable/models/recipe_model.dart';

@@ -1,5 +1,5 @@
 import 'package:fitable/app/account/account_details_screen.dart';
-import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/utilities/languages.dart';

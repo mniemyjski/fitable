@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/models/account_model.dart';
 import 'package:fitable/common_widgets/image_render.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/routers/route_generator.dart';

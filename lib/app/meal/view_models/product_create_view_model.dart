@@ -1,8 +1,8 @@
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
-import 'package:fitable/app/issue/models/issue_report_model.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/models/issue_report_model.dart';
+import 'package:fitable/models/portion_model.dart';
+import 'package:fitable/models/product_model.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';

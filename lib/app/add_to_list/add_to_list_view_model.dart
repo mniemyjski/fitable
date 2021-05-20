@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/utilities/languages.dart';

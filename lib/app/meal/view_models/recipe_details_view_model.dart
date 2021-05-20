@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/recipe_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
+import 'package:fitable/models/meal_model.dart';
+import 'package:fitable/models/portion_model.dart';
+import 'package:fitable/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';

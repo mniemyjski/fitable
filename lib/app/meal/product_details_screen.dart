@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/issue/issue_report.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
+import 'package:fitable/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_details_view_model.dart';
 import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';

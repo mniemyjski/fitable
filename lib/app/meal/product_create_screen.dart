@@ -1,4 +1,4 @@
-import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_create_view_model.dart';
 import 'package:fitable/app/meal/widgets/barcode_text.dart';
 import 'package:fitable/common_widgets/custom_bar_list.dart';

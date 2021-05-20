@@ -1,4 +1,4 @@
-import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/measurement/view_models/measurement_view_model.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';

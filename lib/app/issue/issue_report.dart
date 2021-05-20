@@ -1,5 +1,5 @@
-import 'package:fitable/app/issue/models/issue_report_model.dart';
-import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/models/issue_report_model.dart';
+import 'package:fitable/models/product_model.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';

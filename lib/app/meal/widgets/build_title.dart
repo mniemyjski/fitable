@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fitable/app/account/account_details_screen.dart';
-import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:fitable/utilities/providers.dart';

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/app/meal/models/meal_model.dart';
+import 'package:fitable/models/meal_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';

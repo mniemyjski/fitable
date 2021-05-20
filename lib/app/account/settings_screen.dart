@@ -1,4 +1,4 @@
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/common_widgets/build_main_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
@@ -7,7 +7,7 @@ import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fitable/services/sync_health.dart';
+import 'package:fitable/services/health_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

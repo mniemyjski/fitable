@@ -1,4 +1,4 @@
-import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/sign_in/sign_in_screen.dart';
 import 'package:fitable/app/sign_in/widgets/create_account.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -17,25 +17,16 @@ class LandingScreen extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final authStateChanges = watch(providerAuthState);
     final account = watch(providerAccount);
-    final userData = watch(providerUserData);
 
     authStateChanges.whenData((user) {
       if (user != null) {
-        userData.whenData((value) {
-          if (value?.account != null) {
+        account.whenData((value) {
+          if (value != null) {
             conn = TypeConnStatus.success;
           } else {
             conn = TypeConnStatus.createAccount;
           }
         });
-
-        // account.whenData((value) {
-        //   if (value != null) {
-        //     conn = TypeConnStatus.success;
-        //   } else {
-        //     conn = TypeConnStatus.createAccount;
-        //   }
-        // });
       } else {
         conn = TypeConnStatus.signInScreen;
       }

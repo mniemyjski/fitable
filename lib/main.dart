@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/common_widgets/fitable_header.dart';
 import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/foundation.dart';

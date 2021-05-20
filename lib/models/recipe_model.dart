@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
+import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 

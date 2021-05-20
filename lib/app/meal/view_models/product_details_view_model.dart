@@ -1,7 +1,7 @@
-import 'package:fitable/app/favorite/models/favorite_model.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/product_model.dart';
+import 'package:fitable/models/favorite_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
+import 'package:fitable/models/portion_model.dart';
+import 'package:fitable/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitable/utilities/enums.dart';

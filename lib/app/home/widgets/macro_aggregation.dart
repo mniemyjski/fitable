@@ -1,10 +1,10 @@
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/progress_bar.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
-import 'package:fitable/app/meal/models/meal_model.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
+import 'package:fitable/models/meal_model.dart';
+import 'package:fitable/models/portion_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitable/utilities/providers.dart';

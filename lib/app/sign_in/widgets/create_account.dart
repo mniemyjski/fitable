@@ -1,5 +1,5 @@
-import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
+import 'package:fitable/models/account_model.dart';
+import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/sign_in/view_model/create_account_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';

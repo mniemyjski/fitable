@@ -1,12 +1,12 @@
-import 'package:fitable/app/account/models/account_model.dart';
-import 'package:fitable/app/meal/models/ingredient_model.dart';
+import 'package:fitable/models/account_model.dart';
+import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/common_widgets/build_show_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:fitable/app/meal/models/portion_model.dart';
-import 'package:fitable/app/meal/models/recipe_model.dart';
+import 'package:fitable/models/portion_model.dart';
+import 'package:fitable/models/recipe_model.dart';
 
-import 'package:fitable/app/favorite/models/favorite_model.dart';
+import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/issue/issue_report.dart';
 import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
@@ -15,7 +15,7 @@ import 'package:fitable/app/meal/widgets/build_icon.dart';
 import 'package:fitable/app/meal/widgets/build_title.dart';
 import 'package:fitable/common_widgets/carousel/carousel.dart';
 import 'package:fitable/app/meal/widgets/nutritional.dart';
-import 'package:fitable/app/rating/vew_models/rating_view_model.dart';
+import 'package:fitable/app/rating/rating_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';

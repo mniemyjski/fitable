@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/app/account/models/preference_model.dart';
-import 'package:fitable/app/measurement/models/measurement_model.dart';
+import 'package:fitable/models/preference_model.dart';
+import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/services/database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

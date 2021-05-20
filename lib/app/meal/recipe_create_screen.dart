@@ -1,4 +1,4 @@
-import 'package:fitable/app/meal/models/recipe_model.dart';
+import 'package:fitable/models/recipe_model.dart';
 import 'package:fitable/app/meal/view_models/recipe_create_view_model.dart';
 import 'package:fitable/common_widgets/carousel/carousel.dart';
 import 'package:fitable/app/meal/widgets/tile_head_ingredients.dart';
