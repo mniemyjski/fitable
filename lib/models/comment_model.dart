@@ -1,4 +1,7 @@
-class Comment {
+import 'package:equatable/equatable.dart';
+
+class Comment extends Equatable {
+  const Comment({this.uid, this.id, this.author, this.dateCreation, this.dateLastEdit, this.text});
   final String uid;
   final String id;
   final String author;
@@ -6,18 +9,7 @@ class Comment {
   final DateTime dateLastEdit;
   final String text;
 
-  Comment({this.uid, this.id, this.author, this.dateCreation, this.dateLastEdit, this.text});
-
-  // factory Comment.fromFirestore(DocumentSnapshot document) {
-  //   Map data = document.data;
-  //
-  //   return Comment(
-  //     uid: data['uid'],
-  //     id: document.documentID,
-  //     author: data['author'],
-  //     dateCreation: data['dateCreation'].toDate(),
-  //     dateLastEdit: data['dateLastEdit'].toDate(),
-  //     text: data['text'],
-  //   );
-  // }
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
 }

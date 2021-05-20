@@ -19,6 +19,9 @@ final providerProductCreateViewModel = ChangeNotifierProvider.autoDispose<Produc
 });
 
 class ProductCreateViewModel extends ChangeNotifier {
+  Product oldProduct;
+  Product newProduct;
+
   Product _oldProduct;
   String _categoryPrimary;
   String _categorySecondary;
@@ -454,7 +457,7 @@ class ProductCreateViewModel extends ChangeNotifier {
 
   double _iron;
   Color _ironColor;
-  Color get ironColor => _productNameColor;
+  Color get ironColor => _ironColor;
   double get iron => _iron ?? 0;
   set iron(double iron) {
     _ironColor = (_oldProduct != null && _oldProduct.iron != iron) ? Colors.indigo : null;

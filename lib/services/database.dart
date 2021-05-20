@@ -11,7 +11,6 @@ import 'package:fitable/models/product_model.dart';
 import 'package:fitable/models/recipe_model.dart';
 import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/models/rating_model.dart';
-import 'package:fitable/services/auth_service.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/path.dart';
 import 'package:fitable/utilities/providers.dart';
@@ -21,7 +20,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:rxdart/rxdart.dart';
 import 'package:universal_io/io.dart' as io;
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -65,13 +63,6 @@ class Database {
       .where(FieldPath.documentId, isEqualTo: uid)
       .get()
       .then((value) => value.docs.isNotEmpty ? Account.fromMap(value.docs.first.data()) : null);
-
-  // Stream<AccountData> streamUserData() {
-  //   return Rx.combineLatest4(streamAccount(), streamPreference(), streamFavorites(), streamFollowers(),
-  //       (Account account, Preference preference, List<Favorite> favorites, List<Favorite> followers) {
-  //     return AccountData(account: account, preference: preference, favorite: favorites, followers: followers);
-  //   });
-  // }
 
   //#endregion
 

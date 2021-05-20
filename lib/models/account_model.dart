@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Account extends Equatable {
   const Account({
-    @required this.uid,
+    this.uid,
     @required this.name,
     @required this.gender,
     @required this.height,
@@ -56,6 +56,8 @@ class Account extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
+
+  static const empty = Account(name: null, gender: null, height: null, dateBirth: null, email: null, photosUrl: null);
 
   Map<String, dynamic> toMap({String uid}) {
     return {
