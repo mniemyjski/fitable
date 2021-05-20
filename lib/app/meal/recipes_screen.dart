@@ -50,7 +50,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(TypeSort.last),
+                    stream: db.streamRecipes(ETypeSort.last),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -72,7 +72,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(TypeSort.best),
+                    stream: db.streamRecipes(ETypeSort.best),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -94,7 +94,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(TypeSort.popular),
+                    stream: db.streamRecipes(ETypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -116,7 +116,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(TypeSort.popular),
+                    stream: db.streamRecipes(ETypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -138,7 +138,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(TypeSort.popular),
+                    stream: db.streamRecipes(ETypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(
@@ -160,7 +160,7 @@ class RecipesScreen extends StatelessWidget {
                 height: 235,
                 padding: const EdgeInsets.all(4.0),
                 child: StreamBuilder(
-                    stream: db.streamRecipes(TypeSort.popular),
+                    stream: db.streamRecipes(ETypeSort.popular),
                     builder: (context, snapshot) {
                       if (snapshot.hasData)
                         return CustomListView(

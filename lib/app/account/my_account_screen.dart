@@ -8,6 +8,7 @@ import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/massage_flush_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
@@ -243,7 +244,7 @@ class MyAccountScreen extends ConsumerWidget {
           ),
           CustomDropDownButton(
             name: Languages.access_date_birth(),
-            value: Account.toText(account.accessDateBirth),
+            value: Enums.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
               db.updateAccount(name: 'accessDateBirth', value: value);
@@ -251,7 +252,7 @@ class MyAccountScreen extends ConsumerWidget {
           ),
           CustomDropDownButton(
             name: Languages.access_height(),
-            value: Account.toText(account.accessHeight),
+            value: Enums.toText(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
               db.updateAccount(name: 'accessHeight', value: value);
@@ -259,7 +260,7 @@ class MyAccountScreen extends ConsumerWidget {
           ),
           CustomDropDownButton(
             name: Languages.access_gender(),
-            value: Account.toText(account.accessGender),
+            value: Enums.toText(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
               db.updateAccount(name: 'accessGender', value: value);
@@ -267,7 +268,7 @@ class MyAccountScreen extends ConsumerWidget {
           ),
           CustomDropDownButton(
             name: Languages.access_meals(),
-            value: Account.toText(account.accessMeals),
+            value: Enums.toText(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
               db.updateAccount(name: 'accessMeals', value: value);
@@ -275,7 +276,7 @@ class MyAccountScreen extends ConsumerWidget {
           ),
           CustomDropDownButton(
             name: Languages.access_stats(),
-            value: Account.toText(account.accessStats),
+            value: Enums.toText(account.accessStats),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
               db.updateAccount(name: 'accessStats', value: value);

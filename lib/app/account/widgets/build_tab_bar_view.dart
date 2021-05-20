@@ -13,7 +13,7 @@ buildTabBarView({
   @required BuildContext context,
   @required Database db,
   @required List<Favorite> favorites,
-  @required TypeFavoriteScreen favoriteScreen,
+  @required ETypeFavoriteScreen favoriteScreen,
 }) {
   _buildList({
     @required Stream stream,
@@ -40,7 +40,7 @@ buildTabBarView({
   }
 
   switch (favoriteScreen) {
-    case TypeFavoriteScreen.onlyProducts:
+    case ETypeFavoriteScreen.onlyProducts:
       return [
         _buildList(
           stream: db.streamProducts(favorites),
@@ -49,7 +49,7 @@ buildTabBarView({
         )
       ];
       break;
-    case TypeFavoriteScreen.allFoods:
+    case ETypeFavoriteScreen.allFoods:
       return [
         _buildList(
           stream: db.streamProducts(favorites),
@@ -68,13 +68,13 @@ buildTabBarView({
         )
       ];
       break;
-    case TypeFavoriteScreen.workouts:
+    case ETypeFavoriteScreen.workouts:
       return [
         Tab(text: Languages.exercises()),
         Tab(text: Languages.workouts()),
       ];
       break;
-    case TypeFavoriteScreen.accounts:
+    case ETypeFavoriteScreen.accounts:
       return [
         _buildList(
           stream: db.streamAccounts(favorites, false),

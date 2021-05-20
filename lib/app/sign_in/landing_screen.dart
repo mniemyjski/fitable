@@ -11,7 +11,7 @@ class LandingScreen extends ConsumerWidget {
 
   LandingScreen({@required this.body});
 
-  TypeConnStatus conn = TypeConnStatus.loading;
+  ETypeConnStatus conn = ETypeConnStatus.loading;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -22,25 +22,25 @@ class LandingScreen extends ConsumerWidget {
       if (user != null) {
         account.whenData((value) {
           if (value != null) {
-            conn = TypeConnStatus.success;
+            conn = ETypeConnStatus.success;
           } else {
-            conn = TypeConnStatus.createAccount;
+            conn = ETypeConnStatus.createAccount;
           }
         });
       } else {
-        conn = TypeConnStatus.signInScreen;
+        conn = ETypeConnStatus.signInScreen;
       }
     });
 
-    if (conn == TypeConnStatus.loading)
+    if (conn == ETypeConnStatus.loading)
       return Scaffold(
         body: Center(
           child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
         ),
       );
 
-    if (conn == TypeConnStatus.success) return body;
-    if (conn == TypeConnStatus.createAccount) return CreateAccount();
+    if (conn == ETypeConnStatus.success) return body;
+    if (conn == ETypeConnStatus.createAccount) return CreateAccount();
     return SignInScreen();
   }
 }

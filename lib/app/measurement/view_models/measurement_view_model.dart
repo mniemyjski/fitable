@@ -1,5 +1,6 @@
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/models/measurement_model.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,7 +74,7 @@ class MeasurementViewModel extends ChangeNotifier {
 
     Measurement measurement = Measurement(
       source: 'USER',
-      dataType: EnumMeasurement.BODY_CIRCUMFERENCES,
+      dataType: ETypeMeasurement.BODY_CIRCUMFERENCES,
       data: _map,
       unit: 'cm',
       dateTime: app.chosenDate,
@@ -87,7 +88,7 @@ class MeasurementViewModel extends ChangeNotifier {
 
       Measurement _m = Measurement(
         source: 'USER',
-        dataType: EnumMeasurement.BODY_FAT,
+        dataType: ETypeMeasurement.BODY_FAT,
         data: _map,
         unit: '%',
         dateTime: app.chosenDate,
@@ -101,12 +102,12 @@ class MeasurementViewModel extends ChangeNotifier {
     return 'done';
   }
 
-  submitMeasurement(BuildContext context, double value, String unit, EnumMeasurement type) {
+  submitMeasurement(BuildContext context, double value, String unit, ETypeMeasurement type) {
     final db = context.read(providerDatabase);
     final app = context.read(providerAppViewModel);
 
     Map<String, dynamic> _map = new Map();
-    _map[Measurement.toText(type)] = value;
+    _map[Enums.toText(type)] = value;
 
     Measurement measurement = Measurement(
       source: 'USER',

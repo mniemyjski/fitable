@@ -13,11 +13,11 @@ sliderMenu(BuildContext context) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          if (model.favoriteScreen == TypeFavoriteScreen.allFoods) ...[
+          if (model.favoriteScreen == ETypeFavoriteScreen.allFoods) ...[
             Icon(Icons.fastfood, color: Colors.lightBlue[800]),
             Switch(value: model.recipes, onChanged: (state) => context.read(providerSearchViewModel).setRecipes(context, state)),
           ],
-          if (model.favoriteScreen == TypeFavoriteScreen.allFoods || model.favoriteScreen == TypeFavoriteScreen.onlyProducts) ...[
+          if (model.favoriteScreen == ETypeFavoriteScreen.allFoods || model.favoriteScreen == ETypeFavoriteScreen.onlyProducts) ...[
             if (!model.recipes) ...[
               FaIcon(FontAwesomeIcons.barcode, color: Colors.lightBlue[800]),
               Switch(value: model.withBarcode, onChanged: (state) => context.read(providerSearchViewModel).setWithBarcode(context, state)),
@@ -25,7 +25,7 @@ sliderMenu(BuildContext context) {
             Icon(Icons.verified_user, color: Colors.lightBlue[800]),
             Switch(value: model.verification, onChanged: (state) => context.read(providerSearchViewModel).setVerification(context, state)),
           ],
-          if (model.favoriteScreen == TypeFavoriteScreen.accounts) ...[
+          if (model.favoriteScreen == ETypeFavoriteScreen.accounts) ...[
             Icon(FontAwesomeIcons.userShield, color: Colors.lightBlue[800]),
             Switch(value: model.isCoach, onChanged: (state) => context.read(providerSearchViewModel).setIsCoach(context, state)),
           ],

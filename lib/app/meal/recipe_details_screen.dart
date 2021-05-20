@@ -71,7 +71,7 @@ Widget _buildReportButton({@required Recipe recipe, @required bool isMeal}) {
       data: (account) {
         if (!isMeal && account.uid != recipe.uid)
           return TextButton(
-              onPressed: () => issueReport(context, recipe, TypeElement.recipe),
+              onPressed: () => issueReport(context, recipe, ETypeElement.recipe),
               child: Text(
                 Languages.bug_report(),
                 style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),

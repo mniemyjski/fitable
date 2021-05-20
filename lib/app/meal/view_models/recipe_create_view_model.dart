@@ -28,9 +28,9 @@ final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeC
 class RecipeCreateViewModel extends ChangeNotifier {
   List<Ingredient> ingredients = [];
 
-  List<Portion> _portions = [new Portion(name: '${Enums.toText(TypeUnit.g)}', type: Enums.toText(TypeUnit.g), size: 1, unit: TypeUnit.g)];
+  List<Portion> _portions = [new Portion(name: '${Enums.toText(ETypeUnit.g)}', type: Enums.toText(ETypeUnit.g), size: 1, unit: ETypeUnit.g)];
   List _keyWords;
-  TypeUnit _unit;
+  ETypeUnit _unit;
   String _access;
   String _videoId;
 
@@ -91,8 +91,8 @@ class RecipeCreateViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  TypeUnit get unit => _unit != null ? _unit : _unit = TypeUnit.g;
-  set unit(TypeUnit unit) {
+  ETypeUnit get unit => _unit != null ? _unit : _unit = ETypeUnit.g;
+  set unit(ETypeUnit unit) {
     _unit = unit;
     _portions.clear();
     _portions.add(new Portion(name: '${Enums.toText(unit)}', type: Enums.toText(unit), size: 1, unit: unit));
@@ -240,7 +240,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
 
   onSearch(BuildContext context) async {
     var result = await Navigator.of(context).pushNamed(AppRoute.searchScreen,
-        arguments: SearchScreenArguments(favoriteScreen: TypeFavoriteScreen.onlyProducts, title: Languages.favorites()));
+        arguments: SearchScreenArguments(favoriteScreen: ETypeFavoriteScreen.onlyProducts, title: Languages.favorites()));
     if (result != null) ingredients.add(result);
     _calc();
   }

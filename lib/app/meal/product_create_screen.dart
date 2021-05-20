@@ -97,7 +97,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         name: Languages.unit(),
                         value: Enums.toText(model.unit),
                         list: <String>['g', 'ml'],
-                        onChanged: (v) => model.unit = Enums.toEnum(v, TypeUnit.values),
+                        onChanged: (v) => model.unit = Enums.toEnum(v, ETypeUnit.values),
                       ),
                     ),
                   ],

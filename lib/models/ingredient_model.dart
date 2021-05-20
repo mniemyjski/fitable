@@ -1,16 +1,26 @@
+import 'package:equatable/equatable.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/models/product_model.dart';
 import 'package:fitable/models/recipe_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
-class Ingredient {
+class Ingredient extends Equatable {
+  const Ingredient({
+    this.product,
+    this.recipe,
+    @required this.selectedPortion,
+    @required this.size,
+  });
+
   final Product product;
   final Recipe recipe;
   final Portion selectedPortion;
   final double size;
 
-  Ingredient({this.product, this.recipe, @required this.selectedPortion, @required this.size});
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
 
   Map<String, dynamic> toMap() {
     return {
@@ -133,5 +143,26 @@ class Ingredient {
       return recipe.getFats(portionSize ?? size, selectedSize ?? selectedPortion.size);
     }
     return product.getFats(portionSize ?? size, selectedSize ?? selectedPortion.size);
+  }
+
+  Ingredient copyWith({
+    Product product,
+    Recipe recipe,
+    Portion selectedPortion,
+    double size,
+  }) {
+    if ((product == null || identical(product, this.product)) &&
+        (recipe == null || identical(recipe, this.recipe)) &&
+        (selectedPortion == null || identical(selectedPortion, this.selectedPortion)) &&
+        (size == null || identical(size, this.size))) {
+      return this;
+    }
+
+    return new Ingredient(
+      product: product ?? this.product,
+      recipe: recipe ?? this.recipe,
+      selectedPortion: selectedPortion ?? this.selectedPortion,
+      size: size ?? this.size,
+    );
   }
 }

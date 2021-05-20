@@ -68,7 +68,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
 
     _isFavorite = false;
 
-    favorites.where((e) => (e.id == element.getId() && e.type == TypeFavorite.products) ? _isFavorite = true : null);
+    favorites.where((e) => (e.id == element.getId() && e.type == ETypeFavorite.products) ? _isFavorite = true : null);
 
     _createScreen = false;
   }

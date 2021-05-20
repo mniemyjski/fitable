@@ -23,7 +23,7 @@ class ProductCreateViewModel extends ChangeNotifier {
   String _categoryPrimary;
   String _categorySecondary;
   String _localeBase;
-  TypeUnit _unit;
+  ETypeUnit _unit;
   List _keyWords = [];
   List<Portion> _portions;
   Map _photosUrl;
@@ -77,8 +77,8 @@ class ProductCreateViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  TypeUnit get unit => _unit != null ? _unit : _unit = TypeUnit.g;
-  set unit(TypeUnit unit) {
+  ETypeUnit get unit => _unit != null ? _unit : _unit = ETypeUnit.g;
+  set unit(ETypeUnit unit) {
     _unit = unit;
     _portions.clear();
     _portions.add(new Portion(name: '${Enums.toText(unit)}', type: Enums.toText(unit), size: 1, unit: unit));
@@ -580,12 +580,12 @@ class ProductCreateViewModel extends ChangeNotifier {
 
       if (id != null) {
         Issue issuesReport = Issue(
-          elementType: TypeElement.product,
+          elementType: ETypeElement.product,
           id: id,
           dateCreate: DateTime.now(),
           description: description,
           element: product,
-          issueType: TypeIssue.correct,
+          issueType: ETypeIssue.correct,
         );
 
         Navigator.pop(context, issuesReport);

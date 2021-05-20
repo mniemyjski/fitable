@@ -1,10 +1,33 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
-class Recipe {
+class Recipe extends Equatable {
+  const Recipe(
+      {this.uid,
+      this.id,
+      @required this.localeBase,
+      @required this.authorName,
+      @required this.name,
+      @required this.keyWords,
+      @required this.description,
+      @required this.videoUrl,
+      @required this.photosUrl,
+      @required this.access,
+      @required this.ingredients,
+      @required this.portions,
+      @required this.timePreparation,
+      @required this.verification,
+      this.ratingsAvg,
+      this.ratingsCount,
+      this.favoritesCount,
+      this.commentsCount,
+      this.dateCreation,
+      this.dateLastUpdate});
+
   final String uid;
   final String access;
   final String localeBase;
@@ -26,27 +49,9 @@ class Recipe {
   final DateTime dateCreation;
   final DateTime dateLastUpdate;
 
-  Recipe(
-      {this.uid,
-      this.id,
-      @required this.localeBase,
-      @required this.authorName,
-      @required this.name,
-      @required this.keyWords,
-      @required this.description,
-      @required this.videoUrl,
-      @required this.photosUrl,
-      @required this.access,
-      @required this.ingredients,
-      @required this.portions,
-      @required this.timePreparation,
-      @required this.verification,
-      this.ratingsAvg,
-      this.ratingsCount,
-      this.favoritesCount,
-      this.commentsCount,
-      this.dateCreation,
-      this.dateLastUpdate});
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
 
   Map<String, dynamic> toMap({String uid, String id}) {
     // List _ingredients = [];
@@ -172,7 +177,72 @@ class Recipe {
     return list;
   }
 
-  delete() {}
-  add() {}
-  update() {}
+  Recipe copyWith({
+    String uid,
+    String access,
+    String localeBase,
+    String authorName,
+    String id,
+    String name,
+    String description,
+    Duration timePreparation,
+    String videoUrl,
+    List<String> keyWords,
+    List<String> photosUrl,
+    List<Ingredient> ingredients,
+    List<Portion> portions,
+    bool verification,
+    double ratingsAvg,
+    int ratingsCount,
+    int favoritesCount,
+    int commentsCount,
+    DateTime dateCreation,
+    DateTime dateLastUpdate,
+  }) {
+    if ((uid == null || identical(uid, this.uid)) &&
+        (access == null || identical(access, this.access)) &&
+        (localeBase == null || identical(localeBase, this.localeBase)) &&
+        (authorName == null || identical(authorName, this.authorName)) &&
+        (id == null || identical(id, this.id)) &&
+        (name == null || identical(name, this.name)) &&
+        (description == null || identical(description, this.description)) &&
+        (timePreparation == null || identical(timePreparation, this.timePreparation)) &&
+        (videoUrl == null || identical(videoUrl, this.videoUrl)) &&
+        (keyWords == null || identical(keyWords, this.keyWords)) &&
+        (photosUrl == null || identical(photosUrl, this.photosUrl)) &&
+        (ingredients == null || identical(ingredients, this.ingredients)) &&
+        (portions == null || identical(portions, this.portions)) &&
+        (verification == null || identical(verification, this.verification)) &&
+        (ratingsAvg == null || identical(ratingsAvg, this.ratingsAvg)) &&
+        (ratingsCount == null || identical(ratingsCount, this.ratingsCount)) &&
+        (favoritesCount == null || identical(favoritesCount, this.favoritesCount)) &&
+        (commentsCount == null || identical(commentsCount, this.commentsCount)) &&
+        (dateCreation == null || identical(dateCreation, this.dateCreation)) &&
+        (dateLastUpdate == null || identical(dateLastUpdate, this.dateLastUpdate))) {
+      return this;
+    }
+
+    return new Recipe(
+      uid: uid ?? this.uid,
+      access: access ?? this.access,
+      localeBase: localeBase ?? this.localeBase,
+      authorName: authorName ?? this.authorName,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      timePreparation: timePreparation ?? this.timePreparation,
+      videoUrl: videoUrl ?? this.videoUrl,
+      keyWords: keyWords ?? this.keyWords,
+      photosUrl: photosUrl ?? this.photosUrl,
+      ingredients: ingredients ?? this.ingredients,
+      portions: portions ?? this.portions,
+      verification: verification ?? this.verification,
+      ratingsAvg: ratingsAvg ?? this.ratingsAvg,
+      ratingsCount: ratingsCount ?? this.ratingsCount,
+      favoritesCount: favoritesCount ?? this.favoritesCount,
+      commentsCount: commentsCount ?? this.commentsCount,
+      dateCreation: dateCreation ?? this.dateCreation,
+      dateLastUpdate: dateLastUpdate ?? this.dateLastUpdate,
+    );
+  }
 }

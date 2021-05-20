@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/providers.dart';
@@ -5,16 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Meal {
-  final String id;
-  final String uid;
-  final DateTime dateTime;
-  final DateTime dateCreation;
-  final TypeMeal mealType;
-  final Ingredient ingredient;
-  final bool isSuggested;
-
-  Meal({
+class Meal extends Equatable {
+  const Meal({
     this.id,
     this.uid,
     this.dateCreation,
@@ -23,6 +16,18 @@ class Meal {
     @required this.ingredient,
     this.isSuggested = false,
   });
+
+  final String id;
+  final String uid;
+  final DateTime dateTime;
+  final DateTime dateCreation;
+  final ETypeMeal mealType;
+  final Ingredient ingredient;
+  final bool isSuggested;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
 
   Map<String, dynamic> toMap(String id, String uid) {
     return {
@@ -45,7 +50,7 @@ class Meal {
         uid: data['uid'],
         dateTime: data['dateTime'].toDate(),
         dateCreation: data['dateCreation'].toDate(),
-        mealType: Enums.toEnum(data['mealType'], TypeMeal.values),
+        mealType: Enums.toEnum(data['mealType'], ETypeMeal.values),
         isSuggested: data['isSuggested'],
         id: id,
         ingredient: Ingredient.fromMap(data['ingredient']));
@@ -71,7 +76,33 @@ class Meal {
     return 0;
   }
 
-  delete() {}
-  add() {}
-  update() {}
+  Meal copyWith({
+    String id,
+    String uid,
+    DateTime dateTime,
+    DateTime dateCreation,
+    ETypeMeal mealType,
+    Ingredient ingredient,
+    bool isSuggested,
+  }) {
+    if ((id == null || identical(id, this.id)) &&
+        (uid == null || identical(uid, this.uid)) &&
+        (dateTime == null || identical(dateTime, this.dateTime)) &&
+        (dateCreation == null || identical(dateCreation, this.dateCreation)) &&
+        (mealType == null || identical(mealType, this.mealType)) &&
+        (ingredient == null || identical(ingredient, this.ingredient)) &&
+        (isSuggested == null || identical(isSuggested, this.isSuggested))) {
+      return this;
+    }
+
+    return new Meal(
+      id: id ?? this.id,
+      uid: uid ?? this.uid,
+      dateTime: dateTime ?? this.dateTime,
+      dateCreation: dateCreation ?? this.dateCreation,
+      mealType: mealType ?? this.mealType,
+      ingredient: ingredient ?? this.ingredient,
+      isSuggested: isSuggested ?? this.isSuggested,
+    );
+  }
 }

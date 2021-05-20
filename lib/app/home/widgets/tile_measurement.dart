@@ -1,4 +1,5 @@
 import 'package:fitable/models/measurement_model.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -8,7 +9,7 @@ class TileMeasurement extends StatelessWidget {
   const TileMeasurement({Key key, @required this.measurement}) : super(key: key);
 
   List<Widget> _buildName(BuildContext context) {
-    if (measurement.dataType == EnumMeasurement.BODY_CIRCUMFERENCES) {
+    if (measurement.dataType == ETypeMeasurement.BODY_CIRCUMFERENCES) {
       List<Widget> list = [];
 
       for (int i = 0; i < measurement.data.length; i++) {
@@ -24,7 +25,7 @@ class TileMeasurement extends StatelessWidget {
       return [
         RichText(
             text: TextSpan(
-          text: Measurement.toText(measurement.dataType).tr(),
+          text: Enums.toText(measurement.dataType).tr(),
           style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyText2.color, fontStyle: FontStyle.italic),
         )),
       ];
@@ -32,7 +33,7 @@ class TileMeasurement extends StatelessWidget {
   }
 
   List<Widget> _buildValue(BuildContext context) {
-    if (measurement.dataType == EnumMeasurement.BODY_CIRCUMFERENCES) {
+    if (measurement.dataType == ETypeMeasurement.BODY_CIRCUMFERENCES) {
       List<Widget> list = [];
 
       for (int i = 0; i < measurement.data.length; i++) {

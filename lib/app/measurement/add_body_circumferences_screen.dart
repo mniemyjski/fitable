@@ -161,7 +161,7 @@ class AddBodyCircumferencesScreen extends ConsumerWidget {
                       onChanged: (state) {
                         final account = context.read(providerAccount);
                         account.whenData((value) {
-                          model.age = value.age();
+                          model.age = value.getAge();
                           model.gender = value.gender;
                           model.calculate = state;
                         });

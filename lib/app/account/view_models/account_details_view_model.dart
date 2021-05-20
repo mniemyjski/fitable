@@ -10,12 +10,12 @@ class AccountDetailsViewModel extends ChangeNotifier {
   bool isFavorite = false;
 
   favoriteButton(BuildContext context, String uid) {
-    Favorite _favorite = Favorite(type: TypeFavorite.accounts, id: uid);
+    Favorite _favorite = Favorite(type: ETypeFavorite.accounts, id: uid);
     context.read(providerDatabase).updateFavorite(context, _favorite);
   }
 
   favoriteCheck(Favorite element, String uid) {
-    if (element.id == uid && element.type == TypeFavorite.accounts) {
+    if (element.id == uid && element.type == ETypeFavorite.accounts) {
       isFavorite = true;
     }
   }

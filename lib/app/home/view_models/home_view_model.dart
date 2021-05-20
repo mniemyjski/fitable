@@ -53,7 +53,7 @@ class HomeViewModel extends ChangeNotifier {
     });
   }
 
-  onPressed(BuildContext context, Meal element, TypeMeal mealType) async {
+  onPressed(BuildContext context, Meal element, ETypeMeal mealType) async {
     final db = context.read(providerDatabase);
     dynamic result;
 
@@ -89,13 +89,13 @@ class HomeViewModel extends ChangeNotifier {
     context.read(providerDatabase).deleteMeal(element);
   }
 
-  onSearch(BuildContext context, TypeMeal mealType) async {
+  onSearch(BuildContext context, ETypeMeal mealType) async {
     final db = context.read(providerDatabase);
     final app = context.read(providerAppViewModel);
 
     dynamic result = await Navigator.of(context).pushNamed(
       AppRoute.searchScreen,
-      arguments: SearchScreenArguments(favoriteScreen: TypeFavoriteScreen.allFoods, title: Enums.toText(mealType).tr()),
+      arguments: SearchScreenArguments(favoriteScreen: ETypeFavoriteScreen.allFoods, title: Enums.toText(mealType).tr()),
     );
 
     if (result != null) {
@@ -111,7 +111,7 @@ class HomeViewModel extends ChangeNotifier {
     final account = context.read(providerAccount);
 
     preference.whenData((preference) => account.whenData((account) {
-          double age = account.age();
+          double age = account.getAge();
           double activities = _activities(preference.dayTimeActivities);
           double _weight = weight == null ? preference.lastBodyWeightValue : weight;
           double _fat = fat == null ? preference.lastBodyFatValue : fat;

@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitable/utilities/providers.dart';
 
 class TileHeadMeals extends StatelessWidget {
-  final TypeMeal mealType;
+  final ETypeMeal mealType;
 
   const TileHeadMeals({Key key, @required this.mealType}) : super(key: key);
 

@@ -144,7 +144,7 @@ class RecipeCreateScreen extends StatelessWidget {
                             name: Languages.unit() + ':',
                             value: Enums.toText(model.unit),
                             list: <String>['g', 'ml'],
-                            onChanged: (v) => context.read(providerRecipeCreateViewModel).unit = Enums.toEnum(v, TypeUnit.values))),
+                            onChanged: (v) => context.read(providerRecipeCreateViewModel).unit = Enums.toEnum(v, ETypeUnit.values))),
                   ],
                 ),
               ),

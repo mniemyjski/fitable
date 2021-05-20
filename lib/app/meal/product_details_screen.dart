@@ -45,7 +45,7 @@ _buildFloatingActionButton(BuildContext context) {
 _submitFavorite(BuildContext context) {
   final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
-  Favorite _favorite = Favorite(type: TypeFavorite.products, id: args.element.getId());
+  Favorite _favorite = Favorite(type: ETypeFavorite.products, id: args.element.getId());
   context.read(providerDatabase).updateFavorite(context, _favorite);
 }
 
@@ -135,7 +135,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               if (!args.isMeal)
                 TextButton(
-                    onPressed: () => issueReport(context, args.element, TypeElement.product),
+                    onPressed: () => issueReport(context, args.element, ETypeElement.product),
                     child: Text(
                       Languages.bug_report(),
                       style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),

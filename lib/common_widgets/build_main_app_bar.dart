@@ -28,7 +28,7 @@ buildMainAppBar({
           icon: Icon(FontAwesomeIcons.userFriends),
           onPressed: () => Navigator.of(context).pushNamed(
                 AppRoute.searchScreen,
-                arguments: SearchScreenArguments(favoriteScreen: TypeFavoriteScreen.accounts, title: Languages.community()),
+                arguments: SearchScreenArguments(favoriteScreen: ETypeFavoriteScreen.accounts, title: Languages.community()),
               )),
       if (actions != null) ...actions,
     ],

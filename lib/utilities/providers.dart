@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitable/models/account_model.dart';
+import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/models/preference_model.dart';
-import 'package:fitable/models/account_data_model.dart';
 import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/models/meal_model.dart';
 import 'package:fitable/services/auth_service.dart';
@@ -37,6 +37,12 @@ final providerMeals = StreamProvider<List<Meal>>((ref) {
   return db.streamMeals();
 });
 
+final providerMeasurement = StreamProvider<List<Measurement>>((ref) {
+  final db = ref.watch(providerDatabase);
+
+  return db.streamMeasurement();
+});
+
 final providerFavorite = StreamProvider<List<Favorite>>((ref) {
   final db = ref.watch(providerDatabase);
 
@@ -48,9 +54,3 @@ final providerFollowers = StreamProvider<List<Favorite>>((ref) {
 
   return db.streamFollowers();
 });
-
-// final providerUserData = StreamProvider<AccountData>((ref) {
-//   final db = ref.watch(providerDatabase);
-//
-//   return db.streamUserData();
-// });

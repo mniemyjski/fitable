@@ -107,11 +107,11 @@ class TileHeadWorkouts extends StatelessWidget {
       return measurement.when(
         data: (data) {
           List _list = data.where((element) {
-            if (element.dateTime == app.chosenDate && element.dataType == EnumMeasurement.BURN_CALORIES) {
+            if (element.dateTime == app.chosenDate && element.dataType == ETypeMeasurement.BURN_CALORIES) {
               _burnCalories = element.data.values.first.roundToDouble();
             }
 
-            if (element.dateTime == app.chosenDate && element.dataType == EnumMeasurement.STEPS) {
+            if (element.dateTime == app.chosenDate && element.dataType == ETypeMeasurement.STEPS) {
               _steps = element.data.values.first.roundToDouble();
             }
 

@@ -16,7 +16,7 @@ final providerAddToListViewModel = ChangeNotifierProvider.autoDispose<AddToListV
 class AddToListViewModel extends ChangeNotifier {
   List list;
   EnumTileType tileType;
-  TypeUnit unit;
+  ETypeUnit unit;
   String sizeListener;
   String _typeListener;
 
@@ -29,7 +29,7 @@ class AddToListViewModel extends ChangeNotifier {
 
   TextEditingController controller = TextEditingController(text: '');
 
-  initState(List list, EnumTileType detailsType, TypeUnit unit) {
+  initState(List list, EnumTileType detailsType, ETypeUnit unit) {
     if (this.list == null) {
       this.list = List.from(list);
       this.tileType = detailsType;

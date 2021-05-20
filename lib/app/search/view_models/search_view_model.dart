@@ -36,31 +36,31 @@ class SearchViewModel extends ChangeNotifier {
   List<Widget> tabBar = [];
   Algolia algolia = Application.algolia;
   AlgoliaQuery _searchQuery;
-  TypeFavoriteScreen _favoriteScreen;
+  ETypeFavoriteScreen _favoriteScreen;
   String title;
 
-  TypeFavoriteScreen get favoriteScreen => _favoriteScreen;
+  ETypeFavoriteScreen get favoriteScreen => _favoriteScreen;
 
-  set favoriteScreen(TypeFavoriteScreen favoriteScreen) {
+  set favoriteScreen(ETypeFavoriteScreen favoriteScreen) {
     switch (favoriteScreen) {
-      case TypeFavoriteScreen.onlyProducts:
-        _searchType = TypeSearch.products;
+      case ETypeFavoriteScreen.onlyProducts:
+        _searchType = ETypeSearch.products;
         break;
-      case TypeFavoriteScreen.allFoods:
-        _searchType = TypeSearch.products;
+      case ETypeFavoriteScreen.allFoods:
+        _searchType = ETypeSearch.products;
         break;
-      case TypeFavoriteScreen.workouts:
-        _searchType = TypeSearch.workouts;
+      case ETypeFavoriteScreen.workouts:
+        _searchType = ETypeSearch.workouts;
         break;
-      case TypeFavoriteScreen.accounts:
-        _searchType = TypeSearch.accounts;
+      case ETypeFavoriteScreen.accounts:
+        _searchType = ETypeSearch.accounts;
         break;
     }
     _favoriteScreen = favoriteScreen;
   }
 
-  TypeSearch _searchType;
-  TypeSearch get searchType => _searchType;
+  ETypeSearch _searchType;
+  ETypeSearch get searchType => _searchType;
 
   bool _verification = false;
   bool get verification => _verification;
@@ -91,10 +91,10 @@ class SearchViewModel extends ChangeNotifier {
   setRecipes(BuildContext context, bool state) {
     _recipes = state;
     if (state) {
-      _searchType = TypeSearch.recipes;
+      _searchType = ETypeSearch.recipes;
       massageFlushBar(context, Languages.search_recipes());
     } else {
-      _searchType = TypeSearch.products;
+      _searchType = ETypeSearch.products;
       massageFlushBar(context, Languages.search_products());
     }
     notifyListeners();
@@ -110,16 +110,16 @@ class SearchViewModel extends ChangeNotifier {
   Future getStream(BuildContext context, String id) {
     final db = context.read(providerDatabase);
     switch (searchType) {
-      case TypeSearch.recipes:
+      case ETypeSearch.recipes:
         return db.getRecipe(id);
         break;
-      case TypeSearch.products:
+      case ETypeSearch.products:
         return db.getProduct(id: id);
         break;
-      case TypeSearch.accounts:
+      case ETypeSearch.accounts:
         return db.getAccount(id);
         break;
-      case TypeSearch.workouts:
+      case ETypeSearch.workouts:
         return db.getRecipe(id);
         break;
       default:
@@ -129,7 +129,7 @@ class SearchViewModel extends ChangeNotifier {
 
   Future<AlgoliaQuerySnapshot> searchQuery(BuildContext context, String query) async {
     await context.read(providerPreference.last).then((preference) {
-      if (favoriteScreen == TypeFavoriteScreen.onlyProducts || favoriteScreen == TypeFavoriteScreen.allFoods) {
+      if (favoriteScreen == ETypeFavoriteScreen.onlyProducts || favoriteScreen == ETypeFavoriteScreen.allFoods) {
         if (recipes) {
           _searchQuery = algolia.instance.index('recipes').query(query);
           _searchQuery = _searchQuery.facetFilter('localeBase:${preference.localeBase}');
@@ -141,10 +141,10 @@ class SearchViewModel extends ChangeNotifier {
           if (withBarcode) _searchQuery = _searchQuery.facetFilter('withBarcode:true');
         }
       }
-      if (favoriteScreen == TypeFavoriteScreen.workouts) {
+      if (favoriteScreen == ETypeFavoriteScreen.workouts) {
         _searchQuery = algolia.instance.index('workouts').query(query);
       }
-      if (favoriteScreen == TypeFavoriteScreen.accounts) {
+      if (favoriteScreen == ETypeFavoriteScreen.accounts) {
         _searchQuery = algolia.instance.index('accounts').query(query);
         if (isCoach) _searchQuery = _searchQuery.facetFilter('isCoach:true');
       }

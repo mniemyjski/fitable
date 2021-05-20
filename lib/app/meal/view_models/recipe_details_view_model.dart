@@ -28,11 +28,11 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   Portion _selectedPortion;
   bool _isFavorite = false;
   List<String> listMealType = ['breakfast', 'lunch', 'dinner', 'supper', 'snack'];
-  TypeMeal _mealType = TypeMeal.breakfast;
+  ETypeMeal _mealType = ETypeMeal.breakfast;
   Recipe recipe;
 
   chooseMealType(String mealType) {
-    _mealType = Enums.toEnum(mealType, TypeMeal.values);
+    _mealType = Enums.toEnum(mealType, ETypeMeal.values);
     notifyListeners();
   }
 
@@ -95,7 +95,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   }
 
   submitFavorite(BuildContext context, String id) {
-    Favorite _favorite = Favorite(type: TypeFavorite.recipes, id: id);
+    Favorite _favorite = Favorite(type: ETypeFavorite.recipes, id: id);
     context.read(providerDatabase).updateFavorite(context, _favorite);
   }
 
@@ -129,7 +129,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
 
     _isFavorite = false;
 
-    favorites.where((e) => (e.id == recipe.id && e.type == TypeFavorite.recipes) ? _isFavorite = true : null);
+    favorites.where((e) => (e.id == recipe.id && e.type == ETypeFavorite.recipes) ? _isFavorite = true : null);
     _createScreen = false;
   }
 }

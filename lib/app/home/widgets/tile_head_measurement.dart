@@ -9,6 +9,7 @@ import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -117,7 +118,7 @@ class TileHeadMeasurement extends StatelessWidget {
                       initValue: 80,
                       unit: 'kg',
                       function: (double value) =>
-                          context.read(providerMeasurementViewModel).submitMeasurement(context, value, 'kg', EnumMeasurement.BODY_WEIGHT));
+                          context.read(providerMeasurementViewModel).submitMeasurement(context, value, 'kg', ETypeMeasurement.BODY_WEIGHT));
                 }),
             CustomButton(
               child: Text('add_body_fat'.tr()),
@@ -133,7 +134,7 @@ class TileHeadMeasurement extends StatelessWidget {
                     unit: '%',
                     isDecimal: true,
                     function: (double value) =>
-                        context.read(providerMeasurementViewModel).submitMeasurement(context, value, '%', EnumMeasurement.BODY_FAT));
+                        context.read(providerMeasurementViewModel).submitMeasurement(context, value, '%', ETypeMeasurement.BODY_FAT));
               },
             ),
             CustomButton(
@@ -149,7 +150,7 @@ class TileHeadMeasurement extends StatelessWidget {
                     initValue: 80,
                     unit: 'kg',
                     function: (double value) =>
-                        context.read(providerMeasurementViewModel).submitMeasurement(context, value, 'kg', EnumMeasurement.BODY_MUSCLE));
+                        context.read(providerMeasurementViewModel).submitMeasurement(context, value, 'kg', ETypeMeasurement.BODY_MUSCLE));
               },
             ),
             CustomButton(
@@ -180,19 +181,19 @@ class TileHeadMeasurement extends StatelessWidget {
           List<Measurement> _list = data
               .where((element) =>
                   element.dateTime == app.chosenDate &&
-                  (element.dataType == EnumMeasurement.BODY_WEIGHT ||
-                      element.dataType == EnumMeasurement.BODY_FAT ||
-                      element.dataType == EnumMeasurement.BODY_CIRCUMFERENCES))
+                  (element.dataType == ETypeMeasurement.BODY_WEIGHT ||
+                      element.dataType == ETypeMeasurement.BODY_FAT ||
+                      element.dataType == ETypeMeasurement.BODY_CIRCUMFERENCES))
               .toList();
           _list.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
 
           List<Measurement> _temp = _list;
-          _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_WEIGHT).toList();
+          _temp = _temp.where((element) => element.dataType == ETypeMeasurement.BODY_WEIGHT).toList();
           _temp.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
           double _bodyWeight = _temp.isNotEmpty ? _temp.first.data.values.first : 0;
 
           _temp = _list;
-          _temp = _temp.where((element) => element.dataType == EnumMeasurement.BODY_FAT).toList();
+          _temp = _temp.where((element) => element.dataType == ETypeMeasurement.BODY_FAT).toList();
           _temp.sort((a, b) => a.dateCreation.compareTo(b.dateCreation));
 
           double _bodyFat = _temp.isNotEmpty ? _temp.first.data.values.first : 0;

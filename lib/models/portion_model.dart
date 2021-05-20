@@ -1,13 +1,18 @@
+import 'package:equatable/equatable.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
-class Portion {
+class Portion extends Equatable {
+  const Portion({this.name, @required this.type, @required this.size, @required this.unit});
+
   final String name;
   final String type;
   final double size;
-  final TypeUnit unit;
+  final ETypeUnit unit;
 
-  Portion({this.name, @required this.type, @required this.size, @required this.unit});
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,7 +32,7 @@ class Portion {
       name: data['name'],
       type: data['type'],
       size: data['size'],
-      unit: Enums.toEnum(data['unit'], TypeUnit.values),
+      unit: Enums.toEnum(data['unit'], ETypeUnit.values),
     );
   }
 
@@ -46,5 +51,26 @@ class Portion {
     });
 
     return _portions;
+  }
+
+  Portion copyWith({
+    String name,
+    String type,
+    double size,
+    ETypeUnit unit,
+  }) {
+    if ((name == null || identical(name, this.name)) &&
+        (type == null || identical(type, this.type)) &&
+        (size == null || identical(size, this.size)) &&
+        (unit == null || identical(unit, this.unit))) {
+      return this;
+    }
+
+    return new Portion(
+      name: name ?? this.name,
+      type: type ?? this.type,
+      size: size ?? this.size,
+      unit: unit ?? this.unit,
+    );
   }
 }

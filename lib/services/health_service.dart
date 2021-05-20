@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/services/database.dart';
+import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
@@ -73,11 +74,11 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
 
         if (!_isAlready) {
           Map<String, dynamic> _map = new Map();
-          _map[Measurement.toText(EnumMeasurement.BODY_WEIGHT)] = x.value;
+          _map[Enums.toText(ETypeMeasurement.BODY_WEIGHT)] = x.value;
 
           Measurement measurement = Measurement(
             source: 'IMPORT',
-            dataType: EnumMeasurement.BODY_WEIGHT,
+            dataType: ETypeMeasurement.BODY_WEIGHT,
             data: _map,
             unit: 'kg',
             dateTime: DateTime(x.dateFrom.year, x.dateFrom.month, x.dateFrom.day),
@@ -105,12 +106,12 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
     String stepsId;
 
     measurement.forEach((element) {
-      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.BURN_CALORIES) burnId = element.id;
-      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.STEPS) stepsId = element.id;
-      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.BURN_CALORIES && element.data.values.first == burn) {
+      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.BURN_CALORIES) burnId = element.id;
+      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.STEPS) stepsId = element.id;
+      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.BURN_CALORIES && element.data.values.first == burn) {
         _isAlreadyBurnCalories = true;
       }
-      if (element.dateTime == dateTime && element.dataType == EnumMeasurement.STEPS && element.data.values.first == steps) _isAlreadySteps = true;
+      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.STEPS && element.data.values.first == steps) _isAlreadySteps = true;
     });
 
     if (burn == 0 || dateTime.millisecondsSinceEpoch > now.millisecondsSinceEpoch) _isAlreadyBurnCalories = true;
@@ -118,12 +119,12 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
 
     if (!_isAlreadyBurnCalories) {
       Map<String, dynamic> _map = new Map();
-      _map[Measurement.toText(EnumMeasurement.BURN_CALORIES)] = burn;
+      _map[Enums.toText(ETypeMeasurement.BURN_CALORIES)] = burn;
 
       Measurement value = Measurement(
         id: burnId,
         source: 'IMPORT',
-        dataType: EnumMeasurement.BURN_CALORIES,
+        dataType: ETypeMeasurement.BURN_CALORIES,
         data: _map,
         unit: 'calories',
         dateTime: dateTime,
@@ -134,12 +135,12 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
     }
     if (!_isAlreadySteps) {
       Map<String, dynamic> _map = new Map();
-      _map[Measurement.toText(EnumMeasurement.STEPS)] = steps;
+      _map[Enums.toText(ETypeMeasurement.STEPS)] = steps;
 
       Measurement value = Measurement(
         id: stepsId,
         source: 'IMPORT',
-        dataType: EnumMeasurement.STEPS,
+        dataType: ETypeMeasurement.STEPS,
         data: _map,
         unit: 'steps',
         dateTime: dateTime,

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/models/account_model.dart';
 import 'package:fitable/models/preference_model.dart';
-import 'package:fitable/models/account_data_model.dart';
 import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/models/issue_report_model.dart';
 import 'package:fitable/models/ingredient_model.dart';
@@ -67,12 +66,12 @@ class Database {
       .get()
       .then((value) => value.docs.isNotEmpty ? Account.fromMap(value.docs.first.data()) : null);
 
-  Stream<AccountData> streamUserData() {
-    return Rx.combineLatest4(streamAccount(), streamPreference(), streamFavorites(), streamFollowers(),
-        (Account account, Preference preference, List<Favorite> favorites, List<Favorite> followers) {
-      return AccountData(account: account, preference: preference, favorite: favorites, followers: followers);
-    });
-  }
+  // Stream<AccountData> streamUserData() {
+  //   return Rx.combineLatest4(streamAccount(), streamPreference(), streamFavorites(), streamFollowers(),
+  //       (Account account, Preference preference, List<Favorite> favorites, List<Favorite> followers) {
+  //     return AccountData(account: account, preference: preference, favorite: favorites, followers: followers);
+  //   });
+  // }
 
   //#endregion
 
@@ -128,17 +127,17 @@ class Database {
   //#region Issues
   Future<void> createIssue(Issue issuesReport) {
     String _path;
-    if (issuesReport.elementType == TypeElement.product) _path = Path.products();
-    if (issuesReport.elementType == TypeElement.recipe) _path = Path.recipes();
+    if (issuesReport.elementType == ETypeElement.product) _path = Path.products();
+    if (issuesReport.elementType == ETypeElement.recipe) _path = Path.recipes();
 
     final DocumentReference ref = _service.collection(_path).doc(issuesReport.id).collection(Path.issues()).doc(uid);
     return ref.set(issuesReport.toMap(uid));
   }
 
-  Future<bool> alreadyIssue(String id, TypeElement elementType) {
+  Future<bool> alreadyIssue(String id, ETypeElement elementType) {
     String _path;
-    if (elementType == TypeElement.product) _path = Path.products();
-    if (elementType == TypeElement.recipe) _path = Path.recipes();
+    if (elementType == ETypeElement.product) _path = Path.products();
+    if (elementType == ETypeElement.recipe) _path = Path.recipes();
     return _service.collection(_path).doc(id).collection(Path.issues()).doc(uid).get().then(
           (value) => value.data() != null ? true : false,
         );
@@ -205,11 +204,11 @@ class Database {
   //#region Favorite
   updateFavorite(BuildContext context, Favorite favorite) {
     String _path;
-    if (favorite.type == TypeFavorite.products) _path = Path.products();
-    if (favorite.type == TypeFavorite.recipes) _path = Path.recipes();
-    if (favorite.type == TypeFavorite.accounts) _path = Path.accounts();
-    if (favorite.type == TypeFavorite.exercise) _path = Path.products();
-    if (favorite.type == TypeFavorite.trainings) _path = Path.products();
+    if (favorite.type == ETypeFavorite.products) _path = Path.products();
+    if (favorite.type == ETypeFavorite.recipes) _path = Path.recipes();
+    if (favorite.type == ETypeFavorite.accounts) _path = Path.accounts();
+    if (favorite.type == ETypeFavorite.exercise) _path = Path.products();
+    if (favorite.type == ETypeFavorite.trainings) _path = Path.products();
 
     final DocumentReference ref = _service.collection(_path).doc(favorite.id).collection(Path.favorites()).doc(uid);
     bool _isFavorite = false;
@@ -360,12 +359,12 @@ class Database {
         .map((snapshot) => snapshot.docs.map((snap) => Recipe.fromMap(snap.data())).toList());
   }
 
-  Stream<List<Recipe>> streamRecipes(TypeSort sortType) {
+  Stream<List<Recipe>> streamRecipes(ETypeSort sortType) {
     String name = "";
 
-    if (sortType == TypeSort.last) name = "dateCreation";
-    if (sortType == TypeSort.best) name = "ratingsAvg";
-    if (sortType == TypeSort.popular) name = "favoritesCount";
+    if (sortType == ETypeSort.last) name = "dateCreation";
+    if (sortType == ETypeSort.best) name = "ratingsAvg";
+    if (sortType == ETypeSort.popular) name = "favoritesCount";
 
     return _service
         .collection(Path.recipes())
