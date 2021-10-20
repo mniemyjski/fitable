@@ -1,4 +1,3 @@
-import 'package:fitable/models/meal_model.dart';
 import 'package:fitable/models/product_model.dart';
 import 'package:fitable/models/recipe_model.dart';
 import 'package:fitable/utilities/enums.dart';

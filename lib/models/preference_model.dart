@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Preference extends Equatable {
   const Preference({
@@ -10,8 +8,8 @@ class Preference extends Equatable {
     this.autoPlay = false,
     this.mute = false,
     this.darkMode = false,
-    this.localeApp = 'pl_PL',
-    this.localeBase = 'pl_PL',
+    this.localeApp = 'pl',
+    this.localeBase = 'pl',
     this.formulaBMR = 'standard',
     @required this.speedChangeWeight,
     @required this.lastBodyWeightValue,
@@ -27,10 +25,10 @@ class Preference extends Equatable {
     this.targetBurnCalories = 2200,
     this.goalCaloriesDefault = true,
     this.goalMacroDefault = true,
-    this.goalCalories,
-    this.goalProteins = 30.0,
-    this.goalCarbs = 50.0,
-    this.goalFats = 20.0,
+    this.targetCalories,
+    this.targetProteins = 30.0,
+    this.targetCarbs = 50.0,
+    this.targetFats = 20.0,
   });
 
   final String uid;
@@ -55,10 +53,10 @@ class Preference extends Equatable {
   final double targetBurnCalories;
   final bool goalCaloriesDefault;
   final bool goalMacroDefault;
-  final double goalCalories;
-  final double goalProteins;
-  final double goalCarbs;
-  final double goalFats;
+  final double targetCalories;
+  final double targetProteins;
+  final double targetCarbs;
+  final double targetFats;
 
   @override
   // TODO: implement props
@@ -88,10 +86,10 @@ class Preference extends Equatable {
       'targetBurnCalories': targetBurnCalories,
       'goalCaloriesDefault': goalCaloriesDefault,
       'goalMacroDefault': goalMacroDefault,
-      'goalCalories': goalCalories,
-      'goalProteins': goalProteins,
-      'goalCarbs': goalCarbs,
-      'goalFats': goalFats,
+      'targetCalories': targetCalories,
+      'targetProteins': targetProteins,
+      'targetCarbs': targetCarbs,
+      'targetFats': targetFats,
     };
   }
 
@@ -123,10 +121,10 @@ class Preference extends Equatable {
       targetBurnCalories: data['targetBurnCalories'],
       goalCaloriesDefault: data['goalCaloriesDefault'],
       goalMacroDefault: data['goalMacroDefault'],
-      goalCalories: data['goalCalories'],
-      goalProteins: data['goalProteins'],
-      goalCarbs: data['goalCarbs'],
-      goalFats: data['goalFats'],
+      targetCalories: data['targetCalories'],
+      targetProteins: data['targetProteins'],
+      targetCarbs: data['targetCarbs'],
+      targetFats: data['targetFats'],
     );
   }
 
@@ -153,10 +151,10 @@ class Preference extends Equatable {
     double targetBurnCalories,
     bool goalCaloriesDefault,
     bool goalMacroDefault,
-    double goalCalories,
-    double goalProteins,
-    double goalCarbs,
-    double goalFats,
+    double targetCalories,
+    double targetProteins,
+    double targetCarbs,
+    double targetFats,
   }) {
     if ((uid == null || identical(uid, this.uid)) &&
         (healthSync == null || identical(healthSync, this.healthSync)) &&
@@ -180,10 +178,10 @@ class Preference extends Equatable {
         (targetBurnCalories == null || identical(targetBurnCalories, this.targetBurnCalories)) &&
         (goalCaloriesDefault == null || identical(goalCaloriesDefault, this.goalCaloriesDefault)) &&
         (goalMacroDefault == null || identical(goalMacroDefault, this.goalMacroDefault)) &&
-        (goalCalories == null || identical(goalCalories, this.goalCalories)) &&
-        (goalProteins == null || identical(goalProteins, this.goalProteins)) &&
-        (goalCarbs == null || identical(goalCarbs, this.goalCarbs)) &&
-        (goalFats == null || identical(goalFats, this.goalFats))) {
+        (targetCalories == null || identical(targetCalories, this.targetCalories)) &&
+        (targetProteins == null || identical(targetProteins, this.targetProteins)) &&
+        (targetCarbs == null || identical(targetCarbs, this.targetCarbs)) &&
+        (targetFats == null || identical(targetFats, this.targetFats))) {
       return this;
     }
 
@@ -210,10 +208,10 @@ class Preference extends Equatable {
       targetBurnCalories: targetBurnCalories ?? this.targetBurnCalories,
       goalCaloriesDefault: goalCaloriesDefault ?? this.goalCaloriesDefault,
       goalMacroDefault: goalMacroDefault ?? this.goalMacroDefault,
-      goalCalories: goalCalories ?? this.goalCalories,
-      goalProteins: goalProteins ?? this.goalProteins,
-      goalCarbs: goalCarbs ?? this.goalCarbs,
-      goalFats: goalFats ?? this.goalFats,
+      targetCalories: targetCalories ?? this.targetCalories,
+      targetProteins: targetProteins ?? this.targetProteins,
+      targetCarbs: targetCarbs ?? this.targetCarbs,
+      targetFats: targetFats ?? this.targetFats,
     );
   }
 }

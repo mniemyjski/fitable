@@ -3,7 +3,7 @@ import 'package:fitable/app/account/account_details_screen.dart';
 import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
+import 'package:fitable/services/accounts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +46,7 @@ Card buildTitle(BuildContext context) {
             children: [
               GestureDetector(
                 onTap: () async {
-                  Account author = await context.read(providerDatabase).getAccount(args.element.recipe.uid);
+                  Account author = await context.read(providerAccountService).getAccount(args.element.recipe.uid);
 
                   Navigator.of(context).pushNamed(
                     AppRoute.accountDetails,

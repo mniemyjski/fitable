@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 enum ETypeSort { last, best, popular }
 enum ETypeConnStatus { loading, success, signInScreen, createAccount }
 enum ETypeSearch { recipes, products, accounts, workouts }
@@ -18,6 +20,7 @@ class Enums {
     try {
       return enumValues.singleWhere((element) => toText(element) == value);
     } on StateError catch (_) {
+      Logger().wtf('enum error!!!');
       return null;
     }
   }

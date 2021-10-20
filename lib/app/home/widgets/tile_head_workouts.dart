@@ -1,16 +1,11 @@
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
-import 'package:fitable/models/measurement_model.dart';
-import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fitable/utilities/providers.dart';
 
 class TileHeadWorkouts extends StatelessWidget {
   _buildHead({

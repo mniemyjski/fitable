@@ -1,5 +1,3 @@
-import 'package:fitable/models/account_model.dart';
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/models/portion_model.dart';
@@ -10,16 +8,14 @@ import 'package:fitable/common_widgets/carousel/models/box_model.dart';
 import 'package:fitable/app/search/search_screen.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_loading_dialog.dart';
-import 'package:fitable/common_widgets/massage_flush_bar.dart';
+import 'package:fitable/common_widgets/show_flush_bar.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 
 final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeCreateViewModel>((ref) {
   return RecipeCreateViewModel();
@@ -28,8 +24,8 @@ final providerRecipeCreateViewModel = ChangeNotifierProvider.autoDispose<RecipeC
 class RecipeCreateViewModel extends ChangeNotifier {
   List<Ingredient> ingredients = [];
 
-  List<Portion> _portions = [new Portion(name: '${Enums.toText(ETypeUnit.g)}', type: Enums.toText(ETypeUnit.g), size: 1, unit: ETypeUnit.g)];
-  List _keyWords;
+  List<Portion> _portions = [Portion(name: '${Enums.toText(ETypeUnit.g)}', type: Enums.toText(ETypeUnit.g), size: 1, unit: ETypeUnit.g)];
+  List<String> _keyWords;
   ETypeUnit _unit;
   String _access;
   String _videoId;
@@ -121,7 +117,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
   double _fats = 0;
   double get fats => _fats;
 
-  List<String> photosUrl;
+  List<Box> photosUrl;
 
   createRecipe(BuildContext context) {
     final RecipeCreateScreenArguments args = ModalRoute.of(context).settings.arguments;
@@ -147,7 +143,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
       context.read(providerPreference.last).then((preference) async {
         showLoadingDialog(context);
 
-        await context.read(providerDatabase).createRecipe(
+        await context.read(providerRecipesService).createRecipe(
             authorName: account.name,
             localeBase: preference.localeBase,
             name: name,
@@ -249,7 +245,7 @@ class RecipeCreateViewModel extends ChangeNotifier {
   initState(Recipe recipe) {
     if (_init && recipe != null) {
       _videoId = recipe.videoUrl;
-      photosUrl = List.from(recipe.photosUrl);
+      photosUrl = Box.transform(recipe.photosUrl);
       name = recipe.name;
       description = recipe.description;
       _keyWords = List.from(recipe.keyWords);

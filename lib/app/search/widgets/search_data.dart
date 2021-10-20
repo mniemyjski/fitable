@@ -1,6 +1,6 @@
 import 'package:algolia/algolia.dart';
-import 'package:fitable/app/search/widgets/buildSliderMenu.dart';
-import 'package:fitable/app/account/widgets/build_title.dart';
+import 'package:fitable/app/search/widgets/search_menu.dart';
+import 'package:fitable/app/search/widgets/build_title.dart';
 import 'package:fitable/app/search/view_models/search_view_model.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ class DataSearch extends SearchDelegate {
     if (query.length < 4) {
       return Column(
         children: [
-          sliderMenu(context),
+          SearchMenu(),
           Center(
             child: Container(
               margin: EdgeInsets.all(30),
@@ -38,7 +38,7 @@ class DataSearch extends SearchDelegate {
           if (snapshot.hasData)
             return Column(
               children: <Widget>[
-                sliderMenu(context),
+                SearchMenu(),
                 Divider(color: Colors.grey),
                 Expanded(
                   child: ListView.separated(
@@ -90,7 +90,7 @@ class DataSearch extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     return Column(
       children: <Widget>[
-        sliderMenu(context),
+        SearchMenu(),
       ],
     );
   }

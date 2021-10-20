@@ -1,4 +1,4 @@
-import 'package:fitable/app/add_to_list/add_to_list_view_model.dart';
+import 'package:fitable/app/add_to_list/view_models/add_to_list_view_model.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';

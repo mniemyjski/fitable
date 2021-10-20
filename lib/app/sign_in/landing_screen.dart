@@ -1,8 +1,7 @@
-import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/sign_in/sign_in_screen.dart';
 import 'package:fitable/app/sign_in/widgets/create_account.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

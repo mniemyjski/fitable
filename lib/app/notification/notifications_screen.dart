@@ -1,5 +1,3 @@
-import 'package:fitable/common_widgets/build_main_app_bar.dart';
-import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 

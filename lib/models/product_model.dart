@@ -1,24 +1,23 @@
 import 'package:equatable/equatable.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:flutter/material.dart';
 
 class Product extends Equatable {
   const Product(
       {this.id,
-      @required this.barcode,
+      this.barcode,
       this.withBarcode,
-      @required this.name,
-      @required this.categoryPrimary,
-      @required this.categorySecondary,
-      @required this.localeBase,
-      @required this.keyWords,
-      @required this.portions,
-      @required this.verification,
-      @required this.calories,
-      @required this.proteins,
-      @required this.carbs,
-      @required this.fats,
+      this.name,
+      this.categoryPrimary,
+      this.categorySecondary,
+      this.localeBase,
+      this.keyWords,
+      this.portions,
+      this.verification,
+      this.calories,
+      this.proteins,
+      this.carbs,
+      this.fats,
       this.dateCreation,
       this.dateLastUpdate,
       this.photosUrl,
@@ -84,6 +83,57 @@ class Product extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
+
+  static const empty = Product(
+    barcode: '',
+    withBarcode: true,
+    name: '',
+    localeBase: '',
+    keyWords: [],
+    portions: [Portion(type: 'g', size: 1, unit: ETypeUnit.g)],
+    verification: false,
+    calories: 0,
+    proteins: 0,
+    carbs: 0,
+    fats: 0,
+    photosUrl: {},
+    sugar: 0,
+    animalProteins: 0,
+    plantProteins: 0,
+    saturated: 0,
+    unsaturated: 0,
+    omega3: 0,
+    omega6: 0,
+    fiber: 0,
+    caffeine: 0,
+    cholesterol: 0,
+    salt: 0,
+    vitaminA: 0,
+    vitaminC: 0,
+    vitaminD: 0,
+    vitaminE: 0,
+    vitaminK: 0,
+    vitaminB1: 0,
+    vitaminB2: 0,
+    vitaminB3: 0,
+    vitaminB5: 0,
+    vitaminB6: 0,
+    vitaminB7: 0,
+    vitaminB9: 0,
+    vitaminB12: 0,
+    potassium: 0,
+    sodium: 0,
+    calcium: 0,
+    magnesium: 0,
+    phosphorus: 0,
+    iron: 0,
+    copper: 0,
+    zinc: 0,
+    selenium: 0,
+    manganese: 0,
+    iodine: 0,
+    chromium: 0,
+  );
 
   Map<String, dynamic> toMap({String id}) {
     return {
@@ -339,13 +389,14 @@ class Product extends Equatable {
       return this;
     }
 
+    print(categorySecondary == null && this.categoryPrimary != categoryPrimary);
     return new Product(
       id: id ?? this.id,
       barcode: barcode ?? this.barcode,
       withBarcode: withBarcode ?? this.withBarcode,
       name: name ?? this.name,
       categoryPrimary: categoryPrimary ?? this.categoryPrimary,
-      categorySecondary: categorySecondary ?? this.categorySecondary,
+      categorySecondary: categorySecondary ?? (this.categoryPrimary != categoryPrimary && categoryPrimary != null ? null : this.categorySecondary),
       localeBase: localeBase ?? this.localeBase,
       keyWords: keyWords ?? this.keyWords,
       portions: portions ?? this.portions,

@@ -1,9 +1,8 @@
 import 'dart:collection';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/common_widgets/massage_flush_bar.dart';
+import 'package:fitable/common_widgets/show_flush_bar.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,13 @@ class AddToListViewModel extends ChangeNotifier {
   }
 
   save(BuildContext context) {
-    Navigator.pop(context, list);
+    if (tileType == EnumTileType.keyWord) {
+      List<String> _list = List.from(list);
+      Navigator.pop(context, _list);
+    } else {
+      List<Portion> _list = List.from(list);
+      Navigator.pop(context, _list);
+    }
   }
 
   onDismissed(dynamic element) {
@@ -56,7 +61,7 @@ class AddToListViewModel extends ChangeNotifier {
 
   addToList(BuildContext context) {
     if (tileType == EnumTileType.keyWord) {
-      list.add(sizeListener);
+      list.add(sizeListener.toLowerCase());
       controller.text = '';
     }
     if (tileType == EnumTileType.portion) {
@@ -73,7 +78,7 @@ class AddToListViewModel extends ChangeNotifier {
         massageFlushBar(context, Languages.portion_cannot_be_empty());
       }
     }
-    list = LinkedHashSet<String>.from(list).toList();
+    // list = LinkedHashSet<String>.from(list).toList();
     FocusScope.of(context).unfocus();
     notifyListeners();
   }

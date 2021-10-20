@@ -1,56 +1,124 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/models/preference_model.dart';
-import 'package:fitable/models/measurement_model.dart';
-import 'package:fitable/services/database.dart';
-import 'package:fitable/utilities/enums.dart';
+import 'package:fitable/models/models.dart';
+import 'package:fitable/services/services.dart';
+import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:logger/logger.dart';
 
-enum AppState { DATA_NOT_FETCHED, FETCHING_DATA, DATA_READY, NO_DATA, AUTH_NOT_GRANTED }
+final providerHealthService = Provider<HealthService>((ref) {
+  final preference = ref.watch(providerPreference.last);
+  final measurement = ref.watch(providerMeasurement.last);
+  final measurementService = ref.watch(providerMeasurementService);
 
-List<HealthDataType> _types() {
-  List<HealthDataType> types = [
-    HealthDataType.STEPS,
-    HealthDataType.WEIGHT,
-    HealthDataType.ACTIVE_ENERGY_BURNED,
-    HealthDataType.BODY_FAT_PERCENTAGE,
-  ];
+  return HealthService(asyncPreference: preference, asyncMeasurements: measurement, measurementService: measurementService);
+});
 
-  return types;
+abstract class _BaseHealthService {
+  void getHealthData(DateTime dateTime);
+  Future<String> getId(DateTime dateTime, ETypeMeasurement eTypeMeasurement);
+  List<HealthDataType> getTypesAuthorization();
+  Future<bool> checkHealthDataAlreadySync({
+    @required DateTime dateTime,
+    @required ETypeMeasurement eTypeMeasurement,
+    @required double value,
+  });
+  Future<bool> checkAuthorizationHealth();
 }
 
-void authorizationHealth() async {
-  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
+class HealthService extends _BaseHealthService {
+  HealthService({
+    @required this.asyncPreference,
+    @required this.asyncMeasurements,
+    @required this.measurementService,
+  })  : assert(asyncPreference != null),
+        assert(asyncMeasurements != null),
+        assert(measurementService != null);
 
-  HealthFactory health = HealthFactory();
-  List<HealthDataType> types = _types();
+  final Future<Preference> asyncPreference;
+  final Future<List<Measurement>> asyncMeasurements;
+  final MeasurementService measurementService;
 
-  await health.requestAuthorization(types);
-}
+  @override
+  Future<bool> checkHealthDataAlreadySync({
+    @required DateTime dateTime,
+    @required ETypeMeasurement eTypeMeasurement,
+    @required double value,
+  }) async {
+    DateTime now = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
-void syncHealth(DateTime dateTime, Preference preference, List<Measurement> measurement, Database db) async {
-  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
-  List<HealthDataPoint> _healthDataList = [];
+    bool _isAlready = false;
 
-  /// Get everything from midnight until now
-  DateTime endDate = dateTime.add(Duration(days: 1));
-  DateTime startDate = dateTime.add(Duration(days: 0));
+    final List<Measurement> measurement = await asyncMeasurements.then((value) => value);
 
-  DateTime now = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    for (Measurement element in measurement) {
+      if (element.dateCreation == dateTime && element.dataType == eTypeMeasurement && element.data.values.first.round() == value.round()) {
+        _isAlready = true;
+        break;
+      }
+    }
 
-  HealthFactory health = HealthFactory();
+    if (value == 0 || dateTime.millisecondsSinceEpoch > now.millisecondsSinceEpoch) _isAlready = true;
+    return _isAlready;
+  }
 
-  /// Define the types to get.
-  List<HealthDataType> types = _types();
+  @override
+  Future<bool> checkAuthorizationHealth() async {
+    if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return false;
 
-  // bool accessWasGranted = await health.requestAuthorization(types);
-  var status = await Permission.activityRecognition.request();
+    HealthFactory health = HealthFactory();
+    List<HealthDataType> types = getTypesAuthorization();
 
-  if (preference.healthSync) {
-    // if (accessWasGranted && preference.healthSync) {
+    bool accessWasGranted = await health.requestAuthorization(types);
+    Logger().i('Service: health_service, Method: checkAuthorizationHealth $accessWasGranted');
+    await Permission.activityRecognition.request();
+    return accessWasGranted;
+  }
+
+  @override
+  List<HealthDataType> getTypesAuthorization() {
+    List<HealthDataType> types = [
+      HealthDataType.STEPS,
+      HealthDataType.WEIGHT,
+      HealthDataType.ACTIVE_ENERGY_BURNED,
+      HealthDataType.BODY_FAT_PERCENTAGE,
+    ];
+
+    return types;
+  }
+
+  @override
+  Future<String> getId(DateTime dateTime, ETypeMeasurement eTypeMeasurement) async {
+    final List<Measurement> measurement = await asyncMeasurements.then((value) => value);
+
+    for (Measurement element in measurement) {
+      if (element.dateCreation == dateTime && element.dataType == eTypeMeasurement) return element.id;
+    }
+    return null;
+  }
+
+  @override
+  void getHealthData(DateTime dateTime) async {
+    final Preference preference = await asyncPreference.then((value) => value);
+
+    if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return;
+    if (!preference.healthSync) return;
+
+    Logger().i('Service: health_service, Method: Get Health Data');
+
+    List<HealthDataPoint> _healthDataList = [];
+
+    /// Get everything from midnight until now
+    DateTime endDate = dateTime.add(Duration(days: 1));
+    DateTime startDate = dateTime.add(Duration(days: 0));
+
+    HealthFactory health = HealthFactory();
+
+    /// Define the types to get.
+    List<HealthDataType> types = getTypesAuthorization();
+
     try {
       List<HealthDataPoint> healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
       _healthDataList.addAll(healthData);
@@ -64,13 +132,10 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
     double burn = 0.0;
 
     /// Print the results
-    _healthDataList.forEach((x) {
-      if (x.type == HealthDataType.WEIGHT) {
-        bool _isAlready = false;
 
-        measurement.forEach((element) {
-          if (element.dateCreation == x.dateFrom) _isAlready = true;
-        });
+    _healthDataList.forEach((x) async {
+      if (x.type == HealthDataType.WEIGHT) {
+        bool _isAlready = await checkHealthDataAlreadySync(dateTime: x.dateFrom, eTypeMeasurement: ETypeMeasurement.BODY_WEIGHT, value: x.value);
 
         if (!_isAlready) {
           Map<String, dynamic> _map = new Map();
@@ -85,7 +150,7 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
             dateCreation: x.dateFrom,
           );
 
-          db.setMeasurement(measurement: measurement);
+          measurementService.setMeasurement(measurement: measurement);
         }
       }
       if (x.type == HealthDataType.STEPS) {
@@ -97,59 +162,44 @@ void syncHealth(DateTime dateTime, Preference preference, List<Measurement> meas
       if (x.type == HealthDataType.BODY_FAT_PERCENTAGE) {}
     });
 
-    // printError("Steps: $steps");
-    // printError("Burn: $burn");
+    bool _isAlready = await checkHealthDataAlreadySync(dateTime: dateTime, eTypeMeasurement: ETypeMeasurement.BURN_CALORIES, value: burn);
 
-    bool _isAlreadyBurnCalories = false;
-    bool _isAlreadySteps = false;
-    String burnId;
-    String stepsId;
-
-    measurement.forEach((element) {
-      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.BURN_CALORIES) burnId = element.id;
-      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.STEPS) stepsId = element.id;
-      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.BURN_CALORIES && element.data.values.first == burn) {
-        _isAlreadyBurnCalories = true;
-      }
-      if (element.dateTime == dateTime && element.dataType == ETypeMeasurement.STEPS && element.data.values.first == steps) _isAlreadySteps = true;
-    });
-
-    if (burn == 0 || dateTime.millisecondsSinceEpoch > now.millisecondsSinceEpoch) _isAlreadyBurnCalories = true;
-    if (steps == 0 || dateTime.millisecondsSinceEpoch > now.millisecondsSinceEpoch) _isAlreadySteps = true;
-
-    if (!_isAlreadyBurnCalories) {
+    if (!_isAlready) {
       Map<String, dynamic> _map = new Map();
       _map[Enums.toText(ETypeMeasurement.BURN_CALORIES)] = burn;
 
-      Measurement value = Measurement(
-        id: burnId,
+      String id = await getId(dateTime, ETypeMeasurement.BURN_CALORIES);
+
+      measurementService.setMeasurement(
+          measurement: Measurement(
+        id: id,
         source: 'IMPORT',
         dataType: ETypeMeasurement.BURN_CALORIES,
         data: _map,
         unit: 'calories',
         dateTime: dateTime,
         dateCreation: dateTime,
-      );
-
-      db.setMeasurement(measurement: value);
+      ));
     }
-    if (!_isAlreadySteps) {
+
+    _isAlready = await checkHealthDataAlreadySync(dateTime: dateTime, eTypeMeasurement: ETypeMeasurement.STEPS, value: steps.roundToDouble());
+
+    if (!_isAlready) {
       Map<String, dynamic> _map = new Map();
       _map[Enums.toText(ETypeMeasurement.STEPS)] = steps;
 
-      Measurement value = Measurement(
-        id: stepsId,
+      String id = await getId(dateTime, ETypeMeasurement.BURN_CALORIES);
+
+      measurementService.setMeasurement(
+          measurement: Measurement(
+        id: id,
         source: 'IMPORT',
         dataType: ETypeMeasurement.STEPS,
         data: _map,
         unit: 'steps',
         dateTime: dateTime,
         dateCreation: dateTime,
-      );
-
-      db.setMeasurement(measurement: value);
+      ));
     }
-  } else {
-    print("Authorization not granted");
   }
 }

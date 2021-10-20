@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/models/portion_model.dart';
-import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
 class Recipe extends Equatable {

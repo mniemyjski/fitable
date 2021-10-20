@@ -1,3 +1,4 @@
+import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/models/account_model.dart';
 import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/sign_in/view_model/create_account_view_model.dart';
@@ -5,8 +6,8 @@ import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -22,7 +23,7 @@ class CreateAccount extends ConsumerWidget {
           leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () async {
-                final auth = context.read(providerAuthBase);
+                final auth = context.read(providerAuth);
                 try {
                   await auth.signOut();
                 } catch (e) {}
@@ -160,47 +161,39 @@ class CreateAccount extends ConsumerWidget {
                 },
               ),
               SizedBox(height: 8.0),
-              Container(
-                width: double.infinity,
-                height: 48,
-                margin: const EdgeInsets.only(bottom: 16, left: 4, right: 4),
-                child: RaisedButton(
-                    color: Colors.teal[700],
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                    child: Text(Languages.save()),
-                    onPressed: () {
-                      final db = context.read(providerDatabase);
-                      final auth = context.read(providerAuthState);
+              CustomButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text(Languages.save()),
+                  onPressed: () {
+                    final auth = context.read(providerAuthState);
 
-                      Preference b = Preference(
-                        uid: auth.data.value.uid,
-                        speedChangeWeight: 0.5,
-                        lastBodyWeightValue: model.weight,
-                        lastBodyWeightDate: DateTime.now(),
-                        lastBodyMuscleValue: null,
-                        lastBodyMuscleDate: DateTime.now(),
-                        lastBodyFatValue: model.fat,
-                        lastBodyFatDate: DateTime.now(),
-                        dayTimeActivities: model.dayTimeActivities,
-                        targetWeight: model.targetWeight,
-                        targetFat: model.targetFat,
-                      );
-                      db.createPreference(b);
+                    Preference b = Preference(
+                      uid: auth.data.value.uid,
+                      speedChangeWeight: 0.5,
+                      lastBodyWeightValue: model.weight,
+                      lastBodyWeightDate: DateTime.now(),
+                      lastBodyMuscleValue: null,
+                      lastBodyMuscleDate: DateTime.now(),
+                      lastBodyFatValue: model.fat,
+                      lastBodyFatDate: DateTime.now(),
+                      dayTimeActivities: model.dayTimeActivities,
+                      targetWeight: model.targetWeight,
+                      targetFat: model.targetFat,
+                    );
+                    context.read(providerPreferenceService).createPreference(b);
 
-                      Account a = Account(
-                        uid: auth.data.value.uid,
-                        name: model.name,
-                        gender: model.gender,
-                        height: model.height,
-                        dateBirth: model.dateBirth,
-                        email: auth.data.value.email,
-                        avatarUrl: auth.data.value.photoURL,
-                        photosUrl: [],
-                      );
-                      db.createAccount(a);
-                    }),
-              ),
+                    Account a = Account(
+                      uid: auth.data.value.uid,
+                      name: model.name,
+                      gender: model.gender,
+                      height: model.height,
+                      dateBirth: model.dateBirth,
+                      email: auth.data.value.email,
+                      avatarUrl: auth.data.value.photoURL,
+                      photosUrl: [],
+                    );
+                    context.read(providerAccountService).createAccount(a);
+                  }),
             ],
           ),
         ),

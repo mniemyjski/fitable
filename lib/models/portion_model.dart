@@ -18,7 +18,7 @@ class Portion extends Equatable {
     return {
       'name': '$type: $size${Enums.toText(unit)}',
       'type': type,
-      'size': size,
+      'size': size.roundToDouble(),
       'unit': Enums.toText(unit),
     };
   }
@@ -31,7 +31,7 @@ class Portion extends Equatable {
     return Portion(
       name: data['name'],
       type: data['type'],
-      size: data['size'],
+      size: data['size'].roundToDouble(),
       unit: Enums.toEnum(data['unit'], ETypeUnit.values),
     );
   }

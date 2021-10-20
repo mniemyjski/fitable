@@ -2,7 +2,6 @@ import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 enum Social { google, facebook, mail }
 
@@ -22,7 +21,10 @@ class SignInButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Image.asset("resources/images/google-logo.png"),
               ),
-              Text(Languages.sign_in_with_google()),
+              Text(
+                Languages.sign_in_with_google(),
+                style: TextStyle(color: Colors.black87),
+              ),
               Container(),
             ],
           ),
@@ -55,7 +57,6 @@ class SignInButton extends StatelessWidget {
               Container(),
             ],
           ),
-          textColor: Colors.white,
           color: Colors.teal[700],
           onPressed: onPressed);
     }

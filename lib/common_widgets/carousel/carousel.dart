@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fitable/app/crop/crop_image_screen.dart';
 import 'package:fitable/common_widgets/carousel/circles.dart';
@@ -7,14 +9,13 @@ import 'package:fitable/routers/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'package:universal_io/io.dart';
 
 class Carousel extends StatefulWidget {
   final String videoUrl;
-  final List photosUrl;
+  final List<Box> photosUrl;
   final bool edit;
   final bool isShow;
-  final ValueChanged<List<String>> onChanged;
+  final ValueChanged<List<Box>> onChanged;
 
   Carousel({this.videoUrl = '', this.photosUrl, this.edit = false, this.isShow = true, this.onChanged});
 
@@ -32,22 +33,10 @@ class _CarouselState extends State<Carousel> {
     if (widget.videoUrl.isNotEmpty) boxes.add(new Box(url: widget.videoUrl, isVideo: true));
     if (widget.photosUrl != null)
       widget.photosUrl.forEach((element) {
-        boxes.add(Box(url: element, isEdit: widget.edit));
+        boxes.add(element.copyWith(isEdit: widget.edit));
       });
     if (widget.edit) boxes.add(Box(isEdit: true));
     super.initState();
-  }
-
-  List<String> _getOnlyPhotosUrl(List<Box> boxes) {
-    List<Box> _list = [];
-    List<String> _urls = [];
-    _list = List.from(boxes);
-    _list.removeWhere((element) => element.isVideo);
-    _list.forEach((element) {
-      if (element.url != '') _urls.add(element.url);
-    });
-
-    return _urls;
   }
 
   void _add() async {
@@ -59,30 +48,28 @@ class _CarouselState extends State<Carousel> {
       maxHeight: 1920,
     );
 
+    Uint8List uint8list = await pickedFile.readAsBytes();
+
     setState(() {
-      if (boxes[current].url == '') {
+      if (uint8list != null) {
         boxes.add(Box(isEdit: true));
         controllerCarousel.nextPage();
       }
 
-      boxes[current] = Box(url: pickedFile.path, isEdit: true);
+      boxes[current] = Box(uint8List: uint8list, isEdit: true);
     });
-    widget.onChanged(_getOnlyPhotosUrl(boxes));
   }
 
   void _crop() async {
-    File _file = File(boxes[current].url);
-
     var result = await Navigator.pushNamed(
       context,
       AppRoute.cropImageScreen,
-      arguments: CropImageScreenArguments(file: _file, current: current),
+      arguments: CropImageScreenArguments(uint8list: boxes[current].uint8List, current: current),
     );
 
     if (result != null) {
-      File _file = result;
       setState(() {
-        boxes[current] = Box(url: _file.path, isEdit: true);
+        boxes[current] = Box(uint8List: result, isEdit: true);
       });
     }
   }
@@ -102,12 +89,11 @@ class _CarouselState extends State<Carousel> {
         }
       }
     });
-
-    widget.onChanged(_getOnlyPhotosUrl(boxes));
   }
 
   List<Widget> _sliders(BuildContext context) {
-    if (widget.edit) widget.onChanged(_getOnlyPhotosUrl(boxes));
+    if (widget.edit) widget.onChanged(boxes);
+
     return boxes.map((item) {
       return TileBox(
         box: item,

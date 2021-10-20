@@ -1,9 +1,8 @@
-import 'package:fitable/models/preference_model.dart';
-import 'package:fitable/common_widgets/build_main_app_bar.dart';
+import 'package:fitable/common_widgets/custom_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,12 +19,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildMainAppBar(context: context, name: Languages.settings()),
+      appBar: CustomAppBar(Languages.settings()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, watch, child) {
           final pref = watch(providerPreference);
-          final db = watch(providerDatabase);
+          final preferenceService = watch(providerPreferenceService);
 
           return pref.when(
             data: (pref) => Column(
@@ -37,7 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onChanged: (String state) {
                       setState(() {
                         context.setLocale(Locale(state));
-                        db.updatePreference(name: 'localeApp', value: state);
+                        preferenceService.updatePreference(name: 'localeApp', value: state);
                       });
                     }),
                 CustomDropDownButton(
@@ -45,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     value: pref.localeBase,
                     list: <String>['pl'],
                     onChanged: (state) {
-                      db.updatePreference(name: 'localeBase', value: state);
+                      preferenceService.updatePreference(name: 'localeBase', value: state);
                     }),
                 Container(
                   child: Row(
@@ -53,8 +52,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.healthSync,
                           onChanged: (state) {
-                            if (state) authorizationHealth();
-                            db.updatePreference(name: 'healthSync', value: state);
+                            if (state) context.read(providerHealthService).checkAuthorizationHealth();
+                            preferenceService.updatePreference(name: 'healthSync', value: state);
                           }),
                       Text(Languages.healthSync()),
                     ],
@@ -66,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.autoPlay,
                           onChanged: (state) {
-                            db.updatePreference(name: 'autoPlay', value: state);
+                            preferenceService.updatePreference(name: 'autoPlay', value: state);
                           }),
                       Text(Languages.autoPlay()),
                     ],
@@ -78,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.mute,
                           onChanged: (state) {
-                            db.updatePreference(name: 'mute', value: state);
+                            preferenceService.updatePreference(name: 'mute', value: state);
                           }),
                       Text(Languages.mute()),
                     ],
@@ -90,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Switch(
                           value: pref.darkMode,
                           onChanged: (state) {
-                            db.updatePreference(name: 'darkMode', value: state);
+                            preferenceService.updatePreference(name: 'darkMode', value: state);
                           }),
                       Text(Languages.dark_mode()),
                     ],

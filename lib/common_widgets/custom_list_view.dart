@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/widgets/tile_account.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_key_word.dart';
 import 'package:fitable/app/add_to_list/widgets/tile_portion.dart';

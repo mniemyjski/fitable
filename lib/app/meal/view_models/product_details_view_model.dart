@@ -1,7 +1,4 @@
-import 'package:fitable/models/favorite_model.dart';
-import 'package:fitable/models/ingredient_model.dart';
-import 'package:fitable/models/portion_model.dart';
-import 'package:fitable/models/product_model.dart';
+import 'package:fitable/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitable/utilities/enums.dart';
@@ -47,7 +44,7 @@ class ProductDetailsViewModel extends ChangeNotifier {
     return element.runtimeType == Ingredient ? element.toList() : null;
   }
 
-  init(Ingredient element, List<Favorite> favorites) {
+  init(List<Favorite> favorites, Ingredient element) async {
     _createScreen = true;
 
     if (initState) {
@@ -68,7 +65,9 @@ class ProductDetailsViewModel extends ChangeNotifier {
 
     _isFavorite = false;
 
-    favorites.where((e) => (e.id == element.getId() && e.type == ETypeFavorite.products) ? _isFavorite = true : null);
+    favorites.forEach((e) {
+      if (e.id == element.getId() && e.type == ETypeFavorite.products) _isFavorite = true;
+    });
 
     _createScreen = false;
   }
