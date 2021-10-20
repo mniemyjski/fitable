@@ -1,7 +1,7 @@
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/models/measurement_model.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +60,7 @@ class MeasurementViewModel extends ChangeNotifier {
     if (_thigh == null) return 'error';
     if (_calf == null) return 'error';
 
-    final db = context.read(providerDatabase);
+    final measurementService = context.read(providerMeasurementService);
     final app = context.read(providerAppViewModel);
 
     Map<String, dynamic> _map = new Map();
@@ -80,7 +80,7 @@ class MeasurementViewModel extends ChangeNotifier {
       dateTime: app.chosenDate,
       dateCreation: DateTime.now(),
     );
-    db.setMeasurement(measurement: measurement);
+    measurementService.setMeasurement(measurement: measurement);
 
     if (calculate) {
       Map<String, dynamic> _map = new Map();
@@ -94,7 +94,7 @@ class MeasurementViewModel extends ChangeNotifier {
         dateTime: app.chosenDate,
         dateCreation: DateTime.now(),
       );
-      db.setMeasurement(measurement: _m);
+      measurementService.setMeasurement(measurement: _m);
     }
 
     Navigator.pop(context);
@@ -103,7 +103,7 @@ class MeasurementViewModel extends ChangeNotifier {
   }
 
   submitMeasurement(BuildContext context, double value, String unit, ETypeMeasurement type) {
-    final db = context.read(providerDatabase);
+    final measurementService = context.read(providerMeasurementService);
     final app = context.read(providerAppViewModel);
 
     Map<String, dynamic> _map = new Map();
@@ -117,7 +117,7 @@ class MeasurementViewModel extends ChangeNotifier {
       dateTime: app.chosenDate,
       dateCreation: DateTime.now(),
     );
-    db.setMeasurement(measurement: measurement);
+    measurementService.setMeasurement(measurement: measurement);
     Navigator.pop(context);
   }
 

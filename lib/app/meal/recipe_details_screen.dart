@@ -1,12 +1,13 @@
-import 'package:fitable/models/account_model.dart';
+import 'package:fitable/common_widgets/carousel/models/box_model.dart';
+
 import 'package:fitable/models/ingredient_model.dart';
-import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/show_custom_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
+import 'package:fitable/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:fitable/models/portion_model.dart';
+
 import 'package:fitable/models/recipe_model.dart';
 
-import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/issue/issue_report.dart';
 import 'package:fitable/app/meal/view_models/recipe_details_view_model.dart';
@@ -24,7 +25,6 @@ import 'package:fitable/utilities/enums.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:fitable/utilities/providers.dart';
 
 class RecipeDetailsScreenArguments {
   final Ingredient element;
@@ -35,7 +35,7 @@ class RecipeDetailsScreenArguments {
 }
 
 _areYouSure(BuildContext context, Recipe recipe) {
-  buildShowDialog(
+  showCustomDialog(
       context: context,
       height: 138,
       child: Column(
@@ -48,7 +48,6 @@ _areYouSure(BuildContext context, Recipe recipe) {
                   child: CustomButton(
                 child: Text(Languages.no()),
                 color: Colors.indigo,
-                textColor: Colors.white,
                 onPressed: () => Navigator.pop(context),
               )),
               SizedBox(width: 10),
@@ -56,7 +55,6 @@ _areYouSure(BuildContext context, Recipe recipe) {
                 child: CustomButton(
                     child: Text(Languages.yes()),
                     color: Colors.indigo,
-                    textColor: Colors.white,
                     onPressed: () => context.read(providerRecipeDetailsViewModel).deleteRecipe(context, recipe)),
               ),
             ],
@@ -111,14 +109,14 @@ class RecipeDetailsScreen extends StatelessWidget {
       final RecipeDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
       final model = watch(providerRecipeDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.init(args.element, favorites));
+      watch(providerFavorite).whenData((favorites) => model.init(favorites, args.element));
 
-      // if (model.createScreen)
-      //   return Scaffold(
-      //     body: Center(
-      //       child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-      //     ),
-      //   );
+      if (model.createScreen)
+        return Scaffold(
+          body: Center(
+            child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+          ),
+        );
 
       return Scaffold(
         appBar: AppBar(
@@ -133,7 +131,7 @@ class RecipeDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               Carousel(
-                photosUrl: args.element.recipe.photosUrl,
+                photosUrl: Box.transform(args.element.recipe.photosUrl),
                 videoUrl: args.element.recipe.videoUrl,
                 isShow: !args.isMeal,
               ),

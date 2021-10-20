@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:fitable/models/product_model.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
 import 'package:fitable/common_widgets/custom_icon_button.dart';
-import 'package:fitable/common_widgets/image_render.dart';
+import 'package:fitable/common_widgets/carousel/image_render.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:logger/logger.dart';
@@ -37,15 +37,17 @@ class _TileBoxState extends State<TileBox> {
   }
 
   bool _showCropButton() {
-    if (widget.box.url.isEmpty) return false;
-    if (widget.box.url.substring(0, 4) == 'http') return false;
+    if (widget.box.url.isNotEmpty) {
+      if (widget.box.url.substring(0, 4) == 'http') return false;
+    }
+    if (widget.box.uint8List == null) return false;
     return true;
   }
 
   bool _showRemoveButton() {
-    bool v = false;
-    if (widget.box.url.isNotEmpty) v = true;
-    return v;
+    if (widget.box.url.isNotEmpty) return true;
+    if (widget.box.uint8List != null) return true;
+    return false;
   }
 
   @override
@@ -94,7 +96,7 @@ class _TileBoxState extends State<TileBox> {
       child: Container(
         child: Stack(
           children: <Widget>[
-            imageRender(url: widget.box.url),
+            ImageRender(url: widget.box.url, uint8list: widget.box.uint8List),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

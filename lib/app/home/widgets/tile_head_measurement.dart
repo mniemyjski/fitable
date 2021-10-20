@@ -1,16 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/widgets/tile_expansion.dart';
 import 'package:fitable/models/measurement_model.dart';
 import 'package:fitable/app/measurement/view_models/measurement_view_model.dart';
-import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/show_custom_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/measurement_service.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -100,7 +100,7 @@ class TileHeadMeasurement extends StatelessWidget {
   }
 
   _show(BuildContext context) {
-    buildShowDialog(
+    showCustomDialog(
         context: context,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +108,6 @@ class TileHeadMeasurement extends StatelessWidget {
             CustomButton(
                 child: Text('add_body_weight'.tr()),
                 color: Colors.indigo,
-                textColor: Colors.white,
                 onPressed: () {
                   Navigator.pop(context);
                   showValuePicker(
@@ -123,7 +122,6 @@ class TileHeadMeasurement extends StatelessWidget {
             CustomButton(
               child: Text('add_body_fat'.tr()),
               color: Colors.indigo,
-              textColor: Colors.white,
               onPressed: () {
                 Navigator.pop(context);
                 showValuePicker(
@@ -140,7 +138,6 @@ class TileHeadMeasurement extends StatelessWidget {
             CustomButton(
               child: Text('add_body_muscle'.tr()),
               color: Colors.indigo,
-              textColor: Colors.white,
               onPressed: () {
                 Navigator.pop(context);
                 showValuePicker(
@@ -156,7 +153,6 @@ class TileHeadMeasurement extends StatelessWidget {
             CustomButton(
               child: Text('add_body_circumferences'.tr()),
               color: Colors.indigo,
-              textColor: Colors.white,
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.of(context).pushNamed(AppRoute.addBodyCircumferencesScreen);
@@ -167,7 +163,7 @@ class TileHeadMeasurement extends StatelessWidget {
   }
 
   _onDismissed(BuildContext context, dynamic element) {
-    context.read(providerDatabase).deleteMeasurement(element);
+    context.read(providerMeasurementService).deleteMeasurement(element);
   }
 
   Widget build(BuildContext context) {

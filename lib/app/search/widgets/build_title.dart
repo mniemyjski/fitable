@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 Widget getTitleType(ETypeSearch searchType, dynamic data) {
   switch (searchType) {
     case ETypeSearch.recipes:
-      return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: data));
+      return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: Ingredient.transform(data)));
       break;
     case ETypeSearch.products:
       return Container(margin: EdgeInsets.only(left: 5, right: 5), child: TileProduct(element: Ingredient.transform(data)));

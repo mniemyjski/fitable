@@ -221,4 +221,5 @@ abstract class Languages {
   static String image_product() => "image_product".tr();
   static String image_support() => "image_support".tr();
   static String images_not_empty() => "image_not_empty".tr();
+  static String ok() => "ok".tr();
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-buildShowDialog({
+showCustomDialog({
   @required BuildContext context,
   @required Widget child,
   double height = 300,

@@ -1,30 +1,24 @@
 import 'package:algolia/algolia.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/account_details_screen.dart';
-import 'package:fitable/models/account_model.dart';
-import 'package:fitable/models/preference_model.dart';
-import 'package:fitable/models/ingredient_model.dart';
-import 'package:fitable/models/product_model.dart';
-import 'package:fitable/models/recipe_model.dart';
+import 'package:fitable/common_widgets/show_alert_dialog.dart';
+import 'package:fitable/models/models.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/product_not_found_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
-import 'package:fitable/app/search/widgets/data_search.dart';
-import 'package:fitable/common_widgets/massage_flush_bar.dart';
-import 'package:fitable/utilities/application.dart';
-import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/enums.dart';
+import 'package:fitable/app/search/widgets/search_data.dart';
+import 'package:fitable/common_widgets/show_flush_bar.dart';
+import 'package:fitable/services/services.dart';
+import 'package:fitable/utilities/utilities.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:logger/logger.dart';
 
 final providerSearchViewModel = ChangeNotifierProvider.autoDispose<SearchViewModel>((ref) {
   return SearchViewModel();
@@ -32,7 +26,7 @@ final providerSearchViewModel = ChangeNotifierProvider.autoDispose<SearchViewMod
 
 class SearchViewModel extends ChangeNotifier {
   TabController controller;
-  int selectedIndex;
+  int selectedIndex = 0;
   List<Widget> tabBar = [];
   Algolia algolia = Application.algolia;
   AlgoliaQuery _searchQuery;
@@ -97,6 +91,7 @@ class SearchViewModel extends ChangeNotifier {
       _searchType = ETypeSearch.products;
       massageFlushBar(context, Languages.search_products());
     }
+
     notifyListeners();
   }
 
@@ -108,19 +103,18 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   Future getStream(BuildContext context, String id) {
-    final db = context.read(providerDatabase);
     switch (searchType) {
       case ETypeSearch.recipes:
-        return db.getRecipe(id);
+        return context.read(providerRecipesService).getRecipe(id);
         break;
       case ETypeSearch.products:
-        return db.getProduct(id: id);
+        return context.read(providerProductsService).getProduct(id: id);
         break;
       case ETypeSearch.accounts:
-        return db.getAccount(id);
+        return context.read(providerAccountService).getAccount(id);
         break;
       case ETypeSearch.workouts:
-        return db.getRecipe(id);
+        return context.read(providerRecipesService).getRecipe(id);
         break;
       default:
         return null;
@@ -154,7 +148,7 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   productDetails(BuildContext context, Product element) async {
-    // selectedIndex = controller.index = 0;
+    selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
         arguments: ProductDetailsScreenArguments(
           element: Ingredient.transform(element),
@@ -164,7 +158,7 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   recipeDetails(BuildContext context, Recipe element) async {
-    // selectedIndex = controller.index = 0;
+    selectedIndex = controller.index = 0;
     dynamic result = await Navigator.of(context).pushNamed(AppRoute.recipeDetailsScreen,
         arguments: RecipeDetailsScreenArguments(
           element: Ingredient.transform(element),
@@ -186,8 +180,7 @@ class SearchViewModel extends ChangeNotifier {
     var barcode = await scanner.scan();
 
     if (barcode != null) {
-      final db = context.read(providerDatabase);
-      Product product = await db.getProduct(barcode: barcode);
+      Product product = await context.read(providerProductsService).getProduct(barcode: barcode);
 
       if (product != null) {
         var result = await Navigator.of(context).pushNamed(AppRoute.productDetailsScreen,
@@ -196,58 +189,102 @@ class SearchViewModel extends ChangeNotifier {
             ));
         Navigator.pop(context, result);
       } else {
-        bool already = await context.read(providerDatabase).productImagesToCreateAlready(barcode);
+        bool already = await context.read(providerProductsService).productImagesToCreateAlready(barcode);
 
         String desc = already ? Languages.product_not_found_desc_2() : Languages.product_not_found_desc_1();
 
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(Languages.product_not_found()),
-                content: Text(desc),
-                actions: [
-                  TextButton(
-                    child: Text(Languages.cancel()),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  if (!already)
-                    TextButton(
-                      child: Row(
-                        children: [
-                          FaIcon(FontAwesomeIcons.images),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Text(Languages.send()),
-                          ),
-                        ],
+        showAlertDialog(
+          context,
+          title: Languages.product_not_found(),
+          content: desc,
+          actions: <Widget>[
+            TextButton(
+              child: Text(Languages.cancel()),
+              onPressed: () => Navigator.pop(context),
+            ),
+            if (!already)
+              FittedBox(
+                child: TextButton(
+                  child: Row(
+                    children: [
+                      FaIcon(FontAwesomeIcons.images),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(Languages.send()),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, AppRoute.productNotFound, arguments: ProductNotFoundArguments(barcode));
-                      },
-                    ),
-                  TextButton(
-                    child: Row(
-                      children: [
-                        FaIcon(FontAwesomeIcons.file),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: Text(Languages.create()),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).pushNamed(AppRoute.createProductScreen,
-                          arguments: ProductCreateScreenArguments(
-                            barcode: barcode,
-                          ));
-                    },
+                    ],
                   ),
-                ],
-              );
-            });
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, AppRoute.productNotFound, arguments: ProductNotFoundArguments(barcode));
+                  },
+                ),
+              ),
+            FittedBox(
+              child: TextButton(
+                child: Row(
+                  children: [
+                    FaIcon(FontAwesomeIcons.file),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(Languages.create()),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(AppRoute.createProductScreen,
+                      arguments: ProductCreateScreenArguments(
+                        barcode: barcode,
+                      ));
+                },
+              ),
+            ),
+          ],
+        );
+
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         title: Text(Languages.product_not_found()),
+        //         content: Text(desc),
+        //         actions: [
+        //           TextButton(
+        //             child: Text(Languages.cancel()),
+        //             onPressed: () => Navigator.pop(context),
+        //           ),
+        //           if (!already)
+        //             TextButton(
+        //               child: Row(
+        //                 children: [
+        //                   FaIcon(FontAwesomeIcons.images),
+        //                   Text(Languages.send()),
+        //                 ],
+        //               ),
+        //               onPressed: () {
+        //                 Navigator.pop(context);
+        //                 Navigator.pushNamed(context, AppRoute.productNotFound, arguments: ProductNotFoundArguments(barcode));
+        //               },
+        //             ),
+        //           TextButton(
+        //             child: Row(
+        //               children: [
+        //                 FaIcon(FontAwesomeIcons.file),
+        //                 Text(Languages.create()),
+        //               ],
+        //             ),
+        //             onPressed: () {
+        //               Navigator.pop(context);
+        //               Navigator.of(context).pushNamed(AppRoute.createProductScreen,
+        //                   arguments: ProductCreateScreenArguments(
+        //                     barcode: barcode,
+        //                   ));
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     });
       }
     }
   }

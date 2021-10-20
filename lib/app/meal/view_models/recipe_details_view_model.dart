@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/models/ingredient_model.dart';
@@ -8,12 +7,14 @@ import 'package:fitable/models/recipe_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_create_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
+import 'package:fitable/services/favorite_service.dart';
+import 'package:fitable/services/meals_service.dart';
+import 'package:fitable/services/recipes_service.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 
 final providerRecipeDetailsViewModel = ChangeNotifierProvider.autoDispose<RecipeDetailsViewModel>((ref) {
   return RecipeDetailsViewModel();
@@ -67,7 +68,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
   }
 
   deleteRecipe(BuildContext context, Recipe recipe) {
-    context.read(providerDatabase).deleteRecipe(recipe);
+    context.read(providerRecipesService).deleteRecipe(recipe);
     Navigator.pop(context);
     Navigator.pop(context);
   }
@@ -77,17 +78,16 @@ class RecipeDetailsViewModel extends ChangeNotifier {
     Ingredient result = Ingredient(selectedPortion: selectedPortion, recipe: recipe, size: sizeListener);
 
     if (args.chooseMealType) {
-      final db = context.read(providerDatabase);
       final app = context.read(providerAppViewModel);
 
       Meal _meal = Meal(
-        uid: db.uid,
+        // uid: db.uid,
         dateTime: app.chosenDate,
         dateCreation: DateTime.now(),
         mealType: _mealType,
         ingredient: result,
       );
-      db.addMeal(meal: _meal);
+      context.read(providerMealsService).addMeal(meal: _meal);
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.homeScreen, (_) => false);
     } else {
       Navigator.pop(context, result);
@@ -96,7 +96,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
 
   submitFavorite(BuildContext context, String id) {
     Favorite _favorite = Favorite(type: ETypeFavorite.recipes, id: id);
-    context.read(providerDatabase).updateFavorite(context, _favorite);
+    context.read(providerFavoriteService).whenData((value) => value.updateFavorite(_favorite));
   }
 
   seeProduct(BuildContext context, Ingredient ingredient) async {
@@ -107,7 +107,7 @@ class RecipeDetailsViewModel extends ChangeNotifier {
         ));
   }
 
-  init(Ingredient element, List<Favorite> favorites) {
+  init(List<Favorite> favorites, Ingredient element) async {
     _createScreen = true;
 
     if (initState) {
@@ -129,7 +129,10 @@ class RecipeDetailsViewModel extends ChangeNotifier {
 
     _isFavorite = false;
 
-    favorites.where((e) => (e.id == recipe.id && e.type == ETypeFavorite.recipes) ? _isFavorite = true : null);
+    favorites.forEach((e) {
+      if (e.id == element.getId() && e.type == ETypeFavorite.recipes) _isFavorite = true;
+    });
+
     _createScreen = false;
   }
 }

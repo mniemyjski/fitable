@@ -1,7 +1,5 @@
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Measurement {
   const Measurement({

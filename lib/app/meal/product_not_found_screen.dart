@@ -1,16 +1,16 @@
-import 'package:universal_io/io.dart';
+import 'dart:typed_data';
+
 import 'package:fitable/app/crop/crop_image_screen.dart';
 import 'package:fitable/app/meal/widgets/barcode_text.dart';
 import 'package:fitable/common_widgets/carousel/models/box_model.dart';
 import 'package:fitable/common_widgets/carousel/tile_box.dart';
-import 'package:fitable/common_widgets/massage_flush_bar.dart';
+import 'package:fitable/common_widgets/show_flush_bar.dart';
 import 'package:fitable/common_widgets/show_loading_dialog.dart';
 import 'package:fitable/routers/route_generator.dart';
+import 'package:fitable/services/products_service.dart';
 import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,24 +38,24 @@ class _ProductNotFoundState extends State<ProductNotFound> {
       maxWidth: 1080,
       maxHeight: 1920,
     );
+
+    Uint8List uint8list = await pickedFile.readAsBytes();
+
     setState(() {
-      boxes[current] = Box(url: pickedFile.path, isEdit: true);
+      boxes[current] = Box(uint8List: uint8list, isEdit: true);
     });
   }
 
   _crop(int current) async {
-    File _file = File(boxes[current].url);
-
     var result = await Navigator.pushNamed(
       context,
       AppRoute.cropImageScreen,
-      arguments: CropImageScreenArguments(file: _file, current: current),
+      arguments: CropImageScreenArguments(uint8list: boxes[current].uint8List, current: current),
     );
 
     if (result != null) {
-      File _file = result;
       setState(() {
-        boxes[current] = Box(url: _file.path, isEdit: true);
+        boxes[current] = Box(uint8List: result, isEdit: true);
       });
     }
   }
@@ -67,19 +67,19 @@ class _ProductNotFoundState extends State<ProductNotFound> {
   }
 
   sendImages(BuildContext context, String barcode) async {
-    if (boxes[0].url.isEmpty || boxes[1].url.isEmpty) {
+    if (boxes[0].uint8List == null || boxes[1].uint8List == null) {
       massageFlushBar(context, Languages.images_not_empty());
       return;
     }
 
     showLoadingDialog(context);
 
-    List<String> images = [];
+    List<Uint8List> images = [];
     for (Box box in boxes) {
-      if (box.url.isNotEmpty) images.add(box.url);
+      if (box.uint8List != null) images.add(box.uint8List);
     }
 
-    await context.read(providerDatabase).productImagesToCreate(barcode: barcode, images: images);
+    await context.read(providerProductsService).productImagesToCreate(barcode: barcode, images: images);
     Navigator.pop(context);
     Navigator.pop(context);
   }

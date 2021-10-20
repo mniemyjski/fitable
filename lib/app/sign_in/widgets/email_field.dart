@@ -3,7 +3,6 @@ import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class EmailField extends ConsumerWidget {
   final TextEditingController emailController;
@@ -63,11 +62,10 @@ class EmailField extends ConsumerWidget {
             CustomButton(
               child: Text(model.primaryButtonText),
               color: Colors.indigo,
-              textColor: Colors.white,
               onPressed: onPressedSubmit,
             ),
-            if (model.formType == EmailFormType.signIn) FlatButton(onPressed: () {}, child: Text(Languages.forgot_your_password())),
-            FlatButton(
+            if (model.formType == EmailFormType.signIn) TextButton(onPressed: () {}, child: Text(Languages.forgot_your_password())),
+            TextButton(
               onPressed: onPressedRegister,
               child: Text(model.secondaryButtonText),
             ),

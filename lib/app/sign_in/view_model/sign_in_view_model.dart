@@ -1,18 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitable/app/sign_in/validators.dart';
-import 'package:fitable/common_widgets/show_exception_alert_dialog.dart';
+import 'package:fitable/common_widgets/show_exception_dialog.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/services/auth_service.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum EmailFormType { signIn, register }
 enum SignInType { main, email }
 
 final providerSignInViewModel = ChangeNotifierProvider<SignInViewModel>((ref) {
-  final auth = ref.watch(providerAuthBase);
+  final auth = ref.watch(providerAuth);
   if (auth != null) {
     return SignInViewModel(auth: auth);
   }
@@ -55,7 +53,7 @@ class SignInViewModel with EmailAndPasswordValidators, ChangeNotifier {
     if (exception is FirebaseException && exception.code == 'ERROR_ABORTED_BY_USER') {
       return;
     }
-    showExceptionAlertDialog(
+    showExceptionDialog(
       context,
       title: 'Sign in failed',
       exception: exception,

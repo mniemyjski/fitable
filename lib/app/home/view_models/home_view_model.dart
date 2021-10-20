@@ -1,17 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/models/account_model.dart';
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/models/meal_model.dart';
-import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/app/meal/product_details_screen.dart';
 import 'package:fitable/app/meal/recipe_details_screen.dart';
 import 'package:fitable/app/search/search_screen.dart';
-import 'package:fitable/utilities/languages.dart';
+import 'package:fitable/services/meals_service.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -54,11 +51,10 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   onPressed(BuildContext context, Meal element, ETypeMeal mealType) async {
-    final db = context.read(providerDatabase);
     dynamic result;
 
     if (element.isSuggested) {
-      db.updateSuggested(meal: element, suggested: false);
+      context.read(providerMealsService).updateSuggested(meal: element, suggested: false);
       return;
     }
 
@@ -81,16 +77,15 @@ class HomeViewModel extends ChangeNotifier {
     if (result != null) {
       Ingredient ingredient = result;
 
-      db.updateMeal(meal: element, ingredient: ingredient);
+      context.read(providerMealsService).updateMeal(meal: element, ingredient: ingredient);
     }
   }
 
   onDismissed(BuildContext context, dynamic element) {
-    context.read(providerDatabase).deleteMeal(element);
+    context.read(providerMealsService).deleteMeal(element);
   }
 
   onSearch(BuildContext context, ETypeMeal mealType) async {
-    final db = context.read(providerDatabase);
     final app = context.read(providerAppViewModel);
 
     dynamic result = await Navigator.of(context).pushNamed(
@@ -100,7 +95,7 @@ class HomeViewModel extends ChangeNotifier {
 
     if (result != null) {
       Ingredient ingredient = result;
-      db.addMeal(meal: Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
+      context.read(providerMealsService).addMeal(meal: Meal(dateTime: app.chosenDate, mealType: mealType, ingredient: ingredient));
     }
   }
 
@@ -125,20 +120,20 @@ class HomeViewModel extends ChangeNotifier {
 
           if (preference.formulaBMR == 'advanced') {
             if (preference.targetFat.floorToDouble() == preference.lastBodyFatValue.floorToDouble()) {
-              context.read(providerDatabase).updatePreference(name: 'speedChangeWeight', value: 0.0);
+              context.read(providerPreferenceService).updatePreference(name: 'speedChangeWeight', value: 0.0);
             }
             ppm = _fat < preference.targetFat ? ppm + (preference.speedChangeWeight * 400) : ppm - (preference.speedChangeWeight * 400);
           } else if (preference.formulaBMR == 'standard') {
             if (preference.targetWeight.floorToDouble() == preference.lastBodyWeightValue.floorToDouble()) {
-              context.read(providerDatabase).updatePreference(name: 'speedChangeWeight', value: 0.0);
+              context.read(providerPreferenceService).updatePreference(name: 'speedChangeWeight', value: 0.0);
             }
             ppm = _weight < preference.targetWeight ? ppm + (preference.speedChangeWeight * 400) : ppm - (preference.speedChangeWeight * 400);
           }
 
           _goalCalories = ppm.round();
-          _goalProteins = ppm * (preference.goalProteins / 100) / 4;
-          _goalCarbs = ppm * (preference.goalCarbs / 100) / 4;
-          _goalFats = ppm * (preference.goalFats / 100) / 9;
+          _goalProteins = ppm * (preference.targetProteins / 100) / 4;
+          _goalCarbs = ppm * (preference.targetCarbs / 100) / 4;
+          _goalFats = ppm * (preference.targetFats / 100) / 9;
         }));
   }
 

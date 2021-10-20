@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/account/view_models/account_details_view_model.dart';
 import 'package:fitable/app/account/widgets/tile_detail.dart';
-import 'package:fitable/models/favorite_model.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,7 +11,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:logger/logger.dart';
-import 'package:fitable/utilities/providers.dart';
 
 class AccountDetailsScreenArguments {
   final Account account;

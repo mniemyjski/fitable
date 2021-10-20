@@ -1,10 +1,10 @@
-import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+
+import 'package:extended_image/extended_image.dart' hide File;
+import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image/image.dart' as i;
+import 'package:image/image.dart';
 import 'package:logger/logger.dart';
-import 'package:universal_io/io.dart' as io;
-import 'package:universal_io/io.dart';
 
 final providerCropImageViewModel = ChangeNotifierProvider.autoDispose<CropImageViewModel>((ref) {
   return CropImageViewModel();
@@ -19,21 +19,14 @@ class CropImageViewModel extends ChangeNotifier {
     editorKey.currentState.reset();
   }
 
-  crop(BuildContext context, String path, int current) async {
+  Uint8List crop() {
     final Rect cropRect = editorKey.currentState.getCropRect();
     var data = editorKey.currentState.rawImageData;
 
-    i.Image src = i.decodeImage(data);
-    src = i.bakeOrientation(src);
-
-    src = i.copyCrop(src, cropRect.left.toInt(), cropRect.top.toInt(), cropRect.width.toInt(), cropRect.height.toInt());
-
-    var fileData = i.encodeJpg(src, quality: 50);
-    var lastSeparator = path.lastIndexOf(io.Platform.pathSeparator);
-    var newPath = path.substring(0, lastSeparator + 1) + '${current.toStringAsFixed(0)}_' + path.substring(lastSeparator + 1, path.length);
-
-    io.File file = io.File(path);
-    file = io.File(newPath)..writeAsBytesSync(fileData);
-    Navigator.pop(context, file);
+    Image src = decodeImage(data);
+    src = bakeOrientation(src);
+    src = copyCrop(src, cropRect.left.toInt(), cropRect.top.toInt(), cropRect.width.toInt(), cropRect.height.toInt());
+    var fileData = encodeJpg(src, quality: 50);
+    return Uint8List.fromList(fileData);
   }
 }

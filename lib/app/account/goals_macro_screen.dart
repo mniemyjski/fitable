@@ -1,7 +1,7 @@
 import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
-import 'package:fitable/utilities/providers.dart';
+import 'package:fitable/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,26 +27,26 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
         caloriesController.text = model.goalCalories.toStringAsFixed(0);
       }
 
-      proteinsController.text = preference.goalProteins.toStringAsFixed(0);
-      carbsController.text = preference.goalCarbs.toStringAsFixed(0);
-      fatsController.text = preference.goalFats.toStringAsFixed(0);
+      proteinsController.text = preference.targetProteins.toStringAsFixed(0);
+      carbsController.text = preference.targetCarbs.toStringAsFixed(0);
+      fatsController.text = preference.targetFats.toStringAsFixed(0);
 
-      total = (preference.goalProteins + preference.goalCarbs + preference.goalFats).toStringAsFixed(0);
+      total = (preference.targetProteins + preference.targetCarbs + preference.targetFats).toStringAsFixed(0);
       super.initState();
     });
   }
 
   _submit(BuildContext context) {
-    final db = context.read(providerDatabase);
+    final preferenceService = context.read(providerPreferenceService);
     context.read(providerPreference).whenData((preference) {
       if (!preference.goalCaloriesDefault) {
-        db.updatePreference(name: 'goalCalories', value: double.parse(caloriesController.text));
+        preferenceService.updatePreference(name: 'goalCalories', value: double.parse(caloriesController.text));
       }
 
       if (!preference.goalMacroDefault && int.tryParse(total) == 100) {
-        db.updatePreference(name: 'goalProteins', value: double.parse(proteinsController.text));
-        db.updatePreference(name: 'goalCarbs', value: double.parse(carbsController.text));
-        db.updatePreference(name: 'goalFats', value: double.parse(fatsController.text));
+        preferenceService.updatePreference(name: 'goalProteins', value: double.parse(proteinsController.text));
+        preferenceService.updatePreference(name: 'goalCarbs', value: double.parse(carbsController.text));
+        preferenceService.updatePreference(name: 'goalFats', value: double.parse(fatsController.text));
       }
     });
 
@@ -61,7 +61,7 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
 
   _switchCalories(bool state, Preference preference) {
     final model = context.read(providerHomeViewModel);
-    context.read(providerDatabase).updatePreference(name: 'goalCaloriesDefault', value: state);
+    context.read(providerPreferenceService).updatePreference(name: 'goalCaloriesDefault', value: state);
     model.calculateBMR(context: context);
 
     if (!preference.goalCaloriesDefault) {
@@ -73,7 +73,7 @@ class _GoalsMacroScreenState extends State<GoalsMacroScreen> {
 
   _switchMacro(bool state, Preference preference) {
     final model = context.read(providerHomeViewModel);
-    context.read(providerDatabase).updatePreference(name: 'goalMacroDefault', value: state);
+    context.read(providerPreferenceService).updatePreference(name: 'goalMacroDefault', value: state);
     model.calculateBMR(context: context);
 
     if (!preference.goalMacroDefault) {

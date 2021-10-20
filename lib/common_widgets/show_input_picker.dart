@@ -56,7 +56,6 @@ showInputPicker(
                               child: CustomButton(
                             child: Text(buttonTextNo != null ? buttonTextNo : Languages.cancel()),
                             color: Colors.indigo,
-                            textColor: Colors.white,
                             onPressed: () => Navigator.pop(context),
                           )),
                           SizedBox(width: 10)
@@ -65,7 +64,6 @@ showInputPicker(
                             child: CustomButton(
                           child: Text(buttonTextYes != null ? buttonTextYes : Languages.save()),
                           color: Colors.indigo,
-                          textColor: Colors.white,
                           onPressed: onPressed,
                         ))
                       ],

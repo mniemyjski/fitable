@@ -1,27 +1,25 @@
+import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fitable/models/account_model.dart';
-import 'package:fitable/common_widgets/build_main_app_bar.dart';
+import 'package:fitable/common_widgets/custom_app_bar.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
-import 'package:fitable/common_widgets/massage_flush_bar.dart';
+import 'package:fitable/common_widgets/show_flush_bar.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'package:universal_io/io.dart';
 
 class MyAccountScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final account = watch(providerAccount).data.value;
-    final db = watch(providerDatabase);
+    // final db = watch(providerDatabase);
 
     void _onPressed() async {
       final picker = ImagePicker();
@@ -33,15 +31,14 @@ class MyAccountScreen extends ConsumerWidget {
       );
 
       if (result != null) {
-        final db = context.read(providerDatabase);
-        File _file = File(result.path);
-        String url = await db.uploadToFirebaseStorage(file: _file, folderName: 'accounts');
-        db.updateAccount(name: 'avatarUrl', value: url);
+        Uint8List a = await result.readAsBytes();
+        String url = await context.read(providerStorageService).uploadToFirebaseStorage(uint8List: a, folderName: 'accounts');
+        context.read(providerAccountService).updateAccount(name: 'avatarUrl', value: url);
       }
     }
 
     return Scaffold(
-      appBar: buildMainAppBar(context: context, name: Languages.profile()),
+      appBar: CustomAppBar(Languages.profile()),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
           child: Column(
@@ -83,7 +80,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Languages.name(),
                 initValue: account.name,
                 onPressed: () async {
-                  bool nameAvailable = await context.read(providerDatabase).nameAvailable(_value);
+                  bool nameAvailable = await context.read(providerAccountService).nameAvailable(_value);
 
                   if (_value == account.name || _value == null) {
                     Navigator.pop(context);
@@ -98,7 +95,7 @@ class MyAccountScreen extends ConsumerWidget {
                     return;
                   }
 
-                  context.read(providerDatabase).updateAccount(name: 'name', value: _value);
+                  context.read(providerAccountService).updateAccount(name: 'name', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -114,7 +111,7 @@ class MyAccountScreen extends ConsumerWidget {
               showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(DateTime.now().year + 5))
                   .then((date) {
                 if (date != null) {
-                  db.updateAccount(name: 'dateBirth', value: DateTime(date.year, date.month, date.day));
+                  context.read(providerAccountService).updateAccount(name: 'dateBirth', value: DateTime(date.year, date.month, date.day));
                 }
               });
             },
@@ -131,7 +128,7 @@ class MyAccountScreen extends ConsumerWidget {
                   unit: 'cm',
                   isDecimal: false,
                   function: (double value) {
-                    db.updateAccount(name: 'height', value: value);
+                    context.read(providerAccountService).updateAccount(name: 'height', value: value);
                     Navigator.pop(context);
                   });
             },
@@ -141,7 +138,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: account.gender,
             list: <String>["male", "female"],
             onChanged: (value) {
-              db.updateAccount(name: 'gender', value: value);
+              context.read(providerAccountService).updateAccount(name: 'gender', value: value);
             },
           ),
           CustomInputBar(
@@ -155,7 +152,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Languages.youtube(),
                 initValue: account.youtube,
                 onPressed: () {
-                  db.updateAccount(name: 'youtube', value: _value);
+                  context.read(providerAccountService).updateAccount(name: 'youtube', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -175,7 +172,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Languages.instagram(),
                 initValue: account.instagram,
                 onPressed: () {
-                  db.updateAccount(name: 'instagram', value: _value);
+                  context.read(providerAccountService).updateAccount(name: 'instagram', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -195,7 +192,7 @@ class MyAccountScreen extends ConsumerWidget {
                 labelText: Languages.facebook(),
                 initValue: account.facebook,
                 onPressed: () {
-                  db.updateAccount(name: 'facebook', value: _value);
+                  context.read(providerAccountService).updateAccount(name: 'facebook', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -216,7 +213,7 @@ class MyAccountScreen extends ConsumerWidget {
                 initValue: account.bio,
                 multiLine: true,
                 onPressed: () {
-                  db.updateAccount(name: 'bio', value: _value);
+                  context.read(providerAccountService).updateAccount(name: 'bio', value: _value);
                   Navigator.pop(context);
                 },
                 onChanged: (String v) {
@@ -231,7 +228,7 @@ class MyAccountScreen extends ConsumerWidget {
                 Switch(
                     value: account.isCoach,
                     onChanged: (state) {
-                      db.updateAccount(name: 'isCoach', value: state);
+                      context.read(providerAccountService).updateAccount(name: 'isCoach', value: state);
                     }),
                 Text(Languages.coach()),
               ],
@@ -247,7 +244,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Enums.toText(account.accessDateBirth),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessDateBirth', value: value);
+              context.read(providerAccountService).updateAccount(name: 'accessDateBirth', value: value);
             },
           ),
           CustomDropDownButton(
@@ -255,7 +252,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Enums.toText(account.accessHeight),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessHeight', value: value);
+              context.read(providerAccountService).updateAccount(name: 'accessHeight', value: value);
             },
           ),
           CustomDropDownButton(
@@ -263,7 +260,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Enums.toText(account.accessGender),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessGender', value: value);
+              context.read(providerAccountService).updateAccount(name: 'accessGender', value: value);
             },
           ),
           CustomDropDownButton(
@@ -271,7 +268,7 @@ class MyAccountScreen extends ConsumerWidget {
             value: Enums.toText(account.accessMeals),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessMeals', value: value);
+              context.read(providerAccountService).updateAccount(name: 'accessMeals', value: value);
             },
           ),
           CustomDropDownButton(
@@ -279,13 +276,13 @@ class MyAccountScreen extends ConsumerWidget {
             value: Enums.toText(account.accessStats),
             list: <String>['private', 'coach', 'friends', 'public'],
             onChanged: (value) {
-              db.updateAccount(name: 'accessStats', value: value);
+              context.read(providerAccountService).updateAccount(name: 'accessStats', value: value);
             },
           ),
           SizedBox(height: 26),
           Container(
             width: double.infinity,
-            child: FlatButton(
+            child: TextButton(
               onPressed: () {},
               child: Text(
                 Languages.delete_account(),

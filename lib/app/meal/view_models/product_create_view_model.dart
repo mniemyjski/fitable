@@ -1,14 +1,14 @@
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/add_to_list/add_to_list_screen.dart';
 import 'package:fitable/models/issue_report_model.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/models/product_model.dart';
-import 'package:fitable/app/meal/product_create_screen.dart';
+
 import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -26,6 +26,51 @@ class ProductCreateViewModel extends ChangeNotifier {
   Product get newProduct => _newProduct;
   set newProduct(Product newProduct) {
     _newProduct = newProduct;
+
+    if (oldProduct != null) {
+      Color _color = Colors.indigo;
+      _nameColor = oldProduct.name != newProduct.name ? _color : null;
+      _caloriesColor = oldProduct.calories != newProduct.calories ? _color : null;
+      _proteinsColor = oldProduct.proteins != newProduct.proteins ? _color : null;
+      _carbsColor = oldProduct.carbs != newProduct.carbs ? _color : null;
+      _fatsColor = oldProduct.fats != newProduct.fats ? _color : null;
+      _sugarColor = oldProduct.sugar != newProduct.sugar ? _color : null;
+      _animalProteinsColor = oldProduct.animalProteins != newProduct.animalProteins ? _color : null;
+      _plantProteinsColor = oldProduct.plantProteins != newProduct.plantProteins ? _color : null;
+      _saturatedColor = oldProduct.saturated != newProduct.saturated ? _color : null;
+      _unsaturatedColor = oldProduct.unsaturated != newProduct.unsaturated ? _color : null;
+      _omega3Color = oldProduct.omega3 != newProduct.omega3 ? _color : null;
+      _omega6Color = oldProduct.omega6 != newProduct.omega6 ? _color : null;
+      _fiberColor = oldProduct.fiber != newProduct.fiber ? _color : null;
+      _caffeineColor = oldProduct.caffeine != newProduct.caffeine ? _color : null;
+      _cholesterolColor = oldProduct.cholesterol != newProduct.cholesterol ? _color : null;
+      _saltColor = oldProduct.salt != newProduct.salt ? _color : null;
+      _vitaminAColor = oldProduct.vitaminA != newProduct.vitaminA ? _color : null;
+      _vitaminCColor = oldProduct.vitaminC != newProduct.vitaminC ? _color : null;
+      _vitaminDColor = oldProduct.vitaminD != newProduct.vitaminD ? _color : null;
+      _vitaminEColor = oldProduct.vitaminE != newProduct.vitaminE ? _color : null;
+      _vitaminKColor = oldProduct.vitaminK != newProduct.vitaminK ? _color : null;
+      _vitaminB1Color = oldProduct.vitaminB1 != newProduct.vitaminB1 ? _color : null;
+      _vitaminB2Color = oldProduct.vitaminB2 != newProduct.vitaminB2 ? _color : null;
+      _vitaminB3Color = oldProduct.vitaminB3 != newProduct.vitaminB3 ? _color : null;
+      _vitaminB5Color = oldProduct.vitaminB5 != newProduct.vitaminB5 ? _color : null;
+      _vitaminB6Color = oldProduct.vitaminB6 != newProduct.vitaminB6 ? _color : null;
+      _vitaminB7Color = oldProduct.vitaminB7 != newProduct.vitaminB7 ? _color : null;
+      _vitaminB9Color = oldProduct.vitaminB9 != newProduct.vitaminB9 ? _color : null;
+      _vitaminB12Color = oldProduct.vitaminB12 != newProduct.vitaminB12 ? _color : null;
+      _potassiumColor = oldProduct.potassium != newProduct.potassium ? _color : null;
+      _sodiumColor = oldProduct.sodium != newProduct.sodium ? _color : null;
+      _calciumColor = oldProduct.calcium != newProduct.calcium ? _color : null;
+      _magnesiumColor = oldProduct.magnesium != newProduct.magnesium ? _color : null;
+      _phosphorusColor = oldProduct.phosphorus != newProduct.phosphorus ? _color : null;
+      _copperColor = oldProduct.copper != newProduct.copper ? _color : null;
+      _zincColor = oldProduct.zinc != newProduct.zinc ? _color : null;
+      _seleniumColor = oldProduct.selenium != newProduct.selenium ? _color : null;
+      _manganeseColor = oldProduct.magnesium != newProduct.magnesium ? _color : null;
+      _iodineColor = oldProduct.iodine != newProduct.iodine ? _color : null;
+      _chromiumColor = oldProduct.chromium != newProduct.chromium ? _color : null;
+    }
+
     notifyListeners();
   }
 
@@ -66,8 +111,8 @@ class ProductCreateViewModel extends ChangeNotifier {
     }
   }
 
-  Color _productNameColor;
-  Color get productNameColor => _productNameColor;
+  Color _nameColor;
+  Color get nameColor => _nameColor;
 
   Color _caloriesColor;
   Color get caloriesColor => _caloriesColor;
@@ -190,8 +235,6 @@ class ProductCreateViewModel extends ChangeNotifier {
   Color get chromiumColor => _chromiumColor;
 
   createProduct({@required BuildContext context, String description}) {
-    final db = context.read(providerDatabase);
-
     context.read(providerPreference.last).then((preference) async {
       newProduct = newProduct.copyWith(localeBase: preference.localeBase);
 
@@ -207,7 +250,7 @@ class ProductCreateViewModel extends ChangeNotifier {
 
         Navigator.pop(context, issuesReport);
       } else {
-        db.createProduct(newProduct);
+        context.read(providerProductsService).createProduct(newProduct);
       }
     });
   }

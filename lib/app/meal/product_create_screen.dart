@@ -7,8 +7,6 @@ import 'package:fitable/common_widgets/custom_text_field.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductCreateScreenArguments {
@@ -57,7 +55,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                     name: Languages.product_name(),
                     initialValue: model.newProduct.name,
                     suffix: "",
-                    textColor: model.productNameColor,
+                    textColor: model.nameColor,
                     onChanged: (v) {
                       final ctx = context.read(providerProductCreateViewModel);
                       ctx.newProduct = ctx.newProduct.copyWith(name: v);

@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitable/models/account_model.dart';
-import 'package:fitable/common_widgets/image_render.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -89,7 +86,7 @@ class _State extends State<MainDrawer> {
             icon: Icons.exit_to_app,
             text: Languages.sign_out(),
             onTap: () async {
-              final auth = context.read(providerAuthBase);
+              final auth = context.read(providerAuth);
               try {
                 await auth.signOut();
               } catch (e) {}

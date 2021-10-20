@@ -20,6 +20,7 @@ class Enums {
     try {
       return enumValues.singleWhere((element) => toText(element) == value);
     } on StateError catch (_) {
+      Logger().wtf('enum error!!!');
       return null;
     }
   }

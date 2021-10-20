@@ -82,7 +82,7 @@ class Ingredient extends Equatable {
 
   String getId() {
     if (product != null) return product.id;
-    if (recipe != null) return product.id;
+    if (recipe != null) return recipe.id;
     return '';
   }
 

@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Meal extends Equatable {
   const Meal({

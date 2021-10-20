@@ -1,58 +1,40 @@
-import 'package:fitable/models/preference_model.dart';
-import 'package:fitable/app/home/view_models/app_view_model.dart';
-import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/chooser_date.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/home/widgets/tile_head_meals.dart';
 import 'package:fitable/app/home/widgets/tile_head_measurement.dart';
 import 'package:fitable/app/home/widgets/tile_head_workouts.dart';
-import 'package:fitable/models/meal_model.dart';
-import 'package:fitable/models/measurement_model.dart';
-import 'package:fitable/common_widgets/build_main_app_bar.dart';
+import 'package:fitable/common_widgets/custom_app_bar.dart';
 import 'package:fitable/common_widgets/monetize_ad.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/utilities/languages.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:fitable/services/health_service.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
-  _buildBottomAppBar() {
-    return BottomAppBar(
-      child: Consumer(builder: (context, watch, child) {
-        final meals = watch(providerMeals);
-        final model = watch(providerHomeViewModel);
-        final app = watch(providerAppViewModel);
-        final db = watch(providerDatabase);
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-        watch(providerPreference).whenData((preference) {
-          watch(providerMeasurement).whenData((measurement) {
-            syncHealth(app.chosenDate, preference, measurement, db);
-          });
-        });
-
-        return meals.when(
-          data: (data) {
-            model.mealList = data.where((element) => element.dateTime == app.chosenDate).toList();
-            return MacroAggregation();
-          },
-          loading: () => Center(
-            child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    context.read(providerHealthService).checkAuthorizationHealth();
+    context.read(providerHealthService).getHealthData(
+          DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
           ),
-          error: (err, stack) => Center(child: Text('Error: $err')),
         );
-      }),
-    );
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildMainAppBar(context: context, name: Languages.home()),
+      appBar: CustomAppBar(Languages.home()),
       drawer: MainDrawer(),
       body: Column(children: [
         Container(
@@ -69,9 +51,9 @@ class HomeScreen extends StatelessWidget {
             ),
             child: Row(
               children: <Widget>[
-                chooserDate(-1),
-                chooserDate(0),
-                chooserDate(1),
+                ChooserDate(-1),
+                ChooserDate(0),
+                ChooserDate(1),
               ],
             )),
         Expanded(
@@ -89,7 +71,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ))
       ]),
-      bottomNavigationBar: _buildBottomAppBar(),
+      bottomNavigationBar: BottomAppBar(child: MacroAggregation()),
     );
   }
 }

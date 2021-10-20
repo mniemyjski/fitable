@@ -1,13 +1,13 @@
 import 'package:fitable/models/issue_report_model.dart';
 import 'package:fitable/models/product_model.dart';
 import 'package:fitable/app/meal/product_create_screen.dart';
-import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/show_custom_dialog.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/show_input_picker.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +21,7 @@ void _correctIssue(BuildContext context, dynamic element) async {
     );
   }
 
-  if (issuesReport != null) context.read(providerDatabase).createIssue(issuesReport);
+  if (issuesReport != null) context.read(providerIssueService).createIssue(issuesReport);
 }
 
 void _otherIssue(BuildContext context, dynamic element, ETypeElement elementType) {
@@ -43,7 +43,7 @@ void _otherIssue(BuildContext context, dynamic element, ETypeElement elementType
           issueType: ETypeIssue.other,
         );
 
-        context.read(providerDatabase).createIssue(issuesReport);
+        context.read(providerIssueService).createIssue(issuesReport);
         Navigator.pop(context);
       }
     },
@@ -53,7 +53,7 @@ void _otherIssue(BuildContext context, dynamic element, ETypeElement elementType
 _typeIssue(BuildContext context, dynamic element, ETypeElement elementType) {
   if (element.runtimeType != Product) return _otherIssue(context, element, elementType);
 
-  return buildShowDialog(
+  return showCustomDialog(
       context: context,
       height: 138,
       child: Column(
@@ -62,13 +62,11 @@ _typeIssue(BuildContext context, dynamic element, ETypeElement elementType) {
           CustomButton(
             child: Text(Languages.report_correction()),
             color: Colors.indigo,
-            textColor: Colors.white,
             onPressed: () => _correctIssue(context, element),
           ),
           CustomButton(
               child: Text(Languages.report_bug()),
               color: Colors.indigo,
-              textColor: Colors.white,
               onPressed: () {
                 Navigator.pop(context);
                 _otherIssue(context, element, elementType);
@@ -78,10 +76,10 @@ _typeIssue(BuildContext context, dynamic element, ETypeElement elementType) {
 }
 
 issueReport(BuildContext context, dynamic element, ETypeElement elementType) async {
-  bool already = await context.read(providerDatabase).alreadyIssue(element.id, elementType);
+  bool already = await context.read(providerIssueService).alreadyIssue(element.id, elementType);
 
   if (already)
-    return buildShowDialog(
+    return showCustomDialog(
         context: context,
         height: 138,
         child: Column(
@@ -94,7 +92,6 @@ issueReport(BuildContext context, dynamic element, ETypeElement elementType) asy
                     child: CustomButton(
                   child: Text(Languages.cancel()),
                   color: Colors.indigo,
-                  textColor: Colors.white,
                   onPressed: () => Navigator.pop(context),
                 )),
                 SizedBox(width: 10),
@@ -102,7 +99,6 @@ issueReport(BuildContext context, dynamic element, ETypeElement elementType) asy
                   child: CustomButton(
                       child: Text(Languages.change()),
                       color: Colors.indigo,
-                      textColor: Colors.white,
                       onPressed: () {
                         Navigator.pop(context);
                         return _typeIssue(context, element, elementType);

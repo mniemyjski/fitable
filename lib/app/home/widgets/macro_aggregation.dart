@@ -1,22 +1,22 @@
-import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
 import 'package:fitable/app/home/widgets/progress_bar.dart';
 import 'package:fitable/models/ingredient_model.dart';
 import 'package:fitable/models/meal_model.dart';
-import 'package:fitable/models/portion_model.dart';
+import 'package:fitable/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fitable/utilities/providers.dart';
 
-class MacroAggregation extends ConsumerWidget {
+class MacroAggregation extends StatelessWidget {
   final int calories;
   final double proteins;
   final double carbs;
   final double fats;
+  final List<Meal> meals;
   final List<Ingredient> ingredients;
 
-  const MacroAggregation({Key key, this.calories = 0, this.proteins = 0.0, this.carbs = 0.0, this.fats = 0.0, this.ingredients}) : super(key: key);
+  const MacroAggregation({Key key, this.calories = 0, this.proteins = 0.0, this.carbs = 0.0, this.fats = 0.0, this.meals, this.ingredients})
+      : super(key: key);
 
   _buildBody(List<Meal> data) {
     return Consumer(builder: (context, watch, child) {
@@ -94,24 +94,30 @@ class MacroAggregation extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final meals = watch(providerMeals);
-    final preference = watch(providerPreference);
+  Widget build(BuildContext context) {
+    return Consumer(builder: (context, watch, child) {
+      final meals = watch(providerMeals);
+      final preference = watch(providerPreference);
+      final model = watch(providerHomeViewModel);
+      final app = watch(providerAppViewModel);
 
-    return meals.when(
-      data: (data) {
-        return preference.when(
-          data: (pref) => _buildBody(data),
-          loading: () => Center(
-            child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-          ),
-          error: (err, stack) => Center(child: Text('Error: $err')),
-        );
-      },
-      loading: () => Center(
-        child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
-      ),
-      error: (err, stack) => Center(child: Text('Error: $err')),
-    );
+      return meals.when(
+        data: (data) {
+          model.mealList = data.where((element) => element.dateTime == app.chosenDate).toList();
+
+          return preference.when(
+            data: (pref) => _buildBody(data),
+            loading: () => Center(
+              child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+            ),
+            error: (err, stack) => Center(child: Text('Error: $err')),
+          );
+        },
+        loading: () => Center(
+          child: Container(height: 100, width: 100, child: CircularProgressIndicator()),
+        ),
+        error: (err, stack) => Center(child: Text('Error: $err')),
+      );
+    });
   }
 }

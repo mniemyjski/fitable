@@ -6,7 +6,7 @@ class TileProduct extends StatelessWidget {
   final Ingredient element;
   final bool isSuggested;
 
-  const TileProduct({@required this.element, bool this.isSuggested = false});
+  const TileProduct({@required this.element, this.isSuggested = false});
 
   @override
   Widget build(BuildContext context) {

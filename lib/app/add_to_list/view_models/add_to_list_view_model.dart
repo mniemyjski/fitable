@@ -1,9 +1,8 @@
 import 'dart:collection';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/common_widgets/custom_list_view.dart';
-import 'package:fitable/common_widgets/massage_flush_bar.dart';
+import 'package:fitable/common_widgets/show_flush_bar.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
 import 'package:flutter/material.dart';

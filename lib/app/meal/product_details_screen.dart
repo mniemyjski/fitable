@@ -3,18 +3,15 @@ import 'package:fitable/models/favorite_model.dart';
 import 'package:fitable/app/home/widgets/macro_aggregation.dart';
 import 'package:fitable/app/issue/issue_report.dart';
 import 'package:fitable/models/ingredient_model.dart';
-import 'package:fitable/models/product_model.dart';
 import 'package:fitable/app/meal/view_models/product_details_view_model.dart';
-import 'package:fitable/app/meal/widgets/nutritional.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_text_field.dart';
+import 'package:fitable/services/favorite_service.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailsScreenArguments {
   final Ingredient element;
@@ -46,7 +43,7 @@ _submitFavorite(BuildContext context) {
   final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
   Favorite _favorite = Favorite(type: ETypeFavorite.products, id: args.element.getId());
-  context.read(providerDatabase).updateFavorite(context, _favorite);
+  context.read(providerFavoriteService).whenData((value) => value.updateFavorite(_favorite));
 }
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -56,7 +53,7 @@ class ProductDetailsScreen extends StatelessWidget {
       final ProductDetailsScreenArguments args = ModalRoute.of(context).settings.arguments;
 
       final model = watch(providerProductDetailsViewModel);
-      watch(providerFavorite).whenData((favorites) => model.init(args.element, favorites));
+      watch(providerFavorite).whenData((favorites) => model.init(favorites, args.element));
 
       if (model.createScreen)
         return Scaffold(

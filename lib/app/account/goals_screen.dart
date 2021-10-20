@@ -1,15 +1,15 @@
 import 'package:fitable/models/preference_model.dart';
 import 'package:fitable/app/home/view_models/app_view_model.dart';
 import 'package:fitable/app/home/view_models/home_view_model.dart';
-import 'package:fitable/common_widgets/build_main_app_bar.dart';
+import 'package:fitable/common_widgets/custom_app_bar.dart';
 import 'package:fitable/common_widgets/custom_button.dart';
 import 'package:fitable/common_widgets/custom_drop_down_button.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/main_drawer.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/services/services.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/utilities/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +18,7 @@ class GoalsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final preference = watch(providerPreference);
-    final db = watch(providerDatabase);
+    // final db = watch(providerDatabase);
     final app = watch(providerAppViewModel);
 
     String activitiesDescription(String value) {
@@ -54,10 +54,10 @@ class GoalsScreen extends ConsumerWidget {
       final model = context.read(providerHomeViewModel);
       model.calculateBMR(context: context);
 
-      String _calories = pref.goalCaloriesDefault ? model.goalCalories.toStringAsFixed(0) : pref.goalCalories.toStringAsFixed(0);
-      String _proteins = pref.goalProteins.toStringAsFixed(0);
-      String _carbs = pref.goalCarbs.toStringAsFixed(0);
-      String _fats = pref.goalFats.toStringAsFixed(0);
+      String _calories = pref.goalCaloriesDefault ? model.goalCalories.toStringAsFixed(0) : pref.targetCalories.toStringAsFixed(0);
+      String _proteins = pref.targetProteins.toStringAsFixed(0);
+      String _carbs = pref.targetCarbs.toStringAsFixed(0);
+      String _fats = pref.targetFats.toStringAsFixed(0);
 
       return Languages.calories() +
           ': ' +
@@ -79,7 +79,7 @@ class GoalsScreen extends ConsumerWidget {
 
     _buildBody(Preference preference) {
       return Scaffold(
-          appBar: buildMainAppBar(context: context, name: Languages.goals()),
+          appBar: CustomAppBar(Languages.goals()),
           drawer: MainDrawer(),
           body: Column(
             children: [
@@ -100,7 +100,7 @@ class GoalsScreen extends ConsumerWidget {
                 descFunc: activitiesDescription,
                 list: <String>['very_low', 'low', 'normal', 'medium', 'high'],
                 onChanged: (v) {
-                  db.updatePreference(name: 'dayTimeActivities', value: v);
+                  context.read(providerPreferenceService).updatePreference(name: 'dayTimeActivities', value: v);
                 },
               ),
               CustomDropDownButton(
@@ -111,7 +111,7 @@ class GoalsScreen extends ConsumerWidget {
                 list: <String>['standard', 'advanced'],
                 onChanged: (v) {
                   //TODO validator sprawdzający czy jest dodany poziom tkanki tłuszczowej
-                  db.updatePreference(name: 'formulaBMR', value: v);
+                  context.read(providerPreferenceService).updatePreference(name: 'formulaBMR', value: v);
                 },
               ),
               CustomInputBar(
@@ -158,7 +158,9 @@ class GoalsScreen extends ConsumerWidget {
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         onPressed: () {
-                                          db.updatePreference(name: 'speedChangeWeight', value: _speedChangeWeight);
+                                          context
+                                              .read(providerPreferenceService)
+                                              .updatePreference(name: 'speedChangeWeight', value: _speedChangeWeight);
                                           Navigator.pop(context);
                                         }),
                                   ],
@@ -182,7 +184,7 @@ class GoalsScreen extends ConsumerWidget {
                       unit: 'kg',
                       isDecimal: false,
                       function: (double value) {
-                        db.updatePreference(name: 'targetWeight', value: value);
+                        context.read(providerPreferenceService).updatePreference(name: 'targetWeight', value: value);
                         Navigator.pop(context);
                       });
                 },
@@ -199,7 +201,7 @@ class GoalsScreen extends ConsumerWidget {
                       unit: '%',
                       isDecimal: false,
                       function: (double value) {
-                        db.updatePreference(name: 'targetFat', value: value);
+                        context.read(providerPreferenceService).updatePreference(name: 'targetFat', value: value);
                         Navigator.pop(context);
                       });
                 },
@@ -217,7 +219,7 @@ class GoalsScreen extends ConsumerWidget {
                       unit: '',
                       isDecimal: false,
                       function: (double value) {
-                        db.updatePreference(name: 'targetSteps', value: value);
+                        context.read(providerPreferenceService).updatePreference(name: 'targetSteps', value: value);
                         Navigator.pop(context);
                       });
                 },
@@ -235,7 +237,7 @@ class GoalsScreen extends ConsumerWidget {
                       unit: '',
                       isDecimal: false,
                       function: (double value) {
-                        db.updatePreference(name: 'targetBurnCalories', value: value);
+                        context.read(providerPreferenceService).updatePreference(name: 'targetBurnCalories', value: value);
                         Navigator.pop(context);
                       });
                 },

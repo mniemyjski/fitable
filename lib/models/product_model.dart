@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fitable/models/portion_model.dart';
 import 'package:fitable/utilities/enums.dart';
-import 'package:flutter/material.dart';
 
 class Product extends Equatable {
   const Product(

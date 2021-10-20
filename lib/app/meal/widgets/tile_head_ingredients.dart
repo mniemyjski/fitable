@@ -4,7 +4,6 @@ import 'package:fitable/common_widgets/custom_list_view.dart';
 import 'package:fitable/utilities/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class TileHeadIngredients extends StatelessWidget {
   _buildHead() {

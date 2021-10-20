@@ -1,17 +1,16 @@
-import 'package:fitable/models/account_model.dart';
 import 'package:fitable/app/measurement/view_models/measurement_view_model.dart';
-import 'package:fitable/common_widgets/build_show_dialog.dart';
+import 'package:fitable/common_widgets/show_custom_dialog.dart';
 import 'package:fitable/common_widgets/custom_input_bar.dart';
 import 'package:fitable/common_widgets/show_value_picker.dart';
+import 'package:fitable/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fitable/utilities/providers.dart';
 
 class AddBodyCircumferencesScreen extends ConsumerWidget {
   _submit(BuildContext context) async {
     final String result = context.read(providerMeasurementViewModel).submitCircumferences(context);
-    if (result != 'done') buildShowDialog(context: context, child: Center(child: Text(result)));
+    if (result != 'done') showCustomDialog(context: context, child: Center(child: Text(result)));
   }
 
   @override
