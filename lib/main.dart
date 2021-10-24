@@ -1,86 +1,91 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:fitable/routers/route_generator.dart';
-import 'package:fitable/services/services.dart';
+import 'package:fitable/app/auth/bloc/auth_bloc.dart';
+import 'package:fitable/app/auth/repositories/auth_repository.dart';
+import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
+import 'package:fitable/config/themes/custom_theme.dart';
+import 'package:fitable/constants/strings.dart';
+import 'package:fitable/utilities/utilities.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:url_strategy/url_strategy.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'config/injectable/injection.dart';
+import 'config/routes/routes.gr.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies(Env.prod);
+  // WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(
-    EasyLocalization(
-      child: ProviderScope(child: MyApp()),
+  setPathUrlStrategy();
+  Bloc.observer = SimpleBlocObserver();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
+  );
+  runApp(EasyLocalization(
       supportedLocales: [
         Locale('pl'),
         Locale('en'),
       ],
-      path: 'resources/language.csv',
+      path: 'assets/languages.csv',
       saveLocale: true,
       useOnlyLangCode: true,
       assetLoader: CsvAssetLoader(),
       fallbackLocale: Locale('pl'),
-    ),
-  );
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  final _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.landscapeLeft,
-    // ]);
-
-    // if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS)
-    //   return MaterialApp(
-    //     // debugShowCheckedModeBanner: false,
-    //     title: 'Fitable',
-    //     localizationsDelegates: context.localizationDelegates,
-    //     supportedLocales: context.supportedLocales,
-    //     locale: context.locale,
-    //     theme: ThemeData(
-    //       fontFamily: 'Georgia',
-    //       primaryColor: Colors.lightBlue[800],
-    //       // primarySwatch: Colors.indigo,
-    //     ),
-    //     home: SingleChildScrollView(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           FitableHeader(),
-    //           Image.asset("resources/images/work_in_progress.jpg"),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-
-    return Consumer(builder: (context, watch, child) {
-      final preference = watch(providerPreference)?.data?.value;
-
-      return MaterialApp(
-        // debugShowCheckedModeBanner: false,
-        title: 'Fitable',
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: ThemeData(
-          fontFamily: 'Georgia',
-          primarySwatch: Colors.indigo,
-          canvasColor: (preference?.darkMode ?? false) ? null : Colors.grey[200],
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (_) => getIt<AuthRepository>(),
         ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+              authRepository: getIt<AuthRepository>(),
+            ),
+          ),
+          BlocProvider<DarkModeCubit>(
+            create: (context) => DarkModeCubit(),
+          ),
+        ],
+        child: BlocBuilder<DarkModeCubit, bool>(
+          builder: (context, state) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: true,
+              builder: (context, widget) => ResponsiveWrapper.builder(
+                ClampingScrollWrapper.builder(context, widget!),
+                breakpoints: const [
+                  ResponsiveBreakpoint.resize(350, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                  ResponsiveBreakpoint.resize(800, name: DESKTOP),
+                  ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+                ],
+              ),
+              title: Strings.app_name(),
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              theme: CustomTheme.lightTheme,
+              darkTheme: CustomTheme.darkTheme,
+              themeMode: state ? ThemeMode.dark : ThemeMode.light,
+              routerDelegate: _appRouter.delegate(),
+              routeInformationParser: _appRouter.defaultRouteParser(),
+            );
+          },
         ),
-        themeMode: (preference?.darkMode ?? false) ? ThemeMode.dark : ThemeMode.light,
-        initialRoute: '/',
-        routes: routes,
-      );
-    });
+      ),
+    );
   }
 }
