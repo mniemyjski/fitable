@@ -112,4 +112,5 @@ class Strings {
 
   static String user() => "user".tr();
   static String delete_account() => "delete_account".tr();
+  static String work_in_progress() => "work_in_progress".tr();
 }
