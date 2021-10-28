@@ -475,8 +475,10 @@ AuthState _$AuthStateFromJson(Map<String, dynamic> json) {
 class _$AuthStateTearOff {
   const _$AuthStateTearOff();
 
-  Initial initial() {
-    return const Initial();
+  Initial initial(String? sessionId) {
+    return Initial(
+      sessionId,
+    );
   }
 
   Authenticated authenticated(String sessionId) {
@@ -501,21 +503,21 @@ const $AuthState = _$AuthStateTearOff();
 mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(String? sessionId) initial,
     required TResult Function(String sessionId) authenticated,
     required TResult Function() unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
@@ -565,6 +567,7 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
 abstract class $InitialCopyWith<$Res> {
   factory $InitialCopyWith(Initial value, $Res Function(Initial) then) =
       _$InitialCopyWithImpl<$Res>;
+  $Res call({String? sessionId});
 }
 
 /// @nodoc
@@ -575,60 +578,83 @@ class _$InitialCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 
   @override
   Initial get _value => super._value as Initial;
+
+  @override
+  $Res call({
+    Object? sessionId = freezed,
+  }) {
+    return _then(Initial(
+      sessionId == freezed
+          ? _value.sessionId
+          : sessionId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$Initial implements Initial {
-  const _$Initial();
+  const _$Initial(this.sessionId);
 
   factory _$Initial.fromJson(Map<String, dynamic> json) =>
       _$$InitialFromJson(json);
 
   @override
+  final String? sessionId;
+
+  @override
   String toString() {
-    return 'AuthState.initial()';
+    return 'AuthState.initial(sessionId: $sessionId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Initial);
+        (other.runtimeType == runtimeType &&
+            other is Initial &&
+            (identical(other.sessionId, sessionId) ||
+                other.sessionId == sessionId));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, sessionId);
+
+  @JsonKey(ignore: true)
+  @override
+  $InitialCopyWith<Initial> get copyWith =>
+      _$InitialCopyWithImpl<Initial>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(String? sessionId) initial,
     required TResult Function(String sessionId) authenticated,
     required TResult Function() unauthenticated,
   }) {
-    return initial();
+    return initial(sessionId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
   }) {
-    return initial?.call();
+    return initial?.call(sessionId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial();
+      return initial(sessionId);
     }
     return orElse();
   }
@@ -674,9 +700,13 @@ class _$Initial implements Initial {
 }
 
 abstract class Initial implements AuthState {
-  const factory Initial() = _$Initial;
+  const factory Initial(String? sessionId) = _$Initial;
 
   factory Initial.fromJson(Map<String, dynamic> json) = _$Initial.fromJson;
+
+  String? get sessionId;
+  @JsonKey(ignore: true)
+  $InitialCopyWith<Initial> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -746,7 +776,7 @@ class _$Authenticated implements Authenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(String? sessionId) initial,
     required TResult Function(String sessionId) authenticated,
     required TResult Function() unauthenticated,
   }) {
@@ -756,7 +786,7 @@ class _$Authenticated implements Authenticated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
   }) {
@@ -766,7 +796,7 @@ class _$Authenticated implements Authenticated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
@@ -872,7 +902,7 @@ class _$Unauthenticated implements Unauthenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function(String? sessionId) initial,
     required TResult Function(String sessionId) authenticated,
     required TResult Function() unauthenticated,
   }) {
@@ -882,7 +912,7 @@ class _$Unauthenticated implements Unauthenticated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
   }) {
@@ -892,7 +922,7 @@ class _$Unauthenticated implements Unauthenticated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function(String? sessionId)? initial,
     TResult Function(String sessionId)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),

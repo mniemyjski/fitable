@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
@@ -9,6 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/src/bloc_provider.dart';
+import 'package:flutter_bloc/src/repository_provider.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,7 +21,7 @@ import 'config/routes/routes.gr.dart';
 
 void main() async {
   configureDependencies(Env.prod);
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
   Bloc.observer = SimpleBlocObserver();
@@ -43,6 +46,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final botToastBuilder = BotToastInit();
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthRepository>(
@@ -52,27 +57,19 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
-            create: (context) => AuthBloc(
+            create: (_) => AuthBloc(
               authRepository: getIt<AuthRepository>(),
             ),
           ),
           BlocProvider<DarkModeCubit>(
-            create: (context) => DarkModeCubit(),
+            create: (_) => DarkModeCubit(),
           ),
         ],
         child: BlocBuilder<DarkModeCubit, bool>(
           builder: (context, state) {
             return MaterialApp.router(
               debugShowCheckedModeBanner: true,
-              builder: (context, widget) => ResponsiveWrapper.builder(
-                ClampingScrollWrapper.builder(context, widget!),
-                breakpoints: const [
-                  ResponsiveBreakpoint.resize(350, name: MOBILE),
-                  ResponsiveBreakpoint.autoScale(600, name: TABLET),
-                  ResponsiveBreakpoint.resize(800, name: DESKTOP),
-                  ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-                ],
-              ),
+              builder: (context, widget) => _build(widget, context, botToastBuilder),
               title: Strings.app_name(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
@@ -80,12 +77,30 @@ class MyApp extends StatelessWidget {
               theme: CustomTheme.lightTheme,
               darkTheme: CustomTheme.darkTheme,
               themeMode: state ? ThemeMode.dark : ThemeMode.light,
-              routerDelegate: _appRouter.delegate(),
+              routerDelegate: _appRouter.delegate(
+                navigatorObservers: () => [
+                  BotToastNavigatorObserver(),
+                ],
+              ),
               routeInformationParser: _appRouter.defaultRouteParser(),
             );
           },
         ),
       ),
     );
+  }
+
+  Widget _build(Widget? widget, BuildContext context, TransitionBuilder botToastBuilder) {
+    widget = ResponsiveWrapper.builder(
+      ClampingScrollWrapper.builder(context, widget!),
+      breakpoints: const [
+        ResponsiveBreakpoint.resize(350, name: MOBILE),
+        ResponsiveBreakpoint.autoScale(600, name: TABLET),
+        ResponsiveBreakpoint.resize(800, name: DESKTOP),
+        ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+      ],
+    );
+    widget = botToastBuilder(context, widget);
+    return widget;
   }
 }

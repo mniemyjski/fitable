@@ -21,21 +21,34 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
   AuthBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
-        super(const AuthState.initial()) {
+        super(const AuthState.initial(null)) {
     _init();
   }
 
-  void _init() async {
+  void _init() {
     state.maybeWhen(
-        authenticated: (id) async {
-          final String? _id = await _authRepository.getSessionById(id);
-          if (_id != null) {
-            add(AuthEvent.authCheckRequested(_id));
-          } else {
-            add(AuthEvent.authCheckRequested(null));
-          }
-        },
-        orElse: () => add(AuthEvent.authCheckRequested(null)));
+      orElse: () => add(AuthEvent.authCheckRequested(null)),
+      initial: (id) {
+        if (id != null) {
+          Task(() async => await _authRepository.getSessionById(id))
+              .attempt()
+              .mapLeftToFailure()
+              .run()
+              .then(
+                (value) => value.fold(
+                  (failure) {
+                    add(AuthEvent.authCheckRequested(null));
+                  },
+                  (auth) {
+                    add(AuthEvent.authCheckRequested(id));
+                  },
+                ),
+              );
+        } else {
+          add(AuthEvent.authCheckRequested(null));
+        }
+      },
+    );
   }
 
   Future<Failure?> signUpWithEmail(Auth auth) async {
@@ -43,9 +56,14 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
         .attempt()
         .mapLeftToFailure()
         .run()
-        .then((value) => value.fold((l) => l, (r) {
-              add(AuthEvent.authCheckRequested(r));
-            }));
+        .then(
+          (value) => value.fold(
+            (failure) => failure,
+            (auth) {
+              add(AuthEvent.authCheckRequested(auth));
+            },
+          ),
+        );
   }
 
   Future<Failure?> signInWithEmail(Auth auth) async {
@@ -53,9 +71,14 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
         .attempt()
         .mapLeftToFailure()
         .run()
-        .then((value) => value.fold((l) => l, (r) {
-              add(AuthEvent.authCheckRequested(r));
-            }));
+        .then(
+          (value) => value.fold(
+            (failure) => failure,
+            (auth) {
+              add(AuthEvent.authCheckRequested(auth));
+            },
+          ),
+        );
   }
 
   deleteAccount() {
@@ -71,13 +94,41 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   }
 
   signOut() async {
-    await Task(() async => await _authRepository.signOut())
-        .attempt()
-        .mapLeftToFailure()
-        .run()
-        .then((value) => value.fold((l) => l, (r) {
-              add(AuthEvent.signedOut());
-            }));
+    state.maybeWhen(
+      orElse: () => add(AuthEvent.authCheckRequested(null)),
+      authenticated: (id) async =>
+          await Task(() async => await _authRepository.signOut(id))
+              .attempt()
+              .mapLeftToFailure()
+              .run()
+              .then(
+                (value) => value.fold(
+                  (failure) => failure,
+                  (auth) {
+                    add(AuthEvent.signedOut());
+                  },
+                ),
+              ),
+    );
+  }
+
+  signOutAllDevices() async {
+    state.maybeWhen(
+      orElse: () => add(AuthEvent.authCheckRequested(null)),
+      authenticated: (id) async =>
+          await Task(() async => await _authRepository.signOutAllDevices())
+              .attempt()
+              .mapLeftToFailure()
+              .run()
+              .then(
+                (value) => value.fold(
+                  (failure) => failure,
+                  (auth) {
+                    add(AuthEvent.signedOut());
+                  },
+                ),
+              ),
+    );
   }
 
   @override
@@ -94,7 +145,8 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapAuthUserChangedToState(AuthCheckRequested? event) async* {
+  Stream<AuthState> _mapAuthUserChangedToState(
+      AuthCheckRequested? event) async* {
     if (event?.sessionId != null) {
       if (state != Authenticated) {
         yield AuthState.authenticated(event!.sessionId!);
@@ -113,6 +165,9 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
 
   @override
   Map<String, dynamic>? toJson(AuthState state) {
-    return state.toJson();
+    return state.maybeWhen(
+      authenticated: (s) => AuthState.initial(s).toJson(),
+      orElse: () => AuthState.initial(null).toJson(),
+    );
   }
 }

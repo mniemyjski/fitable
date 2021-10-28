@@ -1,13 +1,17 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 customFlashBar(String text) {
-  Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0);
+  return BotToast.showAttachedWidget(
+      attachedBuilder: (_) => Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.favorite,
+                color: Colors.redAccent,
+              ),
+            ),
+          ),
+      duration: Duration(seconds: 2),
+      target: Offset(8, 8));
 }
