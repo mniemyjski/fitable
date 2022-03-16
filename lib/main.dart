@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
                 locale: context.locale,
                 theme: CustomTheme.lightTheme,
                 darkTheme: CustomTheme.darkTheme,
-                themeMode: context.read<DarkModeCubit>().state ? ThemeMode.dark : ThemeMode.light,
+                themeMode: context.watch<DarkModeCubit>().state ? ThemeMode.dark : ThemeMode.light,
                 routerDelegate: _appRouter.delegate(
                   navigatorObservers: () => [
                     BotToastNavigatorObserver(),
