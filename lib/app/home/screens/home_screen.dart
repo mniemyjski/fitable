@@ -1,8 +1,10 @@
-import 'package:fitable/constants/strings.dart';
-import 'package:fitable/widgets/custom_app_bar.dart';
-import 'package:fitable/widgets/custom_drawer/custom_drawer.dart';
-import 'package:fitable/widgets/widgets.dart';
+import 'package:fitable/app/account/models/account_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../constants/constants.dart';
+import '../../../widgets/widgets.dart';
+import '../../account/cubit/my_account_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,7 +15,9 @@ class HomeScreen extends StatelessWidget {
       appBar: customAppBar(title: Strings.home()),
       drawer: CustomDrawer(),
       body: Column(
-        children: [],
+        children: [
+          // CustomButton(onPressed: () => context.read<MyAccountCubit>().close(), child: Text('test')),
+        ],
       ),
     );
   }

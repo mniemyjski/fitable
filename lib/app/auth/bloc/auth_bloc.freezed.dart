@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'auth_bloc.dart';
@@ -17,9 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$AuthEventTearOff {
   const _$AuthEventTearOff();
 
-  AuthCheckRequested authCheckRequested(String? sessionId) {
+  AuthCheckRequested authCheckRequested(Auth? auth) {
     return AuthCheckRequested(
-      sessionId,
+      auth,
     );
   }
 
@@ -39,21 +40,21 @@ const $AuthEvent = _$AuthEventTearOff();
 mixin _$AuthEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) authCheckRequested,
+    required TResult Function(Auth? auth) authCheckRequested,
     required TResult Function() signedOut,
     required TResult Function() deleteAccount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
     required TResult orElse(),
@@ -103,7 +104,9 @@ abstract class $AuthCheckRequestedCopyWith<$Res> {
   factory $AuthCheckRequestedCopyWith(
           AuthCheckRequested value, $Res Function(AuthCheckRequested) then) =
       _$AuthCheckRequestedCopyWithImpl<$Res>;
-  $Res call({String? sessionId});
+  $Res call({Auth? auth});
+
+  $AuthCopyWith<$Res>? get auth;
 }
 
 /// @nodoc
@@ -119,28 +122,39 @@ class _$AuthCheckRequestedCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sessionId = freezed,
+    Object? auth = freezed,
   }) {
     return _then(AuthCheckRequested(
-      sessionId == freezed
-          ? _value.sessionId
-          : sessionId // ignore: cast_nullable_to_non_nullable
-              as String?,
+      auth == freezed
+          ? _value.auth
+          : auth // ignore: cast_nullable_to_non_nullable
+              as Auth?,
     ));
+  }
+
+  @override
+  $AuthCopyWith<$Res>? get auth {
+    if (_value.auth == null) {
+      return null;
+    }
+
+    return $AuthCopyWith<$Res>(_value.auth!, (value) {
+      return _then(_value.copyWith(auth: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$AuthCheckRequested implements AuthCheckRequested {
-  const _$AuthCheckRequested(this.sessionId);
+  const _$AuthCheckRequested(this.auth);
 
   @override
-  final String? sessionId;
+  final Auth? auth;
 
   @override
   String toString() {
-    return 'AuthEvent.authCheckRequested(sessionId: $sessionId)';
+    return 'AuthEvent.authCheckRequested(auth: $auth)';
   }
 
   @override
@@ -148,12 +162,12 @@ class _$AuthCheckRequested implements AuthCheckRequested {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AuthCheckRequested &&
-            (identical(other.sessionId, sessionId) ||
-                other.sessionId == sessionId));
+            const DeepCollectionEquality().equals(other.auth, auth));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sessionId);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(auth));
 
   @JsonKey(ignore: true)
   @override
@@ -163,33 +177,33 @@ class _$AuthCheckRequested implements AuthCheckRequested {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) authCheckRequested,
+    required TResult Function(Auth? auth) authCheckRequested,
     required TResult Function() signedOut,
     required TResult Function() deleteAccount,
   }) {
-    return authCheckRequested(sessionId);
+    return authCheckRequested(auth);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
   }) {
-    return authCheckRequested?.call(sessionId);
+    return authCheckRequested?.call(auth);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
     required TResult orElse(),
   }) {
     if (authCheckRequested != null) {
-      return authCheckRequested(sessionId);
+      return authCheckRequested(auth);
     }
     return orElse();
   }
@@ -230,9 +244,9 @@ class _$AuthCheckRequested implements AuthCheckRequested {
 }
 
 abstract class AuthCheckRequested implements AuthEvent {
-  const factory AuthCheckRequested(String? sessionId) = _$AuthCheckRequested;
+  const factory AuthCheckRequested(Auth? auth) = _$AuthCheckRequested;
 
-  String? get sessionId;
+  Auth? get auth;
   @JsonKey(ignore: true)
   $AuthCheckRequestedCopyWith<AuthCheckRequested> get copyWith =>
       throw _privateConstructorUsedError;
@@ -276,7 +290,7 @@ class _$SignedOut implements SignedOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) authCheckRequested,
+    required TResult Function(Auth? auth) authCheckRequested,
     required TResult Function() signedOut,
     required TResult Function() deleteAccount,
   }) {
@@ -286,7 +300,7 @@ class _$SignedOut implements SignedOut {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
   }) {
@@ -296,7 +310,7 @@ class _$SignedOut implements SignedOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
     required TResult orElse(),
@@ -386,7 +400,7 @@ class _$DeleteAccount implements DeleteAccount {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) authCheckRequested,
+    required TResult Function(Auth? auth) authCheckRequested,
     required TResult Function() signedOut,
     required TResult Function() deleteAccount,
   }) {
@@ -396,7 +410,7 @@ class _$DeleteAccount implements DeleteAccount {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
   }) {
@@ -406,7 +420,7 @@ class _$DeleteAccount implements DeleteAccount {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? authCheckRequested,
+    TResult Function(Auth? auth)? authCheckRequested,
     TResult Function()? signedOut,
     TResult Function()? deleteAccount,
     required TResult orElse(),
@@ -457,7 +471,7 @@ abstract class DeleteAccount implements AuthEvent {
 }
 
 AuthState _$AuthStateFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType'] as String?) {
+  switch (json['runtimeType']) {
     case 'initial':
       return Initial.fromJson(json);
     case 'authenticated':
@@ -475,15 +489,15 @@ AuthState _$AuthStateFromJson(Map<String, dynamic> json) {
 class _$AuthStateTearOff {
   const _$AuthStateTearOff();
 
-  Initial initial(String? sessionId) {
+  Initial initial(Auth? auth) {
     return Initial(
-      sessionId,
+      auth,
     );
   }
 
-  Authenticated authenticated(String sessionId) {
+  Authenticated authenticated(Auth auth) {
     return Authenticated(
-      sessionId,
+      auth,
     );
   }
 
@@ -503,22 +517,22 @@ const $AuthState = _$AuthStateTearOff();
 mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) initial,
-    required TResult Function(String sessionId) authenticated,
+    required TResult Function(Auth? auth) initial,
+    required TResult Function(Auth auth) authenticated,
     required TResult Function() unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
   }) =>
@@ -567,7 +581,9 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
 abstract class $InitialCopyWith<$Res> {
   factory $InitialCopyWith(Initial value, $Res Function(Initial) then) =
       _$InitialCopyWithImpl<$Res>;
-  $Res call({String? sessionId});
+  $Res call({Auth? auth});
+
+  $AuthCopyWith<$Res>? get auth;
 }
 
 /// @nodoc
@@ -581,31 +597,45 @@ class _$InitialCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sessionId = freezed,
+    Object? auth = freezed,
   }) {
     return _then(Initial(
-      sessionId == freezed
-          ? _value.sessionId
-          : sessionId // ignore: cast_nullable_to_non_nullable
-              as String?,
+      auth == freezed
+          ? _value.auth
+          : auth // ignore: cast_nullable_to_non_nullable
+              as Auth?,
     ));
+  }
+
+  @override
+  $AuthCopyWith<$Res>? get auth {
+    if (_value.auth == null) {
+      return null;
+    }
+
+    return $AuthCopyWith<$Res>(_value.auth!, (value) {
+      return _then(_value.copyWith(auth: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$Initial implements Initial {
-  const _$Initial(this.sessionId);
+  const _$Initial(this.auth, {String? $type}) : $type = $type ?? 'initial';
 
   factory _$Initial.fromJson(Map<String, dynamic> json) =>
       _$$InitialFromJson(json);
 
   @override
-  final String? sessionId;
+  final Auth? auth;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
-    return 'AuthState.initial(sessionId: $sessionId)';
+    return 'AuthState.initial(auth: $auth)';
   }
 
   @override
@@ -613,12 +643,12 @@ class _$Initial implements Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Initial &&
-            (identical(other.sessionId, sessionId) ||
-                other.sessionId == sessionId));
+            const DeepCollectionEquality().equals(other.auth, auth));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sessionId);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(auth));
 
   @JsonKey(ignore: true)
   @override
@@ -628,33 +658,33 @@ class _$Initial implements Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) initial,
-    required TResult Function(String sessionId) authenticated,
+    required TResult Function(Auth? auth) initial,
+    required TResult Function(Auth auth) authenticated,
     required TResult Function() unauthenticated,
   }) {
-    return initial(sessionId);
+    return initial(auth);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
   }) {
-    return initial?.call(sessionId);
+    return initial?.call(auth);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(sessionId);
+      return initial(auth);
     }
     return orElse();
   }
@@ -695,16 +725,16 @@ class _$Initial implements Initial {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InitialToJson(this)..['runtimeType'] = 'initial';
+    return _$$InitialToJson(this);
   }
 }
 
 abstract class Initial implements AuthState {
-  const factory Initial(String? sessionId) = _$Initial;
+  const factory Initial(Auth? auth) = _$Initial;
 
   factory Initial.fromJson(Map<String, dynamic> json) = _$Initial.fromJson;
 
-  String? get sessionId;
+  Auth? get auth;
   @JsonKey(ignore: true)
   $InitialCopyWith<Initial> get copyWith => throw _privateConstructorUsedError;
 }
@@ -714,7 +744,9 @@ abstract class $AuthenticatedCopyWith<$Res> {
   factory $AuthenticatedCopyWith(
           Authenticated value, $Res Function(Authenticated) then) =
       _$AuthenticatedCopyWithImpl<$Res>;
-  $Res call({String sessionId});
+  $Res call({Auth auth});
+
+  $AuthCopyWith<$Res> get auth;
 }
 
 /// @nodoc
@@ -729,31 +761,42 @@ class _$AuthenticatedCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sessionId = freezed,
+    Object? auth = freezed,
   }) {
     return _then(Authenticated(
-      sessionId == freezed
-          ? _value.sessionId
-          : sessionId // ignore: cast_nullable_to_non_nullable
-              as String,
+      auth == freezed
+          ? _value.auth
+          : auth // ignore: cast_nullable_to_non_nullable
+              as Auth,
     ));
+  }
+
+  @override
+  $AuthCopyWith<$Res> get auth {
+    return $AuthCopyWith<$Res>(_value.auth, (value) {
+      return _then(_value.copyWith(auth: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$Authenticated implements Authenticated {
-  const _$Authenticated(this.sessionId);
+  const _$Authenticated(this.auth, {String? $type})
+      : $type = $type ?? 'authenticated';
 
   factory _$Authenticated.fromJson(Map<String, dynamic> json) =>
       _$$AuthenticatedFromJson(json);
 
   @override
-  final String sessionId;
+  final Auth auth;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
-    return 'AuthState.authenticated(sessionId: $sessionId)';
+    return 'AuthState.authenticated(auth: $auth)';
   }
 
   @override
@@ -761,12 +804,12 @@ class _$Authenticated implements Authenticated {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Authenticated &&
-            (identical(other.sessionId, sessionId) ||
-                other.sessionId == sessionId));
+            const DeepCollectionEquality().equals(other.auth, auth));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sessionId);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(auth));
 
   @JsonKey(ignore: true)
   @override
@@ -776,33 +819,33 @@ class _$Authenticated implements Authenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) initial,
-    required TResult Function(String sessionId) authenticated,
+    required TResult Function(Auth? auth) initial,
+    required TResult Function(Auth auth) authenticated,
     required TResult Function() unauthenticated,
   }) {
-    return authenticated(sessionId);
+    return authenticated(auth);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
   }) {
-    return authenticated?.call(sessionId);
+    return authenticated?.call(auth);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated(sessionId);
+      return authenticated(auth);
     }
     return orElse();
   }
@@ -843,17 +886,17 @@ class _$Authenticated implements Authenticated {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AuthenticatedToJson(this)..['runtimeType'] = 'authenticated';
+    return _$$AuthenticatedToJson(this);
   }
 }
 
 abstract class Authenticated implements AuthState {
-  const factory Authenticated(String sessionId) = _$Authenticated;
+  const factory Authenticated(Auth auth) = _$Authenticated;
 
   factory Authenticated.fromJson(Map<String, dynamic> json) =
       _$Authenticated.fromJson;
 
-  String get sessionId;
+  Auth get auth;
   @JsonKey(ignore: true)
   $AuthenticatedCopyWith<Authenticated> get copyWith =>
       throw _privateConstructorUsedError;
@@ -880,10 +923,13 @@ class _$UnauthenticatedCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$Unauthenticated implements Unauthenticated {
-  const _$Unauthenticated();
+  const _$Unauthenticated({String? $type}) : $type = $type ?? 'unauthenticated';
 
   factory _$Unauthenticated.fromJson(Map<String, dynamic> json) =>
       _$$UnauthenticatedFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -902,8 +948,8 @@ class _$Unauthenticated implements Unauthenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? sessionId) initial,
-    required TResult Function(String sessionId) authenticated,
+    required TResult Function(Auth? auth) initial,
+    required TResult Function(Auth auth) authenticated,
     required TResult Function() unauthenticated,
   }) {
     return unauthenticated();
@@ -912,8 +958,8 @@ class _$Unauthenticated implements Unauthenticated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
   }) {
     return unauthenticated?.call();
@@ -922,8 +968,8 @@ class _$Unauthenticated implements Unauthenticated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? sessionId)? initial,
-    TResult Function(String sessionId)? authenticated,
+    TResult Function(Auth? auth)? initial,
+    TResult Function(Auth auth)? authenticated,
     TResult Function()? unauthenticated,
     required TResult orElse(),
   }) {
@@ -969,7 +1015,7 @@ class _$Unauthenticated implements Unauthenticated {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnauthenticatedToJson(this)..['runtimeType'] = 'unauthenticated';
+    return _$$UnauthenticatedToJson(this);
   }
 }
 

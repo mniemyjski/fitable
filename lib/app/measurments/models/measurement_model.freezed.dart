@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'measurement_model.dart';
@@ -240,21 +241,26 @@ class _$_Measurement implements _Measurement {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Measurement &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.source, source) || other.source == source) &&
-            (identical(other.dataType, dataType) ||
-                other.dataType == dataType) &&
-            (identical(other.unit, unit) || other.unit == unit) &&
-            (identical(other.dateTime, dateTime) ||
-                other.dateTime == dateTime) &&
-            (identical(other.dateCreation, dateCreation) ||
-                other.dateCreation == dateCreation));
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.uid, uid) &&
+            const DeepCollectionEquality().equals(other.source, source) &&
+            const DeepCollectionEquality().equals(other.dataType, dataType) &&
+            const DeepCollectionEquality().equals(other.unit, unit) &&
+            const DeepCollectionEquality().equals(other.dateTime, dateTime) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCreation, dateCreation));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, uid, source, dataType, unit, dateTime, dateCreation);
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(uid),
+      const DeepCollectionEquality().hash(source),
+      const DeepCollectionEquality().hash(dataType),
+      const DeepCollectionEquality().hash(unit),
+      const DeepCollectionEquality().hash(dateTime),
+      const DeepCollectionEquality().hash(dateCreation));
 
   @JsonKey(ignore: true)
   @override

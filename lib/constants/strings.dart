@@ -17,6 +17,8 @@ class Strings {
   static String need_register() => "need_register".tr();
   static String have_account_sign_in() => "have_account_sign_in".tr();
 
+  static String not_implemented() => "not_implemented".tr();
+
   static String sign_in_with_facebook() => "Sign in with Facebook".tr();
 
   static String send() => "send".tr();
@@ -77,8 +79,7 @@ class Strings {
   static String position() => "position".tr();
   static String there_is_no_such_email_address() => "there_is_no_such_email_address".tr();
 
-  static String wait_for_the_invitation_or_create_your_own_organization() =>
-      "wait_for_the_invitation_or_create_your_own_organization".tr();
+  static String wait_for_the_invitation_or_create_your_own_organization() => "wait_for_the_invitation_or_create_your_own_organization".tr();
 
   static String today() => "today".tr();
   static String tomorrow() => "today".tr();

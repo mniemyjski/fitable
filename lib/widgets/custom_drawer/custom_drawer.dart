@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:fitable/constants/strings.dart';
+import 'package:fitable/widgets/custom_flash_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,9 +45,9 @@ class CustomDrawer extends StatelessWidget {
             text: Strings.sign_out(),
             onTap: () => context.read<AuthBloc>().signOut(),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 36),
           TextButton(
-            onPressed: () => context.read<AuthBloc>().deleteAccount(),
+            onPressed: () => customFlashBar(Strings.not_implemented()),
             child: Center(
               child: Padding(
                 padding: EdgeInsets.all(8.0),

@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
+import 'package:fitable/app/account/cubit/my_account_cubit.dart';
+import 'package:fitable/app/account/repositories/account_repository.dart';
 import 'package:fitable/config/themes/custom_theme.dart';
 import 'package:fitable/constants/strings.dart';
 import 'package:fitable/utilities/utilities.dart';
@@ -10,8 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc/src/bloc_provider.dart';
-import 'package:flutter_bloc/src/repository_provider.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,25 +20,30 @@ import 'config/injectable/injection.dart';
 import 'config/routes/routes.gr.dart';
 
 void main() async {
-  configureDependencies(Env.prod);
-  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies(Env.dev);
+  await WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
-  Bloc.observer = SimpleBlocObserver();
-  HydratedBloc.storage = await HydratedStorage.build(
+
+  final storage = await HydratedStorage.build(
     storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
   );
-  runApp(EasyLocalization(
-      supportedLocales: [
-        Locale('pl'),
-        Locale('en'),
-      ],
-      path: 'assets/languages.csv',
-      saveLocale: true,
-      useOnlyLangCode: true,
-      assetLoader: CsvAssetLoader(),
-      fallbackLocale: Locale('pl'),
-      child: MyApp()));
+
+  HydratedBlocOverrides.runZoned(
+    () => runApp(EasyLocalization(
+        supportedLocales: [
+          Locale('pl'),
+          Locale('en'),
+        ],
+        path: 'assets/languages.csv',
+        saveLocale: true,
+        useOnlyLangCode: true,
+        assetLoader: CsvAssetLoader(),
+        fallbackLocale: Locale('pl'),
+        child: MyApp())),
+    storage: storage,
+    blocObserver: SimpleBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -53,40 +58,50 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => getIt<AuthRepository>(),
         ),
+        RepositoryProvider<AccountRepository>(
+          create: (_) => getIt<AccountRepository>(),
+        ),
       ],
       child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthBloc>(
-            create: (_) => AuthBloc(
-              authRepository: getIt<AuthRepository>(),
+          providers: [
+            BlocProvider<DarkModeCubit>(
+              create: (_) => DarkModeCubit(),
             ),
-          ),
-          BlocProvider<DarkModeCubit>(
-            create: (_) => DarkModeCubit(),
-          ),
-        ],
-        child: BlocBuilder<DarkModeCubit, bool>(
-          builder: (context, state) {
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: true,
-              builder: (context, widget) => _build(widget, context, botToastBuilder),
-              title: Strings.app_name(),
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              theme: CustomTheme.lightTheme,
-              darkTheme: CustomTheme.darkTheme,
-              themeMode: state ? ThemeMode.dark : ThemeMode.light,
-              routerDelegate: _appRouter.delegate(
-                navigatorObservers: () => [
-                  BotToastNavigatorObserver(),
-                ],
+            BlocProvider<AuthBloc>(
+              create: (_) => AuthBloc(
+                authRepository: getIt<AuthRepository>(),
               ),
-              routeInformationParser: _appRouter.defaultRouteParser(),
+            ),
+          ],
+          child: Builder(builder: (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<MyAccountCubit>(
+                  create: (_) => MyAccountCubit(
+                    accountRepository: getIt<AccountRepository>(),
+                    authBloc: context.read<AuthBloc>(),
+                  ),
+                ),
+              ],
+              child: MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                builder: (context, widget) => _build(widget, context, botToastBuilder),
+                title: Strings.app_name(),
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                theme: CustomTheme.lightTheme,
+                darkTheme: CustomTheme.darkTheme,
+                themeMode: context.read<DarkModeCubit>().state ? ThemeMode.dark : ThemeMode.light,
+                routerDelegate: _appRouter.delegate(
+                  navigatorObservers: () => [
+                    BotToastNavigatorObserver(),
+                  ],
+                ),
+                routeInformationParser: _appRouter.defaultRouteParser(),
+              ),
             );
-          },
-        ),
-      ),
+          })),
     );
   }
 

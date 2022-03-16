@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'comment_model.dart';
@@ -230,19 +231,25 @@ class _$_Comment with DiagnosticableTreeMixin implements _Comment {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Comment &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.author, author) || other.author == author) &&
-            (identical(other.dateCreation, dateCreation) ||
-                other.dateCreation == dateCreation) &&
-            (identical(other.dateLastEdit, dateLastEdit) ||
-                other.dateLastEdit == dateLastEdit) &&
-            (identical(other.text, text) || other.text == text));
+            const DeepCollectionEquality().equals(other.uid, uid) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.author, author) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCreation, dateCreation) &&
+            const DeepCollectionEquality()
+                .equals(other.dateLastEdit, dateLastEdit) &&
+            const DeepCollectionEquality().equals(other.text, text));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, uid, id, author, dateCreation, dateLastEdit, text);
+      runtimeType,
+      const DeepCollectionEquality().hash(uid),
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(author),
+      const DeepCollectionEquality().hash(dateCreation),
+      const DeepCollectionEquality().hash(dateLastEdit),
+      const DeepCollectionEquality().hash(text));
 
   @JsonKey(ignore: true)
   @override

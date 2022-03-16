@@ -1,6 +1,12 @@
-import 'package:fitable/config/injectable/injection.config.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+
+import 'injection.config.dart';
+
+abstract class Env {
+  static const dev = 'dev';
+  static const prod = 'prod';
+}
 
 final getIt = GetIt.instance;
 
@@ -11,8 +17,3 @@ final getIt = GetIt.instance;
 )
 @injectableInit
 void configureDependencies(String environment) => $initGetIt(getIt, environment: environment);
-
-abstract class Env {
-  static const dev = 'dev';
-  static const prod = 'prod';
-}

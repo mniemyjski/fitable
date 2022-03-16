@@ -1,6 +1,7 @@
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/failure/models/failure_model.dart';
 import 'package:fitable/app/sign_in/cubit/sign_in_cubit.dart';
+import 'package:fitable/config/injectable/injection.dart';
 import 'package:fitable/constants/strings.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:fitable/widgets/widgets.dart';
@@ -112,7 +113,6 @@ class _SignInScreenState extends State<SignInScreen> {
   _singIn(BuildContext context) async {
     if (_formKeyEmail.currentState!.validate() && _formKeyPassword.currentState!.validate()) {
       Failure? failure = await context.read<SignInCubit>().sign(
-            name: _controllerEmail.text,
             email: _controllerEmail.text,
             password: _controllerPassword.text,
           );

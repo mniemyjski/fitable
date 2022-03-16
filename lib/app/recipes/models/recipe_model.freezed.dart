@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'recipe_model.dart';
@@ -469,64 +470,63 @@ class _$_Recipe implements _Recipe {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Recipe &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.localeBase, localeBase) ||
-                other.localeBase == localeBase) &&
-            (identical(other.authorName, authorName) ||
-                other.authorName == authorName) &&
-            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.uid, uid) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality()
+                .equals(other.localeBase, localeBase) &&
+            const DeepCollectionEquality()
+                .equals(other.authorName, authorName) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.keyWords, keyWords) &&
             const DeepCollectionEquality().equals(other.photosUrl, photosUrl) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.videoUrl, videoUrl) ||
-                other.videoUrl == videoUrl) &&
-            (identical(other.access, access) || other.access == access) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.videoUrl, videoUrl) &&
+            const DeepCollectionEquality().equals(other.access, access) &&
             const DeepCollectionEquality()
                 .equals(other.ingredients, ingredients) &&
             const DeepCollectionEquality().equals(other.portions, portions) &&
-            (identical(other.timePreparation, timePreparation) ||
-                other.timePreparation == timePreparation) &&
-            (identical(other.verification, verification) ||
-                other.verification == verification) &&
-            (identical(other.ratingsAvg, ratingsAvg) ||
-                other.ratingsAvg == ratingsAvg) &&
-            (identical(other.ratingsCount, ratingsCount) ||
-                other.ratingsCount == ratingsCount) &&
-            (identical(other.favoritesCount, favoritesCount) ||
-                other.favoritesCount == favoritesCount) &&
-            (identical(other.commentsCount, commentsCount) ||
-                other.commentsCount == commentsCount) &&
-            (identical(other.dateCreation, dateCreation) ||
-                other.dateCreation == dateCreation) &&
-            (identical(other.dateLastUpdate, dateLastUpdate) ||
-                other.dateLastUpdate == dateLastUpdate));
+            const DeepCollectionEquality()
+                .equals(other.timePreparation, timePreparation) &&
+            const DeepCollectionEquality()
+                .equals(other.verification, verification) &&
+            const DeepCollectionEquality()
+                .equals(other.ratingsAvg, ratingsAvg) &&
+            const DeepCollectionEquality()
+                .equals(other.ratingsCount, ratingsCount) &&
+            const DeepCollectionEquality()
+                .equals(other.favoritesCount, favoritesCount) &&
+            const DeepCollectionEquality()
+                .equals(other.commentsCount, commentsCount) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCreation, dateCreation) &&
+            const DeepCollectionEquality()
+                .equals(other.dateLastUpdate, dateLastUpdate));
   }
 
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        uid,
-        id,
-        localeBase,
-        authorName,
-        name,
+        const DeepCollectionEquality().hash(uid),
+        const DeepCollectionEquality().hash(id),
+        const DeepCollectionEquality().hash(localeBase),
+        const DeepCollectionEquality().hash(authorName),
+        const DeepCollectionEquality().hash(name),
         const DeepCollectionEquality().hash(keyWords),
         const DeepCollectionEquality().hash(photosUrl),
-        description,
-        videoUrl,
-        access,
+        const DeepCollectionEquality().hash(description),
+        const DeepCollectionEquality().hash(videoUrl),
+        const DeepCollectionEquality().hash(access),
         const DeepCollectionEquality().hash(ingredients),
         const DeepCollectionEquality().hash(portions),
-        timePreparation,
-        verification,
-        ratingsAvg,
-        ratingsCount,
-        favoritesCount,
-        commentsCount,
-        dateCreation,
-        dateLastUpdate
+        const DeepCollectionEquality().hash(timePreparation),
+        const DeepCollectionEquality().hash(verification),
+        const DeepCollectionEquality().hash(ratingsAvg),
+        const DeepCollectionEquality().hash(ratingsCount),
+        const DeepCollectionEquality().hash(favoritesCount),
+        const DeepCollectionEquality().hash(commentsCount),
+        const DeepCollectionEquality().hash(dateCreation),
+        const DeepCollectionEquality().hash(dateLastUpdate)
       ]);
 
   @JsonKey(ignore: true)

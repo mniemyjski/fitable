@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'product_model.dart';
@@ -1045,149 +1046,127 @@ class _$_Product implements _Product {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Product &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.barcode, barcode) || other.barcode == barcode) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.categoryPrimary, categoryPrimary) ||
-                other.categoryPrimary == categoryPrimary) &&
-            (identical(other.categorySecondary, categorySecondary) ||
-                other.categorySecondary == categorySecondary) &&
-            (identical(other.localeBase, localeBase) ||
-                other.localeBase == localeBase) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.barcode, barcode) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.categoryPrimary, categoryPrimary) &&
+            const DeepCollectionEquality()
+                .equals(other.categorySecondary, categorySecondary) &&
+            const DeepCollectionEquality()
+                .equals(other.localeBase, localeBase) &&
             const DeepCollectionEquality().equals(other.keyWords, keyWords) &&
             const DeepCollectionEquality().equals(other.portions, portions) &&
-            (identical(other.verification, verification) ||
-                other.verification == verification) &&
-            (identical(other.calories, calories) ||
-                other.calories == calories) &&
-            (identical(other.proteins, proteins) ||
-                other.proteins == proteins) &&
-            (identical(other.carbs, carbs) || other.carbs == carbs) &&
-            (identical(other.fats, fats) || other.fats == fats) &&
-            (identical(other.dateCreation, dateCreation) ||
-                other.dateCreation == dateCreation) &&
-            (identical(other.dateLastUpdate, dateLastUpdate) ||
-                other.dateLastUpdate == dateLastUpdate) &&
-            (identical(other.photosUrl, photosUrl) ||
-                other.photosUrl == photosUrl) &&
-            (identical(other.sugar, sugar) || other.sugar == sugar) &&
-            (identical(other.animalProteins, animalProteins) ||
-                other.animalProteins == animalProteins) &&
-            (identical(other.plantProteins, plantProteins) ||
-                other.plantProteins == plantProteins) &&
-            (identical(other.saturated, saturated) ||
-                other.saturated == saturated) &&
-            (identical(other.unsaturated, unsaturated) ||
-                other.unsaturated == unsaturated) &&
-            (identical(other.omega3, omega3) || other.omega3 == omega3) &&
-            (identical(other.omega6, omega6) || other.omega6 == omega6) &&
-            (identical(other.fiber, fiber) || other.fiber == fiber) &&
-            (identical(other.caffeine, caffeine) ||
-                other.caffeine == caffeine) &&
-            (identical(other.cholesterol, cholesterol) ||
-                other.cholesterol == cholesterol) &&
-            (identical(other.salt, salt) || other.salt == salt) &&
-            (identical(other.vitaminA, vitaminA) ||
-                other.vitaminA == vitaminA) &&
-            (identical(other.vitaminC, vitaminC) ||
-                other.vitaminC == vitaminC) &&
-            (identical(other.vitaminD, vitaminD) ||
-                other.vitaminD == vitaminD) &&
-            (identical(other.vitaminE, vitaminE) ||
-                other.vitaminE == vitaminE) &&
-            (identical(other.vitaminK, vitaminK) ||
-                other.vitaminK == vitaminK) &&
-            (identical(other.vitaminB1, vitaminB1) ||
-                other.vitaminB1 == vitaminB1) &&
-            (identical(other.vitaminB2, vitaminB2) ||
-                other.vitaminB2 == vitaminB2) &&
-            (identical(other.vitaminB3, vitaminB3) ||
-                other.vitaminB3 == vitaminB3) &&
-            (identical(other.vitaminB5, vitaminB5) ||
-                other.vitaminB5 == vitaminB5) &&
-            (identical(other.vitaminB6, vitaminB6) ||
-                other.vitaminB6 == vitaminB6) &&
-            (identical(other.vitaminB7, vitaminB7) ||
-                other.vitaminB7 == vitaminB7) &&
-            (identical(other.vitaminB9, vitaminB9) ||
-                other.vitaminB9 == vitaminB9) &&
-            (identical(other.vitaminB12, vitaminB12) ||
-                other.vitaminB12 == vitaminB12) &&
-            (identical(other.potassium, potassium) ||
-                other.potassium == potassium) &&
-            (identical(other.sodium, sodium) || other.sodium == sodium) &&
-            (identical(other.calcium, calcium) || other.calcium == calcium) &&
-            (identical(other.magnesium, magnesium) ||
-                other.magnesium == magnesium) &&
-            (identical(other.phosphorus, phosphorus) ||
-                other.phosphorus == phosphorus) &&
-            (identical(other.iron, iron) || other.iron == iron) &&
-            (identical(other.copper, copper) || other.copper == copper) &&
-            (identical(other.zinc, zinc) || other.zinc == zinc) &&
-            (identical(other.selenium, selenium) ||
-                other.selenium == selenium) &&
-            (identical(other.manganese, manganese) ||
-                other.manganese == manganese) &&
-            (identical(other.iodine, iodine) || other.iodine == iodine) &&
-            (identical(other.chromium, chromium) ||
-                other.chromium == chromium));
+            const DeepCollectionEquality()
+                .equals(other.verification, verification) &&
+            const DeepCollectionEquality().equals(other.calories, calories) &&
+            const DeepCollectionEquality().equals(other.proteins, proteins) &&
+            const DeepCollectionEquality().equals(other.carbs, carbs) &&
+            const DeepCollectionEquality().equals(other.fats, fats) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCreation, dateCreation) &&
+            const DeepCollectionEquality()
+                .equals(other.dateLastUpdate, dateLastUpdate) &&
+            const DeepCollectionEquality().equals(other.photosUrl, photosUrl) &&
+            const DeepCollectionEquality().equals(other.sugar, sugar) &&
+            const DeepCollectionEquality()
+                .equals(other.animalProteins, animalProteins) &&
+            const DeepCollectionEquality()
+                .equals(other.plantProteins, plantProteins) &&
+            const DeepCollectionEquality().equals(other.saturated, saturated) &&
+            const DeepCollectionEquality()
+                .equals(other.unsaturated, unsaturated) &&
+            const DeepCollectionEquality().equals(other.omega3, omega3) &&
+            const DeepCollectionEquality().equals(other.omega6, omega6) &&
+            const DeepCollectionEquality().equals(other.fiber, fiber) &&
+            const DeepCollectionEquality().equals(other.caffeine, caffeine) &&
+            const DeepCollectionEquality()
+                .equals(other.cholesterol, cholesterol) &&
+            const DeepCollectionEquality().equals(other.salt, salt) &&
+            const DeepCollectionEquality().equals(other.vitaminA, vitaminA) &&
+            const DeepCollectionEquality().equals(other.vitaminC, vitaminC) &&
+            const DeepCollectionEquality().equals(other.vitaminD, vitaminD) &&
+            const DeepCollectionEquality().equals(other.vitaminE, vitaminE) &&
+            const DeepCollectionEquality().equals(other.vitaminK, vitaminK) &&
+            const DeepCollectionEquality().equals(other.vitaminB1, vitaminB1) &&
+            const DeepCollectionEquality().equals(other.vitaminB2, vitaminB2) &&
+            const DeepCollectionEquality().equals(other.vitaminB3, vitaminB3) &&
+            const DeepCollectionEquality().equals(other.vitaminB5, vitaminB5) &&
+            const DeepCollectionEquality().equals(other.vitaminB6, vitaminB6) &&
+            const DeepCollectionEquality().equals(other.vitaminB7, vitaminB7) &&
+            const DeepCollectionEquality().equals(other.vitaminB9, vitaminB9) &&
+            const DeepCollectionEquality()
+                .equals(other.vitaminB12, vitaminB12) &&
+            const DeepCollectionEquality().equals(other.potassium, potassium) &&
+            const DeepCollectionEquality().equals(other.sodium, sodium) &&
+            const DeepCollectionEquality().equals(other.calcium, calcium) &&
+            const DeepCollectionEquality().equals(other.magnesium, magnesium) &&
+            const DeepCollectionEquality()
+                .equals(other.phosphorus, phosphorus) &&
+            const DeepCollectionEquality().equals(other.iron, iron) &&
+            const DeepCollectionEquality().equals(other.copper, copper) &&
+            const DeepCollectionEquality().equals(other.zinc, zinc) &&
+            const DeepCollectionEquality().equals(other.selenium, selenium) &&
+            const DeepCollectionEquality().equals(other.manganese, manganese) &&
+            const DeepCollectionEquality().equals(other.iodine, iodine) &&
+            const DeepCollectionEquality().equals(other.chromium, chromium));
   }
 
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        id,
-        barcode,
-        name,
-        categoryPrimary,
-        categorySecondary,
-        localeBase,
+        const DeepCollectionEquality().hash(id),
+        const DeepCollectionEquality().hash(barcode),
+        const DeepCollectionEquality().hash(name),
+        const DeepCollectionEquality().hash(categoryPrimary),
+        const DeepCollectionEquality().hash(categorySecondary),
+        const DeepCollectionEquality().hash(localeBase),
         const DeepCollectionEquality().hash(keyWords),
         const DeepCollectionEquality().hash(portions),
-        verification,
-        calories,
-        proteins,
-        carbs,
-        fats,
-        dateCreation,
-        dateLastUpdate,
-        photosUrl,
-        sugar,
-        animalProteins,
-        plantProteins,
-        saturated,
-        unsaturated,
-        omega3,
-        omega6,
-        fiber,
-        caffeine,
-        cholesterol,
-        salt,
-        vitaminA,
-        vitaminC,
-        vitaminD,
-        vitaminE,
-        vitaminK,
-        vitaminB1,
-        vitaminB2,
-        vitaminB3,
-        vitaminB5,
-        vitaminB6,
-        vitaminB7,
-        vitaminB9,
-        vitaminB12,
-        potassium,
-        sodium,
-        calcium,
-        magnesium,
-        phosphorus,
-        iron,
-        copper,
-        zinc,
-        selenium,
-        manganese,
-        iodine,
-        chromium
+        const DeepCollectionEquality().hash(verification),
+        const DeepCollectionEquality().hash(calories),
+        const DeepCollectionEquality().hash(proteins),
+        const DeepCollectionEquality().hash(carbs),
+        const DeepCollectionEquality().hash(fats),
+        const DeepCollectionEquality().hash(dateCreation),
+        const DeepCollectionEquality().hash(dateLastUpdate),
+        const DeepCollectionEquality().hash(photosUrl),
+        const DeepCollectionEquality().hash(sugar),
+        const DeepCollectionEquality().hash(animalProteins),
+        const DeepCollectionEquality().hash(plantProteins),
+        const DeepCollectionEquality().hash(saturated),
+        const DeepCollectionEquality().hash(unsaturated),
+        const DeepCollectionEquality().hash(omega3),
+        const DeepCollectionEquality().hash(omega6),
+        const DeepCollectionEquality().hash(fiber),
+        const DeepCollectionEquality().hash(caffeine),
+        const DeepCollectionEquality().hash(cholesterol),
+        const DeepCollectionEquality().hash(salt),
+        const DeepCollectionEquality().hash(vitaminA),
+        const DeepCollectionEquality().hash(vitaminC),
+        const DeepCollectionEquality().hash(vitaminD),
+        const DeepCollectionEquality().hash(vitaminE),
+        const DeepCollectionEquality().hash(vitaminK),
+        const DeepCollectionEquality().hash(vitaminB1),
+        const DeepCollectionEquality().hash(vitaminB2),
+        const DeepCollectionEquality().hash(vitaminB3),
+        const DeepCollectionEquality().hash(vitaminB5),
+        const DeepCollectionEquality().hash(vitaminB6),
+        const DeepCollectionEquality().hash(vitaminB7),
+        const DeepCollectionEquality().hash(vitaminB9),
+        const DeepCollectionEquality().hash(vitaminB12),
+        const DeepCollectionEquality().hash(potassium),
+        const DeepCollectionEquality().hash(sodium),
+        const DeepCollectionEquality().hash(calcium),
+        const DeepCollectionEquality().hash(magnesium),
+        const DeepCollectionEquality().hash(phosphorus),
+        const DeepCollectionEquality().hash(iron),
+        const DeepCollectionEquality().hash(copper),
+        const DeepCollectionEquality().hash(zinc),
+        const DeepCollectionEquality().hash(selenium),
+        const DeepCollectionEquality().hash(manganese),
+        const DeepCollectionEquality().hash(iodine),
+        const DeepCollectionEquality().hash(chromium)
       ]);
 
   @JsonKey(ignore: true)

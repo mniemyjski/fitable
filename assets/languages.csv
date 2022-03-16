@@ -1,6 +1,7 @@
 str,pl,en
 email,e-mail,e-mail
 password,hasło,password
+not_implemented,Nie zaimplementowano,Not implemented
 forgot_your_password,Zapomniałeś hasła?,Forgot your password?
 sign_in,Zaloguj się,Sign in
 sign_up,Zarejestruj się,Sign up

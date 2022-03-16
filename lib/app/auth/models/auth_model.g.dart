@@ -7,13 +7,13 @@ part of 'auth_model.dart';
 // **************************************************************************
 
 _$_Auth _$$_AuthFromJson(Map<String, dynamic> json) => _$_Auth(
-      name: json['name'] as String,
+      userId: json['userId'] as String,
+      sessionId: json['sessionId'] as String,
       email: json['email'] as String,
-      password: json['password'] as String,
     );
 
 Map<String, dynamic> _$$_AuthToJson(_$_Auth instance) => <String, dynamic>{
-      'name': instance.name,
+      'userId': instance.userId,
+      'sessionId': instance.sessionId,
       'email': instance.email,
-      'password': instance.password,
     };

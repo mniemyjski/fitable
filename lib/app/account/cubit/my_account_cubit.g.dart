@@ -1,41 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_bloc.dart';
+part of 'my_account_cubit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
 _$Initial _$$InitialFromJson(Map<String, dynamic> json) => _$Initial(
-      json['auth'] == null
-          ? null
-          : Auth.fromJson(json['auth'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$InitialToJson(_$Initial instance) => <String, dynamic>{
-      'auth': instance.auth?.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$Authenticated _$$AuthenticatedFromJson(Map<String, dynamic> json) =>
-    _$Authenticated(
-      Auth.fromJson(json['auth'] as Map<String, dynamic>),
+_$UnCreated _$$UnCreatedFromJson(Map<String, dynamic> json) => _$UnCreated(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$AuthenticatedToJson(_$Authenticated instance) =>
+Map<String, dynamic> _$$UnCreatedToJson(_$UnCreated instance) =>
     <String, dynamic>{
-      'auth': instance.auth.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$Unauthenticated _$$UnauthenticatedFromJson(Map<String, dynamic> json) =>
-    _$Unauthenticated(
+_$Created _$$CreatedFromJson(Map<String, dynamic> json) => _$Created(
+      Account.fromJson(json['account'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnauthenticatedToJson(_$Unauthenticated instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$CreatedToJson(_$Created instance) => <String, dynamic>{
+      'account': instance.account.toJson(),
       'runtimeType': instance.$type,
     };

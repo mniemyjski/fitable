@@ -1,6 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitable/app/account/cubit/my_account_cubit.dart';
+import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../widgets.dart';
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
@@ -25,33 +30,37 @@ class Header extends StatelessWidget {
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           child: GestureDetector(
             onTap: () {
-              // Navigator.of(context).pushNamed(AccountEditScreen.routeName);
+              context.router.push(const MyAccountRoute());
             },
-            child: Stack(children: <Widget>[
-              // Positioned(
-              //   bottom: 40.0,
-              //   left: 16.0,
-              //   child: BlocBuilder<AccountCubit, AccountState>(
-              //     builder: (context, state) {
-              //       if (state.status == EAccountStatus.created) return CustomAvatar(url: state.account!.photoUrl);
-              //       return CustomAvatar();
-              //     },
-              //   ),
-              // ),
-              // Positioned(
-              //     bottom: 8.0,
-              //     left: 16.0,
-              //     child: BlocBuilder<AccountCubit, AccountState>(
-              //       builder: (context, state) {
-              //         if (state.status == EAccountStatus.created)
-              //           return Text(
-              //             state.account!.name,
-              //             style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
-              //           );
-              //         return Container();
-              //       },
-              //     )),
-            ]),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  bottom: 40.0,
+                  left: 16.0,
+                  child: BlocBuilder<MyAccountCubit, MyAccountState>(
+                    builder: (context, state) {
+                      if (state is Created) {
+                        return CustomAvatar(url: state.account.avatar ?? '');
+                      }
+                      return CustomAvatar();
+                    },
+                  ),
+                ),
+                Positioned(
+                    bottom: 8.0,
+                    left: 16.0,
+                    child: BlocBuilder<MyAccountCubit, MyAccountState>(
+                      builder: (context, state) {
+                        if (state is Created)
+                          return Text(
+                            state.account.name,
+                            style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+                          );
+                        return Container();
+                      },
+                    )),
+              ],
+            ),
           )),
     );
   }

@@ -1,49 +1,63 @@
 import 'dart:async';
 
-import 'package:appwrite/models.dart';
+import 'package:appwrite/models.dart' as awm;
 import 'package:dartz/dartz.dart';
 import 'package:fitable/app/auth/models/auth_model.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:fitable/app/failure/models/failure_model.dart';
-import 'package:fitable/utilities/extensions.dart';
 import 'package:fitable/utilities/utilities.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:injectable/injectable.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 part 'auth_bloc.freezed.dart';
 part 'auth_bloc.g.dart';
 
-class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
+abstract class BaseAuthBloc {
+  Future<void> signUpWithEmail({required String email, required String password});
+  Future<void> signInWithEmail({required String email, required String password});
+  Future<void> signInWithGoogle();
+  Future<void> signOut();
+  Future<void> signOutAllDevices();
+}
+
+class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with BaseAuthBloc {
   final AuthRepository _authRepository;
   AuthBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(const AuthState.initial(null)) {
+    on<AuthCheckRequested>((event, emit) {
+      if (event.auth != null) {
+        emit(AuthState.authenticated(event.auth!));
+      } else {
+        emit(AuthState.unauthenticated());
+      }
+    });
+
+    on<SignedOut>((event, emit) {
+      emit(AuthState.unauthenticated());
+    });
+
+    on<DeleteAccount>((event, emit) {
+      emit(AuthState.unauthenticated());
+    });
+
     _init();
   }
 
-  void _init() {
+  _init() {
     state.maybeWhen(
       orElse: () => add(AuthEvent.authCheckRequested(null)),
-      initial: (id) {
-        if (id != null) {
-          Task(() async => await _authRepository.getSessionById(id))
-              .attempt()
-              .mapLeftToFailure()
-              .run()
-              .then(
-                (value) => value.fold(
-                  (failure) {
-                    add(AuthEvent.authCheckRequested(null));
-                  },
-                  (auth) {
-                    add(AuthEvent.authCheckRequested(id));
-                  },
-                ),
-              );
+      initial: (auth) async {
+        if (auth != null) {
+          try {
+            final Auth? rAuth = await _authRepository.getSessionById(auth.sessionId);
+            add(AuthEvent.authCheckRequested(rAuth));
+          } on Failure catch (failure) {
+            add(AuthEvent.authCheckRequested(null));
+          }
         } else {
           add(AuthEvent.authCheckRequested(null));
         }
@@ -51,122 +65,59 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
     );
   }
 
-  Future<Failure?> signUpWithEmail(Auth auth) async {
-    return await Task(() async => await _authRepository.signUpWithEmail(auth))
-        .attempt()
-        .mapLeftToFailure()
-        .run()
-        .then(
-          (value) => value.fold(
-            (failure) => failure,
-            (auth) {
-              add(AuthEvent.authCheckRequested(auth));
-            },
-          ),
-        );
+  @override
+  Future<void> signUpWithEmail({required String email, required String password}) async {
+    try {
+      final Auth? auth = await _authRepository.signUpWithEmail(email: email, password: password);
+      add(AuthEvent.authCheckRequested(auth));
+    } on Failure catch (failure) {
+      throw failure;
+    }
   }
 
-  Future<Failure?> signInWithEmail(Auth auth) async {
-    return await Task(() async => await _authRepository.signInWithEmail(auth))
-        .attempt()
-        .mapLeftToFailure()
-        .run()
-        .then(
-          (value) => value.fold(
-            (failure) => failure,
-            (auth) {
-              add(AuthEvent.authCheckRequested(auth));
-            },
-          ),
-        );
+  @override
+  Future<void> signInWithEmail({required String email, required String password}) async {
+    try {
+      final Auth? auth = await _authRepository.signInWithEmail(email: email, password: password);
+      add(AuthEvent.authCheckRequested(auth));
+    } on Failure catch (failure) {
+      throw failure;
+    }
   }
 
-  deleteAccount() {
-    add(AuthEvent.deleteAccount());
-  }
-
-  updatePreference() {
-    _authRepository.updatePref();
-  }
-
-  signInWithGoogle(Auth auth) async {
+  @override
+  Future<void> signInWithGoogle() async {
     // await Task(() => _authRepository.createAccount(auth)).attempt().mapLeftToFailure().run().then((value) => null);
   }
-
-  signOut() async {
-    state.maybeWhen(
-      orElse: () => add(AuthEvent.authCheckRequested(null)),
-      authenticated: (id) async =>
-          await Task(() async => await _authRepository.signOut(id))
-              .attempt()
-              .mapLeftToFailure()
-              .run()
-              .then(
-                (value) => value.fold(
-                  (failure) => failure,
-                  (auth) {
-                    add(AuthEvent.signedOut());
-                  },
-                ),
-              ),
-    );
-  }
-
-  signOutAllDevices() async {
-    state.maybeWhen(
-      orElse: () => add(AuthEvent.authCheckRequested(null)),
-      authenticated: (id) async =>
-          await Task(() async => await _authRepository.signOutAllDevices())
-              .attempt()
-              .mapLeftToFailure()
-              .run()
-              .then(
-                (value) => value.fold(
-                  (failure) => failure,
-                  (auth) {
-                    add(AuthEvent.signedOut());
-                  },
-                ),
-              ),
-    );
-  }
-
   @override
-  Stream<AuthState> mapEventToState(
-    AuthEvent event,
-  ) async* {
-    if (event is AuthCheckRequested) {
-      yield* _mapAuthUserChangedToState(event);
-    } else if (event is SignedOut) {
-      yield* _mapAuthUserChangedToState(null);
-    } else if (event is DeleteAccount) {
-      await _authRepository.deleteAccount();
-      yield* _mapAuthUserChangedToState(null);
-    }
-  }
-
-  Stream<AuthState> _mapAuthUserChangedToState(
-      AuthCheckRequested? event) async* {
-    if (event?.sessionId != null) {
-      if (state != Authenticated) {
-        yield AuthState.authenticated(event!.sessionId!);
-      }
-    } else {
-      if (state != Unauthenticated) {
-        yield AuthState.unauthenticated();
-      }
+  Future<void> signOut() async {
+    try {
+      await _authRepository.signOut();
+      add(AuthEvent.signedOut());
+    } on Failure catch (failure) {
+      throw failure;
     }
   }
 
   @override
-  AuthState? fromJson(Map<String, dynamic> json) {
-    return AuthState.fromJson(json);
+  Future<void> signOutAllDevices() async {
+    try {
+      await _authRepository.signOutAllDevices();
+      add(AuthEvent.signedOut());
+    } on Failure catch (failure) {
+      throw failure;
+    }
   }
+
+  @override
+  AuthState? fromJson(Map<String, dynamic> json) => AuthState.fromJson(json);
 
   @override
   Map<String, dynamic>? toJson(AuthState state) {
     return state.maybeWhen(
-      authenticated: (s) => AuthState.initial(s).toJson(),
+      authenticated: (s) {
+        return AuthState.initial(s).toJson();
+      },
       orElse: () => AuthState.initial(null).toJson(),
     );
   }

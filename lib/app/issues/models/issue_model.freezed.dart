@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'issue_model.dart';
@@ -249,22 +250,28 @@ class _$_Issue with DiagnosticableTreeMixin implements _Issue {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Issue &&
-            (identical(other.elementType, elementType) ||
-                other.elementType == elementType) &&
-            (identical(other.issueType, issueType) ||
-                other.issueType == issueType) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.dateCreate, dateCreate) ||
-                other.dateCreate == dateCreate) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other.elementType, elementType) &&
+            const DeepCollectionEquality().equals(other.issueType, issueType) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.uid, uid) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCreate, dateCreate) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.element, element));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, elementType, issueType, id, uid,
-      dateCreate, description, const DeepCollectionEquality().hash(element));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(elementType),
+      const DeepCollectionEquality().hash(issueType),
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(uid),
+      const DeepCollectionEquality().hash(dateCreate),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(element));
 
   @JsonKey(ignore: true)
   @override
