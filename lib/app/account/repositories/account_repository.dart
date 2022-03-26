@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 import 'package:appwrite/appwrite.dart' as aw;
 import 'package:appwrite/models.dart' as awm;
-import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
@@ -19,6 +18,7 @@ abstract class BaseAccountRepository {
   Future<void> update(Account account);
   Future<Account?> get(Auth auth);
   Stream<Account?> stream(Auth auth);
+  // Future<bool> updateAvatar({required String id, required File file});
 }
 
 @Singleton()
@@ -52,7 +52,7 @@ class AccountRepository extends BaseAccountRepository {
     Future result = _appWrite.database.updateDocument(
       collectionId: Paths.accounts(),
       documentId: account.id,
-      data: account.toJson(),
+      data: account.toJson()..remove('id'),
     );
 
     try {
@@ -91,7 +91,11 @@ class AccountRepository extends BaseAccountRepository {
 
   @override
   Stream<Account?> stream(Auth auth) {
-    return _appWrite.realtime.subscribe(['collections.${Paths.accounts()}.documents.${auth.userId}']).stream.cast().map((event) {
+    return _appWrite.realtime
+        .subscribe(['collections.${Paths.accounts()}.documents.${auth.userId}'])
+        .stream
+        .cast()
+        .map((event) {
           return Account(
             name: event.payload['name'],
             email: event.payload['email'],
@@ -99,5 +103,38 @@ class AccountRepository extends BaseAccountRepository {
             id: event.payload['\$id'],
           );
         });
+  }
+
+  Future<bool> updateAvatar({required String id, required File file}) async {
+    Logger().w(file.path);
+    // Logger().w(file);
+
+    final result = await _appWrite.storage.createFile(
+      bucketId: '62321a2583b495fa2f67',
+      fileId: 'unique()',
+      file: aw.InputFile(path: file.path, filename: '$id.png'),
+      read: ['role:member'],
+    );
+
+    return true;
+  }
+
+  updateAvatar2() async {
+    Logger().w(file.path);
+    // Logger().w(file);
+
+    final result = await _appWrite.storage.createFile(
+      bucketId: '62321a2583b495fa2f67',
+      fileId: 'unique()',
+      file: aw.InputFile(path: file.path, filename: '$id.png'),
+      read: ['role:member'],
+    );
+
+    final awm.Execution test = await _appWrite.functions.createExecution(
+        functionId: '623645c5eeac11a17604',
+        data: jsonEncode(Account(id: 'id', name: 'name', email: 'test').toJson()),
+        xasync: false);
+
+    Logger().w(jsonDecode(test.stdout));
   }
 }

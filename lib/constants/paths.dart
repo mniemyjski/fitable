@@ -1,8 +1,7 @@
-import 'dart:io' as IO;
-
 class Paths {
   static String url_prod() => 'http://localhost:5001/v1';
-  static String url_dev() => IO.Platform.isAndroid || IO.Platform.isIOS ? 'http://192.168.1.15:5001/v1' : 'http://localhost:5001/v1';
+  // static String url_dev() => IO.Platform.isAndroid || IO.Platform.isIOS ? 'http://192.168.1.15:5001/v1' : 'http://localhost:5001/v1';
+  static String url_dev() => 'http://192.168.1.15:5001/v1';
 
   static String project_id_prod() => '62178b738fe04418edb7';
   static String project_id_dev() => '62178b738fe04418edb7';

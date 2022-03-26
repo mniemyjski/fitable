@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:appwrite/appwrite.dart' as aw;
 import 'package:appwrite/models.dart' as awm;
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utilities/services/app_write.dart';

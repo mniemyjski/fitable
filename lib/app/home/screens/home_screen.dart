@@ -1,4 +1,5 @@
 import 'package:fitable/app/account/models/account_model.dart';
+import 'package:fitable/app/account/repositories/account_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,11 @@ class HomeScreen extends StatelessWidget {
       drawer: CustomDrawer(),
       body: Column(
         children: [
-          // CustomButton(onPressed: () => context.read<MyAccountCubit>().close(), child: Text('test')),
+          CustomButton(
+              onPressed: () {
+                context.read<AccountRepository>().updateAvatar2();
+              },
+              child: Text('test')),
         ],
       ),
     );

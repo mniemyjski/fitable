@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fitable/app/account/screens/my_account_screen.dart';
 import 'package:fitable/app/home/screens/home_screen.dart';
+import 'package:fitable/app/image_crop/image_crop_screen.dart';
 import 'package:fitable/app/settings/screens/settings_screen.dart';
 import 'package:fitable/app/sign_in/screens/sign_in_screen.dart';
 import 'package:fitable/app/splash/screens/splash_screen.dart';
@@ -15,6 +16,7 @@ import 'package:fitable/app/account/screens/account_create_screen.dart';
     AutoRoute(page: SettingsScreen),
     AutoRoute(page: AccountCreateScreen),
     AutoRoute(page: MyAccountScreen),
+    AutoRoute(page: ImageCropScreen),
   ],
 )
 class $AppRouter {}

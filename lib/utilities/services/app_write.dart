@@ -8,6 +8,8 @@ abstract class AppWrite {
   late final Account account;
   late final Database database;
   late final Realtime realtime;
+  late final Storage storage;
+  late final Functions functions;
 }
 
 @Environment(Env.dev)
@@ -23,6 +25,8 @@ class AppWriteDev extends AppWrite {
     account = Account(client);
     database = Database(client);
     realtime = Realtime(client);
+    storage = Storage(client);
+    functions = Functions(client);
   }
 }
 
@@ -33,10 +37,12 @@ class AppWriteProduction extends AppWrite {
     client
             .setEndpoint(Paths.url_prod()) // Your Appwrite Endpoint
             .setProject(Paths.project_id_prod()) // Your project ID
-            .setSelfSigned() // Use only on dev mode with a self-signed SSL cert
+
         ;
     account = Account(client);
     database = Database(client);
     realtime = Realtime(client);
+    storage = Storage(client);
+    functions = Functions(client);
   }
 }

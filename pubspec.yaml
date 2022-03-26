@@ -59,6 +59,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   bot_toast: ^4.0.1
   checklist: ^0.1.4
+  flutter_picker: ^2.0.3
 
 #  google_mobile_ads: ^0.11.0+1
 #  facebook_audience_network: ^0.9.0

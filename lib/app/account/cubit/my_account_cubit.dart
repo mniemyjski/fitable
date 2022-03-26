@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:universal_io/io.dart';
 
-import 'package:appwrite/models.dart' as awm;
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:fitable/utilities/utilities.dart';
@@ -105,7 +105,8 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
   Future<void> create(String name) async {
     _authBloc.state.maybeWhen(
       orElse: () => throw 'Auth failed',
-      initial: (auth) async => auth != null ? await _accountRepository.create(auth: auth, name: name) : throw 'Auth failed',
+      initial: (auth) async =>
+          auth != null ? await _accountRepository.create(auth: auth, name: name) : throw 'Auth failed',
       authenticated: (auth) => _accountRepository.create(auth: auth, name: name),
     );
   }
@@ -121,6 +122,10 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
 
   @override
   Future<void> delete(Account account) async {}
+
+  updateAvatar(File file) {
+    state.whenOrNull(created: (account) => _accountRepository.updateAvatar(id: account.id, file: file));
+  }
 
   @override
   Future<Either<Failure, Account>> getAccount() async {
