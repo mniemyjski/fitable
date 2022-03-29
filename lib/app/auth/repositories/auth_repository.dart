@@ -37,7 +37,8 @@ class AuthRepository extends BaseAuthRepository {
       throw Failure('No Internet connection 😑');
     } on HttpException catch (e) {
       throw Failure(e.message);
-    } on aw.AppwriteException catch (e) {
+    }
+    on aw.AppwriteException catch (e) {
       throw Failure(e.message);
     }
   }

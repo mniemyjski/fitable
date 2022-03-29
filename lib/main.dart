@@ -1,28 +1,29 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitable/app/account/cubit/my_account/my_account_cubit.dart';
+import 'package:fitable/app/account/cubit/my_avatar/my_avatar_cubit.dart';
+import 'package:fitable/app/account/repositories/account_repository.dart';
+import 'package:fitable/app/account/repositories/avatar_repository.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
-import 'package:fitable/app/account/cubit/my_account_cubit.dart';
-import 'package:fitable/app/account/repositories/account_repository.dart';
 import 'package:fitable/config/themes/custom_theme.dart';
 import 'package:fitable/constants/strings.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:url_strategy/url_strategy.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'config/injectable/injection.dart';
 import 'config/routes/routes.gr.dart';
 
 void main() async {
-  configureDependencies(Env.dev);
   await WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
+  configureDependencies(Env.dev);
+  EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
 
   final storage = await HydratedStorage.build(
@@ -35,10 +36,9 @@ void main() async {
           Locale('pl'),
           Locale('en'),
         ],
-        path: 'assets/languages.csv',
-        saveLocale: true,
+        path: 'assets/translations',
+        saveLocale: false,
         useOnlyLangCode: true,
-        assetLoader: CsvAssetLoader(),
         fallbackLocale: Locale('pl'),
         child: MyApp())),
     storage: storage,
@@ -61,6 +61,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AccountRepository>(
           create: (_) => getIt<AccountRepository>(),
         ),
+        RepositoryProvider<AvatarRepository>(
+          create: (_) => getIt<AvatarRepository>(),
+        ),
       ],
       child: MultiBlocProvider(
           providers: [
@@ -79,6 +82,12 @@ class MyApp extends StatelessWidget {
                 BlocProvider<MyAccountCubit>(
                   create: (_) => MyAccountCubit(
                     accountRepository: getIt<AccountRepository>(),
+                    authBloc: context.read<AuthBloc>(),
+                  ),
+                ),
+                BlocProvider<MyAvatarCubit>(
+                  create: (_) => MyAvatarCubit(
+                    avatarRepository: getIt<AvatarRepository>(),
                     authBloc: context.read<AuthBloc>(),
                   ),
                 ),

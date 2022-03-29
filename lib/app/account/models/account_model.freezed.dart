@@ -23,15 +23,11 @@ class _$AccountTearOff {
   const _$AccountTearOff();
 
   _Account call(
-      {required String id,
-      required String name,
-      required String email,
-      String? avatar}) {
+      {required String id, required String name, required String email}) {
     return _Account(
       id: id,
       name: name,
       email: email,
-      avatar: avatar,
     );
   }
 
@@ -48,7 +44,6 @@ mixin _$Account {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String? get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -59,7 +54,7 @@ mixin _$Account {
 abstract class $AccountCopyWith<$Res> {
   factory $AccountCopyWith(Account value, $Res Function(Account) then) =
       _$AccountCopyWithImpl<$Res>;
-  $Res call({String id, String name, String email, String? avatar});
+  $Res call({String id, String name, String email});
 }
 
 /// @nodoc
@@ -75,7 +70,6 @@ class _$AccountCopyWithImpl<$Res> implements $AccountCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? email = freezed,
-    Object? avatar = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -90,10 +84,6 @@ class _$AccountCopyWithImpl<$Res> implements $AccountCopyWith<$Res> {
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: avatar == freezed
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -103,7 +93,7 @@ abstract class _$AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
   factory _$AccountCopyWith(_Account value, $Res Function(_Account) then) =
       __$AccountCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, String email, String? avatar});
+  $Res call({String id, String name, String email});
 }
 
 /// @nodoc
@@ -120,7 +110,6 @@ class __$AccountCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? email = freezed,
-    Object? avatar = freezed,
   }) {
     return _then(_Account(
       id: id == freezed
@@ -135,10 +124,6 @@ class __$AccountCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: avatar == freezed
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -146,8 +131,7 @@ class __$AccountCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Account with DiagnosticableTreeMixin implements _Account {
-  const _$_Account(
-      {required this.id, required this.name, required this.email, this.avatar});
+  const _$_Account({required this.id, required this.name, required this.email});
 
   factory _$_Account.fromJson(Map<String, dynamic> json) =>
       _$$_AccountFromJson(json);
@@ -158,12 +142,10 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
   final String name;
   @override
   final String email;
-  @override
-  final String? avatar;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Account(id: $id, name: $name, email: $email, avatar: $avatar)';
+    return 'Account(id: $id, name: $name, email: $email)';
   }
 
   @override
@@ -173,8 +155,7 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
       ..add(DiagnosticsProperty('type', 'Account'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('avatar', avatar));
+      ..add(DiagnosticsProperty('email', email));
   }
 
   @override
@@ -184,8 +165,7 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
             other is _Account &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality().equals(other.avatar, avatar));
+            const DeepCollectionEquality().equals(other.email, email));
   }
 
   @override
@@ -193,8 +173,7 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(avatar));
+      const DeepCollectionEquality().hash(email));
 
   @JsonKey(ignore: true)
   @override
@@ -211,8 +190,7 @@ abstract class _Account implements Account {
   const factory _Account(
       {required String id,
       required String name,
-      required String email,
-      String? avatar}) = _$_Account;
+      required String email}) = _$_Account;
 
   factory _Account.fromJson(Map<String, dynamic> json) = _$_Account.fromJson;
 
@@ -222,8 +200,6 @@ abstract class _Account implements Account {
   String get name;
   @override
   String get email;
-  @override
-  String? get avatar;
   @override
   @JsonKey(ignore: true)
   _$AccountCopyWith<_Account> get copyWith =>

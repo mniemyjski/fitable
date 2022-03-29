@@ -10,7 +10,6 @@ class Account with _$Account {
     required String id,
     required String name,
     required String email,
-    String? avatar,
   }) = _Account;
 
   factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);

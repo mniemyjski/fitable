@@ -1,4 +1,4 @@
-import 'package:fitable/app/account/cubit/my_account_cubit.dart';
+import 'package:fitable/app/account/cubit/my_account/my_account_cubit.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/constants/constants.dart';
 import 'package:fitable/widgets/widgets.dart';

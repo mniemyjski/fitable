@@ -7,7 +7,8 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../../app/account/repositories/account_repository.dart' as _i6;
+import '../../app/account/repositories/account_repository.dart' as _i7;
+import '../../app/account/repositories/avatar_repository.dart' as _i6;
 import '../../app/auth/repositories/auth_repository.dart' as _i5;
 import '../../utilities/services/api.dart' as _i3;
 import '../../utilities/services/app_write.dart' as _i4;
@@ -24,7 +25,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i4.AppWrite>(_i4.AppWriteDev(), registerFor: {_dev});
   gh.singleton<_i4.AppWrite>(_i4.AppWriteProduction(), registerFor: {_prod});
   gh.singleton<_i5.AuthRepository>(_i5.AuthRepository(get<_i4.AppWrite>()));
-  gh.singleton<_i6.AccountRepository>(
-      _i6.AccountRepository(get<_i4.AppWrite>()));
+  gh.singleton<_i6.AvatarRepository>(_i6.AvatarRepository(get<_i4.AppWrite>()));
+  gh.singleton<_i7.AccountRepository>(
+      _i7.AccountRepository(get<_i4.AppWrite>()));
   return get;
 }

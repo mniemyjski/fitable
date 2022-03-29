@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitable/app/account/cubit/my_account_cubit.dart';
+import 'package:fitable/app/account/cubit/my_account/my_account_cubit.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/account/cubit/my_avatar/my_avatar_cubit.dart';
 import '../../widgets.dart';
 
 class Header extends StatelessWidget {
@@ -37,13 +38,10 @@ class Header extends StatelessWidget {
                 Positioned(
                   bottom: 40.0,
                   left: 16.0,
-                  child: BlocBuilder<MyAccountCubit, MyAccountState>(
-                    builder: (context, state) {
-                      if (state is Created) {
-                        return CustomAvatar(url: state.account.avatar ?? '');
-                      }
-                      return CustomAvatar();
-                    },
+                  child: BlocBuilder<MyAvatarCubit, MyAvatarState>(
+                    builder: (context, state) => state.maybeWhen(
+                        loaded: (avatar) => CustomAvatar(uint8list: avatar),
+                        orElse: () => CustomAvatar()),
                   ),
                 ),
                 Positioned(

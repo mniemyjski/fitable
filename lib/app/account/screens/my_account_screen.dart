@@ -1,16 +1,17 @@
-import 'package:universal_io/io.dart';
 import 'dart:typed_data';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:universal_io/io.dart';
 
+import '../../../config/routes/routes.gr.dart';
 import '../../../constants/strings.dart';
-import '../../../utilities/utilities.dart';
 import '../../../widgets/widgets.dart';
-import '../cubit/my_account_cubit.dart';
+import '../cubit/my_account/my_account_cubit.dart';
+import '../cubit/my_avatar/my_avatar_cubit.dart';
 
 class MyAccountScreen extends StatefulWidget {
   const MyAccountScreen({Key? key}) : super(key: key);
@@ -31,8 +32,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   @override
   void initState() {
-    _controller.text =
-        context.read<MyAccountCubit>().state.maybeWhen(orElse: () => '', created: (account) => account.name);
+    _controller.text = context
+        .read<MyAccountCubit>()
+        .state
+        .maybeWhen(orElse: () => '', created: (account) => account.name);
     super.initState();
   }
 
@@ -56,33 +59,24 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
                     if (crop != null) {
                       crop as Uint8List;
-                      // Logger().w('start');
-                      // final directory = await getApplicationDocumentsDirectory();
-                      // Logger().w(directory.path);
-                      // final pathOfImage = await File('${directory.path}/legendary.png').create();
-                      // final Uint8List bytes = crop.buffer.asUint8List();
-                      // File test = await pathOfImage.writeAsBytes(bytes);
-                      //
-                      // Logger().w(test);
-                      // Logger().w(test.path);
-                      final File test = await File.fromRawPath(image);
-
-                      context.read<MyAccountCubit>().updateAvatar(test);
+                      final directory = await getApplicationDocumentsDirectory();
+                      final pathOfImage = await File('${directory.path}/avatar.png').create();
+                      final Uint8List bytes = crop.buffer.asUint8List();
+                      File test = await pathOfImage.writeAsBytes(bytes);
+                      context.read<MyAvatarCubit>().update(test);
                     }
                   }
                 },
-                child: BlocBuilder<MyAccountCubit, MyAccountState>(
-                  builder: (context, state) {
-                    if (state is Created) {
-                      return CustomAvatar(url: state.account.avatar ?? '');
-                    }
-                    return CustomAvatar();
-                  },
+                child: BlocBuilder<MyAvatarCubit, MyAvatarState>(
+                  builder: (context, state) => state.maybeWhen(
+                      loaded: (avatar) => CustomAvatar(uint8list: avatar),
+                      orElse: () => CustomAvatar()),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CustomTextField(formKey: _formKey, controller: _controller, labelText: Strings.name()),
+                child: CustomTextField(
+                    formKey: _formKey, controller: _controller, labelText: Strings.name()),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

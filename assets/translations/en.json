@@ -1,0 +1,13 @@
+{
+    "email": "email",
+    "password": "password",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "create_account": "Create an account",
+    "need_register": "Need an account? Register",
+    "have_account_sign_in": "Have an account? Sign in",
+    "forgot_your_password": "Forgot your password?",
+    "home": "Home",
+    "settings": "Settings",
+    "sign_out": "Sign out"
+}

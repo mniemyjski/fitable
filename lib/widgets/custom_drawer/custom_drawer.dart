@@ -1,12 +1,11 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:fitable/constants/strings.dart';
 import 'package:fitable/widgets/custom_flash_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'widgets/header.dart';
 import 'widgets/item.dart';
@@ -27,10 +26,28 @@ class CustomDrawer extends StatelessWidget {
           ),
           Item(
             icon: Icons.settings,
-            text: Strings.settings(),
-            onTap: () {
-              context.router.push(const SettingsRoute());
-            },
+            text: Strings.recipes(),
+            onTap: () {},
+          ),
+          Item(
+            icon: Icons.settings,
+            text: Strings.diets(),
+            onTap: () {},
+          ),
+          Item(
+            icon: Icons.settings,
+            text: Strings.workouts(),
+            onTap: () {},
+          ),
+          Item(
+            icon: Icons.settings,
+            text: Strings.exercises(),
+            onTap: () {},
+          ),
+          Item(
+            icon: Icons.settings,
+            text: Strings.goals(),
+            onTap: () {},
           ),
           Divider(),
           Item(
@@ -38,6 +55,13 @@ class CustomDrawer extends StatelessWidget {
             text: Strings.help(),
             onTap: () {
               // Navigator.of(context).pushNamed(IntroScreen.routeName);
+            },
+          ),
+          Item(
+            icon: Icons.settings,
+            text: Strings.settings(),
+            onTap: () {
+              context.router.push(const SettingsRoute());
             },
           ),
           Item(

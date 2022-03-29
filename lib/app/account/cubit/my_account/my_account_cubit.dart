@@ -7,11 +7,11 @@ import 'package:fitable/utilities/utilities.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logger/logger.dart';
 
-import '../../auth/bloc/auth_bloc.dart';
-import '../../auth/models/auth_model.dart';
-import '../../failure/models/failure_model.dart';
-import '../models/account_model.dart';
-import '../repositories/account_repository.dart';
+import '../../../auth/bloc/auth_bloc.dart';
+import '../../../auth/models/auth_model.dart';
+import '../../../failure/models/failure_model.dart';
+import '../../models/account_model.dart';
+import '../../repositories/account_repository.dart';
 
 part 'my_account_state.dart';
 part 'my_account_cubit.freezed.dart';
@@ -21,7 +21,7 @@ abstract class BaseMyAccountCubit {
   Future<void> create(String name);
   Future<void> update(Account account);
   Future<void> delete(Account account);
-  Future<Either<Failure, Account?>> getAccount();
+  Future<Either<Failure, Account?>> get();
 }
 
 class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
@@ -38,9 +38,7 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
   }
 
   _init() {
-    if (_authBloc.state is Authenticated) {
-      _authentication();
-    }
+    _authBloc.state.whenOrNull(authenticated: (auth) => _authenticated(auth.userId));
 
     try {
       _authSubscription.cancel();
@@ -48,7 +46,7 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
 
     _authSubscription = _authBloc.stream.listen((event) {
       event.maybeWhen(
-        authenticated: (_) => _authentication(),
+        authenticated: (auth) => _authenticated(auth.userId),
         orElse: () {
           try {
             _accountSubscription.cancel();
@@ -59,8 +57,8 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
     });
   }
 
-  void _authentication() async {
-    await getAccount()
+   _authenticated(String id) async {
+    await get()
       ..fold((f) {
         if (state is! UnCreated) emit(MyAccountState.unCreated());
       }, (account) {
@@ -71,17 +69,7 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
       await _accountSubscription.cancel();
     } catch (e) {}
 
-    _authBloc.state.maybeWhen(
-      orElse: () => emit(MyAccountState.initial()),
-      initial: (auth) async {
-        if (auth != null) _subStream(auth);
-      },
-      authenticated: (auth) => _subStream(auth),
-    );
-  }
-
-  _subStream(Auth auth) {
-    _accountSubscription = _accountRepository.stream(auth).listen((account) {
+    _accountSubscription = _accountRepository.stream(id).listen((account) {
       if (account != null) {
         emit(MyAccountState.created(account));
       } else {
@@ -105,8 +93,9 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
   Future<void> create(String name) async {
     _authBloc.state.maybeWhen(
       orElse: () => throw 'Auth failed',
-      initial: (auth) async =>
-          auth != null ? await _accountRepository.create(auth: auth, name: name) : throw 'Auth failed',
+      initial: (auth) async => auth != null
+          ? await _accountRepository.create(auth: auth, name: name)
+          : throw 'Auth failed',
       authenticated: (auth) => _accountRepository.create(auth: auth, name: name),
     );
   }
@@ -115,7 +104,8 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
   Future<void> update(Account account) async {
     _authBloc.state.maybeWhen(
       orElse: () => throw 'Auth failed',
-      initial: (auth) async => auth != null ? await _accountRepository.update(account) : throw 'Auth failed',
+      initial: (auth) async =>
+          auth != null ? await _accountRepository.update(account) : throw 'Auth failed',
       authenticated: (auth) => _accountRepository.update(account),
     );
   }
@@ -123,12 +113,8 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
   @override
   Future<void> delete(Account account) async {}
 
-  updateAvatar(File file) {
-    state.whenOrNull(created: (account) => _accountRepository.updateAvatar(id: account.id, file: file));
-  }
-
   @override
-  Future<Either<Failure, Account>> getAccount() async {
+  Future<Either<Failure, Account>> get() async {
     return _authBloc.state.maybeWhen(
       orElse: () => left(throw 'Auth failed'),
       initial: (auth) async => auth != null ? await _get(auth) : left(throw 'Auth failed'),
@@ -137,7 +123,7 @@ class MyAccountCubit extends Cubit<MyAccountState> with BaseMyAccountCubit {
   }
 
   Future<Either<Failure, Account>> _get(Auth auth) async {
-    return await Task(() => _accountRepository.get(auth)).attempt().mapLeftToFailure().run().then(
+    return await Task(() => _accountRepository.get(auth.userId)).attempt().mapLeftToFailure().run().then(
           (value) => value.fold(
             (f) => left(f),
             (account) => right(account),

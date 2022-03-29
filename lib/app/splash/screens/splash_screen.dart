@@ -1,6 +1,6 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
-import 'package:fitable/app/account/cubit/my_account_cubit.dart';
+import 'package:fitable/app/account/cubit/my_account/my_account_cubit.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:fitable/widgets/custom_loading_widget.dart';
 import 'package:flutter/material.dart';
