@@ -1,4 +1,4 @@
-import 'package:fitable/app/ingredients/models/ingredient_model.dart';
+import 'package:fitable/app/ingredient/models/ingredient_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'meal_model.freezed.dart';

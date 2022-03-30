@@ -12,18 +12,13 @@ _$_Recipe _$$_RecipeFromJson(Map<String, dynamic> json) => _$_Recipe(
       localeBase: json['localeBase'] as String,
       authorName: json['authorName'] as String,
       name: json['name'] as String,
-      keyWords:
-          (json['keyWords'] as List<dynamic>).map((e) => e as String).toList(),
-      photosUrl:
-          (json['photosUrl'] as List<dynamic>).map((e) => e as String).toList(),
+      keyWords: (json['keyWords'] as List<dynamic>).map((e) => e as String).toList(),
+      photosUrl: (json['photosUrl'] as List<dynamic>).map((e) => e as String).toList(),
       description: json['description'] as String,
       videoUrl: json['videoUrl'] as String,
       access: json['access'] as String,
-      ingredients: (json['ingredients'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      portions:
-          (json['portions'] as List<dynamic>).map((e) => e as String).toList(),
+      ingredients: (json['ingredient'] as List<dynamic>).map((e) => e as String).toList(),
+      portions: (json['portions'] as List<dynamic>).map((e) => e as String).toList(),
       timePreparation: json['timePreparation'] as int,
       verification: json['verification'] as bool,
       ratingsAvg: (json['ratingsAvg'] as num).toDouble(),
@@ -45,7 +40,7 @@ Map<String, dynamic> _$$_RecipeToJson(_$_Recipe instance) => <String, dynamic>{
       'description': instance.description,
       'videoUrl': instance.videoUrl,
       'access': instance.access,
-      'ingredients': instance.ingredients,
+      'ingredient': instance.ingredients,
       'portions': instance.portions,
       'timePreparation': instance.timePreparation,
       'verification': instance.verification,

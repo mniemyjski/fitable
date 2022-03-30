@@ -105,8 +105,7 @@ mixin _$Recipe {
 
 /// @nodoc
 abstract class $RecipeCopyWith<$Res> {
-  factory $RecipeCopyWith(Recipe value, $Res Function(Recipe) then) =
-      _$RecipeCopyWithImpl<$Res>;
+  factory $RecipeCopyWith(Recipe value, $Res Function(Recipe) then) = _$RecipeCopyWithImpl<$Res>;
   $Res call(
       {String uid,
       String id,
@@ -416,8 +415,7 @@ class _$_Recipe implements _Recipe {
       required this.dateCreation,
       required this.dateLastUpdate});
 
-  factory _$_Recipe.fromJson(Map<String, dynamic> json) =>
-      _$$_RecipeFromJson(json);
+  factory _$_Recipe.fromJson(Map<String, dynamic> json) => _$$_RecipeFromJson(json);
 
   @override
   final String uid;
@@ -462,7 +460,7 @@ class _$_Recipe implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(uid: $uid, id: $id, localeBase: $localeBase, authorName: $authorName, name: $name, keyWords: $keyWords, photosUrl: $photosUrl, description: $description, videoUrl: $videoUrl, access: $access, ingredients: $ingredients, portions: $portions, timePreparation: $timePreparation, verification: $verification, ratingsAvg: $ratingsAvg, ratingsCount: $ratingsCount, favoritesCount: $favoritesCount, commentsCount: $commentsCount, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate)';
+    return 'Recipe(uid: $uid, id: $id, localeBase: $localeBase, authorName: $authorName, name: $name, keyWords: $keyWords, photosUrl: $photosUrl, description: $description, videoUrl: $videoUrl, access: $access, ingredient: $ingredients, portions: $portions, timePreparation: $timePreparation, verification: $verification, ratingsAvg: $ratingsAvg, ratingsCount: $ratingsCount, favoritesCount: $favoritesCount, commentsCount: $commentsCount, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate)';
   }
 
   @override
@@ -472,36 +470,24 @@ class _$_Recipe implements _Recipe {
             other is _Recipe &&
             const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality()
-                .equals(other.localeBase, localeBase) &&
-            const DeepCollectionEquality()
-                .equals(other.authorName, authorName) &&
+            const DeepCollectionEquality().equals(other.localeBase, localeBase) &&
+            const DeepCollectionEquality().equals(other.authorName, authorName) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.keyWords, keyWords) &&
             const DeepCollectionEquality().equals(other.photosUrl, photosUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.videoUrl, videoUrl) &&
             const DeepCollectionEquality().equals(other.access, access) &&
-            const DeepCollectionEquality()
-                .equals(other.ingredients, ingredients) &&
+            const DeepCollectionEquality().equals(other.ingredients, ingredients) &&
             const DeepCollectionEquality().equals(other.portions, portions) &&
-            const DeepCollectionEquality()
-                .equals(other.timePreparation, timePreparation) &&
-            const DeepCollectionEquality()
-                .equals(other.verification, verification) &&
-            const DeepCollectionEquality()
-                .equals(other.ratingsAvg, ratingsAvg) &&
-            const DeepCollectionEquality()
-                .equals(other.ratingsCount, ratingsCount) &&
-            const DeepCollectionEquality()
-                .equals(other.favoritesCount, favoritesCount) &&
-            const DeepCollectionEquality()
-                .equals(other.commentsCount, commentsCount) &&
-            const DeepCollectionEquality()
-                .equals(other.dateCreation, dateCreation) &&
-            const DeepCollectionEquality()
-                .equals(other.dateLastUpdate, dateLastUpdate));
+            const DeepCollectionEquality().equals(other.timePreparation, timePreparation) &&
+            const DeepCollectionEquality().equals(other.verification, verification) &&
+            const DeepCollectionEquality().equals(other.ratingsAvg, ratingsAvg) &&
+            const DeepCollectionEquality().equals(other.ratingsCount, ratingsCount) &&
+            const DeepCollectionEquality().equals(other.favoritesCount, favoritesCount) &&
+            const DeepCollectionEquality().equals(other.commentsCount, commentsCount) &&
+            const DeepCollectionEquality().equals(other.dateCreation, dateCreation) &&
+            const DeepCollectionEquality().equals(other.dateLastUpdate, dateLastUpdate));
   }
 
   @override
@@ -531,8 +517,7 @@ class _$_Recipe implements _Recipe {
 
   @JsonKey(ignore: true)
   @override
-  _$RecipeCopyWith<_Recipe> get copyWith =>
-      __$RecipeCopyWithImpl<_Recipe>(this, _$identity);
+  _$RecipeCopyWith<_Recipe> get copyWith => __$RecipeCopyWithImpl<_Recipe>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {

@@ -48,8 +48,8 @@ class Strings {
   static String no() => "no".tr();
 
   static String today() => "today".tr();
-  static String tomorrow() => "today".tr();
-  static String yesterday() => "today".tr();
+  static String tomorrow() => "tomorrow".tr();
+  static String yesterday() => "yesterday".tr();
   static String monday() => "monday".tr();
   static String tuesday() => "tuesday".tr();
   static String wednesday() => "wednesday".tr();
@@ -71,4 +71,20 @@ class Strings {
   static String workouts() => "workouts".tr();
   static String exercises() => "exercises".tr();
   static String diets() => "diets".tr();
+
+  static String breakfast() => "breakfast".tr();
+  static String lunch() => "lunch".tr();
+  static String dinner() => "dinner".tr();
+  static String supper() => "supper".tr();
+  static String snack() => "snack".tr();
+
+  static String kcal() => "kcal".tr();
+  static String p() => "p".tr();
+  static String c() => "c".tr();
+  static String f() => "f".tr();
+
+  static String calories() => "calories".tr();
+  static String proteins() => "proteins".tr();
+  static String carbs() => "carbs".tr();
+  static String fats() => "fats".tr();
 }
