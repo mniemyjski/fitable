@@ -26,6 +26,8 @@ class NutritionalValue extends StatelessWidget {
     return Expanded(
       child: Builder(builder: (context) {
         return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8),

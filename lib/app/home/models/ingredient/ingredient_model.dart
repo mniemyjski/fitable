@@ -1,7 +1,8 @@
-import 'package:fitable/app/portions/models/portion_model.dart';
-import 'package:fitable/app/products/models/product_model.dart';
-import 'package:fitable/app/recipes/models/recipe_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../portions/portion_model.dart';
+import '../product/product_model.dart';
+import '../recipe/recipe_model.dart';
 
 part 'ingredient_model.freezed.dart';
 part 'ingredient_model.g.dart';

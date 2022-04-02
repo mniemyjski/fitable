@@ -25,8 +25,6 @@ class CustomTheme {
         headline3: TextStyle(color: Colors.white),
         headline4: TextStyle(color: Colors.white),
         headline5: TextStyle(color: Colors.white),
-        headline6: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        // bodyText1: TextStyle(color: Colors.white),
         bodyText2: TextStyle(color: Colors.white),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

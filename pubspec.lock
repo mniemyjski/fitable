@@ -190,13 +190,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  checklist:
-    dependency: "direct main"
-    description:
-      name: checklist
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.4"
   clock:
     dependency: transitive
     description:
@@ -385,7 +378,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.6"
   dots_indicator:
     dependency: transitive
     description:
@@ -393,6 +386,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  drag_and_drop_lists:
+    dependency: "direct main"
+    description:
+      name: drag_and_drop_lists
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2+2"
   easy_localization:
     dependency: "direct main"
     description:
@@ -494,6 +494,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  flutter_rating_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_rating_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
+  flutter_services_binding:
+    dependency: "direct main"
+    description:
+      name: flutter_services_binding
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -1036,13 +1050,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0+2"
-  smooth_star_rating:
-    dependency: "direct main"
-    description:
-      name: smooth_star_rating
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   source_gen:
     dependency: transitive
     description:

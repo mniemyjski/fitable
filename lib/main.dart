@@ -13,6 +13,7 @@ import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_services_binding/flutter_services_binding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -21,7 +22,8 @@ import 'config/injectable/injection.dart';
 import 'config/routes/routes.gr.dart';
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  // await WidgetsFlutterBinding.ensureInitialized();
+  await FlutterServicesBinding.ensureInitialized(); //Todo temporary solution for hydrated bloc
   configureDependencies(Env.dev);
   EasyLocalization.ensureInitialized();
   setPathUrlStrategy();

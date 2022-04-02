@@ -87,4 +87,34 @@ class Strings {
   static String proteins() => "proteins".tr();
   static String carbs() => "carbs".tr();
   static String fats() => "fats".tr();
+
+  static String report_bug() => "report_bug".tr();
+
+  static String ingredients() => "ingredients".tr();
+
+  static String add_comment() => "add_comment".tr();
+
+  static String comments() => "comments".tr();
+
+  static String favorites() => "favorites".tr();
+
+  static String community() => "community".tr();
+
+  static String followers() => "followers".tr();
+
+  static String following() => "following".tr();
+
+  static String products() => "products".tr();
+
+  static String your_recipes() => "your_recipes".tr();
+
+  static String massages() => "massages".tr();
+
+  static String notifications() => "notifications".tr();
+
+  static String delete() => "delete".tr();
+
+  static String edit() => "edit".tr();
+
+  static String report() => "report".tr();
 }

@@ -39,16 +39,6 @@ class CustomDrawer extends StatelessWidget {
             text: Strings.workouts(),
             onTap: () {},
           ),
-          Item(
-            icon: Icons.settings,
-            text: Strings.exercises(),
-            onTap: () {},
-          ),
-          Item(
-            icon: Icons.settings,
-            text: Strings.goals(),
-            onTap: () {},
-          ),
           Divider(),
           Item(
             icon: FontAwesomeIcons.question,

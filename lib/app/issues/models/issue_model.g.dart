@@ -30,7 +30,7 @@ const _$ETypeElementEnumMap = {
   ETypeElement.product: 'product',
   ETypeElement.recipe: 'recipe',
   ETypeElement.account: 'account',
-  ETypeElement.comment: 'comments',
+  ETypeElement.comment: 'comment',
 };
 
 const _$ETypeIssueEnumMap = {

@@ -1,11 +1,12 @@
-import 'package:fitable/app/home/widgets/element_meal.dart';
 import 'package:flutter/material.dart';
 
 class TileExpansion extends StatelessWidget {
   final Widget head;
   final List list;
+  final VoidCallback? onPressed;
 
-  const TileExpansion({Key? key, required this.head, required this.list}) : super(key: key);
+  const TileExpansion({Key? key, required this.head, required this.list, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class TileExpansion extends StatelessWidget {
                         ),
                       ],
                     )),
-                child: ElementMeal(),
+                child: list[index],
               ),
             );
           },
@@ -71,7 +72,7 @@ class TileExpansion extends StatelessWidget {
           height: double.infinity,
           child: IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => null,
+            onPressed: onPressed,
           ),
         ),
       ),
