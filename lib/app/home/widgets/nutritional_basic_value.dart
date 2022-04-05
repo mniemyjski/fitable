@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
 
-class NutritionalValue extends StatelessWidget {
-  const NutritionalValue({Key? key}) : super(key: key);
+class NutritionalBasicValue extends StatelessWidget {
+  const NutritionalBasicValue({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

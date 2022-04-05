@@ -1,13 +1,14 @@
 import 'package:fitable/app/comments/widgets/comments_module.dart';
 import 'package:fitable/app/home/widgets/element_meal.dart';
-import 'package:fitable/app/home/widgets/nutritional_value.dart';
+import 'package:fitable/app/home/widgets/nutritional_basic_value.dart';
 import 'package:fitable/widgets/custom_drop_down_button.dart';
-import 'package:fitable/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../constants/constants.dart';
+import '../../../widgets/widgets.dart';
 
 class FoodScreen extends StatefulWidget {
   final String title;
@@ -19,7 +20,7 @@ class FoodScreen extends StatefulWidget {
 }
 
 class _FoodScreenState extends State<FoodScreen> {
-  final controllerPage = PageController(viewportFraction: 0.8, keepPage: true);
+  final controllerPage = PageController(keepPage: true);
   final TextEditingController _controllerValue = TextEditingController();
   final GlobalKey<FormState> _formKey1 = GlobalKey();
 
@@ -27,10 +28,8 @@ class _FoodScreenState extends State<FoodScreen> {
       6,
       (index) => Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
               color: Colors.grey.shade300,
             ),
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             child: Container(
               height: 280,
               child: Center(
@@ -52,10 +51,15 @@ class _FoodScreenState extends State<FoodScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            onPressed: () => null,
+            icon: FaIcon(FontAwesomeIcons.heart),
+          )
+        ],
       ),
       body: ListView(
         children: [
-          SizedBox(height: 16),
           SizedBox(
             height: 240,
             child: PageView.builder(
@@ -79,7 +83,7 @@ class _FoodScreenState extends State<FoodScreen> {
             ),
           ),
           _buildTitle(context),
-          NutritionalValue(),
+          NutritionalBasicValue(),
           Row(
             children: [
               Expanded(
@@ -90,23 +94,88 @@ class _FoodScreenState extends State<FoodScreen> {
                       name: 'test', list: ['test', 'test'], onChanged: (data) => null)),
             ],
           ),
+          _ingredientsBuild(),
+          _descriptionBuild(context),
+          _nutritional_value(),
           _buildRating(),
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.only(bottom: 24.0),
             child: Center(child: Text(Strings.report_bug())),
           ),
-          _ingredientsBuild(),
-          // _commentsBuild(context),
           CommentsModule(),
           SizedBox(height: 48),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => null,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  ExpansionTile _nutritional_value() {
+    return ExpansionTile(
+      title: Center(
+        child: Text(
+          Strings.nutritional_value(),
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+      ),
+      children: [
+        ListView.separated(
+          separatorBuilder: (context, index) => Container(
+            child: Divider(
+              height: 5,
+            ),
+          ),
+          itemCount: 2,
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (_, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'test',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            );
+          },
+        ),
+      ],
+      iconColor: Colors.white,
+      collapsedIconColor: Colors.white,
+      trailing: null,
+    );
+  }
+
+  Card _descriptionBuild(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: 80),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${Strings.description()}:',
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus ac erat ut cursus. Donec tempus lobortis metus sit amet ultricies. Quisque tempus velit in hendrerit gravida. ',
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Padding _buildRating() {
     return Padding(
-      padding: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.only(top: 16, bottom: 24),
       child: Center(
         child: RatingBar.builder(
           initialRating: 3,
@@ -186,17 +255,15 @@ class _FoodScreenState extends State<FoodScreen> {
               style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 4),
-            Container(
-              height: 3 * 75,
-              child: ListView.separated(
-                separatorBuilder: (context, index) => Divider(
-                  color: Colors.black,
-                ),
-                itemCount: 3,
-                shrinkWrap: true,
-                itemBuilder: (context, index) =>
-                    ElementMeal(style: Theme.of(context).textTheme.bodyText1),
+            ListView.separated(
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black,
               ),
+              itemCount: 3,
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) =>
+                  ElementMeal(style: Theme.of(context).textTheme.bodyText1),
             ),
           ],
         ),

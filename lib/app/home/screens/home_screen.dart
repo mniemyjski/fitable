@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fitable/app/favorites/widgets/custom_tab_bar.dart';
 import 'package:fitable/app/home/widgets/head_meals.dart';
 import 'package:fitable/app/home/widgets/head_measurement.dart';
 import 'package:fitable/app/home/widgets/head_workout.dart';
@@ -10,7 +11,7 @@ import '../../../widgets/tile_expansion.dart';
 import '../../../widgets/widgets.dart';
 import '../widgets/date_chooser.dart';
 import '../widgets/element_meal.dart';
-import '../widgets/nutritional_value.dart';
+import '../widgets/nutritional_basic_value.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,48 +37,45 @@ class HomeScreen extends StatelessWidget {
                       ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                     ],
-                    onPressed: () => context.router.push(FavoritesRoute()),
+                    onPressed: () => _onPushToFavoriteProduct(context),
                   ),
                   TileExpansion(
                       head:
                           HeadMeals(name: Strings.lunch(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
-                        ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
-                      onPressed: () => context.router.push(FavoritesRoute())),
+                      onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadMeals(
                           name: Strings.dinner(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
-                        ElementMeal(style: Theme.of(context).textTheme.bodyText2),
-                        ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
-                      onPressed: () => context.router.push(FavoritesRoute())),
+                      onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadMeals(
                           name: Strings.supper(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
-                      onPressed: () => context.router.push(FavoritesRoute())),
+                      onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head:
                           HeadMeals(name: Strings.snack(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
-                        ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
-                      onPressed: () => context.router.push(FavoritesRoute())),
+                      onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadWorkout(),
                       list: [],
-                      onPressed: () => context.router.push(FavoritesRoute())),
-                  TileExpansion(
-                      head: HeadMeasurement(),
-                      list: [],
-                      onPressed: () => context.router.push(FavoritesRoute())),
+                      onPressed: () => context.router.push(
+                            FavoritesRoute(
+                              eTypeTabBar: ETypeTabBar.workout,
+                            ),
+                          )),
+                  TileExpansion(head: HeadMeasurement(), list: [], onPressed: () => null),
                   SizedBox(
                     height: 100,
                   )
@@ -86,8 +84,13 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        bottomSheet: NutritionalValue(),
+        bottomSheet: NutritionalBasicValue(),
+        bottomNavigationBar: BottomAppBar(),
       ),
     );
+  }
+
+  void _onPushToFavoriteProduct(BuildContext context) {
+    context.router.push(FavoritesRoute(eTypeTabBar: ETypeTabBar.food));
   }
 }

@@ -6,14 +6,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
-  static const String routeName = '/intro';
-
-  static Route route() {
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (context) => IntroScreen(),
-    );
-  }
 
   List<PageViewModel> pages() {
     return [
@@ -45,11 +37,14 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntroductionScreen(
       pages: pages(),
-      globalBackgroundColor: Colors.grey[200],
+      // globalBackgroundColor: Colors.grey[200],
       showSkipButton: true,
-      skip: Text(Strings.skip(), style: TextStyle(fontWeight: FontWeight.w600)),
-      next: Text(Strings.next(), style: TextStyle(fontWeight: FontWeight.w600)),
-      done: Text(Strings.done(), style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: Text(Strings.skip(),
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold)),
+      next: Text(Strings.next(),
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold)),
+      done: Text(Strings.done(),
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold)),
       onDone: () => context.router.push(const HomeRoute()),
     );
   }

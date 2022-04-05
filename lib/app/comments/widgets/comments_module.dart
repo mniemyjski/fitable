@@ -25,15 +25,17 @@ class CommentsModule extends StatelessWidget {
               TextButton(onPressed: () => null, child: Text(Strings.add_comment())),
             ],
           ),
-          Container(
-            height: 2 * 135,
-            child: ListView(
-              children: [
-                CommentWidget(),
-                CommentWidget(),
-              ],
+          Divider(),
+          ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.black,
             ),
-          )
+            itemCount: 3,
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) => CommentWidget(),
+          ),
+          TextButton(onPressed: () => null, child: Text(Strings.more())),
         ],
       ),
     );

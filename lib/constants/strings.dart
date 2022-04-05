@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 class Strings {
   static String app_name() => 'Fitable';
+  static String work_in_progress() => "assets/images/work_in_progress.jpg";
 
   static String sign_in_with_google() => 'sign_in_with_google'.tr();
   static String sign_in_with_email() => 'sign_in_with_email'.tr();
@@ -64,7 +65,6 @@ class Strings {
 
   static String user() => "user".tr();
   static String delete_account() => "delete_account".tr();
-  static String work_in_progress() => "work_in_progress".tr();
 
   static String recipes() => "recipes".tr();
   static String goals() => "goals".tr();
@@ -117,4 +117,12 @@ class Strings {
   static String edit() => "edit".tr();
 
   static String report() => "report".tr();
+
+  static String description() => "description".tr();
+
+  static String more() => "more".tr();
+
+  static String your_workouts() => "your_workouts".tr();
+
+  static String nutritional_value() => "nutritional_value".tr();
 }

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 class CustomDropDownButton extends StatelessWidget {
   final String name;
@@ -30,7 +30,12 @@ class CustomDropDownButton extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: 6, top: 5, bottom: 2),
             width: double.infinity,
-            child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text(
+              name,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
           ),
           IgnorePointer(
             ignoring: !enabled,
@@ -53,14 +58,14 @@ class CustomDropDownButton extends StatelessWidget {
                           margin: EdgeInsets.only(left: 6),
                           child: Text(
                             value.tr(),
-                            style: TextStyle(fontSize: 14),
+                            style: Theme.of(context).textTheme.bodyText1,
                           )),
                       if (description)
                         Container(
                             margin: EdgeInsets.only(left: 6),
                             child: Text(
                               descFunc!(value).toString(),
-                              style: TextStyle(fontSize: 10),
+                              style: Theme.of(context).textTheme.bodyText1,
                             )),
                     ],
                   ),

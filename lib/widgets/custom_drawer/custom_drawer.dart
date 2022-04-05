@@ -27,32 +27,30 @@ class CustomDrawer extends StatelessWidget {
           Item(
             icon: Icons.settings,
             text: Strings.recipes(),
-            onTap: () {},
+            onTap: () => context.router.push(const RecipesRoute()),
           ),
-          Item(
-            icon: Icons.settings,
-            text: Strings.diets(),
-            onTap: () {},
-          ),
+          // Item(
+          //   icon: Icons.settings,
+          //   text: Strings.diets(),
+          //   onTap: () {
+          //     context.router.push(const DietsRoute());
+          //   },
+          // ),
           Item(
             icon: Icons.settings,
             text: Strings.workouts(),
-            onTap: () {},
+            onTap: () => context.router.push(const WorkoutsRoute()),
           ),
           Divider(),
           Item(
             icon: FontAwesomeIcons.question,
             text: Strings.help(),
-            onTap: () {
-              // Navigator.of(context).pushNamed(IntroScreen.routeName);
-            },
+            onTap: () => context.router.push(const IntroRoute()),
           ),
           Item(
             icon: Icons.settings,
             text: Strings.settings(),
-            onTap: () {
-              context.router.push(const SettingsRoute());
-            },
+            onTap: () => context.router.push(const SettingsRoute()),
           ),
           Item(
             icon: Icons.exit_to_app,

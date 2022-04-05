@@ -2,28 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomTextField extends StatelessWidget {
+  final GlobalKey<FormState>? formKey;
+  final TextEditingController? controller;
+  final FormFieldValidator<String>? validator;
+  final bool obscureText;
+  final String labelText;
+  final IconData? icon;
+  final ValueChanged<String>? onChange;
+  final String? initialValue;
+
   const CustomTextField({
     Key? key,
-    required GlobalKey<FormState> formKey,
-    required TextEditingController controller,
-    required String labelText,
-    FormFieldValidator<String>? validator,
-    IconData? icon,
-    bool obscureText = false,
-  })  : _formKey = formKey,
-        _controller = controller,
-        _obscureText = obscureText,
-        _labelText = labelText,
-        _icon = icon,
-        _validator = validator,
-        super(key: key);
-
-  final GlobalKey<FormState> _formKey;
-  final TextEditingController _controller;
-  final FormFieldValidator<String>? _validator;
-  final bool _obscureText;
-  final String _labelText;
-  final IconData? _icon;
+    this.formKey,
+    this.controller,
+    this.validator,
+    this.obscureText = false,
+    this.labelText = '',
+    this.icon,
+    this.onChange,
+    this.initialValue,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +30,12 @@ class CustomTextField extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(minWidth: 200, maxWidth: 450),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: TextFormField(
+            initialValue: initialValue,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              labelText: _labelText,
+              labelText: labelText,
               labelStyle: TextStyle(color: Colors.white),
               contentPadding: EdgeInsets.all(12),
               border: OutlineInputBorder(
@@ -54,18 +53,19 @@ class CustomTextField extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              icon: _icon != null
+              icon: icon != null
                   ? FaIcon(
-                      _icon,
+                      icon,
                       size: 40,
                       color: Colors.white,
                     )
                   : null,
             ),
             textInputAction: TextInputAction.done,
-            obscureText: _obscureText,
-            controller: _controller,
-            validator: _validator,
+            obscureText: obscureText,
+            controller: controller,
+            validator: validator,
+            onChanged: (String txt) => onChange!(txt),
           ),
         ),
       ),

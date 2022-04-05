@@ -1,7 +1,6 @@
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/failure/models/failure_model.dart';
 import 'package:fitable/app/sign_in/cubit/sign_in_cubit.dart';
-import 'package:fitable/config/injectable/injection.dart';
 import 'package:fitable/constants/strings.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:fitable/widgets/widgets.dart';
@@ -82,11 +81,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     if (state == SignInState.sign_up())
                       TextButton(
                           onPressed: () => context.read<SignInCubit>().changeFormSignIn(),
-                          child: Text(Strings.have_account_sign_in(), style: TextStyle(color: Colors.white))),
+                          child: Text(Strings.have_account_sign_in(),
+                              style: TextStyle(color: Colors.white))),
                     if (state == SignInState.sign_in())
                       TextButton(
                           onPressed: () => context.read<SignInCubit>().changeFormSignUp(),
-                          child: Text(Strings.need_register(), style: TextStyle(color: Colors.white))),
+                          child:
+                              Text(Strings.need_register(), style: TextStyle(color: Colors.white))),
                   ],
                 ),
               ),

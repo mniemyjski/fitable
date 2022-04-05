@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../failure/models/failure_model.dart';
-import '../models/account_model.dart';
 
 class AccountCreateScreen extends StatefulWidget {
   const AccountCreateScreen({Key? key}) : super(key: key);
