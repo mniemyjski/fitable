@@ -1,7 +1,6 @@
 import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
 import '../../../widgets/widgets.dart';
 import '../models/product/product_model.dart';
 
@@ -22,6 +21,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Product'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (_formKeyName.currentState!.validate()) Logger().wtf(product);
+            },
+            icon: Icon(Icons.save),
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -34,12 +41,6 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
             },
             validator: (v) => v!.length < 8 ? 'test' : null,
             initialValue: 'test',
-          ),
-          CustomButton(
-            onPressed: () {
-              if (_formKeyName.currentState!.validate()) Logger().wtf(product);
-            },
-            child: Text(Strings.save()),
           ),
         ],
       ),

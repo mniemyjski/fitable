@@ -4,7 +4,7 @@ import '../../../constants/constants.dart';
 
 enum ETypeTabBar { food, workout }
 
-TabBar customTabBar({
+TabBar favoriteTabBar({
   required TabController controller,
   required ValueChanged<int>? onTap,
   required ETypeTabBar eTypeTabBar,

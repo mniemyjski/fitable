@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
-import 'package:fitable/app/favorites/widgets/custom_tab_bar.dart';
+import 'package:fitable/app/favorites/widgets/favorite_tab_bar.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -41,17 +41,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> with TickerProviderSt
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.favorites()),
-        actions: [
-          IconButton(
-            onPressed: () => showSearch(context: context, delegate: CustomSearchDelegate()),
-            icon: FaIcon(Icons.search),
-          ),
-          IconButton(
-            onPressed: () => context.router.push(ProductCreateRoute()),
-            icon: FaIcon(FontAwesomeIcons.barcode),
-          ),
-        ],
-        bottom: customTabBar(
+        actions: _actionsAppBar(context),
+        bottom: favoriteTabBar(
             eTypeTabBar: widget.eTypeTabBar,
             controller: _controller,
             onTap: (index) => _changeTab(index)),
@@ -109,6 +100,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> with TickerProviderSt
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  List<Widget> _actionsAppBar(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () => showSearch(context: context, delegate: CustomSearchDelegate()),
+        icon: FaIcon(Icons.search),
+      ),
+      if (widget.eTypeTabBar == ETypeTabBar.food)
+        IconButton(
+          onPressed: () => context.router.push(ProductCreateRoute()),
+          icon: FaIcon(FontAwesomeIcons.barcode),
+        ),
+    ];
   }
 
   void _changeTab(int index) {

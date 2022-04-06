@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fitable/app/favorites/widgets/custom_tab_bar.dart';
+import 'package:fitable/app/favorites/widgets/favorite_tab_bar.dart';
 import 'package:fitable/app/home/widgets/head_meals.dart';
 import 'package:fitable/app/home/widgets/head_measurement.dart';
 import 'package:fitable/app/home/widgets/head_workout.dart';
