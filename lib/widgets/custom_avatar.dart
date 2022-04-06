@@ -1,18 +1,17 @@
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitable/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CustomAvatar extends StatelessWidget {
   final Uint8List? uint8list;
+  final double radius;
 
-  const CustomAvatar({Key? key, this.uint8list}) : super(key: key);
+  const CustomAvatar({Key? key, this.uint8list, this.radius = 55}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 55,
+      radius: radius,
       backgroundColor: Colors.black12,
       child: uint8list != null
           ? Container(
@@ -23,7 +22,7 @@ class CustomAvatar extends StatelessWidget {
             )
           : Icon(
               Icons.account_circle,
-              size: 110,
+              size: radius * 2,
               color: Colors.white,
             ),
     );

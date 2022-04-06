@@ -1,3 +1,4 @@
+import 'package:fitable/app/community/widgets/tile_user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -31,6 +32,14 @@ class CommunityScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        body: ListView(
+          children: [
+            SizedBox(height: 8),
+            TileUser(),
+            TileUser(),
+            TileUser(),
+          ],
         ),
       ),
     );

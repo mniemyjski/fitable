@@ -42,7 +42,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () => _saveName(context),
+            icon: Icon(Icons.save),
+          ),
+        ],
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 8.0),
@@ -78,15 +85,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 child: CustomTextField(
                     formKey: _formKey, controller: _controller, labelText: Strings.name()),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () => _saveName(context),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(Strings.save()),
-                    )),
-              )
             ],
           ),
         ),

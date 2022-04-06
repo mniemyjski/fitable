@@ -1,8 +1,8 @@
 import 'package:fitable/app/comments/widgets/comments_module.dart';
 import 'package:fitable/app/home/widgets/element_meal.dart';
 import 'package:fitable/app/home/widgets/nutritional_basic_value.dart';
-import 'package:fitable/widgets/custom_drop_down_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -21,8 +21,7 @@ class FoodScreen extends StatefulWidget {
 
 class _FoodScreenState extends State<FoodScreen> {
   final controllerPage = PageController(keepPage: true);
-  final TextEditingController _controllerValue = TextEditingController();
-  final GlobalKey<FormState> _formKey1 = GlobalKey();
+  late double weight;
 
   final _pages = List.generate(
       6,
@@ -42,7 +41,7 @@ class _FoodScreenState extends State<FoodScreen> {
 
   @override
   void initState() {
-    _controllerValue.text = '100g';
+    weight = 100;
     super.initState();
   }
 
@@ -65,9 +64,7 @@ class _FoodScreenState extends State<FoodScreen> {
             child: PageView.builder(
               controller: controllerPage,
               itemCount: _pages.length,
-              itemBuilder: (_, index) {
-                return _pages[index % _pages.length];
-              },
+              itemBuilder: (_, index) => _pages[index % _pages.length],
             ),
           ),
           Center(
@@ -87,11 +84,22 @@ class _FoodScreenState extends State<FoodScreen> {
           Row(
             children: [
               Expanded(
-                  child: CustomTextField(
-                      formKey: _formKey1, controller: _controllerValue, labelText: '')),
+                flex: 1,
+                child: CustomButton(
+                    onPressed: () {
+                      _picker(context);
+                    },
+                    child: Text('$weight')),
+              ),
               Expanded(
-                  child: CustomDropDownButton(
-                      name: 'test', list: ['test', 'test'], onChanged: (data) => null)),
+                flex: 2,
+                child: CustomDropDownButton(
+                  name: '',
+                  value: 'g',
+                  list: ['g', 'Opakowanie'],
+                  onChanged: (data) => null,
+                ),
+              ),
             ],
           ),
           _ingredientsBuild(),
@@ -111,6 +119,29 @@ class _FoodScreenState extends State<FoodScreen> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void _picker(BuildContext context) {
+    Picker(
+        adapter: NumberPickerAdapter(data: [
+          NumberPickerColumn(begin: 0, end: 999),
+          NumberPickerColumn(begin: 0, end: 9),
+        ]),
+        delimiter: [
+          PickerDelimiter(
+              child: Container(
+            width: 30.0,
+            alignment: Alignment.center,
+            child: Text('.'),
+          ))
+        ],
+        hideHeader: true,
+        title: new Text("Please Select"),
+        onConfirm: (Picker picker, List value) {
+          setState(() {
+            weight = value[0] + (value[1] / 10);
+          });
+        }).showDialog(context);
   }
 
   ExpansionTile _nutritional_value() {

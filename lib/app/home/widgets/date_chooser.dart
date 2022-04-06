@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants/constants.dart';
@@ -14,7 +15,7 @@ class DateChooser extends StatelessWidget {
         children: [
           _dateButton(dateTime: DateTime.now().add(Duration(days: -1)), onTap: () => null),
           Container(width: 1, height: double.infinity, color: Colors.black12),
-          _dateButton(dateTime: DateTime.now(), onTap: () => null),
+          _dateButton(dateTime: DateTime.now(), onTap: () => _showPickerDate(context)),
           Container(width: 1, height: double.infinity, color: Colors.black12),
           _dateButton(dateTime: DateTime.now().add(Duration(days: 1)), onTap: () => null),
         ],
@@ -22,11 +23,22 @@ class DateChooser extends StatelessWidget {
     );
   }
 
+  _showPickerDate(BuildContext context) {
+    return Picker(
+        hideHeader: true,
+        adapter: DateTimePickerAdapter(),
+        title: Text("Select Data"),
+        selectedTextStyle: TextStyle(color: Colors.blue),
+        onConfirm: (Picker picker, List value) {
+          print((picker.adapter as DateTimePickerAdapter).value);
+        }).showDialog(context);
+  }
+
   Builder _dateButton({required DateTime dateTime, required GestureTapCallback onTap}) {
     return Builder(builder: (context) {
       return Expanded(
         child: ElevatedButton(
-          onPressed: () => onTap,
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(),
           ),

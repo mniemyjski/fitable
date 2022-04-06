@@ -41,7 +41,7 @@ void main() async {
         path: 'assets/translations',
         saveLocale: false,
         useOnlyLangCode: true,
-        fallbackLocale: Locale('pl'),
+        fallbackLocale: Locale('en'),
         child: MyApp())),
     storage: storage,
     blocObserver: SimpleBlocObserver(),

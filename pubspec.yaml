@@ -51,7 +51,7 @@ dependencies:
 
   cached_network_image: ^3.2.0
   crop_your_image: ^0.7.2
-  image_picker: ^0.8.4+11
+  image_picker: ^0.8.5
 
   introduction_screen: ^3.0.0
   drag_and_drop_lists: ^0.3.2+2

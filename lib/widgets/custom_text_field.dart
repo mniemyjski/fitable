@@ -65,7 +65,7 @@ class CustomTextField extends StatelessWidget {
             obscureText: obscureText,
             controller: controller,
             validator: validator,
-            onChanged: (String txt) => onChange!(txt),
+            onChanged: (String txt) => onChange != null ? onChange!(txt) : null,
           ),
         ),
       ),
