@@ -8,7 +8,6 @@ import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
 import 'package:fitable/config/themes/custom_theme.dart';
-import 'package:fitable/constants/strings.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'config/injectable/injection.dart';
 import 'config/routes/routes.gr.dart';
+import 'constants/constants.dart';
 
 void main() async {
   // await WidgetsFlutterBinding.ensureInitialized();
@@ -27,10 +27,6 @@ void main() async {
   configureDependencies(Env.dev);
   EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
-
-  final storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
-  );
 
   HydratedBlocOverrides.runZoned(
     () => runApp(EasyLocalization(
@@ -43,7 +39,13 @@ void main() async {
         useOnlyLangCode: true,
         fallbackLocale: Locale('en'),
         child: MyApp())),
-    storage: storage,
+    createStorage: () async {
+      return HydratedStorage.build(
+        storageDirectory:
+            kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
+      );
+    },
+    // storage: storage,
     blocObserver: SimpleBlocObserver(),
   );
 }
@@ -84,12 +86,14 @@ class MyApp extends StatelessWidget {
                 BlocProvider<MyAccountCubit>(
                   create: (_) => MyAccountCubit(
                     accountRepository: getIt<AccountRepository>(),
+                    // authBloc: getIt<AuthBloc>(),
                     authBloc: context.read<AuthBloc>(),
                   ),
                 ),
                 BlocProvider<MyAvatarCubit>(
                   create: (_) => MyAvatarCubit(
                     avatarRepository: getIt<AvatarRepository>(),
+                    // authBloc: getIt<AuthBloc>(),
                     authBloc: context.read<AuthBloc>(),
                   ),
                 ),
@@ -98,6 +102,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 builder: (context, widget) => _build(widget, context, botToastBuilder),
                 title: Strings.app_name(),
+                // title: AppLocalizations.of(context)!.helloWorld,
                 localizationsDelegates: context.localizationDelegates,
                 supportedLocales: context.supportedLocales,
                 locale: context.locale,

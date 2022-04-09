@@ -125,4 +125,14 @@ class Strings {
   static String your_workouts() => "your_workouts".tr();
 
   static String nutritional_value() => "nutritional_value".tr();
+
+  static String your_diets() => "your_diets".tr();
+
+  static String search() => "search".tr();
+
+  static String category_primary() => "category_primary".tr();
+
+  static String category_secondary() => "category_secondary".tr();
+
+  static String locale_base() => "locale_base".tr();
 }

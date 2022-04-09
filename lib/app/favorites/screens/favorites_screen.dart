@@ -137,7 +137,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> with TickerProviderSt
   }
 
   _onListAdd(DragAndDropListInterface newList, int listIndex) {
-    print('adding new list');
     setState(() {
       if (listIndex == -1)
         _contents.add(newList as DragAndDropList);

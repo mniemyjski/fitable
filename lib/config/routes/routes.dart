@@ -4,6 +4,7 @@ import 'package:fitable/app/home/screens/diets_screen.dart';
 import 'package:fitable/app/home/screens/recipe_create_screen.dart';
 import 'package:fitable/app/home/screens/recipes_screen.dart';
 import 'package:fitable/app/intro/intro_screen.dart';
+import 'package:fitable/app/workout/screens/exercise_screen.dart';
 import 'package:fitable/app/workout/screens/workouts_screen.dart';
 
 import '../../app/account/screens/account_create_screen.dart';
@@ -40,6 +41,7 @@ import '../../app/splash/screens/splash_screen.dart';
     AutoRoute(page: DietsScreen),
     AutoRoute(page: RecipesScreen),
     AutoRoute(page: WorkoutsScreen),
+    AutoRoute(page: ExerciseScreen),
   ],
 )
 class $AppRouter {}

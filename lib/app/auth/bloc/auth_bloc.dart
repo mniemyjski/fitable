@@ -1,19 +1,15 @@
 import 'dart:async';
 
-import 'package:appwrite/models.dart' as awm;
-import 'package:dartz/dartz.dart';
 import 'package:fitable/app/auth/models/auth_model.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:fitable/app/failure/models/failure_model.dart';
-import 'package:fitable/utilities/utilities.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:injectable/injectable.dart';
 
-part 'auth_event.dart';
-part 'auth_state.dart';
 part 'auth_bloc.freezed.dart';
 part 'auth_bloc.g.dart';
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 abstract class BaseAuthBloc {
   Future<void> signUpWithEmail({required String email, required String password});
@@ -23,6 +19,7 @@ abstract class BaseAuthBloc {
   Future<void> signOutAllDevices();
 }
 
+// @LazySingleton()
 class AuthBloc extends HydratedBloc<AuthEvent, AuthState> with BaseAuthBloc {
   final AuthRepository _authRepository;
   AuthBloc({required AuthRepository authRepository})

@@ -11,13 +11,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
 
   easy_localization: ^3.0.0
   easy_localization_loader: ^1.0.0
   url_strategy: ^0.2.0
 
   flutter_bloc: ^8.0.1
-  hydrated_bloc: ^8.1.0
+  hydrated_bloc: ^9.0.0-dev.2
   hive: ^2.1.0
   get_it: ^7.2.0
   injectable: ^1.5.3
@@ -60,6 +63,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   bot_toast: ^4.0.1
   flutter_picker: ^2.0.3
+  drop_down_list: ^0.0.2
   badges: ^2.0.2
 
 #  google_mobile_ads: ^0.11.0+1
@@ -95,6 +99,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
     - assets/
