@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:universal_io/io.dart';
 
 import '../../../config/routes/routes.gr.dart';
-import '../../../constants/strings.dart';
+import 'package:fitable/utilities/utilities.dart';
 import '../../../widgets/widgets.dart';
 import '../cubit/my_account/my_account_cubit.dart';
 import '../cubit/my_avatar/my_avatar_cubit.dart';
@@ -83,7 +83,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomTextField(
-                    formKey: _formKey, controller: _controller, labelText: Strings.name()),
+                    formKey: _formKey, controller: _controller, labelText: AppLocalizations.of(context)!.name),
               ),
             ],
           ),

@@ -9,6 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../constants/constants.dart';
 import '../../../widgets/widgets.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class FoodScreen extends StatefulWidget {
   final String title;
@@ -108,7 +109,7 @@ class _FoodScreenState extends State<FoodScreen> {
           _buildRating(),
           Padding(
             padding: const EdgeInsets.only(bottom: 24.0),
-            child: Center(child: Text(Strings.report_bug())),
+            child: Center(child: Text(AppLocalizations.of(context)!.reportBug)),
           ),
           CommentsModule(),
           SizedBox(height: 48),
@@ -148,7 +149,7 @@ class _FoodScreenState extends State<FoodScreen> {
     return ExpansionTile(
       title: Center(
         child: Text(
-          Strings.nutritional_value(),
+          AppLocalizations.of(context)!.nutritionalValues,
           style: Theme.of(context).textTheme.bodyText2,
         ),
       ),
@@ -189,7 +190,7 @@ class _FoodScreenState extends State<FoodScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${Strings.description()}:',
+                '${AppLocalizations.of(context)!.description}:',
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
@@ -282,7 +283,7 @@ class _FoodScreenState extends State<FoodScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${Strings.ingredients()}:',
+              '${AppLocalizations.of(context)!.ingredients}:',
               style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 4),

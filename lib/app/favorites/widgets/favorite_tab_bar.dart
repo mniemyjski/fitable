@@ -1,10 +1,9 @@
+import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants/constants.dart';
 
 enum ETypeTabBar { food, workout }
 
-TabBar favoriteTabBar({
+favoriteTabBar({
   required TabController controller,
   required ValueChanged<int>? onTap,
   required ETypeTabBar eTypeTabBar,
@@ -14,9 +13,9 @@ TabBar favoriteTabBar({
       controller: controller,
       onTap: onTap,
       tabs: <Widget>[
-        Tab(text: Strings.products()),
-        Tab(text: Strings.recipes()),
-        Tab(text: Strings.your_workouts()),
+        Builder(builder: (context) => Tab(text: AppLocalizations.of(context)!.products)),
+        Builder(builder: (context) => Tab(text: AppLocalizations.of(context)!.recipes)),
+        Builder(builder: (context) => Tab(text: AppLocalizations.of(context)!.yourRecipes)),
       ],
     );
 
@@ -24,9 +23,9 @@ TabBar favoriteTabBar({
     controller: controller,
     onTap: onTap,
     tabs: <Widget>[
-      Tab(text: Strings.exercises()),
-      Tab(text: Strings.workouts()),
-      Tab(text: Strings.your_workouts()),
+      Builder(builder: (context) => Tab(text: AppLocalizations.of(context)!.exercises)),
+      Builder(builder: (context) => Tab(text: AppLocalizations.of(context)!.workouts)),
+      Builder(builder: (context) => Tab(text: AppLocalizations.of(context)!.yourWorkouts)),
     ],
   );
 }

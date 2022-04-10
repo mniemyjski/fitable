@@ -1,7 +1,6 @@
 import 'package:fitable/app/notifications/widgets/tile_notification.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants/constants.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -10,7 +9,7 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.notifications()),
+        title: Text(AppLocalizations.of(context)!.notifications),
       ),
       body: ListView(
         children: [

@@ -2,7 +2,6 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
 import '../../../widgets/widgets.dart';
 import '../models/product/product_model.dart';
 
@@ -72,7 +71,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
       body: ListView(
         children: [
           // Strings.name()
-          _titleTextHead(context, Strings.name(), padding: const EdgeInsets.only(left: 8, top: 8)),
+          _titleTextHead(context, AppLocalizations.of(context)!.name, padding: const EdgeInsets.only(left: 8, top: 8)),
           CustomTextField(
             formKey: _formKeyName,
             labelText: '',
@@ -84,13 +83,13 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ),
 
           // Strings.category_primary()
-          _titleTextHead(context, Strings.category_primary()),
+          _titleTextHead(context, AppLocalizations.of(context)!.categoryPrimary),
           CustomButtonTextField(
             onPressed: () {
               TextEditingController _searchController = TextEditingController();
               DropDownState(
                 DropDown(
-                  searchHintText: Strings.search(),
+                  searchHintText: AppLocalizations.of(context)!.search,
                   searchBackgroundColor: Colors.black12,
                   dataList: _listOfCities,
                   selectedItem: (String selected) {
@@ -106,13 +105,13 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ),
 
           // Strings.category_primary()
-          _titleTextHead(context, Strings.category_secondary()),
+          _titleTextHead(context, AppLocalizations.of(context)!.categorySecondary),
           CustomButtonTextField(
             onPressed: () {
               TextEditingController _searchController = TextEditingController();
               DropDownState(
                 DropDown(
-                  searchHintText: Strings.search(),
+                  searchHintText: AppLocalizations.of(context)!.search,
                   searchBackgroundColor: Colors.black12,
                   dataList: _listOfCities,
                   selectedItem: (String selected) {
@@ -128,13 +127,13 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ),
 
           // Strings.locale_base()
-          _titleTextHead(context, Strings.locale_base()),
+          _titleTextHead(context, AppLocalizations.of(context)!.localeBase),
           CustomButtonTextField(
             onPressed: () {
               TextEditingController _searchController = TextEditingController();
               DropDownState(
                 DropDown(
-                  searchHintText: Strings.search(),
+                  searchHintText: AppLocalizations.of(context)!.search,
                   searchBackgroundColor: Colors.black12,
                   dataList: _listOfCities,
                   selectedItem: (String selected) {
@@ -150,7 +149,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ),
 
           // Strings.calories()
-          _titleTextHead(context, Strings.calories()),
+          _titleTextHead(context, AppLocalizations.of(context)!.calories),
           CustomTextField(
             formKey: _formKeyCalories,
             labelText: '',
@@ -171,7 +170,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _titleTextHead(context, Strings.proteins()),
+                    _titleTextHead(context, AppLocalizations.of(context)!.proteins),
                     CustomTextField(
                       formKey: _formKeyProteins,
                       labelText: '',
@@ -193,7 +192,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _titleTextHead(context, Strings.carbs()),
+                    _titleTextHead(context, AppLocalizations.of(context)!.carbs),
                     CustomTextField(
                       formKey: _formKeyCarbs,
                       labelText: '',
@@ -216,7 +215,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _titleTextHead(context, Strings.fats()),
+                    _titleTextHead(context, AppLocalizations.of(context)!.fats),
                     CustomTextField(
                       // formKey: _formKeyFats,
                       labelText: '',
@@ -238,7 +237,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ExpansionTile(
             title: Center(
               child:
-                  Text(Strings.nutritional_value(), style: Theme.of(context).textTheme.bodyText2),
+                  Text(AppLocalizations.of(context)!.nutritionalValues, style: Theme.of(context).textTheme.bodyText2),
             ),
             children: [],
           ),

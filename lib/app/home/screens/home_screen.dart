@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../../config/routes/routes.gr.dart';
 import '../../../constants/constants.dart';
+import '../../../utilities/utilities.dart';
 import '../../../widgets/tile_expansion.dart';
 import '../../../widgets/widgets.dart';
 import '../widgets/date_chooser.dart';
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: customAppBar(title: Strings.home()),
+        appBar: customAppBar(title: AppLocalizations.of(context)!.home),
         drawer: CustomDrawer(),
         body: Column(
           children: [
@@ -30,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   TileExpansion(
                     head: HeadMeals(
-                        name: Strings.breakfast(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                        name: AppLocalizations.of(context)!.breakfast, kcal: 0, proteins: 0, carbs: 0, fats: 0),
                     list: [
                       ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ElementMeal(style: Theme.of(context).textTheme.bodyText2),
@@ -41,28 +42,28 @@ class HomeScreen extends StatelessWidget {
                   ),
                   TileExpansion(
                       head:
-                          HeadMeals(name: Strings.lunch(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                          HeadMeals(name: AppLocalizations.of(context)!.lunch, kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadMeals(
-                          name: Strings.dinner(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                          name: AppLocalizations.of(context)!.dinner, kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadMeals(
-                          name: Strings.supper(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                          name: AppLocalizations.of(context)!.supper, kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head:
-                          HeadMeals(name: Strings.snack(), kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                          HeadMeals(name: AppLocalizations.of(context)!.snack, kcal: 0, proteins: 0, carbs: 0, fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],

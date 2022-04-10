@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
+import 'package:fitable/utilities/utilities.dart';
 import 'comment_widget.dart';
 
 class CommentsModule extends StatelessWidget {
@@ -18,11 +19,11 @@ class CommentsModule extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 16, left: 8),
                 child: Text(
-                  '${Strings.comments()} (1):',
+                  '${AppLocalizations.of(context)!.comments} (1):',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
-              TextButton(onPressed: () => null, child: Text(Strings.add_comment())),
+              TextButton(onPressed: () => null, child: Text(AppLocalizations.of(context)!.addComment)),
             ],
           ),
           Divider(),
@@ -35,7 +36,7 @@ class CommentsModule extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, index) => CommentWidget(),
           ),
-          TextButton(onPressed: () => null, child: Text(Strings.more())),
+          TextButton(onPressed: () => null, child: Text(AppLocalizations.of(context)!.more)),
         ],
       ),
     );

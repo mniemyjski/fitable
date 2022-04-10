@@ -1,5 +1,4 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitable/app/account/cubit/my_account/my_account_cubit.dart';
 import 'package:fitable/app/account/cubit/my_avatar/my_avatar_cubit.dart';
 import 'package:fitable/app/account/repositories/account_repository.dart';
@@ -7,11 +6,13 @@ import 'package:fitable/app/account/repositories/avatar_repository.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
 import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
+import 'package:fitable/app/settings/cubit/locale_cubit.dart';
 import 'package:fitable/config/themes/custom_theme.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_services_binding/flutter_services_binding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,20 +26,10 @@ void main() async {
   // await WidgetsFlutterBinding.ensureInitialized();
   await FlutterServicesBinding.ensureInitialized(); //Todo temporary solution for hydrated bloc
   configureDependencies(Env.dev);
-  EasyLocalization.ensureInitialized();
   setPathUrlStrategy();
 
   HydratedBlocOverrides.runZoned(
-    () => runApp(EasyLocalization(
-        supportedLocales: [
-          Locale('pl'),
-          Locale('en'),
-        ],
-        path: 'assets/translations',
-        saveLocale: false,
-        useOnlyLangCode: true,
-        fallbackLocale: Locale('en'),
-        child: MyApp())),
+    () => runApp(MyApp()),
     createStorage: () async {
       return HydratedStorage.build(
         storageDirectory:
@@ -74,6 +65,9 @@ class MyApp extends StatelessWidget {
             BlocProvider<DarkModeCubit>(
               create: (_) => DarkModeCubit(),
             ),
+            BlocProvider<LocaleCubit>(
+              create: (_) => LocaleCubit(),
+            ),
             BlocProvider<AuthBloc>(
               create: (_) => AuthBloc(
                 authRepository: getIt<AuthRepository>(),
@@ -102,10 +96,17 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 builder: (context, widget) => _build(widget, context, botToastBuilder),
                 title: Strings.app_name(),
-                // title: AppLocalizations.of(context)!.helloWorld,
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
+                locale: context.read<LocaleCubit>().state,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: [
+                  Locale('en', ''), // English, no country code
+                  Locale('pl', ''), // Polish, no country code
+                ],
                 theme: CustomTheme.lightTheme,
                 darkTheme: CustomTheme.darkTheme,
                 themeMode: context.watch<DarkModeCubit>().state ? ThemeMode.dark : ThemeMode.light,

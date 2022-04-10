@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
 import '../../../widgets/widgets.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class WorkoutsScreen extends StatelessWidget {
   const WorkoutsScreen({Key? key}) : super(key: key);
@@ -9,7 +9,7 @@ class WorkoutsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: Strings.workouts()),
+      appBar: customAppBar(title: AppLocalizations.of(context)!.workouts),
       drawer: CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -18,7 +18,7 @@ class WorkoutsScreen extends StatelessWidget {
           shrinkWrap: true,
           children: [
             Text(
-              Strings.your_workouts(),
+              AppLocalizations.of(context)!.yourWorkouts,
               style: Theme.of(context).textTheme.headline1,
             ),
             Container(

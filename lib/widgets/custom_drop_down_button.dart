@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropDownButton extends StatelessWidget {
@@ -57,7 +56,7 @@ class CustomDropDownButton extends StatelessWidget {
                       Container(
                           margin: EdgeInsets.only(left: 6),
                           child: Text(
-                            value.tr(),
+                            value,
                             style: Theme.of(context).textTheme.bodyText1,
                           )),
                       if (description)

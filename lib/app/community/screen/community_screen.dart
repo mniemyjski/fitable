@@ -2,8 +2,8 @@ import 'package:fitable/app/community/widgets/tile_user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../constants/constants.dart';
 import '../../../widgets/custom_search_delegate.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class CommunityScreen extends StatelessWidget {
   const CommunityScreen({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class CommunityScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(Strings.community()),
+          title: Text(AppLocalizations.of(context)!.community),
           actions: [
             IconButton(
               onPressed: () => showSearch(context: context, delegate: CustomSearchDelegate()),
@@ -25,10 +25,10 @@ class CommunityScreen extends StatelessWidget {
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
-                text: Strings.followers(),
+                text: AppLocalizations.of(context)!.followers,
               ),
               Tab(
-                text: Strings.following(),
+                text: AppLocalizations.of(context)!.following,
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
 import '../../../widgets/widgets.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class DietsScreen extends StatelessWidget {
   const DietsScreen({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class DietsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: Strings.diets()),
+      appBar: customAppBar(title: AppLocalizations.of(context)!.diets),
       drawer: CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -18,7 +19,7 @@ class DietsScreen extends StatelessWidget {
           shrinkWrap: true,
           children: [
             Text(
-              Strings.your_diets(),
+             AppLocalizations.of(context)!.yourDiets,
               style: Theme.of(context).textTheme.headline1,
             ),
             Container(

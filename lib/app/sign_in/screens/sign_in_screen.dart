@@ -42,7 +42,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   reset: () => AppBar(
                           leading: IconButton(
                         icon: Icon(Icons.arrow_back_ios),
-                        onPressed: () => context.read<SignInCubit>().changeFormSignIn(),
+                        onPressed: () =>
+                            context.read<SignInCubit>().changeFormSignIn(),
                       ))),
               body: Center(
                 child: Column(
@@ -52,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     CustomTextField(
                       formKey: _formKeyEmail,
                       controller: _controllerEmail,
-                      labelText: Strings.email(),
+                      labelText: AppLocalizations.of(context)!.email,
                       validator: (v) => Validators.email(v),
                       icon: Icons.email,
                     ),
@@ -60,7 +61,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       CustomTextField(
                         formKey: _formKeyPassword,
                         controller: _controllerPassword,
-                        labelText: Strings.password(),
+                        labelText: AppLocalizations.of(context)!.password,
                         validator: (v) => Validators.password(v),
                         icon: Icons.lock,
                         obscureText: true,
@@ -73,21 +74,25 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     if (state == SignInState.sign_in())
                       TextButton(
-                          onPressed: () => context.read<SignInCubit>().changeFormReset(),
+                          onPressed: () =>
+                              context.read<SignInCubit>().changeFormReset(),
                           child: Text(
-                            Strings.forgot_your_password(),
+                            AppLocalizations.of(context)!.forgotYourPassword,
                             style: TextStyle(color: Colors.white),
                           )),
                     if (state == SignInState.sign_up())
                       TextButton(
-                          onPressed: () => context.read<SignInCubit>().changeFormSignIn(),
-                          child: Text(Strings.have_account_sign_in(),
+                          onPressed: () =>
+                              context.read<SignInCubit>().changeFormSignIn(),
+                          child: Text(AppLocalizations.of(context)!.signIn,
                               style: TextStyle(color: Colors.white))),
                     if (state == SignInState.sign_in())
                       TextButton(
-                          onPressed: () => context.read<SignInCubit>().changeFormSignUp(),
-                          child:
-                              Text(Strings.need_register(), style: TextStyle(color: Colors.white))),
+                          onPressed: () =>
+                              context.read<SignInCubit>().changeFormSignUp(),
+                          child: Text(
+                              AppLocalizations.of(context)!.needRegister,
+                              style: TextStyle(color: Colors.white))),
                   ],
                 ),
               ),
@@ -100,19 +105,20 @@ class _SignInScreenState extends State<SignInScreen> {
 
   String _getTexts(SignInState state) {
     if (state == SignInState.sign_in()) {
-      return Strings.sign_in();
+      return AppLocalizations.of(context)!.signIn;
     }
     if (state == SignInState.sign_up()) {
-      return Strings.sign_up();
+      return AppLocalizations.of(context)!.signUp;
     }
     if (state == SignInState.reset()) {
-      return Strings.reset_password();
+      return AppLocalizations.of(context)!.resetPassword;
     }
     return '';
   }
 
   _singIn(BuildContext context) async {
-    if (_formKeyEmail.currentState!.validate() && _formKeyPassword.currentState!.validate()) {
+    if (_formKeyEmail.currentState!.validate() &&
+        _formKeyPassword.currentState!.validate()) {
       Failure? failure = await context.read<SignInCubit>().sign(
             email: _controllerEmail.text,
             password: _controllerPassword.text,

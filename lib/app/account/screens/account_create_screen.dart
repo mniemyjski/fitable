@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../failure/models/failure_model.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class AccountCreateScreen extends StatefulWidget {
   const AccountCreateScreen({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _AccountCreateScreenState extends State<AccountCreateScreen> {
         return false;
       },
       child: Scaffold(
-        appBar: customAppBar(title: Strings.create_account()),
+        appBar: customAppBar(title: AppLocalizations.of(context)!.createAccount),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -60,7 +61,7 @@ class _AccountCreateScreenState extends State<AccountCreateScreen> {
               CustomTextField(
                 formKey: _formKey1,
                 controller: _controllerName,
-                labelText: Strings.name(),
+                labelText: AppLocalizations.of(context)!.name,
               ),
               // CustomTextField(
               //   formKey: _formKey2,
@@ -74,7 +75,7 @@ class _AccountCreateScreenState extends State<AccountCreateScreen> {
               // ),
               CustomButton(
                 onPressed: () => _singIn(context),
-                child: Center(child: Text(Strings.save())),
+                child: Center(child: Text(AppLocalizations.of(context)!.save)),
               )
             ],
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
+import '../../../utilities/utilities.dart';
 
 class NutritionalBasicValue extends StatelessWidget {
   const NutritionalBasicValue({Key? key}) : super(key: key);
@@ -12,10 +12,10 @@ class NutritionalBasicValue extends StatelessWidget {
         height: 70,
         child: Row(
           children: [
-            _buildChart(name: Strings.calories()),
-            _buildChart(name: Strings.proteins()),
-            _buildChart(name: Strings.carbs()),
-            _buildChart(name: Strings.fats()),
+            _buildChart(name: AppLocalizations.of(context)!.calories),
+            _buildChart(name: AppLocalizations.of(context)!.proteins),
+            _buildChart(name: AppLocalizations.of(context)!.carbs),
+            _buildChart(name: AppLocalizations.of(context)!.fats),
           ],
         ),
       ),

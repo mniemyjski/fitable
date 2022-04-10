@@ -3,6 +3,7 @@ import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:fitable/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -39,11 +40,11 @@ class IntroScreen extends StatelessWidget {
       pages: pages(),
       // globalBackgroundColor: Colors.grey[200],
       showSkipButton: true,
-      skip: Text(Strings.skip(),
+      skip: Text(AppLocalizations.of(context)!.skip,
           style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold)),
-      next: Text(Strings.next(),
+      next: Text(AppLocalizations.of(context)!.next,
           style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold)),
-      done: Text(Strings.done(),
+      done: Text(AppLocalizations.of(context)!.done,
           style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold)),
       onDone: () => context.router.push(const HomeRoute()),
     );

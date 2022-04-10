@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../constants/constants.dart';
 import '../../../widgets/custom_search_delegate.dart';
 import '../widgets/drag_and_drop_list.dart';
+import 'package:fitable/utilities/utilities.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final ETypeTabBar eTypeTabBar;
@@ -40,7 +41,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with TickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.favorites()),
+        title: Text(AppLocalizations.of(context)!.favorites),
         actions: _actionsAppBar(context),
         bottom: favoriteTabBar(
             eTypeTabBar: widget.eTypeTabBar,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-import '../../../constants/constants.dart';
+import '../../../utilities/utilities.dart';
 import '../../../widgets/widgets.dart';
 
 class RecipesScreen extends StatelessWidget {
@@ -10,7 +9,7 @@ class RecipesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: Strings.recipes()),
+      appBar: customAppBar(title: AppLocalizations.of(context)!.recipes),
       drawer: CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -19,7 +18,7 @@ class RecipesScreen extends StatelessWidget {
           shrinkWrap: true,
           children: [
             Text(
-              Strings.your_recipes(),
+              AppLocalizations.of(context)!.yourRecipes,
               style: Theme.of(context).textTheme.headline1,
             ),
             Container(

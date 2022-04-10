@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../constants/constants.dart';
+import 'package:fitable/utilities/utilities.dart';
+import 'package:fitable/constants/constants.dart';
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class CommentWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              _buildTextButton(text: Strings.report()),
+              _buildTextButton(text: AppLocalizations.of(context)!.report),
             ],
           ),
           Padding(
@@ -49,8 +50,8 @@ class CommentWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTextButton(text: Strings.edit()),
-                _buildTextButton(text: Strings.delete()),
+                _buildTextButton(text: AppLocalizations.of(context)!.edit),
+                _buildTextButton(text: AppLocalizations.of(context)!.delete),
               ],
             ),
           )

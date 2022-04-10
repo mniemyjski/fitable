@@ -3,6 +3,7 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants/constants.dart';
+import '../../../utilities/utilities.dart';
 
 class DateChooser extends StatelessWidget {
   const DateChooser({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class DateChooser extends StatelessWidget {
             children: [
               Text(DateFormat('yyyy-MM-dd').format(dateTime).toString(),
                   style: Theme.of(context).textTheme.bodyText2),
-              Text(_nameDate(dateTime), style: Theme.of(context).textTheme.bodyText2),
+              Text(_nameDate(dateTime, context), style: Theme.of(context).textTheme.bodyText2),
             ],
           ),
         ),
@@ -55,7 +56,7 @@ class DateChooser extends StatelessWidget {
     });
   }
 
-  String _nameDate(DateTime dateTime) {
+  String _nameDate(DateTime dateTime, BuildContext context) {
     dateTime = DateTime(
       dateTime.year,
       dateTime.month,
@@ -68,25 +69,25 @@ class DateChooser extends StatelessWidget {
     );
 
     if (dateTime == dateTimeNow) {
-      return Strings.today();
+      return AppLocalizations.of(context)!.today;
     } else if (dateTime == dateTimeNow.add(Duration(days: 1))) {
-      return Strings.tomorrow();
+      return AppLocalizations.of(context)!.tomorrow;
     } else if (dateTime == dateTimeNow.add(Duration(days: -1))) {
-      return Strings.yesterday();
+      return AppLocalizations.of(context)!.yesterday;
     } else if (dateTime.weekday == 1) {
-      return Strings.monday();
+      return AppLocalizations.of(context)!.monday;
     } else if (dateTime.weekday == 2) {
-      return Strings.tuesday();
+      return AppLocalizations.of(context)!.tuesday;
     } else if (dateTime.weekday == 3) {
-      return Strings.wednesday();
+      return AppLocalizations.of(context)!.wednesday;
     } else if (dateTime.weekday == 4) {
-      return Strings.thursday();
+      return AppLocalizations.of(context)!.thursday;
     } else if (dateTime.weekday == 5) {
-      return Strings.friday();
+      return AppLocalizations.of(context)!.friday;
     } else if (dateTime.weekday == 6) {
-      return Strings.saturday();
+      return AppLocalizations.of(context)!.saturday;
     } else if (dateTime.weekday == 7) {
-      return Strings.sunday();
+      return AppLocalizations.of(context)!.sunday;
     } else {
       return '';
     }

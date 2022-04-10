@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
+import '../../../utilities/utilities.dart';
 
 class ElementMeal extends StatelessWidget {
   final TextStyle? style;
@@ -25,10 +25,10 @@ class ElementMeal extends StatelessWidget {
                 _buildText('100g'),
                 Row(
                   children: [
-                    Expanded(child: _buildText('${Strings.kcal()}: 0')),
-                    Expanded(child: _buildText('${Strings.p()}: 0.0g')),
-                    Expanded(child: _buildText('${Strings.c()}: 0.0g')),
-                    Expanded(child: _buildText('${Strings.f()}: 0.0g')),
+                    Expanded(child: _buildText('${AppLocalizations.of(context)!.kcal}: 0')),
+                    Expanded(child: _buildText('${AppLocalizations.of(context)!.p}: 0.0g')),
+                    Expanded(child: _buildText('${AppLocalizations.of(context)!.c}: 0.0g')),
+                    Expanded(child: _buildText('${AppLocalizations.of(context)!.f}: 0.0g')),
                   ],
                 )
               ],

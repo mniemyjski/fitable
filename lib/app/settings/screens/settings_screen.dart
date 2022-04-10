@@ -1,9 +1,10 @@
 import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
-import 'package:fitable/constants/strings.dart';
+import 'package:fitable/utilities/utilities.dart';
 import 'package:fitable/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
+
+import '../cubit/locale_cubit.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: customAppBar(title: Strings.settings()),
+        appBar: customAppBar(title: AppLocalizations.of(context)!.settings),
         drawer: CustomDrawer(),
         body: Center(
           child: Column(
@@ -21,11 +22,11 @@ class SettingsScreen extends StatelessWidget {
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 300),
                 child: CustomDropDownButton(
-                  name: Strings.locale_app(),
-                  value: context.locale.toString(),
+                  name: AppLocalizations.of(context)!.localeApp,
+                  value: AppLocalizations.of(context)!.localeName,
                   list: <String>['pl', 'en'],
                   onChanged: (String? state) {
-                    context.setLocale(Locale(state!));
+                    context.read<LocaleCubit>().change(Enums.toEnum(state!, ETypeLocale.values));
                   },
                 ),
               ),
@@ -43,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      Strings.dark_mode(),
+                      AppLocalizations.of(context)!.darkMode,
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
