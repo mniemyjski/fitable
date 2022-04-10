@@ -6,24 +6,21 @@ enum ETypeLocale { en, pl }
 class LocaleCubit extends HydratedCubit<Locale> {
   LocaleCubit() : super(Locale('en', ''));
 
-  void change(ETypeLocale eTypeLocale) async {
+  void change(ETypeLocale eTypeLocale) async => emit(_toLocale(eTypeLocale));
+
+  @override
+  Locale? fromJson(Map<String, dynamic> json) => _toLocale(json.values.first);
+
+  @override
+  Map<String, dynamic>? toJson(Locale state) =>
+      <String, dynamic>{'languageCode': state.languageCode};
+
+  Locale _toLocale(ETypeLocale eTypeLocale) {
     switch (eTypeLocale) {
       case ETypeLocale.en:
-        emit(Locale('en', ''));
-        break;
+        return Locale('en', '');
       case ETypeLocale.pl:
-        emit(Locale('pl', ''));
-        break;
+        return Locale('pl', '');
     }
-  }
-
-  @override
-  Locale? fromJson(Map<String, dynamic> json) {
-    return fromJson(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(Locale state) {
-    return toJson(state);
   }
 }

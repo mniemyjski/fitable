@@ -1,4 +1,4 @@
-import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
+import 'package:fitable/app/settings/cubit/dark_mode_cubit.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:fitable/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
                 constraints: BoxConstraints(maxWidth: 300),
                 child: CustomDropDownButton(
                   name: AppLocalizations.of(context)!.localeApp,
-                  value: AppLocalizations.of(context)!.localeName,
+                  value: context.watch<LocaleCubit>().state.languageCode,
                   list: <String>['pl', 'en'],
                   onChanged: (String? state) {
                     context.read<LocaleCubit>().change(Enums.toEnum(state!, ETypeLocale.values));

@@ -5,7 +5,7 @@ import 'package:fitable/app/account/repositories/account_repository.dart';
 import 'package:fitable/app/account/repositories/avatar_repository.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
-import 'package:fitable/app/dark_mode/dark_mode_cubit.dart';
+import 'package:fitable/app/settings/cubit/dark_mode_cubit.dart';
 import 'package:fitable/app/settings/cubit/locale_cubit.dart';
 import 'package:fitable/config/themes/custom_theme.dart';
 import 'package:fitable/utilities/utilities.dart';
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 builder: (context, widget) => _build(widget, context, botToastBuilder),
                 title: Strings.app_name(),
-                locale: context.read<LocaleCubit>().state,
+                locale: context.watch<LocaleCubit>().state,
                 localizationsDelegates: [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,
