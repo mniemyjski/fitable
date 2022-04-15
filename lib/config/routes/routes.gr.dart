@@ -19,11 +19,12 @@ import '../../app/account/screens/account_create_screen.dart' as _i5;
 import '../../app/account/screens/my_account_screen.dart' as _i6;
 import '../../app/community/screen/community_screen.dart' as _i13;
 import '../../app/favorites/screens/favorites_screen.dart' as _i14;
-import '../../app/favorites/widgets/favorite_tab_bar.dart' as _i23;
+import '../../app/favorites/widgets/favorite_tab_bar.dart' as _i24;
+import '../../app/home/models/product/product_model.dart' as _i23;
+import '../../app/home/screens/create_product_screen.dart' as _i9;
 import '../../app/home/screens/diets_screen.dart' as _i16;
 import '../../app/home/screens/food_screen.dart' as _i8;
 import '../../app/home/screens/home_screen.dart' as _i3;
-import '../../app/home/screens/product_create_screen.dart' as _i9;
 import '../../app/home/screens/recipe_create_screen.dart' as _i10;
 import '../../app/home/screens/recipes_screen.dart' as _i17;
 import '../../app/image_crop/image_crop_screen.dart' as _i7;
@@ -79,8 +80,11 @@ class AppRouter extends _i20.RootStackRouter {
           child: _i8.FoodScreen(key: args.key, title: args.title));
     },
     ProductCreateRoute.name: (routeData) {
+      final args = routeData.argsAs<ProductCreateRouteArgs>(
+          orElse: () => const ProductCreateRouteArgs());
       return _i20.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i9.ProductCreateScreen());
+          routeData: routeData,
+          child: _i9.ProductCreateScreen(key: args.key, product: args.product));
     },
     RecipeCreateRoute.name: (routeData) {
       return _i20.MaterialPageX<dynamic>(
@@ -252,11 +256,26 @@ class FoodRouteArgs {
 
 /// generated route for
 /// [_i9.ProductCreateScreen]
-class ProductCreateRoute extends _i20.PageRouteInfo<void> {
-  const ProductCreateRoute()
-      : super(ProductCreateRoute.name, path: '/product-create-screen');
+class ProductCreateRoute extends _i20.PageRouteInfo<ProductCreateRouteArgs> {
+  ProductCreateRoute({_i21.Key? key, _i23.Product? product})
+      : super(ProductCreateRoute.name,
+            path: '/product-create-screen',
+            args: ProductCreateRouteArgs(key: key, product: product));
 
   static const String name = 'ProductCreateRoute';
+}
+
+class ProductCreateRouteArgs {
+  const ProductCreateRouteArgs({this.key, this.product});
+
+  final _i21.Key? key;
+
+  final _i23.Product? product;
+
+  @override
+  String toString() {
+    return 'ProductCreateRouteArgs{key: $key, product: $product}';
+  }
 }
 
 /// generated route for
@@ -297,7 +316,7 @@ class CommunityRoute extends _i20.PageRouteInfo<void> {
 /// generated route for
 /// [_i14.FavoritesScreen]
 class FavoritesRoute extends _i20.PageRouteInfo<FavoritesRouteArgs> {
-  FavoritesRoute({_i21.Key? key, required _i23.ETypeTabBar eTypeTabBar})
+  FavoritesRoute({_i21.Key? key, required _i24.ETypeTabBar eTypeTabBar})
       : super(FavoritesRoute.name,
             path: '/favorites-screen',
             args: FavoritesRouteArgs(key: key, eTypeTabBar: eTypeTabBar));
@@ -310,7 +329,7 @@ class FavoritesRouteArgs {
 
   final _i21.Key? key;
 
-  final _i23.ETypeTabBar eTypeTabBar;
+  final _i24.ETypeTabBar eTypeTabBar;
 
   @override
   String toString() {

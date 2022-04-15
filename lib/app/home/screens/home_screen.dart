@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fitable/app/favorites/widgets/favorite_tab_bar.dart';
+import 'package:fitable/app/home/widgets/head_activities.dart';
 import 'package:fitable/app/home/widgets/head_meals.dart';
 import 'package:fitable/app/home/widgets/head_measurement.dart';
-import 'package:fitable/app/home/widgets/head_workout.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/routes/routes.gr.dart';
-import '../../../constants/constants.dart';
 import '../../../utilities/utilities.dart';
 import '../../../widgets/tile_expansion.dart';
 import '../../../widgets/widgets.dart';
@@ -31,7 +30,11 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   TileExpansion(
                     head: HeadMeals(
-                        name: AppLocalizations.of(context)!.breakfast, kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                        name: AppLocalizations.of(context)!.breakfast,
+                        kcal: 0,
+                        proteins: 0,
+                        carbs: 0,
+                        fats: 0),
                     list: [
                       ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ElementMeal(style: Theme.of(context).textTheme.bodyText2),
@@ -41,35 +44,51 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () => _onPushToFavoriteProduct(context),
                   ),
                   TileExpansion(
-                      head:
-                          HeadMeals(name: AppLocalizations.of(context)!.lunch, kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                      head: HeadMeals(
+                          name: AppLocalizations.of(context)!.lunch,
+                          kcal: 0,
+                          proteins: 0,
+                          carbs: 0,
+                          fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadMeals(
-                          name: AppLocalizations.of(context)!.dinner, kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                          name: AppLocalizations.of(context)!.dinner,
+                          kcal: 0,
+                          proteins: 0,
+                          carbs: 0,
+                          fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
                       head: HeadMeals(
-                          name: AppLocalizations.of(context)!.supper, kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                          name: AppLocalizations.of(context)!.supper,
+                          kcal: 0,
+                          proteins: 0,
+                          carbs: 0,
+                          fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
-                      head:
-                          HeadMeals(name: AppLocalizations.of(context)!.snack, kcal: 0, proteins: 0, carbs: 0, fats: 0),
+                      head: HeadMeals(
+                          name: AppLocalizations.of(context)!.snack,
+                          kcal: 0,
+                          proteins: 0,
+                          carbs: 0,
+                          fats: 0),
                       list: [
                         ElementMeal(style: Theme.of(context).textTheme.bodyText2),
                       ],
                       onPressed: () => _onPushToFavoriteProduct(context)),
                   TileExpansion(
-                      head: HeadWorkout(),
+                      head: HeadActivities(),
                       list: [],
                       onPressed: () => context.router.push(
                             FavoritesRoute(

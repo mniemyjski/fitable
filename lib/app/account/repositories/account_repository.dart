@@ -35,7 +35,7 @@ class AccountRepository extends BaseAccountRepository {
 
     try {
       await result;
-    } on SocketException catch (e) {
+    } on SocketException catch (_) {
       throw Failure('No Internet connection 😑');
     } on HttpException catch (e) {
       throw Failure(e.message);

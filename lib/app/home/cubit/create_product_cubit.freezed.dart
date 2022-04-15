@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'my_avatar_cubit.dart';
+part of 'create_product_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,7 +13,7 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-MyAvatarState _$MyAvatarStateFromJson(Map<String, dynamic> json) {
+CreateProductState _$CreateProductStateFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'initial':
       return Initial.fromJson(json);
@@ -21,18 +21,16 @@ MyAvatarState _$MyAvatarStateFromJson(Map<String, dynamic> json) {
       return Loading.fromJson(json);
     case 'loaded':
       return Loaded.fromJson(json);
-    case 'error':
-      return Error.fromJson(json);
 
     default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'MyAvatarState',
+      throw CheckedFromJsonException(json, 'runtimeType', 'CreateProductState',
           'Invalid union type "${json['runtimeType']}"!');
   }
 }
 
 /// @nodoc
-class _$MyAvatarStateTearOff {
-  const _$MyAvatarStateTearOff();
+class _$CreateProductStateTearOff {
+  const _$CreateProductStateTearOff();
 
   Initial initial() {
     return const Initial();
@@ -42,49 +40,41 @@ class _$MyAvatarStateTearOff {
     return const Loading();
   }
 
-  Loaded loaded(@Uint8ListConverter() Uint8List? uint8list) {
+  Loaded loaded(Product product) {
     return Loaded(
-      uint8list,
+      product,
     );
   }
 
-  Error error() {
-    return const Error();
-  }
-
-  MyAvatarState fromJson(Map<String, Object?> json) {
-    return MyAvatarState.fromJson(json);
+  CreateProductState fromJson(Map<String, Object?> json) {
+    return CreateProductState.fromJson(json);
   }
 }
 
 /// @nodoc
-const $MyAvatarState = _$MyAvatarStateTearOff();
+const $CreateProductState = _$CreateProductStateTearOff();
 
 /// @nodoc
-mixin _$MyAvatarState {
+mixin _$CreateProductState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(@Uint8ListConverter() Uint8List? uint8list)
-        loaded,
-    required TResult Function() error,
+    required TResult Function(Product product) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -93,7 +83,6 @@ mixin _$MyAvatarState {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -101,7 +90,6 @@ mixin _$MyAvatarState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -109,7 +97,6 @@ mixin _$MyAvatarState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -117,20 +104,20 @@ mixin _$MyAvatarState {
 }
 
 /// @nodoc
-abstract class $MyAvatarStateCopyWith<$Res> {
-  factory $MyAvatarStateCopyWith(
-          MyAvatarState value, $Res Function(MyAvatarState) then) =
-      _$MyAvatarStateCopyWithImpl<$Res>;
+abstract class $CreateProductStateCopyWith<$Res> {
+  factory $CreateProductStateCopyWith(
+          CreateProductState value, $Res Function(CreateProductState) then) =
+      _$CreateProductStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$MyAvatarStateCopyWithImpl<$Res>
-    implements $MyAvatarStateCopyWith<$Res> {
-  _$MyAvatarStateCopyWithImpl(this._value, this._then);
+class _$CreateProductStateCopyWithImpl<$Res>
+    implements $CreateProductStateCopyWith<$Res> {
+  _$CreateProductStateCopyWithImpl(this._value, this._then);
 
-  final MyAvatarState _value;
+  final CreateProductState _value;
   // ignore: unused_field
-  final $Res Function(MyAvatarState) _then;
+  final $Res Function(CreateProductState) _then;
 }
 
 /// @nodoc
@@ -140,7 +127,7 @@ abstract class $InitialCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$InitialCopyWithImpl<$Res> extends _$MyAvatarStateCopyWithImpl<$Res>
+class _$InitialCopyWithImpl<$Res> extends _$CreateProductStateCopyWithImpl<$Res>
     implements $InitialCopyWith<$Res> {
   _$InitialCopyWithImpl(Initial _value, $Res Function(Initial) _then)
       : super(_value, (v) => _then(v as Initial));
@@ -162,7 +149,7 @@ class _$Initial implements Initial {
 
   @override
   String toString() {
-    return 'MyAvatarState.initial()';
+    return 'CreateProductState.initial()';
   }
 
   @override
@@ -179,9 +166,7 @@ class _$Initial implements Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(@Uint8ListConverter() Uint8List? uint8list)
-        loaded,
-    required TResult Function() error,
+    required TResult Function(Product product) loaded,
   }) {
     return initial();
   }
@@ -191,8 +176,7 @@ class _$Initial implements Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
   }) {
     return initial?.call();
   }
@@ -202,8 +186,7 @@ class _$Initial implements Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -218,7 +201,6 @@ class _$Initial implements Initial {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
   }) {
     return initial(this);
   }
@@ -229,7 +211,6 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
   }) {
     return initial?.call(this);
   }
@@ -240,7 +221,6 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -255,7 +235,7 @@ class _$Initial implements Initial {
   }
 }
 
-abstract class Initial implements MyAvatarState {
+abstract class Initial implements CreateProductState {
   const factory Initial() = _$Initial;
 
   factory Initial.fromJson(Map<String, dynamic> json) = _$Initial.fromJson;
@@ -268,7 +248,7 @@ abstract class $LoadingCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LoadingCopyWithImpl<$Res> extends _$MyAvatarStateCopyWithImpl<$Res>
+class _$LoadingCopyWithImpl<$Res> extends _$CreateProductStateCopyWithImpl<$Res>
     implements $LoadingCopyWith<$Res> {
   _$LoadingCopyWithImpl(Loading _value, $Res Function(Loading) _then)
       : super(_value, (v) => _then(v as Loading));
@@ -290,7 +270,7 @@ class _$Loading implements Loading {
 
   @override
   String toString() {
-    return 'MyAvatarState.loading()';
+    return 'CreateProductState.loading()';
   }
 
   @override
@@ -307,9 +287,7 @@ class _$Loading implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(@Uint8ListConverter() Uint8List? uint8list)
-        loaded,
-    required TResult Function() error,
+    required TResult Function(Product product) loaded,
   }) {
     return loading();
   }
@@ -319,8 +297,7 @@ class _$Loading implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
   }) {
     return loading?.call();
   }
@@ -330,8 +307,7 @@ class _$Loading implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -346,7 +322,6 @@ class _$Loading implements Loading {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
   }) {
     return loading(this);
   }
@@ -357,7 +332,6 @@ class _$Loading implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -368,7 +342,6 @@ class _$Loading implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -383,7 +356,7 @@ class _$Loading implements Loading {
   }
 }
 
-abstract class Loading implements MyAvatarState {
+abstract class Loading implements CreateProductState {
   const factory Loading() = _$Loading;
 
   factory Loading.fromJson(Map<String, dynamic> json) = _$Loading.fromJson;
@@ -393,11 +366,13 @@ abstract class Loading implements MyAvatarState {
 abstract class $LoadedCopyWith<$Res> {
   factory $LoadedCopyWith(Loaded value, $Res Function(Loaded) then) =
       _$LoadedCopyWithImpl<$Res>;
-  $Res call({@Uint8ListConverter() Uint8List? uint8list});
+  $Res call({Product product});
+
+  $ProductCopyWith<$Res> get product;
 }
 
 /// @nodoc
-class _$LoadedCopyWithImpl<$Res> extends _$MyAvatarStateCopyWithImpl<$Res>
+class _$LoadedCopyWithImpl<$Res> extends _$CreateProductStateCopyWithImpl<$Res>
     implements $LoadedCopyWith<$Res> {
   _$LoadedCopyWithImpl(Loaded _value, $Res Function(Loaded) _then)
       : super(_value, (v) => _then(v as Loaded));
@@ -407,36 +382,41 @@ class _$LoadedCopyWithImpl<$Res> extends _$MyAvatarStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? uint8list = freezed,
+    Object? product = freezed,
   }) {
     return _then(Loaded(
-      uint8list == freezed
-          ? _value.uint8list
-          : uint8list // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
+      product == freezed
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as Product,
     ));
+  }
+
+  @override
+  $ProductCopyWith<$Res> get product {
+    return $ProductCopyWith<$Res>(_value.product, (value) {
+      return _then(_value.copyWith(product: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$Loaded implements Loaded {
-  const _$Loaded(@Uint8ListConverter() this.uint8list, {String? $type})
-      : $type = $type ?? 'loaded';
+  const _$Loaded(this.product, {String? $type}) : $type = $type ?? 'loaded';
 
   factory _$Loaded.fromJson(Map<String, dynamic> json) =>
       _$$LoadedFromJson(json);
 
   @override
-  @Uint8ListConverter()
-  final Uint8List? uint8list;
+  final Product product;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'MyAvatarState.loaded(uint8list: $uint8list)';
+    return 'CreateProductState.loaded(product: $product)';
   }
 
   @override
@@ -444,12 +424,12 @@ class _$Loaded implements Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Loaded &&
-            const DeepCollectionEquality().equals(other.uint8list, uint8list));
+            const DeepCollectionEquality().equals(other.product, product));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(uint8list));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(product));
 
   @JsonKey(ignore: true)
   @override
@@ -461,11 +441,9 @@ class _$Loaded implements Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(@Uint8ListConverter() Uint8List? uint8list)
-        loaded,
-    required TResult Function() error,
+    required TResult Function(Product product) loaded,
   }) {
-    return loaded(uint8list);
+    return loaded(product);
   }
 
   @override
@@ -473,10 +451,9 @@ class _$Loaded implements Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
   }) {
-    return loaded?.call(uint8list);
+    return loaded?.call(product);
   }
 
   @override
@@ -484,12 +461,11 @@ class _$Loaded implements Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
+    TResult Function(Product product)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(uint8list);
+      return loaded(product);
     }
     return orElse();
   }
@@ -500,7 +476,6 @@ class _$Loaded implements Loaded {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
   }) {
     return loaded(this);
   }
@@ -511,7 +486,6 @@ class _$Loaded implements Loaded {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
   }) {
     return loaded?.call(this);
   }
@@ -522,7 +496,6 @@ class _$Loaded implements Loaded {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -537,140 +510,12 @@ class _$Loaded implements Loaded {
   }
 }
 
-abstract class Loaded implements MyAvatarState {
-  const factory Loaded(@Uint8ListConverter() Uint8List? uint8list) = _$Loaded;
+abstract class Loaded implements CreateProductState {
+  const factory Loaded(Product product) = _$Loaded;
 
   factory Loaded.fromJson(Map<String, dynamic> json) = _$Loaded.fromJson;
 
-  @Uint8ListConverter()
-  Uint8List? get uint8list;
+  Product get product;
   @JsonKey(ignore: true)
   $LoadedCopyWith<Loaded> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ErrorCopyWith<$Res> {
-  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
-      _$ErrorCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$ErrorCopyWithImpl<$Res> extends _$MyAvatarStateCopyWithImpl<$Res>
-    implements $ErrorCopyWith<$Res> {
-  _$ErrorCopyWithImpl(Error _value, $Res Function(Error) _then)
-      : super(_value, (v) => _then(v as Error));
-
-  @override
-  Error get _value => super._value as Error;
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$Error implements Error {
-  const _$Error({String? $type}) : $type = $type ?? 'error';
-
-  factory _$Error.fromJson(Map<String, dynamic> json) => _$$ErrorFromJson(json);
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'MyAvatarState.error()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Error);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(@Uint8ListConverter() Uint8List? uint8list)
-        loaded,
-    required TResult Function() error,
-  }) {
-    return error();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
-  }) {
-    return error?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(@Uint8ListConverter() Uint8List? uint8list)? loaded,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ErrorToJson(this);
-  }
-}
-
-abstract class Error implements MyAvatarState {
-  const factory Error() = _$Error;
-
-  factory Error.fromJson(Map<String, dynamic> json) = _$Error.fromJson;
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../utilities/utilities.dart';
+
 class HeadMeasurement extends StatelessWidget {
   const HeadMeasurement({Key? key}) : super(key: key);
 
@@ -12,7 +14,8 @@ class HeadMeasurement extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Text('Measurements', style: Theme.of(context).textTheme.bodyText1),
+          child: Text(AppLocalizations.of(context)!.measurement,
+              style: Theme.of(context).textTheme.bodyText1),
         ),
         Row(
           children: <Widget>[

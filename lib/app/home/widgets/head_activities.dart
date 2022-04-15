@@ -1,8 +1,9 @@
+import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HeadWorkout extends StatelessWidget {
-  const HeadWorkout({Key? key}) : super(key: key);
+class HeadActivities extends StatelessWidget {
+  const HeadActivities({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,8 @@ class HeadWorkout extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Text('Activities', style: Theme.of(context).textTheme.bodyText1),
+          child: Text(AppLocalizations.of(context)!.activity,
+              style: Theme.of(context).textTheme.bodyText1),
         ),
         Row(
           children: <Widget>[
