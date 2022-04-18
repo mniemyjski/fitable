@@ -10,21 +10,23 @@
 //
 // ignore_for_file: type=lint
 
-import 'dart:typed_data' as _i22;
+import 'dart:typed_data' as _i24;
 
-import 'package:auto_route/auto_route.dart' as _i20;
-import 'package:flutter/material.dart' as _i21;
+import 'package:auto_route/auto_route.dart' as _i22;
+import 'package:flutter/material.dart' as _i23;
 
 import '../../app/account/screens/account_create_screen.dart' as _i5;
 import '../../app/account/screens/my_account_screen.dart' as _i6;
 import '../../app/community/screen/community_screen.dart' as _i13;
 import '../../app/favorites/screens/favorites_screen.dart' as _i14;
-import '../../app/favorites/widgets/favorite_tab_bar.dart' as _i24;
-import '../../app/home/models/product/product_model.dart' as _i23;
+import '../../app/favorites/widgets/favorite_tab_bar.dart' as _i26;
+import '../../app/home/models/product/product_model.dart' as _i25;
 import '../../app/home/screens/create_product_screen.dart' as _i9;
 import '../../app/home/screens/diets_screen.dart' as _i16;
 import '../../app/home/screens/food_screen.dart' as _i8;
 import '../../app/home/screens/home_screen.dart' as _i3;
+import '../../app/home/screens/key_words_screen.dart' as _i21;
+import '../../app/home/screens/portions_screen.dart' as _i20;
 import '../../app/home/screens/recipe_create_screen.dart' as _i10;
 import '../../app/home/screens/recipes_screen.dart' as _i17;
 import '../../app/image_crop/image_crop_screen.dart' as _i7;
@@ -37,129 +39,139 @@ import '../../app/splash/screens/splash_screen.dart' as _i1;
 import '../../app/workout/screens/exercise_screen.dart' as _i19;
 import '../../app/workout/screens/workouts_screen.dart' as _i18;
 
-class AppRouter extends _i20.RootStackRouter {
-  AppRouter([_i21.GlobalKey<_i21.NavigatorState>? navigatorKey])
+class AppRouter extends _i22.RootStackRouter {
+  AppRouter([_i23.GlobalKey<_i23.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i20.PageFactory> pagesMap = {
+  final Map<String, _i22.PageFactory> pagesMap = {
     SplashRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i1.SplashScreen());
     },
     SignInRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.SignInScreen());
     },
     HomeRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i3.HomeScreen());
     },
     SettingsRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: _i4.SettingsScreen());
     },
     AccountCreateRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i5.AccountCreateScreen());
     },
     MyAccountRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i6.MyAccountScreen());
     },
     ImageCropRoute.name: (routeData) {
       final args = routeData.argsAs<ImageCropRouteArgs>();
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i7.ImageCropScreen(key: args.key, image: args.image));
     },
     FoodRoute.name: (routeData) {
       final args = routeData.argsAs<FoodRouteArgs>();
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i8.FoodScreen(key: args.key, title: args.title));
     },
     ProductCreateRoute.name: (routeData) {
       final args = routeData.argsAs<ProductCreateRouteArgs>(
           orElse: () => const ProductCreateRouteArgs());
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i9.ProductCreateScreen(key: args.key, product: args.product));
     },
     RecipeCreateRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i10.RecipeCreateScreen());
     },
     MassagesRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i11.MassagesScreen());
     },
     NotificationRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i12.NotificationScreen());
     },
     CommunityRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i13.CommunityScreen());
     },
     FavoritesRoute.name: (routeData) {
       final args = routeData.argsAs<FavoritesRouteArgs>();
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i14.FavoritesScreen(
               key: args.key, eTypeTabBar: args.eTypeTabBar));
     },
     IntroRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i15.IntroScreen());
     },
     DietsRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i16.DietsScreen());
     },
     RecipesRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i17.RecipesScreen());
     },
     WorkoutsRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i18.WorkoutsScreen());
     },
     ExerciseRoute.name: (routeData) {
-      return _i20.MaterialPageX<dynamic>(
+      return _i22.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i19.ExerciseScreen());
+    },
+    PortionsRoute.name: (routeData) {
+      return _i22.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i20.PortionsScreen());
+    },
+    KeyWordsRoute.name: (routeData) {
+      return _i22.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i21.KeyWordsScreen());
     }
   };
 
   @override
-  List<_i20.RouteConfig> get routes => [
-        _i20.RouteConfig(SplashRoute.name, path: '/'),
-        _i20.RouteConfig(SignInRoute.name, path: '/sign-in-screen'),
-        _i20.RouteConfig(HomeRoute.name, path: '/home-screen'),
-        _i20.RouteConfig(SettingsRoute.name, path: '/settings-screen'),
-        _i20.RouteConfig(AccountCreateRoute.name,
+  List<_i22.RouteConfig> get routes => [
+        _i22.RouteConfig(SplashRoute.name, path: '/'),
+        _i22.RouteConfig(SignInRoute.name, path: '/sign-in-screen'),
+        _i22.RouteConfig(HomeRoute.name, path: '/home-screen'),
+        _i22.RouteConfig(SettingsRoute.name, path: '/settings-screen'),
+        _i22.RouteConfig(AccountCreateRoute.name,
             path: '/account-create-screen'),
-        _i20.RouteConfig(MyAccountRoute.name, path: '/my-account-screen'),
-        _i20.RouteConfig(ImageCropRoute.name, path: '/image-crop-screen'),
-        _i20.RouteConfig(FoodRoute.name, path: '/food-screen'),
-        _i20.RouteConfig(ProductCreateRoute.name,
+        _i22.RouteConfig(MyAccountRoute.name, path: '/my-account-screen'),
+        _i22.RouteConfig(ImageCropRoute.name, path: '/image-crop-screen'),
+        _i22.RouteConfig(FoodRoute.name, path: '/food-screen'),
+        _i22.RouteConfig(ProductCreateRoute.name,
             path: '/product-create-screen'),
-        _i20.RouteConfig(RecipeCreateRoute.name, path: '/recipe-create-screen'),
-        _i20.RouteConfig(MassagesRoute.name, path: '/massages-screen'),
-        _i20.RouteConfig(NotificationRoute.name, path: '/notification-screen'),
-        _i20.RouteConfig(CommunityRoute.name, path: '/community-screen'),
-        _i20.RouteConfig(FavoritesRoute.name, path: '/favorites-screen'),
-        _i20.RouteConfig(IntroRoute.name, path: '/intro-screen'),
-        _i20.RouteConfig(DietsRoute.name, path: '/diets-screen'),
-        _i20.RouteConfig(RecipesRoute.name, path: '/recipes-screen'),
-        _i20.RouteConfig(WorkoutsRoute.name, path: '/workouts-screen'),
-        _i20.RouteConfig(ExerciseRoute.name, path: '/exercise-screen')
+        _i22.RouteConfig(RecipeCreateRoute.name, path: '/recipe-create-screen'),
+        _i22.RouteConfig(MassagesRoute.name, path: '/massages-screen'),
+        _i22.RouteConfig(NotificationRoute.name, path: '/notification-screen'),
+        _i22.RouteConfig(CommunityRoute.name, path: '/community-screen'),
+        _i22.RouteConfig(FavoritesRoute.name, path: '/favorites-screen'),
+        _i22.RouteConfig(IntroRoute.name, path: '/intro-screen'),
+        _i22.RouteConfig(DietsRoute.name, path: '/diets-screen'),
+        _i22.RouteConfig(RecipesRoute.name, path: '/recipes-screen'),
+        _i22.RouteConfig(WorkoutsRoute.name, path: '/workouts-screen'),
+        _i22.RouteConfig(ExerciseRoute.name, path: '/exercise-screen'),
+        _i22.RouteConfig(PortionsRoute.name, path: '/portions-screen'),
+        _i22.RouteConfig(KeyWordsRoute.name, path: '/key-words-screen')
       ];
 }
 
 /// generated route for
 /// [_i1.SplashScreen]
-class SplashRoute extends _i20.PageRouteInfo<void> {
+class SplashRoute extends _i22.PageRouteInfo<void> {
   const SplashRoute() : super(SplashRoute.name, path: '/');
 
   static const String name = 'SplashRoute';
@@ -167,7 +179,7 @@ class SplashRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.SignInScreen]
-class SignInRoute extends _i20.PageRouteInfo<void> {
+class SignInRoute extends _i22.PageRouteInfo<void> {
   const SignInRoute() : super(SignInRoute.name, path: '/sign-in-screen');
 
   static const String name = 'SignInRoute';
@@ -175,7 +187,7 @@ class SignInRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.HomeScreen]
-class HomeRoute extends _i20.PageRouteInfo<void> {
+class HomeRoute extends _i22.PageRouteInfo<void> {
   const HomeRoute() : super(HomeRoute.name, path: '/home-screen');
 
   static const String name = 'HomeRoute';
@@ -183,7 +195,7 @@ class HomeRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.SettingsScreen]
-class SettingsRoute extends _i20.PageRouteInfo<void> {
+class SettingsRoute extends _i22.PageRouteInfo<void> {
   const SettingsRoute() : super(SettingsRoute.name, path: '/settings-screen');
 
   static const String name = 'SettingsRoute';
@@ -191,7 +203,7 @@ class SettingsRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.AccountCreateScreen]
-class AccountCreateRoute extends _i20.PageRouteInfo<void> {
+class AccountCreateRoute extends _i22.PageRouteInfo<void> {
   const AccountCreateRoute()
       : super(AccountCreateRoute.name, path: '/account-create-screen');
 
@@ -200,7 +212,7 @@ class AccountCreateRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.MyAccountScreen]
-class MyAccountRoute extends _i20.PageRouteInfo<void> {
+class MyAccountRoute extends _i22.PageRouteInfo<void> {
   const MyAccountRoute()
       : super(MyAccountRoute.name, path: '/my-account-screen');
 
@@ -209,8 +221,8 @@ class MyAccountRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.ImageCropScreen]
-class ImageCropRoute extends _i20.PageRouteInfo<ImageCropRouteArgs> {
-  ImageCropRoute({_i21.Key? key, required _i22.Uint8List image})
+class ImageCropRoute extends _i22.PageRouteInfo<ImageCropRouteArgs> {
+  ImageCropRoute({_i23.Key? key, required _i24.Uint8List image})
       : super(ImageCropRoute.name,
             path: '/image-crop-screen',
             args: ImageCropRouteArgs(key: key, image: image));
@@ -221,9 +233,9 @@ class ImageCropRoute extends _i20.PageRouteInfo<ImageCropRouteArgs> {
 class ImageCropRouteArgs {
   const ImageCropRouteArgs({this.key, required this.image});
 
-  final _i21.Key? key;
+  final _i23.Key? key;
 
-  final _i22.Uint8List image;
+  final _i24.Uint8List image;
 
   @override
   String toString() {
@@ -233,8 +245,8 @@ class ImageCropRouteArgs {
 
 /// generated route for
 /// [_i8.FoodScreen]
-class FoodRoute extends _i20.PageRouteInfo<FoodRouteArgs> {
-  FoodRoute({_i21.Key? key, required String title})
+class FoodRoute extends _i22.PageRouteInfo<FoodRouteArgs> {
+  FoodRoute({_i23.Key? key, required String title})
       : super(FoodRoute.name,
             path: '/food-screen', args: FoodRouteArgs(key: key, title: title));
 
@@ -244,7 +256,7 @@ class FoodRoute extends _i20.PageRouteInfo<FoodRouteArgs> {
 class FoodRouteArgs {
   const FoodRouteArgs({this.key, required this.title});
 
-  final _i21.Key? key;
+  final _i23.Key? key;
 
   final String title;
 
@@ -256,8 +268,8 @@ class FoodRouteArgs {
 
 /// generated route for
 /// [_i9.ProductCreateScreen]
-class ProductCreateRoute extends _i20.PageRouteInfo<ProductCreateRouteArgs> {
-  ProductCreateRoute({_i21.Key? key, _i23.Product? product})
+class ProductCreateRoute extends _i22.PageRouteInfo<ProductCreateRouteArgs> {
+  ProductCreateRoute({_i23.Key? key, _i25.Product? product})
       : super(ProductCreateRoute.name,
             path: '/product-create-screen',
             args: ProductCreateRouteArgs(key: key, product: product));
@@ -268,9 +280,9 @@ class ProductCreateRoute extends _i20.PageRouteInfo<ProductCreateRouteArgs> {
 class ProductCreateRouteArgs {
   const ProductCreateRouteArgs({this.key, this.product});
 
-  final _i21.Key? key;
+  final _i23.Key? key;
 
-  final _i23.Product? product;
+  final _i25.Product? product;
 
   @override
   String toString() {
@@ -280,7 +292,7 @@ class ProductCreateRouteArgs {
 
 /// generated route for
 /// [_i10.RecipeCreateScreen]
-class RecipeCreateRoute extends _i20.PageRouteInfo<void> {
+class RecipeCreateRoute extends _i22.PageRouteInfo<void> {
   const RecipeCreateRoute()
       : super(RecipeCreateRoute.name, path: '/recipe-create-screen');
 
@@ -289,7 +301,7 @@ class RecipeCreateRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.MassagesScreen]
-class MassagesRoute extends _i20.PageRouteInfo<void> {
+class MassagesRoute extends _i22.PageRouteInfo<void> {
   const MassagesRoute() : super(MassagesRoute.name, path: '/massages-screen');
 
   static const String name = 'MassagesRoute';
@@ -297,7 +309,7 @@ class MassagesRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.NotificationScreen]
-class NotificationRoute extends _i20.PageRouteInfo<void> {
+class NotificationRoute extends _i22.PageRouteInfo<void> {
   const NotificationRoute()
       : super(NotificationRoute.name, path: '/notification-screen');
 
@@ -306,7 +318,7 @@ class NotificationRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i13.CommunityScreen]
-class CommunityRoute extends _i20.PageRouteInfo<void> {
+class CommunityRoute extends _i22.PageRouteInfo<void> {
   const CommunityRoute()
       : super(CommunityRoute.name, path: '/community-screen');
 
@@ -315,8 +327,8 @@ class CommunityRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.FavoritesScreen]
-class FavoritesRoute extends _i20.PageRouteInfo<FavoritesRouteArgs> {
-  FavoritesRoute({_i21.Key? key, required _i24.ETypeTabBar eTypeTabBar})
+class FavoritesRoute extends _i22.PageRouteInfo<FavoritesRouteArgs> {
+  FavoritesRoute({_i23.Key? key, required _i26.ETypeTabBar eTypeTabBar})
       : super(FavoritesRoute.name,
             path: '/favorites-screen',
             args: FavoritesRouteArgs(key: key, eTypeTabBar: eTypeTabBar));
@@ -327,9 +339,9 @@ class FavoritesRoute extends _i20.PageRouteInfo<FavoritesRouteArgs> {
 class FavoritesRouteArgs {
   const FavoritesRouteArgs({this.key, required this.eTypeTabBar});
 
-  final _i21.Key? key;
+  final _i23.Key? key;
 
-  final _i24.ETypeTabBar eTypeTabBar;
+  final _i26.ETypeTabBar eTypeTabBar;
 
   @override
   String toString() {
@@ -339,7 +351,7 @@ class FavoritesRouteArgs {
 
 /// generated route for
 /// [_i15.IntroScreen]
-class IntroRoute extends _i20.PageRouteInfo<void> {
+class IntroRoute extends _i22.PageRouteInfo<void> {
   const IntroRoute() : super(IntroRoute.name, path: '/intro-screen');
 
   static const String name = 'IntroRoute';
@@ -347,7 +359,7 @@ class IntroRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.DietsScreen]
-class DietsRoute extends _i20.PageRouteInfo<void> {
+class DietsRoute extends _i22.PageRouteInfo<void> {
   const DietsRoute() : super(DietsRoute.name, path: '/diets-screen');
 
   static const String name = 'DietsRoute';
@@ -355,7 +367,7 @@ class DietsRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i17.RecipesScreen]
-class RecipesRoute extends _i20.PageRouteInfo<void> {
+class RecipesRoute extends _i22.PageRouteInfo<void> {
   const RecipesRoute() : super(RecipesRoute.name, path: '/recipes-screen');
 
   static const String name = 'RecipesRoute';
@@ -363,7 +375,7 @@ class RecipesRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.WorkoutsScreen]
-class WorkoutsRoute extends _i20.PageRouteInfo<void> {
+class WorkoutsRoute extends _i22.PageRouteInfo<void> {
   const WorkoutsRoute() : super(WorkoutsRoute.name, path: '/workouts-screen');
 
   static const String name = 'WorkoutsRoute';
@@ -371,8 +383,24 @@ class WorkoutsRoute extends _i20.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i19.ExerciseScreen]
-class ExerciseRoute extends _i20.PageRouteInfo<void> {
+class ExerciseRoute extends _i22.PageRouteInfo<void> {
   const ExerciseRoute() : super(ExerciseRoute.name, path: '/exercise-screen');
 
   static const String name = 'ExerciseRoute';
+}
+
+/// generated route for
+/// [_i20.PortionsScreen]
+class PortionsRoute extends _i22.PageRouteInfo<void> {
+  const PortionsRoute() : super(PortionsRoute.name, path: '/portions-screen');
+
+  static const String name = 'PortionsRoute';
+}
+
+/// generated route for
+/// [_i21.KeyWordsScreen]
+class KeyWordsRoute extends _i22.PageRouteInfo<void> {
+  const KeyWordsRoute() : super(KeyWordsRoute.name, path: '/key-words-screen');
+
+  static const String name = 'KeyWordsRoute';
 }

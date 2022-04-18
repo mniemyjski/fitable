@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fitable/app/favorites/screens/favorites_screen.dart';
 import 'package:fitable/app/home/screens/diets_screen.dart';
+import 'package:fitable/app/home/screens/key_words_screen.dart';
 import 'package:fitable/app/home/screens/recipe_create_screen.dart';
 import 'package:fitable/app/home/screens/recipes_screen.dart';
 import 'package:fitable/app/intro/intro_screen.dart';
@@ -13,6 +14,7 @@ import '../../app/community/screen/community_screen.dart';
 import '../../app/home/screens/create_product_screen.dart';
 import '../../app/home/screens/food_screen.dart';
 import '../../app/home/screens/home_screen.dart';
+import '../../app/home/screens/portions_screen.dart';
 import '../../app/image_crop/image_crop_screen.dart';
 import '../../app/massages/screens/massages_screen.dart';
 import '../../app/notifications/screens/notifications_screen.dart';
@@ -42,6 +44,8 @@ import '../../app/splash/screens/splash_screen.dart';
     AutoRoute(page: RecipesScreen),
     AutoRoute(page: WorkoutsScreen),
     AutoRoute(page: ExerciseScreen),
+    AutoRoute(page: PortionsScreen),
+    AutoRoute(page: KeyWordsScreen),
   ],
 )
 class $AppRouter {}
