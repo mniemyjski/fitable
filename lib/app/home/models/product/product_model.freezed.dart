@@ -17,7 +17,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'default':
       return _Product.fromJson(json);
-    case 'build':
+    case 'buildEmpty':
       return Build.fromJson(json);
 
     default:
@@ -36,9 +36,9 @@ class _$ProductTearOff {
       required String name,
       required String categoryPrimary,
       required String categorySecondary,
-      required String localeBase,
+      required EnTypeLocale localeBase,
       required List<String> keyWords,
-      required List<String> portions,
+      required List<Portion> portions,
       required bool verification,
       required int calories,
       required double proteins,
@@ -139,59 +139,59 @@ class _$ProductTearOff {
     );
   }
 
-  Build build(
+  Build buildEmpty(
       {String id = '',
       String barcode = '',
       String name = '',
       String categoryPrimary = '',
       String categorySecondary = '',
-      String localeBase = '',
+      EnTypeLocale localeBase = EnTypeLocale.pl,
       List<String> keyWords = const <String>[],
-      List<String> portions = const <String>[],
+      List<Portion> portions = const <Portion>[],
       bool verification = false,
       int calories = 0,
-      double proteins = 0,
-      double carbs = 0,
-      double fats = 0,
+      double proteins = 0.0,
+      double carbs = 0.0,
+      double fats = 0.0,
       required DateTime dateCreation,
       required DateTime dateLastUpdate,
       String photosUrl = '',
-      double sugar = 0,
-      double animalProteins = 0,
-      double plantProteins = 0,
-      double saturated = 0,
-      double unsaturated = 0,
-      double omega3 = 0,
-      double omega6 = 0,
-      double fiber = 0,
-      double caffeine = 0,
-      double cholesterol = 0,
-      double salt = 0,
-      double vitaminA = 0,
-      double vitaminC = 0,
-      double vitaminD = 0,
-      double vitaminE = 0,
-      double vitaminK = 0,
-      double vitaminB1 = 0,
-      double vitaminB2 = 0,
-      double vitaminB3 = 0,
-      double vitaminB5 = 0,
-      double vitaminB6 = 0,
-      double vitaminB7 = 0,
-      double vitaminB9 = 0,
-      double vitaminB12 = 0,
-      double potassium = 0,
-      double sodium = 0,
-      double calcium = 0,
-      double magnesium = 0,
-      double phosphorus = 0,
-      double iron = 0,
-      double copper = 0,
-      double zinc = 0,
-      double selenium = 0,
-      double manganese = 0,
-      double iodine = 0,
-      double chromium = 0}) {
+      double sugar = 0.0,
+      double animalProteins = 0.0,
+      double plantProteins = 0.0,
+      double saturated = 0.0,
+      double unsaturated = 0.0,
+      double omega3 = 0.0,
+      double omega6 = 0.0,
+      double fiber = 0.0,
+      double caffeine = 0.0,
+      double cholesterol = 0.0,
+      double salt = 0.0,
+      double vitaminA = 0.0,
+      double vitaminC = 0.0,
+      double vitaminD = 0.0,
+      double vitaminE = 0.0,
+      double vitaminK = 0.0,
+      double vitaminB1 = 0.0,
+      double vitaminB2 = 0.0,
+      double vitaminB3 = 0.0,
+      double vitaminB5 = 0.0,
+      double vitaminB6 = 0.0,
+      double vitaminB7 = 0.0,
+      double vitaminB9 = 0.0,
+      double vitaminB12 = 0.0,
+      double potassium = 0.0,
+      double sodium = 0.0,
+      double calcium = 0.0,
+      double magnesium = 0.0,
+      double phosphorus = 0.0,
+      double iron = 0.0,
+      double copper = 0.0,
+      double zinc = 0.0,
+      double selenium = 0.0,
+      double manganese = 0.0,
+      double iodine = 0.0,
+      double chromium = 0.0}) {
     return Build(
       id: id,
       barcode: barcode,
@@ -263,9 +263,9 @@ mixin _$Product {
   String get name => throw _privateConstructorUsedError;
   String get categoryPrimary => throw _privateConstructorUsedError;
   String get categorySecondary => throw _privateConstructorUsedError;
-  String get localeBase => throw _privateConstructorUsedError;
+  EnTypeLocale get localeBase => throw _privateConstructorUsedError;
   List<String> get keyWords => throw _privateConstructorUsedError;
-  List<String> get portions => throw _privateConstructorUsedError;
+  List<Portion> get portions => throw _privateConstructorUsedError;
   bool get verification => throw _privateConstructorUsedError;
   int get calories => throw _privateConstructorUsedError;
   double get proteins => throw _privateConstructorUsedError;
@@ -319,9 +319,9 @@ mixin _$Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -373,9 +373,9 @@ mixin _$Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -420,7 +420,7 @@ mixin _$Product {
             double manganese,
             double iodine,
             double chromium)
-        build,
+        buildEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -431,9 +431,9 @@ mixin _$Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -485,9 +485,9 @@ mixin _$Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -532,7 +532,7 @@ mixin _$Product {
             double manganese,
             double iodine,
             double chromium)?
-        build,
+        buildEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -543,9 +543,9 @@ mixin _$Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -597,9 +597,9 @@ mixin _$Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -644,26 +644,26 @@ mixin _$Product {
             double manganese,
             double iodine,
             double chromium)?
-        build,
+        buildEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_Product value) $default, {
-    required TResult Function(Build value) build,
+    required TResult Function(Build value) buildEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_Product value)? $default, {
-    TResult Function(Build value)? build,
+    TResult Function(Build value)? buildEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_Product value)? $default, {
-    TResult Function(Build value)? build,
+    TResult Function(Build value)? buildEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -682,9 +682,9 @@ abstract class $ProductCopyWith<$Res> {
       String name,
       String categoryPrimary,
       String categorySecondary,
-      String localeBase,
+      EnTypeLocale localeBase,
       List<String> keyWords,
-      List<String> portions,
+      List<Portion> portions,
       bool verification,
       int calories,
       double proteins,
@@ -818,7 +818,7 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
       localeBase: localeBase == freezed
           ? _value.localeBase
           : localeBase // ignore: cast_nullable_to_non_nullable
-              as String,
+              as EnTypeLocale,
       keyWords: keyWords == freezed
           ? _value.keyWords
           : keyWords // ignore: cast_nullable_to_non_nullable
@@ -826,7 +826,7 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
       portions: portions == freezed
           ? _value.portions
           : portions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Portion>,
       verification: verification == freezed
           ? _value.verification
           : verification // ignore: cast_nullable_to_non_nullable
@@ -1018,9 +1018,9 @@ abstract class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
       String name,
       String categoryPrimary,
       String categorySecondary,
-      String localeBase,
+      EnTypeLocale localeBase,
       List<String> keyWords,
-      List<String> portions,
+      List<Portion> portions,
       bool verification,
       int calories,
       double proteins,
@@ -1155,7 +1155,7 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       localeBase: localeBase == freezed
           ? _value.localeBase
           : localeBase // ignore: cast_nullable_to_non_nullable
-              as String,
+              as EnTypeLocale,
       keyWords: keyWords == freezed
           ? _value.keyWords
           : keyWords // ignore: cast_nullable_to_non_nullable
@@ -1163,7 +1163,7 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       portions: portions == freezed
           ? _value.portions
           : portions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Portion>,
       verification: verification == freezed
           ? _value.verification
           : verification // ignore: cast_nullable_to_non_nullable
@@ -1417,11 +1417,11 @@ class _$_Product implements _Product {
   @override
   final String categorySecondary;
   @override
-  final String localeBase;
+  final EnTypeLocale localeBase;
   @override
   final List<String> keyWords;
   @override
-  final List<String> portions;
+  final List<Portion> portions;
   @override
   final bool verification;
   @override
@@ -1661,9 +1661,9 @@ class _$_Product implements _Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -1715,9 +1715,9 @@ class _$_Product implements _Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -1762,7 +1762,7 @@ class _$_Product implements _Product {
             double manganese,
             double iodine,
             double chromium)
-        build,
+        buildEmpty,
   }) {
     return $default(
         id,
@@ -1828,9 +1828,9 @@ class _$_Product implements _Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -1882,9 +1882,9 @@ class _$_Product implements _Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -1929,7 +1929,7 @@ class _$_Product implements _Product {
             double manganese,
             double iodine,
             double chromium)?
-        build,
+        buildEmpty,
   }) {
     return $default?.call(
         id,
@@ -1995,9 +1995,9 @@ class _$_Product implements _Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -2049,9 +2049,9 @@ class _$_Product implements _Product {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -2096,7 +2096,7 @@ class _$_Product implements _Product {
             double manganese,
             double iodine,
             double chromium)?
-        build,
+        buildEmpty,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -2161,7 +2161,7 @@ class _$_Product implements _Product {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_Product value) $default, {
-    required TResult Function(Build value) build,
+    required TResult Function(Build value) buildEmpty,
   }) {
     return $default(this);
   }
@@ -2170,7 +2170,7 @@ class _$_Product implements _Product {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_Product value)? $default, {
-    TResult Function(Build value)? build,
+    TResult Function(Build value)? buildEmpty,
   }) {
     return $default?.call(this);
   }
@@ -2179,7 +2179,7 @@ class _$_Product implements _Product {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_Product value)? $default, {
-    TResult Function(Build value)? build,
+    TResult Function(Build value)? buildEmpty,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -2201,9 +2201,9 @@ abstract class _Product implements Product {
       required String name,
       required String categoryPrimary,
       required String categorySecondary,
-      required String localeBase,
+      required EnTypeLocale localeBase,
       required List<String> keyWords,
-      required List<String> portions,
+      required List<Portion> portions,
       required bool verification,
       required int calories,
       required double proteins,
@@ -2262,11 +2262,11 @@ abstract class _Product implements Product {
   @override
   String get categorySecondary;
   @override
-  String get localeBase;
+  EnTypeLocale get localeBase;
   @override
   List<String> get keyWords;
   @override
-  List<String> get portions;
+  List<Portion> get portions;
   @override
   bool get verification;
   @override
@@ -2372,9 +2372,9 @@ abstract class $BuildCopyWith<$Res> implements $ProductCopyWith<$Res> {
       String name,
       String categoryPrimary,
       String categorySecondary,
-      String localeBase,
+      EnTypeLocale localeBase,
       List<String> keyWords,
-      List<String> portions,
+      List<Portion> portions,
       bool verification,
       int calories,
       double proteins,
@@ -2509,7 +2509,7 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       localeBase: localeBase == freezed
           ? _value.localeBase
           : localeBase // ignore: cast_nullable_to_non_nullable
-              as String,
+              as EnTypeLocale,
       keyWords: keyWords == freezed
           ? _value.keyWords
           : keyWords // ignore: cast_nullable_to_non_nullable
@@ -2517,7 +2517,7 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       portions: portions == freezed
           ? _value.portions
           : portions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Portion>,
       verification: verification == freezed
           ? _value.verification
           : verification // ignore: cast_nullable_to_non_nullable
@@ -2707,55 +2707,55 @@ class _$Build implements Build {
       this.name = '',
       this.categoryPrimary = '',
       this.categorySecondary = '',
-      this.localeBase = '',
+      this.localeBase = EnTypeLocale.pl,
       this.keyWords = const <String>[],
-      this.portions = const <String>[],
+      this.portions = const <Portion>[],
       this.verification = false,
       this.calories = 0,
-      this.proteins = 0,
-      this.carbs = 0,
-      this.fats = 0,
+      this.proteins = 0.0,
+      this.carbs = 0.0,
+      this.fats = 0.0,
       required this.dateCreation,
       required this.dateLastUpdate,
       this.photosUrl = '',
-      this.sugar = 0,
-      this.animalProteins = 0,
-      this.plantProteins = 0,
-      this.saturated = 0,
-      this.unsaturated = 0,
-      this.omega3 = 0,
-      this.omega6 = 0,
-      this.fiber = 0,
-      this.caffeine = 0,
-      this.cholesterol = 0,
-      this.salt = 0,
-      this.vitaminA = 0,
-      this.vitaminC = 0,
-      this.vitaminD = 0,
-      this.vitaminE = 0,
-      this.vitaminK = 0,
-      this.vitaminB1 = 0,
-      this.vitaminB2 = 0,
-      this.vitaminB3 = 0,
-      this.vitaminB5 = 0,
-      this.vitaminB6 = 0,
-      this.vitaminB7 = 0,
-      this.vitaminB9 = 0,
-      this.vitaminB12 = 0,
-      this.potassium = 0,
-      this.sodium = 0,
-      this.calcium = 0,
-      this.magnesium = 0,
-      this.phosphorus = 0,
-      this.iron = 0,
-      this.copper = 0,
-      this.zinc = 0,
-      this.selenium = 0,
-      this.manganese = 0,
-      this.iodine = 0,
-      this.chromium = 0,
+      this.sugar = 0.0,
+      this.animalProteins = 0.0,
+      this.plantProteins = 0.0,
+      this.saturated = 0.0,
+      this.unsaturated = 0.0,
+      this.omega3 = 0.0,
+      this.omega6 = 0.0,
+      this.fiber = 0.0,
+      this.caffeine = 0.0,
+      this.cholesterol = 0.0,
+      this.salt = 0.0,
+      this.vitaminA = 0.0,
+      this.vitaminC = 0.0,
+      this.vitaminD = 0.0,
+      this.vitaminE = 0.0,
+      this.vitaminK = 0.0,
+      this.vitaminB1 = 0.0,
+      this.vitaminB2 = 0.0,
+      this.vitaminB3 = 0.0,
+      this.vitaminB5 = 0.0,
+      this.vitaminB6 = 0.0,
+      this.vitaminB7 = 0.0,
+      this.vitaminB9 = 0.0,
+      this.vitaminB12 = 0.0,
+      this.potassium = 0.0,
+      this.sodium = 0.0,
+      this.calcium = 0.0,
+      this.magnesium = 0.0,
+      this.phosphorus = 0.0,
+      this.iron = 0.0,
+      this.copper = 0.0,
+      this.zinc = 0.0,
+      this.selenium = 0.0,
+      this.manganese = 0.0,
+      this.iodine = 0.0,
+      this.chromium = 0.0,
       String? $type})
-      : $type = $type ?? 'build';
+      : $type = $type ?? 'buildEmpty';
 
   factory _$Build.fromJson(Map<String, dynamic> json) => _$$BuildFromJson(json);
 
@@ -2776,13 +2776,13 @@ class _$Build implements Build {
   final String categorySecondary;
   @JsonKey()
   @override
-  final String localeBase;
+  final EnTypeLocale localeBase;
   @JsonKey()
   @override
   final List<String> keyWords;
   @JsonKey()
   @override
-  final List<String> portions;
+  final List<Portion> portions;
   @JsonKey()
   @override
   final bool verification;
@@ -2919,7 +2919,7 @@ class _$Build implements Build {
 
   @override
   String toString() {
-    return 'Product.build(id: $id, barcode: $barcode, name: $name, categoryPrimary: $categoryPrimary, categorySecondary: $categorySecondary, localeBase: $localeBase, keyWords: $keyWords, portions: $portions, verification: $verification, calories: $calories, proteins: $proteins, carbs: $carbs, fats: $fats, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate, photosUrl: $photosUrl, sugar: $sugar, animalProteins: $animalProteins, plantProteins: $plantProteins, saturated: $saturated, unsaturated: $unsaturated, omega3: $omega3, omega6: $omega6, fiber: $fiber, caffeine: $caffeine, cholesterol: $cholesterol, salt: $salt, vitaminA: $vitaminA, vitaminC: $vitaminC, vitaminD: $vitaminD, vitaminE: $vitaminE, vitaminK: $vitaminK, vitaminB1: $vitaminB1, vitaminB2: $vitaminB2, vitaminB3: $vitaminB3, vitaminB5: $vitaminB5, vitaminB6: $vitaminB6, vitaminB7: $vitaminB7, vitaminB9: $vitaminB9, vitaminB12: $vitaminB12, potassium: $potassium, sodium: $sodium, calcium: $calcium, magnesium: $magnesium, phosphorus: $phosphorus, iron: $iron, copper: $copper, zinc: $zinc, selenium: $selenium, manganese: $manganese, iodine: $iodine, chromium: $chromium)';
+    return 'Product.buildEmpty(id: $id, barcode: $barcode, name: $name, categoryPrimary: $categoryPrimary, categorySecondary: $categorySecondary, localeBase: $localeBase, keyWords: $keyWords, portions: $portions, verification: $verification, calories: $calories, proteins: $proteins, carbs: $carbs, fats: $fats, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate, photosUrl: $photosUrl, sugar: $sugar, animalProteins: $animalProteins, plantProteins: $plantProteins, saturated: $saturated, unsaturated: $unsaturated, omega3: $omega3, omega6: $omega6, fiber: $fiber, caffeine: $caffeine, cholesterol: $cholesterol, salt: $salt, vitaminA: $vitaminA, vitaminC: $vitaminC, vitaminD: $vitaminD, vitaminE: $vitaminE, vitaminK: $vitaminK, vitaminB1: $vitaminB1, vitaminB2: $vitaminB2, vitaminB3: $vitaminB3, vitaminB5: $vitaminB5, vitaminB6: $vitaminB6, vitaminB7: $vitaminB7, vitaminB9: $vitaminB9, vitaminB12: $vitaminB12, potassium: $potassium, sodium: $sodium, calcium: $calcium, magnesium: $magnesium, phosphorus: $phosphorus, iron: $iron, copper: $copper, zinc: $zinc, selenium: $selenium, manganese: $manganese, iodine: $iodine, chromium: $chromium)';
   }
 
   @override
@@ -3064,9 +3064,9 @@ class _$Build implements Build {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -3118,9 +3118,9 @@ class _$Build implements Build {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -3165,9 +3165,9 @@ class _$Build implements Build {
             double manganese,
             double iodine,
             double chromium)
-        build,
+        buildEmpty,
   }) {
-    return build(
+    return buildEmpty(
         id,
         barcode,
         name,
@@ -3231,9 +3231,9 @@ class _$Build implements Build {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -3285,9 +3285,9 @@ class _$Build implements Build {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -3332,9 +3332,9 @@ class _$Build implements Build {
             double manganese,
             double iodine,
             double chromium)?
-        build,
+        buildEmpty,
   }) {
-    return build?.call(
+    return buildEmpty?.call(
         id,
         barcode,
         name,
@@ -3398,9 +3398,9 @@ class _$Build implements Build {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -3452,9 +3452,9 @@ class _$Build implements Build {
             String name,
             String categoryPrimary,
             String categorySecondary,
-            String localeBase,
+            EnTypeLocale localeBase,
             List<String> keyWords,
-            List<String> portions,
+            List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
@@ -3499,11 +3499,11 @@ class _$Build implements Build {
             double manganese,
             double iodine,
             double chromium)?
-        build,
+        buildEmpty,
     required TResult orElse(),
   }) {
-    if (build != null) {
-      return build(
+    if (buildEmpty != null) {
+      return buildEmpty(
           id,
           barcode,
           name,
@@ -3564,29 +3564,29 @@ class _$Build implements Build {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_Product value) $default, {
-    required TResult Function(Build value) build,
+    required TResult Function(Build value) buildEmpty,
   }) {
-    return build(this);
+    return buildEmpty(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_Product value)? $default, {
-    TResult Function(Build value)? build,
+    TResult Function(Build value)? buildEmpty,
   }) {
-    return build?.call(this);
+    return buildEmpty?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_Product value)? $default, {
-    TResult Function(Build value)? build,
+    TResult Function(Build value)? buildEmpty,
     required TResult orElse(),
   }) {
-    if (build != null) {
-      return build(this);
+    if (buildEmpty != null) {
+      return buildEmpty(this);
     }
     return orElse();
   }
@@ -3604,9 +3604,9 @@ abstract class Build implements Product {
       String name,
       String categoryPrimary,
       String categorySecondary,
-      String localeBase,
+      EnTypeLocale localeBase,
       List<String> keyWords,
-      List<String> portions,
+      List<Portion> portions,
       bool verification,
       int calories,
       double proteins,
@@ -3665,11 +3665,11 @@ abstract class Build implements Product {
   @override
   String get categorySecondary;
   @override
-  String get localeBase;
+  EnTypeLocale get localeBase;
   @override
   List<String> get keyWords;
   @override
-  List<String> get portions;
+  List<Portion> get portions;
   @override
   bool get verification;
   @override
