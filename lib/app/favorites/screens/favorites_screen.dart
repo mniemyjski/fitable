@@ -3,13 +3,12 @@ import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:fitable/app/favorites/widgets/favorite_tab_bar.dart';
 import 'package:fitable/config/routes/routes.gr.dart';
+import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../constants/constants.dart';
 import '../../../widgets/custom_search_delegate.dart';
 import '../widgets/drag_and_drop_list.dart';
-import 'package:fitable/utilities/utilities.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final ETypeTabBar eTypeTabBar;
@@ -96,11 +95,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> with TickerProviderSt
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
+
+  FloatingActionButton? _buildFloatingActionButton() {
+    if (_controller.index == 2)
+      return FloatingActionButton(
         onPressed: () => null,
         child: Icon(Icons.add),
-      ),
-    );
+      );
+
+    return null;
   }
 
   List<Widget> _actionsAppBar(BuildContext context) {
