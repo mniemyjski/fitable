@@ -468,6 +468,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_barcode_scanner:
+    dependency: "direct main"
+    description:
+      name: flutter_barcode_scanner
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -616,6 +623,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  health:
+    dependency: "direct main"
+    description:
+      name: health
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.4.4"
   hive:
     dependency: "direct main"
     description:
@@ -727,7 +741,7 @@ packages:
       name: introduction_screen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.2"
   io:
     dependency: transitive
     description:
