@@ -136,8 +136,10 @@ class AppRouter extends _i22.RootStackRouter {
           routeData: routeData, child: const _i20.PortionsScreen());
     },
     KeyWordsRoute.name: (routeData) {
+      final args = routeData.argsAs<KeyWordsRouteArgs>();
       return _i22.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i21.KeyWordsScreen());
+          routeData: routeData,
+          child: _i21.KeyWordsScreen(key: args.key, list: args.list));
     }
   };
 
@@ -399,8 +401,24 @@ class PortionsRoute extends _i22.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i21.KeyWordsScreen]
-class KeyWordsRoute extends _i22.PageRouteInfo<void> {
-  const KeyWordsRoute() : super(KeyWordsRoute.name, path: '/key-words-screen');
+class KeyWordsRoute extends _i22.PageRouteInfo<KeyWordsRouteArgs> {
+  KeyWordsRoute({_i23.Key? key, required List<String> list})
+      : super(KeyWordsRoute.name,
+            path: '/key-words-screen',
+            args: KeyWordsRouteArgs(key: key, list: list));
 
   static const String name = 'KeyWordsRoute';
+}
+
+class KeyWordsRouteArgs {
+  const KeyWordsRouteArgs({this.key, required this.list});
+
+  final _i23.Key? key;
+
+  final List<String> list;
+
+  @override
+  String toString() {
+    return 'KeyWordsRouteArgs{key: $key, list: $list}';
+  }
 }
