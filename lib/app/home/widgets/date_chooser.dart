@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../../../constants/constants.dart';
 import '../../../utilities/utilities.dart';
+import '../cubit/change_date/change_date_cubit.dart';
 
 class DateChooser extends StatelessWidget {
   const DateChooser({Key? key}) : super(key: key);
@@ -14,11 +15,17 @@ class DateChooser extends StatelessWidget {
       height: 55,
       child: Row(
         children: [
-          _dateButton(dateTime: DateTime.now().add(Duration(days: -1)), onTap: () => null),
+          _dateButton(
+              dateTime: context.watch<ChangeDateCubit>().state.add(Duration(days: -1)),
+              onTap: () => context.read<ChangeDateCubit>().decrement()),
           Container(width: 1, height: double.infinity, color: Colors.black12),
-          _dateButton(dateTime: DateTime.now(), onTap: () => _showPickerDate(context)),
+          _dateButton(
+              dateTime: context.watch<ChangeDateCubit>().state,
+              onTap: () => _showPickerDate(context)),
           Container(width: 1, height: double.infinity, color: Colors.black12),
-          _dateButton(dateTime: DateTime.now().add(Duration(days: 1)), onTap: () => null),
+          _dateButton(
+              dateTime: context.watch<ChangeDateCubit>().state.add(Duration(days: 1)),
+              onTap: () => context.read<ChangeDateCubit>().increment()),
         ],
       ),
     );
@@ -31,7 +38,10 @@ class DateChooser extends StatelessWidget {
         title: Text("Select Data"),
         selectedTextStyle: TextStyle(color: Colors.blue),
         onConfirm: (Picker picker, List value) {
-          print((picker.adapter as DateTimePickerAdapter).value);
+          DateTime? dateTime = (picker.adapter as DateTimePickerAdapter).value;
+          if (dateTime != null) {
+            context.read<ChangeDateCubit>().change(dateTime);
+          }
         }).showDialog(context);
   }
 
