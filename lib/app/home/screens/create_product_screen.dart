@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:drop_down_list/drop_down_list.dart';
-import 'package:fitable/app/home/cubit/create_product_cubit.dart';
+import 'package:fitable/app/home/cubit/create_product/create_product_cubit.dart';
+import 'package:fitable/config/routes/routes.gr.dart';
 import 'package:fitable/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -191,6 +193,40 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
             },
             child: Text(_categoryLocalBase.text, style: Theme.of(context).textTheme.bodyText2),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            child: Text(
+              '${AppLocalizations.of(context)!.key_words}:',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Wrap(
+                    children: _keyWordsText(context) ?? [Container()],
+                  ),
+                ),
+                Card(
+                  color: Theme.of(context).primaryColor,
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: IconButton(
+                      icon: Icon(Icons.add),
+                      color: Colors.white,
+                      onPressed: () => _onTapKeywords(context),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8.0),
           TextFieldWithTitle(
             title: AppLocalizations.of(context)!.calories,
             formKey: _formKeyCalories,
@@ -263,13 +299,48 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
             },
             initialValue: '0.0',
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            child: Text(
+              '${AppLocalizations.of(context)!.portions}:',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+            child: GestureDetector(
+              onTap: () => context.router.push(const PortionsRoute()),
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: 3,
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Text(
+                        'test',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 8.0),
           ExpansionTile(
             collapsedIconColor: Colors.white,
             iconColor: Colors.white,
-            tilePadding: EdgeInsets.only(left: 8, right: 8),
+            tilePadding: EdgeInsets.only(left: 4, right: 8),
             childrenPadding: EdgeInsets.all(0),
-            title: Text('${AppLocalizations.of(context)!.nutritionalValues}:',
-                style: Theme.of(context).textTheme.bodyText2),
+            title: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('${AppLocalizations.of(context)!.nutritionalValues}:',
+                    style: Theme.of(context).textTheme.bodyText1),
+              ),
+            ),
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFieldWithTitle(
@@ -471,13 +542,22 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, top: 24, bottom: 8),
-                child: Text(
-                  '${AppLocalizations.of(context)!.vitamins}:',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
+            ],
+          ),
+          ExpansionTile(
+            collapsedIconColor: Colors.white,
+            iconColor: Colors.white,
+            tilePadding: EdgeInsets.only(left: 4, right: 8),
+            childrenPadding: EdgeInsets.all(0),
+            title: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('${AppLocalizations.of(context)!.vitamins}:',
+                    style: Theme.of(context).textTheme.bodyText1),
               ),
+            ),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               TextFieldWithTitle(
                 title: AppLocalizations.of(context)!.vitaminA,
                 formKey: _formKeyVitaminA,
@@ -491,239 +571,317 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 },
                 initialValue: '0.0',
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminC,
-                formKey: _formKeyVitaminC,
-                onChange: (String s) {
-                  if (_formKeyVitaminC.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminC,
+                      formKey: _formKeyVitaminC,
+                      onChange: (String s) {
+                        if (_formKeyVitaminC.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminD,
+                      formKey: _formKeyVitaminD,
+                      onChange: (String s) {
+                        if (_formKeyVitaminD.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminE,
+                      formKey: _formKeyVitaminE,
+                      onChange: (String s) {
+                        if (_formKeyVitaminE.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminD,
-                formKey: _formKeyVitaminD,
-                onChange: (String s) {
-                  if (_formKeyVitaminD.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminK,
+                      formKey: _formKeyVitaminK,
+                      onChange: (String s) {
+                        if (_formKeyVitaminK.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB1,
+                      formKey: _formKeyVitaminB1,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB1.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB2,
+                      formKey: _formKeyVitaminB2,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB2.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminE,
-                formKey: _formKeyVitaminE,
-                onChange: (String s) {
-                  if (_formKeyVitaminE.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB3,
+                      formKey: _formKeyVitaminB3,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB3.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB5,
+                      formKey: _formKeyVitaminB5,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB5.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB6,
+                      formKey: _formKeyVitaminB6,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB6.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminK,
-                formKey: _formKeyVitaminK,
-                onChange: (String s) {
-                  if (_formKeyVitaminK.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB7,
+                      formKey: _formKeyVitaminB7,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB7.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB9,
+                      formKey: _formKeyVitaminB9,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB9.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.vitaminB12,
+                      formKey: _formKeyVitaminB12,
+                      onChange: (String s) {
+                        if (_formKeyVitaminB12.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB1,
-                formKey: _formKeyVitaminB1,
-                onChange: (String s) {
-                  if (_formKeyVitaminB1.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+            ],
+          ),
+          ExpansionTile(
+            collapsedIconColor: Colors.white,
+            iconColor: Colors.white,
+            tilePadding: EdgeInsets.only(left: 4, right: 8),
+            childrenPadding: EdgeInsets.all(0),
+            title: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('${AppLocalizations.of(context)!.macro}:',
+                    style: Theme.of(context).textTheme.bodyText1),
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB2,
-                formKey: _formKeyVitaminB2,
-                onChange: (String s) {
-                  if (_formKeyVitaminB2.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+            ),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.potassium,
+                      formKey: _formKeyPotassium,
+                      onChange: (String s) {
+                        if (_formKeyPotassium.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.sodium,
+                      formKey: _formKeySodium,
+                      onChange: (String s) {
+                        if (_formKeySodium.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB3,
-                formKey: _formKeyVitaminB3,
-                onChange: (String s) {
-                  if (_formKeyVitaminB3.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.calcium,
+                      formKey: _formKeyCalcium,
+                      onChange: (String s) {
+                        if (_formKeyCalcium.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.magnesium,
+                      formKey: _formKeyMagnesium,
+                      onChange: (String s) {
+                        if (_formKeyMagnesium.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.phosphorus,
+                      formKey: _formKeyPhosphorus,
+                      onChange: (String s) {
+                        if (_formKeyPhosphorus.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB5,
-                formKey: _formKeyVitaminB5,
-                onChange: (String s) {
-                  if (_formKeyVitaminB5.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+            ],
+          ),
+          ExpansionTile(
+            collapsedIconColor: Colors.white,
+            iconColor: Colors.white,
+            tilePadding: EdgeInsets.only(left: 4, right: 8),
+            childrenPadding: EdgeInsets.all(0),
+            title: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('${AppLocalizations.of(context)!.micro}:',
+                    style: Theme.of(context).textTheme.bodyText1),
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB6,
-                formKey: _formKeyVitaminB6,
-                onChange: (String s) {
-                  if (_formKeyVitaminB6.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB7,
-                formKey: _formKeyVitaminB7,
-                onChange: (String s) {
-                  if (_formKeyVitaminB7.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB9,
-                formKey: _formKeyVitaminB9,
-                onChange: (String s) {
-                  if (_formKeyVitaminB9.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.vitaminB12,
-                formKey: _formKeyVitaminB12,
-                onChange: (String s) {
-                  if (_formKeyVitaminB12.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, top: 24, bottom: 8),
-                child: Text(
-                  '${AppLocalizations.of(context)!.macro}:',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.potassium,
-                formKey: _formKeyPotassium,
-                onChange: (String s) {
-                  if (_formKeyPotassium.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.sodium,
-                formKey: _formKeySodium,
-                onChange: (String s) {
-                  if (_formKeySodium.currentState!.validate()) product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.calcium,
-                formKey: _formKeyCalcium,
-                onChange: (String s) {
-                  if (_formKeyCalcium.currentState!.validate()) product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.magnesium,
-                formKey: _formKeyMagnesium,
-                onChange: (String s) {
-                  if (_formKeyMagnesium.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.phosphorus,
-                formKey: _formKeyPhosphorus,
-                onChange: (String s) {
-                  if (_formKeyPhosphorus.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, top: 24, bottom: 8),
-                child: Text(
-                  '${AppLocalizations.of(context)!.micro}:',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              ),
+            ),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               TextFieldWithTitle(
                 title: AppLocalizations.of(context)!.iron,
                 formKey: _formKeyIron,
@@ -736,80 +894,103 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 },
                 initialValue: '0.0',
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.copper,
-                formKey: _formKeyCopper,
-                onChange: (String s) {
-                  if (_formKeyCopper.currentState!.validate()) product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.copper,
+                      formKey: _formKeyCopper,
+                      onChange: (String s) {
+                        if (_formKeyCopper.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.zinc,
+                      formKey: _formKeyZinc,
+                      onChange: (String s) {
+                        if (_formKeyZinc.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.selenium,
+                      formKey: _formKeySelenium,
+                      onChange: (String s) {
+                        if (_formKeySelenium.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.zinc,
-                formKey: _formKeyZinc,
-                onChange: (String s) {
-                  if (_formKeyZinc.currentState!.validate()) product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.selenium,
-                formKey: _formKeySelenium,
-                onChange: (String s) {
-                  if (_formKeySelenium.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.manganese,
-                formKey: _formKeyManganese,
-                onChange: (String s) {
-                  if (_formKeyManganese.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.iodine,
-                formKey: _formKeyIodine,
-                onChange: (String s) {
-                  if (_formKeyIodine.currentState!.validate()) product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
-              ),
-              TextFieldWithTitle(
-                title: AppLocalizations.of(context)!.chromium,
-                formKey: _formKeyChromium,
-                onChange: (String s) {
-                  if (_formKeyChromium.currentState!.validate())
-                    product = product.copyWith(name: s);
-                },
-                validator: (v) {
-                  if (v == null) return 'wrong';
-                  if (!isFloat(v)) return 'wrong';
-                },
-                initialValue: '0.0',
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.manganese,
+                      formKey: _formKeyManganese,
+                      onChange: (String s) {
+                        if (_formKeyManganese.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.iodine,
+                      formKey: _formKeyIodine,
+                      onChange: (String s) {
+                        if (_formKeyIodine.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldWithTitle(
+                      title: AppLocalizations.of(context)!.chromium,
+                      formKey: _formKeyChromium,
+                      onChange: (String s) {
+                        if (_formKeyChromium.currentState!.validate())
+                          product = product.copyWith(name: s);
+                      },
+                      validator: (v) {
+                        if (v == null) return 'wrong';
+                        if (!isFloat(v)) return 'wrong';
+                      },
+                      initialValue: '0.0',
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -818,6 +999,33 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           )
         ],
       );
+    });
+  }
+
+  _onTapKeywords(BuildContext context) {
+    context.read<CreateProductCubit>().state.whenOrNull(
+      loaded: (product) async {
+        var _list = await context.router.push(KeyWordsRoute(list: product.keyWords));
+
+        context.read<CreateProductCubit>().builder(
+              product.copyWith(keyWords: _list as List<String>),
+            );
+      },
+    );
+  }
+
+  List<Widget>? _keyWordsText(BuildContext context) {
+    return context.watch<CreateProductCubit>().state.whenOrNull(loaded: (product) {
+      return product.keyWords
+          .map((e) => Card(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  e,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              )))
+          .toList();
     });
   }
 
