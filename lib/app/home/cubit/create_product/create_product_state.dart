@@ -1,9 +1,5 @@
 part of 'create_product_cubit.dart';
 
-// abstract class CreateProductState {}
-//
-// class CreateProductInitial extends CreateProductState {}
-
 @freezed
 class CreateProductState with _$CreateProductState {
   const factory CreateProductState.initial() = Initial;
