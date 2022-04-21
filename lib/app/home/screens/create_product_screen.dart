@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../widgets/widgets.dart';
 import '../models/product/product_model.dart';
+import '../widgets/key_words.dart';
 import '../widgets/text_field_with_title.dart';
 
 class ProductCreateScreen extends StatefulWidget {
@@ -200,32 +201,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Wrap(
-                    children: _keyWordsText(context) ?? [Container()],
-                  ),
-                ),
-                Card(
-                  color: Theme.of(context).primaryColor,
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    child: IconButton(
-                      icon: Icon(Icons.add),
-                      color: Colors.white,
-                      onPressed: () => _onTapKeywords(context),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          KeyWords(),
           SizedBox(height: 8.0),
           TextFieldWithTitle(
             title: AppLocalizations.of(context)!.calories,
@@ -308,24 +284,50 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-            child: GestureDetector(
-              onTap: () => context.router.push(const PortionsRoute()),
-              child: Card(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
                   child: ListView.builder(
                     itemCount: 3,
                     physics: ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return Text(
-                        'test',
-                        style: Theme.of(context).textTheme.bodyText1,
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '100',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                'g',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     },
                   ),
                 ),
-              ),
+                Card(
+                  color: Theme.of(context).primaryColor,
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: IconButton(
+                      icon: Icon(Icons.add),
+                      color: Colors.white,
+                      onPressed: () => context.router.push(const PortionsRoute()),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 8.0),
@@ -999,33 +1001,6 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           )
         ],
       );
-    });
-  }
-
-  _onTapKeywords(BuildContext context) {
-    context.read<CreateProductCubit>().state.whenOrNull(
-      loaded: (product) async {
-        var _list = await context.router.push(KeyWordsRoute(list: product.keyWords));
-
-        context.read<CreateProductCubit>().builder(
-              product.copyWith(keyWords: _list as List<String>),
-            );
-      },
-    );
-  }
-
-  List<Widget>? _keyWordsText(BuildContext context) {
-    return context.watch<CreateProductCubit>().state.whenOrNull(loaded: (product) {
-      return product.keyWords
-          .map((e) => Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  e,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              )))
-          .toList();
     });
   }
 
