@@ -3,34 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/routes/routes.gr.dart';
+import '../../../utilities/enums.dart';
 import '../cubit/create_product/create_product_cubit.dart';
+import '../models/portions/portion_model.dart';
 
-class KeyWords extends StatelessWidget {
-  const KeyWords({Key? key}) : super(key: key);
+class Portions extends StatelessWidget {
+  const Portions({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    _onTapKeywords() {
-      context.read<CreateProductCubit>().state.whenOrNull(
-        loaded: (product) async {
-          var _list = await context.router.push(KeyWordsRoute(list: product.keyWords));
-
-          if (_list != null)
-            context.read<CreateProductCubit>().builder(
-                  product.copyWith(keyWords: _list as List<String>),
-                );
-        },
-      );
-    }
-
-    List<Widget>? _keyWordsText() {
+    List<Widget>? _portions() {
       return context.watch<CreateProductCubit>().state.whenOrNull(loaded: (product) {
-        return product.keyWords
+        return product.portions
             .map((e) => Card(
                     child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    e,
+                    '${e.name}: ${e.size}${Enums.toText(e.unit)}',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 )))
@@ -38,15 +27,28 @@ class KeyWords extends StatelessWidget {
       });
     }
 
+    _onTap() {
+      context.read<CreateProductCubit>().state.whenOrNull(
+        loaded: (product) async {
+          var _list = await context.router.push(PortionsRoute(list: product.portions));
+          if (_list != null) {
+            context.read<CreateProductCubit>().builder(
+                  product.copyWith(portions: _list as List<Portion>),
+                );
+          }
+        },
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Wrap(
-              children: _keyWordsText() ?? [Container()],
+              children: _portions() ?? [Container()],
             ),
           ),
           Card(
@@ -57,7 +59,7 @@ class KeyWords extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.add),
                 color: Colors.white,
-                onPressed: () => _onTapKeywords(),
+                onPressed: () => _onTap(),
               ),
             ),
           ),

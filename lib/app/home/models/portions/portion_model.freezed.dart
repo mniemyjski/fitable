@@ -23,7 +23,7 @@ class _$PortionTearOff {
 
   _Portion call(
       {required String name,
-      required String type,
+      required ETypePortion type,
       required double size,
       required ETypeUnit unit}) {
     return _Portion(
@@ -45,7 +45,7 @@ const $Portion = _$PortionTearOff();
 /// @nodoc
 mixin _$Portion {
   String get name => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  ETypePortion get type => throw _privateConstructorUsedError;
   double get size => throw _privateConstructorUsedError;
   ETypeUnit get unit => throw _privateConstructorUsedError;
 
@@ -58,7 +58,7 @@ mixin _$Portion {
 abstract class $PortionCopyWith<$Res> {
   factory $PortionCopyWith(Portion value, $Res Function(Portion) then) =
       _$PortionCopyWithImpl<$Res>;
-  $Res call({String name, String type, double size, ETypeUnit unit});
+  $Res call({String name, ETypePortion type, double size, ETypeUnit unit});
 }
 
 /// @nodoc
@@ -84,7 +84,7 @@ class _$PortionCopyWithImpl<$Res> implements $PortionCopyWith<$Res> {
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ETypePortion,
       size: size == freezed
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$PortionCopyWith<$Res> implements $PortionCopyWith<$Res> {
   factory _$PortionCopyWith(_Portion value, $Res Function(_Portion) then) =
       __$PortionCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String type, double size, ETypeUnit unit});
+  $Res call({String name, ETypePortion type, double size, ETypeUnit unit});
 }
 
 /// @nodoc
@@ -129,7 +129,7 @@ class __$PortionCopyWithImpl<$Res> extends _$PortionCopyWithImpl<$Res>
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ETypePortion,
       size: size == freezed
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ class _$_Portion implements _Portion {
   @override
   final String name;
   @override
-  final String type;
+  final ETypePortion type;
   @override
   final double size;
   @override
@@ -201,7 +201,7 @@ class _$_Portion implements _Portion {
 abstract class _Portion implements Portion {
   const factory _Portion(
       {required String name,
-      required String type,
+      required ETypePortion type,
       required double size,
       required ETypeUnit unit}) = _$_Portion;
 
@@ -210,7 +210,7 @@ abstract class _Portion implements Portion {
   @override
   String get name;
   @override
-  String get type;
+  ETypePortion get type;
   @override
   double get size;
   @override

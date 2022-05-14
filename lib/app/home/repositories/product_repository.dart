@@ -25,10 +25,18 @@ class ProductRepository extends BaseProductRepository {
 
   @override
   Future<void> create({required Auth auth, required Product product}) async {
+    // Logger().wtf(product.toJson()
+    //   ..remove('id')
+    //   ..remove('runtimeType')
+    //   ..update('portions', (value) => [jsonEncode(value)]));
+
     Future result = _appWrite.database.createDocument(
       collectionId: Collections.products(),
       documentId: 'unique()',
-      data: product.toJson(),
+      data: product.toJson()
+        ..remove('id')
+        ..remove('runtimeType'),
+      // ..update('portions', (value) => [jsonEncode(value)]),
       read: ['role:member'],
       write: ['user:${auth.userId}'],
     );
@@ -56,7 +64,7 @@ class ProductRepository extends BaseProductRepository {
 
     try {
       await result;
-    } on SocketException catch (e) {
+    } on SocketException catch (_) {
       throw Failure('No Internet connection 😑');
     } on HttpException catch (e) {
       throw Failure(e.message);

@@ -1,21 +1,59 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../utilities/converter.dart';
 import '../portions/portion_model.dart';
 
 part 'product_model.freezed.dart';
 part 'product_model.g.dart';
 
-enum EnTypeLocale { pl, en }
+// fruits_vegetables_mushrooms,"Owoce, warzywa i grzyby",fruits_vegetables_mushrooms
+// dairy_eggs,Nabiał i jaja,"Diary and eggs "
+// meat,Mięso,Meat
+// groceries,Artykuły spożywcze,Groceries
+// frozen_foods,Mrożonki,Frozen foods
+// supplements,Suplementy,Supplements
+// drinks,Napoje,Drinks
+// other,Inne,Other
+// fruits,Owoce,Fruits
+// vegetables,Warzywa,Vegetables
+// mushrooms,Grzyby,Mushrooms
+// milk_cream,Melko i śmietana," Milk and cream"
+// butter_margarine,Masło i margaryna,Butter and margarine
+// yogurt_desserts,Jogurty i serki," Yogurt and desserts"
+// cheeses,Sery,Cheeses
+// cottage_cheeses,Serki wiejskie,Cottage cheeses
+// eggs,Jaja,Eggs
+// poultry,Drób,Poultry
+// beef,Wołowina,Beef
+// pork,Wieprzowina,Pork
+// rabbit,Królik,Rabbit
+// venison,Dziczyzna,Venison
+// fishes_seafood,Owoce morza,Fishes seafood
+// sausages,Wędlina i kiełbasy,Sausages
+// ready_meals,Gotowe produkty,Ready meals
+// canned,Konserwy,Canned
+// preserves,Przetwory,Preserves
+// spices,Przyprawy,Spices
+// sauces_oils_vinegar,Sosy oleje i oliwa z oliwek,Sauces oils vinegar
+// loose_grain_products,Produkty sypkie i zbożowe,Loose grain products
+// snacks_sweets,Słodkie przekąski,Snacks sweets
+// bread,Chleb,Bread
+// ready_meals,Produkty gotowe,Ready meals
+// fishes_seafood,Ryby,Fishes seafood
+// vegetables_fruits,Owoce i warzywa,Vegetables fruits
+
+enum ETypeLocaleBase { pl, en }
 
 @freezed
 class Product with _$Product {
   const factory Product({
     required String id,
     required String barcode,
+    required bool withBarcode,
     required String name,
     required String categoryPrimary,
     required String categorySecondary,
-    required EnTypeLocale localeBase,
+    required ETypeLocaleBase localeBase,
     required List<String> keyWords,
     required List<Portion> portions,
     required bool verification,
@@ -23,9 +61,10 @@ class Product with _$Product {
     required double proteins,
     required double carbs,
     required double fats,
-    required DateTime dateCreation,
-    required DateTime dateLastUpdate,
-    required String photosUrl,
+    @DateTimeConverter() required DateTime dateCreation,
+    @DateTimeConverter() required DateTime dateLastUpdate,
+    required List<String> photosUrl,
+    required String company,
     required double sugar,
     required double animalProteins,
     required double plantProteins,
@@ -67,20 +106,22 @@ class Product with _$Product {
   const factory Product.buildEmpty({
     @Default('') String id,
     @Default('') String barcode,
+    required bool withBarcode,
     @Default('') String name,
     @Default('') String categoryPrimary,
     @Default('') String categorySecondary,
-    @Default(EnTypeLocale.pl) EnTypeLocale localeBase,
+    @Default(ETypeLocaleBase.pl) ETypeLocaleBase localeBase,
     @Default(<String>[]) List<String> keyWords,
-    @Default(<Portion>[]) List<Portion> portions,
+    @PortionConverter() @Default(<Portion>[]) List<Portion> portions,
     @Default(false) bool verification,
     @Default(0) int calories,
     @Default(0.0) double proteins,
     @Default(0.0) double carbs,
     @Default(0.0) double fats,
-    required DateTime dateCreation,
-    required DateTime dateLastUpdate,
-    @Default('') String photosUrl,
+    @DateTimeConverter() required DateTime dateCreation,
+    @DateTimeConverter() required DateTime dateLastUpdate,
+    @Default(<String>[]) List<String> photosUrl,
+    @Default('') String company,
     @Default(0.0) double sugar,
     @Default(0.0) double animalProteins,
     @Default(0.0) double plantProteins,

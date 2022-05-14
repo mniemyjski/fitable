@@ -9,10 +9,11 @@ part of 'product_model.dart';
 _$_Product _$$_ProductFromJson(Map<String, dynamic> json) => _$_Product(
       id: json['id'] as String,
       barcode: json['barcode'] as String,
+      withBarcode: json['withBarcode'] as bool,
       name: json['name'] as String,
       categoryPrimary: json['categoryPrimary'] as String,
       categorySecondary: json['categorySecondary'] as String,
-      localeBase: $enumDecode(_$EnTypeLocaleEnumMap, json['localeBase']),
+      localeBase: $enumDecode(_$ETypeLocaleBaseEnumMap, json['localeBase']),
       keyWords:
           (json['keyWords'] as List<dynamic>).map((e) => e as String).toList(),
       portions: (json['portions'] as List<dynamic>)
@@ -23,9 +24,13 @@ _$_Product _$$_ProductFromJson(Map<String, dynamic> json) => _$_Product(
       proteins: (json['proteins'] as num).toDouble(),
       carbs: (json['carbs'] as num).toDouble(),
       fats: (json['fats'] as num).toDouble(),
-      dateCreation: DateTime.parse(json['dateCreation'] as String),
-      dateLastUpdate: DateTime.parse(json['dateLastUpdate'] as String),
-      photosUrl: json['photosUrl'] as String,
+      dateCreation:
+          const DateTimeConverter().fromJson(json['dateCreation'] as int),
+      dateLastUpdate:
+          const DateTimeConverter().fromJson(json['dateLastUpdate'] as int),
+      photosUrl:
+          (json['photosUrl'] as List<dynamic>).map((e) => e as String).toList(),
+      company: json['company'] as String,
       sugar: (json['sugar'] as num).toDouble(),
       animalProteins: (json['animalProteins'] as num).toDouble(),
       plantProteins: (json['plantProteins'] as num).toDouble(),
@@ -69,10 +74,11 @@ Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
     <String, dynamic>{
       'id': instance.id,
       'barcode': instance.barcode,
+      'withBarcode': instance.withBarcode,
       'name': instance.name,
       'categoryPrimary': instance.categoryPrimary,
       'categorySecondary': instance.categorySecondary,
-      'localeBase': _$EnTypeLocaleEnumMap[instance.localeBase],
+      'localeBase': _$ETypeLocaleBaseEnumMap[instance.localeBase],
       'keyWords': instance.keyWords,
       'portions': instance.portions.map((e) => e.toJson()).toList(),
       'verification': instance.verification,
@@ -80,9 +86,11 @@ Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
       'proteins': instance.proteins,
       'carbs': instance.carbs,
       'fats': instance.fats,
-      'dateCreation': instance.dateCreation.toIso8601String(),
-      'dateLastUpdate': instance.dateLastUpdate.toIso8601String(),
+      'dateCreation': const DateTimeConverter().toJson(instance.dateCreation),
+      'dateLastUpdate':
+          const DateTimeConverter().toJson(instance.dateLastUpdate),
       'photosUrl': instance.photosUrl,
+      'company': instance.company,
       'sugar': instance.sugar,
       'animalProteins': instance.animalProteins,
       'plantProteins': instance.plantProteins,
@@ -122,26 +130,27 @@ Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
       'runtimeType': instance.$type,
     };
 
-const _$EnTypeLocaleEnumMap = {
-  EnTypeLocale.pl: 'pl',
-  EnTypeLocale.en: 'en',
+const _$ETypeLocaleBaseEnumMap = {
+  ETypeLocaleBase.pl: 'pl',
+  ETypeLocaleBase.en: 'en',
 };
 
 _$Build _$$BuildFromJson(Map<String, dynamic> json) => _$Build(
       id: json['id'] as String? ?? '',
       barcode: json['barcode'] as String? ?? '',
+      withBarcode: json['withBarcode'] as bool,
       name: json['name'] as String? ?? '',
       categoryPrimary: json['categoryPrimary'] as String? ?? '',
       categorySecondary: json['categorySecondary'] as String? ?? '',
       localeBase:
-          $enumDecodeNullable(_$EnTypeLocaleEnumMap, json['localeBase']) ??
-              EnTypeLocale.pl,
+          $enumDecodeNullable(_$ETypeLocaleBaseEnumMap, json['localeBase']) ??
+              ETypeLocaleBase.pl,
       keyWords: (json['keyWords'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const <String>[],
       portions: (json['portions'] as List<dynamic>?)
-              ?.map((e) => Portion.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => const PortionConverter().fromJson(e as String))
               .toList() ??
           const <Portion>[],
       verification: json['verification'] as bool? ?? false,
@@ -149,9 +158,15 @@ _$Build _$$BuildFromJson(Map<String, dynamic> json) => _$Build(
       proteins: (json['proteins'] as num?)?.toDouble() ?? 0.0,
       carbs: (json['carbs'] as num?)?.toDouble() ?? 0.0,
       fats: (json['fats'] as num?)?.toDouble() ?? 0.0,
-      dateCreation: DateTime.parse(json['dateCreation'] as String),
-      dateLastUpdate: DateTime.parse(json['dateLastUpdate'] as String),
-      photosUrl: json['photosUrl'] as String? ?? '',
+      dateCreation:
+          const DateTimeConverter().fromJson(json['dateCreation'] as int),
+      dateLastUpdate:
+          const DateTimeConverter().fromJson(json['dateLastUpdate'] as int),
+      photosUrl: (json['photosUrl'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
+      company: json['company'] as String? ?? '',
       sugar: (json['sugar'] as num?)?.toDouble() ?? 0.0,
       animalProteins: (json['animalProteins'] as num?)?.toDouble() ?? 0.0,
       plantProteins: (json['plantProteins'] as num?)?.toDouble() ?? 0.0,
@@ -194,20 +209,24 @@ _$Build _$$BuildFromJson(Map<String, dynamic> json) => _$Build(
 Map<String, dynamic> _$$BuildToJson(_$Build instance) => <String, dynamic>{
       'id': instance.id,
       'barcode': instance.barcode,
+      'withBarcode': instance.withBarcode,
       'name': instance.name,
       'categoryPrimary': instance.categoryPrimary,
       'categorySecondary': instance.categorySecondary,
-      'localeBase': _$EnTypeLocaleEnumMap[instance.localeBase],
+      'localeBase': _$ETypeLocaleBaseEnumMap[instance.localeBase],
       'keyWords': instance.keyWords,
-      'portions': instance.portions.map((e) => e.toJson()).toList(),
+      'portions':
+          instance.portions.map(const PortionConverter().toJson).toList(),
       'verification': instance.verification,
       'calories': instance.calories,
       'proteins': instance.proteins,
       'carbs': instance.carbs,
       'fats': instance.fats,
-      'dateCreation': instance.dateCreation.toIso8601String(),
-      'dateLastUpdate': instance.dateLastUpdate.toIso8601String(),
+      'dateCreation': const DateTimeConverter().toJson(instance.dateCreation),
+      'dateLastUpdate':
+          const DateTimeConverter().toJson(instance.dateLastUpdate),
       'photosUrl': instance.photosUrl,
+      'company': instance.company,
       'sugar': instance.sugar,
       'animalProteins': instance.animalProteins,
       'plantProteins': instance.plantProteins,

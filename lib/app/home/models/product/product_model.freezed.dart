@@ -33,10 +33,11 @@ class _$ProductTearOff {
   _Product call(
       {required String id,
       required String barcode,
+      required bool withBarcode,
       required String name,
       required String categoryPrimary,
       required String categorySecondary,
-      required EnTypeLocale localeBase,
+      required ETypeLocaleBase localeBase,
       required List<String> keyWords,
       required List<Portion> portions,
       required bool verification,
@@ -44,9 +45,10 @@ class _$ProductTearOff {
       required double proteins,
       required double carbs,
       required double fats,
-      required DateTime dateCreation,
-      required DateTime dateLastUpdate,
-      required String photosUrl,
+      @DateTimeConverter() required DateTime dateCreation,
+      @DateTimeConverter() required DateTime dateLastUpdate,
+      required List<String> photosUrl,
+      required String company,
       required double sugar,
       required double animalProteins,
       required double plantProteins,
@@ -86,6 +88,7 @@ class _$ProductTearOff {
     return _Product(
       id: id,
       barcode: barcode,
+      withBarcode: withBarcode,
       name: name,
       categoryPrimary: categoryPrimary,
       categorySecondary: categorySecondary,
@@ -100,6 +103,7 @@ class _$ProductTearOff {
       dateCreation: dateCreation,
       dateLastUpdate: dateLastUpdate,
       photosUrl: photosUrl,
+      company: company,
       sugar: sugar,
       animalProteins: animalProteins,
       plantProteins: plantProteins,
@@ -142,20 +146,22 @@ class _$ProductTearOff {
   Build buildEmpty(
       {String id = '',
       String barcode = '',
+      required bool withBarcode,
       String name = '',
       String categoryPrimary = '',
       String categorySecondary = '',
-      EnTypeLocale localeBase = EnTypeLocale.pl,
+      ETypeLocaleBase localeBase = ETypeLocaleBase.pl,
       List<String> keyWords = const <String>[],
-      List<Portion> portions = const <Portion>[],
+      @PortionConverter() List<Portion> portions = const <Portion>[],
       bool verification = false,
       int calories = 0,
       double proteins = 0.0,
       double carbs = 0.0,
       double fats = 0.0,
-      required DateTime dateCreation,
-      required DateTime dateLastUpdate,
-      String photosUrl = '',
+      @DateTimeConverter() required DateTime dateCreation,
+      @DateTimeConverter() required DateTime dateLastUpdate,
+      List<String> photosUrl = const <String>[],
+      String company = '',
       double sugar = 0.0,
       double animalProteins = 0.0,
       double plantProteins = 0.0,
@@ -195,6 +201,7 @@ class _$ProductTearOff {
     return Build(
       id: id,
       barcode: barcode,
+      withBarcode: withBarcode,
       name: name,
       categoryPrimary: categoryPrimary,
       categorySecondary: categorySecondary,
@@ -209,6 +216,7 @@ class _$ProductTearOff {
       dateCreation: dateCreation,
       dateLastUpdate: dateLastUpdate,
       photosUrl: photosUrl,
+      company: company,
       sugar: sugar,
       animalProteins: animalProteins,
       plantProteins: plantProteins,
@@ -260,10 +268,11 @@ const $Product = _$ProductTearOff();
 mixin _$Product {
   String get id => throw _privateConstructorUsedError;
   String get barcode => throw _privateConstructorUsedError;
+  bool get withBarcode => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get categoryPrimary => throw _privateConstructorUsedError;
   String get categorySecondary => throw _privateConstructorUsedError;
-  EnTypeLocale get localeBase => throw _privateConstructorUsedError;
+  ETypeLocaleBase get localeBase => throw _privateConstructorUsedError;
   List<String> get keyWords => throw _privateConstructorUsedError;
   List<Portion> get portions => throw _privateConstructorUsedError;
   bool get verification => throw _privateConstructorUsedError;
@@ -271,9 +280,12 @@ mixin _$Product {
   double get proteins => throw _privateConstructorUsedError;
   double get carbs => throw _privateConstructorUsedError;
   double get fats => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get dateCreation => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get dateLastUpdate => throw _privateConstructorUsedError;
-  String get photosUrl => throw _privateConstructorUsedError;
+  List<String> get photosUrl => throw _privateConstructorUsedError;
+  String get company => throw _privateConstructorUsedError;
   double get sugar => throw _privateConstructorUsedError;
   double get animalProteins => throw _privateConstructorUsedError;
   double get plantProteins => throw _privateConstructorUsedError;
@@ -316,10 +328,11 @@ mixin _$Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -327,9 +340,10 @@ mixin _$Product {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -370,20 +384,22 @@ mixin _$Product {
     required TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -428,10 +444,11 @@ mixin _$Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -439,9 +456,10 @@ mixin _$Product {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -482,20 +500,22 @@ mixin _$Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -540,10 +560,11 @@ mixin _$Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -551,9 +572,10 @@ mixin _$Product {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -594,20 +616,22 @@ mixin _$Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -679,10 +703,11 @@ abstract class $ProductCopyWith<$Res> {
   $Res call(
       {String id,
       String barcode,
+      bool withBarcode,
       String name,
       String categoryPrimary,
       String categorySecondary,
-      EnTypeLocale localeBase,
+      ETypeLocaleBase localeBase,
       List<String> keyWords,
       List<Portion> portions,
       bool verification,
@@ -690,9 +715,10 @@ abstract class $ProductCopyWith<$Res> {
       double proteins,
       double carbs,
       double fats,
-      DateTime dateCreation,
-      DateTime dateLastUpdate,
-      String photosUrl,
+      @DateTimeConverter() DateTime dateCreation,
+      @DateTimeConverter() DateTime dateLastUpdate,
+      List<String> photosUrl,
+      String company,
       double sugar,
       double animalProteins,
       double plantProteins,
@@ -743,6 +769,7 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? barcode = freezed,
+    Object? withBarcode = freezed,
     Object? name = freezed,
     Object? categoryPrimary = freezed,
     Object? categorySecondary = freezed,
@@ -757,6 +784,7 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
     Object? dateCreation = freezed,
     Object? dateLastUpdate = freezed,
     Object? photosUrl = freezed,
+    Object? company = freezed,
     Object? sugar = freezed,
     Object? animalProteins = freezed,
     Object? plantProteins = freezed,
@@ -803,6 +831,10 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
               as String,
+      withBarcode: withBarcode == freezed
+          ? _value.withBarcode
+          : withBarcode // ignore: cast_nullable_to_non_nullable
+              as bool,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -818,7 +850,7 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
       localeBase: localeBase == freezed
           ? _value.localeBase
           : localeBase // ignore: cast_nullable_to_non_nullable
-              as EnTypeLocale,
+              as ETypeLocaleBase,
       keyWords: keyWords == freezed
           ? _value.keyWords
           : keyWords // ignore: cast_nullable_to_non_nullable
@@ -858,6 +890,10 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
       photosUrl: photosUrl == freezed
           ? _value.photosUrl
           : photosUrl // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      company: company == freezed
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
               as String,
       sugar: sugar == freezed
           ? _value.sugar
@@ -1015,10 +1051,11 @@ abstract class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
   $Res call(
       {String id,
       String barcode,
+      bool withBarcode,
       String name,
       String categoryPrimary,
       String categorySecondary,
-      EnTypeLocale localeBase,
+      ETypeLocaleBase localeBase,
       List<String> keyWords,
       List<Portion> portions,
       bool verification,
@@ -1026,9 +1063,10 @@ abstract class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
       double proteins,
       double carbs,
       double fats,
-      DateTime dateCreation,
-      DateTime dateLastUpdate,
-      String photosUrl,
+      @DateTimeConverter() DateTime dateCreation,
+      @DateTimeConverter() DateTime dateLastUpdate,
+      List<String> photosUrl,
+      String company,
       double sugar,
       double animalProteins,
       double plantProteins,
@@ -1080,6 +1118,7 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? barcode = freezed,
+    Object? withBarcode = freezed,
     Object? name = freezed,
     Object? categoryPrimary = freezed,
     Object? categorySecondary = freezed,
@@ -1094,6 +1133,7 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
     Object? dateCreation = freezed,
     Object? dateLastUpdate = freezed,
     Object? photosUrl = freezed,
+    Object? company = freezed,
     Object? sugar = freezed,
     Object? animalProteins = freezed,
     Object? plantProteins = freezed,
@@ -1140,6 +1180,10 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
               as String,
+      withBarcode: withBarcode == freezed
+          ? _value.withBarcode
+          : withBarcode // ignore: cast_nullable_to_non_nullable
+              as bool,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -1155,7 +1199,7 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       localeBase: localeBase == freezed
           ? _value.localeBase
           : localeBase // ignore: cast_nullable_to_non_nullable
-              as EnTypeLocale,
+              as ETypeLocaleBase,
       keyWords: keyWords == freezed
           ? _value.keyWords
           : keyWords // ignore: cast_nullable_to_non_nullable
@@ -1195,6 +1239,10 @@ class __$ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       photosUrl: photosUrl == freezed
           ? _value.photosUrl
           : photosUrl // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      company: company == freezed
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
               as String,
       sugar: sugar == freezed
           ? _value.sugar
@@ -1350,6 +1398,7 @@ class _$_Product implements _Product {
   const _$_Product(
       {required this.id,
       required this.barcode,
+      required this.withBarcode,
       required this.name,
       required this.categoryPrimary,
       required this.categorySecondary,
@@ -1361,9 +1410,10 @@ class _$_Product implements _Product {
       required this.proteins,
       required this.carbs,
       required this.fats,
-      required this.dateCreation,
-      required this.dateLastUpdate,
+      @DateTimeConverter() required this.dateCreation,
+      @DateTimeConverter() required this.dateLastUpdate,
       required this.photosUrl,
+      required this.company,
       required this.sugar,
       required this.animalProteins,
       required this.plantProteins,
@@ -1411,13 +1461,15 @@ class _$_Product implements _Product {
   @override
   final String barcode;
   @override
+  final bool withBarcode;
+  @override
   final String name;
   @override
   final String categoryPrimary;
   @override
   final String categorySecondary;
   @override
-  final EnTypeLocale localeBase;
+  final ETypeLocaleBase localeBase;
   @override
   final List<String> keyWords;
   @override
@@ -1433,11 +1485,15 @@ class _$_Product implements _Product {
   @override
   final double fats;
   @override
+  @DateTimeConverter()
   final DateTime dateCreation;
   @override
+  @DateTimeConverter()
   final DateTime dateLastUpdate;
   @override
-  final String photosUrl;
+  final List<String> photosUrl;
+  @override
+  final String company;
   @override
   final double sugar;
   @override
@@ -1516,7 +1572,7 @@ class _$_Product implements _Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, barcode: $barcode, name: $name, categoryPrimary: $categoryPrimary, categorySecondary: $categorySecondary, localeBase: $localeBase, keyWords: $keyWords, portions: $portions, verification: $verification, calories: $calories, proteins: $proteins, carbs: $carbs, fats: $fats, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate, photosUrl: $photosUrl, sugar: $sugar, animalProteins: $animalProteins, plantProteins: $plantProteins, saturated: $saturated, unsaturated: $unsaturated, omega3: $omega3, omega6: $omega6, fiber: $fiber, caffeine: $caffeine, cholesterol: $cholesterol, salt: $salt, vitaminA: $vitaminA, vitaminC: $vitaminC, vitaminD: $vitaminD, vitaminE: $vitaminE, vitaminK: $vitaminK, vitaminB1: $vitaminB1, vitaminB2: $vitaminB2, vitaminB3: $vitaminB3, vitaminB5: $vitaminB5, vitaminB6: $vitaminB6, vitaminB7: $vitaminB7, vitaminB9: $vitaminB9, vitaminB12: $vitaminB12, potassium: $potassium, sodium: $sodium, calcium: $calcium, magnesium: $magnesium, phosphorus: $phosphorus, iron: $iron, copper: $copper, zinc: $zinc, selenium: $selenium, manganese: $manganese, iodine: $iodine, chromium: $chromium)';
+    return 'Product(id: $id, barcode: $barcode, withBarcode: $withBarcode, name: $name, categoryPrimary: $categoryPrimary, categorySecondary: $categorySecondary, localeBase: $localeBase, keyWords: $keyWords, portions: $portions, verification: $verification, calories: $calories, proteins: $proteins, carbs: $carbs, fats: $fats, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate, photosUrl: $photosUrl, company: $company, sugar: $sugar, animalProteins: $animalProteins, plantProteins: $plantProteins, saturated: $saturated, unsaturated: $unsaturated, omega3: $omega3, omega6: $omega6, fiber: $fiber, caffeine: $caffeine, cholesterol: $cholesterol, salt: $salt, vitaminA: $vitaminA, vitaminC: $vitaminC, vitaminD: $vitaminD, vitaminE: $vitaminE, vitaminK: $vitaminK, vitaminB1: $vitaminB1, vitaminB2: $vitaminB2, vitaminB3: $vitaminB3, vitaminB5: $vitaminB5, vitaminB6: $vitaminB6, vitaminB7: $vitaminB7, vitaminB9: $vitaminB9, vitaminB12: $vitaminB12, potassium: $potassium, sodium: $sodium, calcium: $calcium, magnesium: $magnesium, phosphorus: $phosphorus, iron: $iron, copper: $copper, zinc: $zinc, selenium: $selenium, manganese: $manganese, iodine: $iodine, chromium: $chromium)';
   }
 
   @override
@@ -1526,6 +1582,8 @@ class _$_Product implements _Product {
             other is _Product &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.barcode, barcode) &&
+            const DeepCollectionEquality()
+                .equals(other.withBarcode, withBarcode) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.categoryPrimary, categoryPrimary) &&
@@ -1546,6 +1604,7 @@ class _$_Product implements _Product {
             const DeepCollectionEquality()
                 .equals(other.dateLastUpdate, dateLastUpdate) &&
             const DeepCollectionEquality().equals(other.photosUrl, photosUrl) &&
+            const DeepCollectionEquality().equals(other.company, company) &&
             const DeepCollectionEquality().equals(other.sugar, sugar) &&
             const DeepCollectionEquality()
                 .equals(other.animalProteins, animalProteins) &&
@@ -1595,6 +1654,7 @@ class _$_Product implements _Product {
         runtimeType,
         const DeepCollectionEquality().hash(id),
         const DeepCollectionEquality().hash(barcode),
+        const DeepCollectionEquality().hash(withBarcode),
         const DeepCollectionEquality().hash(name),
         const DeepCollectionEquality().hash(categoryPrimary),
         const DeepCollectionEquality().hash(categorySecondary),
@@ -1609,6 +1669,7 @@ class _$_Product implements _Product {
         const DeepCollectionEquality().hash(dateCreation),
         const DeepCollectionEquality().hash(dateLastUpdate),
         const DeepCollectionEquality().hash(photosUrl),
+        const DeepCollectionEquality().hash(company),
         const DeepCollectionEquality().hash(sugar),
         const DeepCollectionEquality().hash(animalProteins),
         const DeepCollectionEquality().hash(plantProteins),
@@ -1658,10 +1719,11 @@ class _$_Product implements _Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -1669,9 +1731,10 @@ class _$_Product implements _Product {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -1712,20 +1775,22 @@ class _$_Product implements _Product {
     required TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -1767,6 +1832,7 @@ class _$_Product implements _Product {
     return $default(
         id,
         barcode,
+        withBarcode,
         name,
         categoryPrimary,
         categorySecondary,
@@ -1781,6 +1847,7 @@ class _$_Product implements _Product {
         dateCreation,
         dateLastUpdate,
         photosUrl,
+        company,
         sugar,
         animalProteins,
         plantProteins,
@@ -1825,10 +1892,11 @@ class _$_Product implements _Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -1836,9 +1904,10 @@ class _$_Product implements _Product {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -1879,20 +1948,22 @@ class _$_Product implements _Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -1934,6 +2005,7 @@ class _$_Product implements _Product {
     return $default?.call(
         id,
         barcode,
+        withBarcode,
         name,
         categoryPrimary,
         categorySecondary,
@@ -1948,6 +2020,7 @@ class _$_Product implements _Product {
         dateCreation,
         dateLastUpdate,
         photosUrl,
+        company,
         sugar,
         animalProteins,
         plantProteins,
@@ -1992,10 +2065,11 @@ class _$_Product implements _Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -2003,9 +2077,10 @@ class _$_Product implements _Product {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -2046,20 +2121,22 @@ class _$_Product implements _Product {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -2103,6 +2180,7 @@ class _$_Product implements _Product {
       return $default(
           id,
           barcode,
+          withBarcode,
           name,
           categoryPrimary,
           categorySecondary,
@@ -2117,6 +2195,7 @@ class _$_Product implements _Product {
           dateCreation,
           dateLastUpdate,
           photosUrl,
+          company,
           sugar,
           animalProteins,
           plantProteins,
@@ -2198,10 +2277,11 @@ abstract class _Product implements Product {
   const factory _Product(
       {required String id,
       required String barcode,
+      required bool withBarcode,
       required String name,
       required String categoryPrimary,
       required String categorySecondary,
-      required EnTypeLocale localeBase,
+      required ETypeLocaleBase localeBase,
       required List<String> keyWords,
       required List<Portion> portions,
       required bool verification,
@@ -2209,9 +2289,10 @@ abstract class _Product implements Product {
       required double proteins,
       required double carbs,
       required double fats,
-      required DateTime dateCreation,
-      required DateTime dateLastUpdate,
-      required String photosUrl,
+      @DateTimeConverter() required DateTime dateCreation,
+      @DateTimeConverter() required DateTime dateLastUpdate,
+      required List<String> photosUrl,
+      required String company,
       required double sugar,
       required double animalProteins,
       required double plantProteins,
@@ -2256,13 +2337,15 @@ abstract class _Product implements Product {
   @override
   String get barcode;
   @override
+  bool get withBarcode;
+  @override
   String get name;
   @override
   String get categoryPrimary;
   @override
   String get categorySecondary;
   @override
-  EnTypeLocale get localeBase;
+  ETypeLocaleBase get localeBase;
   @override
   List<String> get keyWords;
   @override
@@ -2278,11 +2361,15 @@ abstract class _Product implements Product {
   @override
   double get fats;
   @override
+  @DateTimeConverter()
   DateTime get dateCreation;
   @override
+  @DateTimeConverter()
   DateTime get dateLastUpdate;
   @override
-  String get photosUrl;
+  List<String> get photosUrl;
+  @override
+  String get company;
   @override
   double get sugar;
   @override
@@ -2369,20 +2456,22 @@ abstract class $BuildCopyWith<$Res> implements $ProductCopyWith<$Res> {
   $Res call(
       {String id,
       String barcode,
+      bool withBarcode,
       String name,
       String categoryPrimary,
       String categorySecondary,
-      EnTypeLocale localeBase,
+      ETypeLocaleBase localeBase,
       List<String> keyWords,
-      List<Portion> portions,
+      @PortionConverter() List<Portion> portions,
       bool verification,
       int calories,
       double proteins,
       double carbs,
       double fats,
-      DateTime dateCreation,
-      DateTime dateLastUpdate,
-      String photosUrl,
+      @DateTimeConverter() DateTime dateCreation,
+      @DateTimeConverter() DateTime dateLastUpdate,
+      List<String> photosUrl,
+      String company,
       double sugar,
       double animalProteins,
       double plantProteins,
@@ -2434,6 +2523,7 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? barcode = freezed,
+    Object? withBarcode = freezed,
     Object? name = freezed,
     Object? categoryPrimary = freezed,
     Object? categorySecondary = freezed,
@@ -2448,6 +2538,7 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
     Object? dateCreation = freezed,
     Object? dateLastUpdate = freezed,
     Object? photosUrl = freezed,
+    Object? company = freezed,
     Object? sugar = freezed,
     Object? animalProteins = freezed,
     Object? plantProteins = freezed,
@@ -2494,6 +2585,10 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
               as String,
+      withBarcode: withBarcode == freezed
+          ? _value.withBarcode
+          : withBarcode // ignore: cast_nullable_to_non_nullable
+              as bool,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -2509,7 +2604,7 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       localeBase: localeBase == freezed
           ? _value.localeBase
           : localeBase // ignore: cast_nullable_to_non_nullable
-              as EnTypeLocale,
+              as ETypeLocaleBase,
       keyWords: keyWords == freezed
           ? _value.keyWords
           : keyWords // ignore: cast_nullable_to_non_nullable
@@ -2549,6 +2644,10 @@ class _$BuildCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
       photosUrl: photosUrl == freezed
           ? _value.photosUrl
           : photosUrl // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      company: company == freezed
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
               as String,
       sugar: sugar == freezed
           ? _value.sugar
@@ -2704,20 +2803,22 @@ class _$Build implements Build {
   const _$Build(
       {this.id = '',
       this.barcode = '',
+      required this.withBarcode,
       this.name = '',
       this.categoryPrimary = '',
       this.categorySecondary = '',
-      this.localeBase = EnTypeLocale.pl,
+      this.localeBase = ETypeLocaleBase.pl,
       this.keyWords = const <String>[],
-      this.portions = const <Portion>[],
+      @PortionConverter() this.portions = const <Portion>[],
       this.verification = false,
       this.calories = 0,
       this.proteins = 0.0,
       this.carbs = 0.0,
       this.fats = 0.0,
-      required this.dateCreation,
-      required this.dateLastUpdate,
-      this.photosUrl = '',
+      @DateTimeConverter() required this.dateCreation,
+      @DateTimeConverter() required this.dateLastUpdate,
+      this.photosUrl = const <String>[],
+      this.company = '',
       this.sugar = 0.0,
       this.animalProteins = 0.0,
       this.plantProteins = 0.0,
@@ -2765,6 +2866,8 @@ class _$Build implements Build {
   @JsonKey()
   @override
   final String barcode;
+  @override
+  final bool withBarcode;
   @JsonKey()
   @override
   final String name;
@@ -2776,12 +2879,13 @@ class _$Build implements Build {
   final String categorySecondary;
   @JsonKey()
   @override
-  final EnTypeLocale localeBase;
+  final ETypeLocaleBase localeBase;
   @JsonKey()
   @override
   final List<String> keyWords;
   @JsonKey()
   @override
+  @PortionConverter()
   final List<Portion> portions;
   @JsonKey()
   @override
@@ -2799,12 +2903,17 @@ class _$Build implements Build {
   @override
   final double fats;
   @override
+  @DateTimeConverter()
   final DateTime dateCreation;
   @override
+  @DateTimeConverter()
   final DateTime dateLastUpdate;
   @JsonKey()
   @override
-  final String photosUrl;
+  final List<String> photosUrl;
+  @JsonKey()
+  @override
+  final String company;
   @JsonKey()
   @override
   final double sugar;
@@ -2919,7 +3028,7 @@ class _$Build implements Build {
 
   @override
   String toString() {
-    return 'Product.buildEmpty(id: $id, barcode: $barcode, name: $name, categoryPrimary: $categoryPrimary, categorySecondary: $categorySecondary, localeBase: $localeBase, keyWords: $keyWords, portions: $portions, verification: $verification, calories: $calories, proteins: $proteins, carbs: $carbs, fats: $fats, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate, photosUrl: $photosUrl, sugar: $sugar, animalProteins: $animalProteins, plantProteins: $plantProteins, saturated: $saturated, unsaturated: $unsaturated, omega3: $omega3, omega6: $omega6, fiber: $fiber, caffeine: $caffeine, cholesterol: $cholesterol, salt: $salt, vitaminA: $vitaminA, vitaminC: $vitaminC, vitaminD: $vitaminD, vitaminE: $vitaminE, vitaminK: $vitaminK, vitaminB1: $vitaminB1, vitaminB2: $vitaminB2, vitaminB3: $vitaminB3, vitaminB5: $vitaminB5, vitaminB6: $vitaminB6, vitaminB7: $vitaminB7, vitaminB9: $vitaminB9, vitaminB12: $vitaminB12, potassium: $potassium, sodium: $sodium, calcium: $calcium, magnesium: $magnesium, phosphorus: $phosphorus, iron: $iron, copper: $copper, zinc: $zinc, selenium: $selenium, manganese: $manganese, iodine: $iodine, chromium: $chromium)';
+    return 'Product.buildEmpty(id: $id, barcode: $barcode, withBarcode: $withBarcode, name: $name, categoryPrimary: $categoryPrimary, categorySecondary: $categorySecondary, localeBase: $localeBase, keyWords: $keyWords, portions: $portions, verification: $verification, calories: $calories, proteins: $proteins, carbs: $carbs, fats: $fats, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate, photosUrl: $photosUrl, company: $company, sugar: $sugar, animalProteins: $animalProteins, plantProteins: $plantProteins, saturated: $saturated, unsaturated: $unsaturated, omega3: $omega3, omega6: $omega6, fiber: $fiber, caffeine: $caffeine, cholesterol: $cholesterol, salt: $salt, vitaminA: $vitaminA, vitaminC: $vitaminC, vitaminD: $vitaminD, vitaminE: $vitaminE, vitaminK: $vitaminK, vitaminB1: $vitaminB1, vitaminB2: $vitaminB2, vitaminB3: $vitaminB3, vitaminB5: $vitaminB5, vitaminB6: $vitaminB6, vitaminB7: $vitaminB7, vitaminB9: $vitaminB9, vitaminB12: $vitaminB12, potassium: $potassium, sodium: $sodium, calcium: $calcium, magnesium: $magnesium, phosphorus: $phosphorus, iron: $iron, copper: $copper, zinc: $zinc, selenium: $selenium, manganese: $manganese, iodine: $iodine, chromium: $chromium)';
   }
 
   @override
@@ -2929,6 +3038,8 @@ class _$Build implements Build {
             other is Build &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.barcode, barcode) &&
+            const DeepCollectionEquality()
+                .equals(other.withBarcode, withBarcode) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.categoryPrimary, categoryPrimary) &&
@@ -2949,6 +3060,7 @@ class _$Build implements Build {
             const DeepCollectionEquality()
                 .equals(other.dateLastUpdate, dateLastUpdate) &&
             const DeepCollectionEquality().equals(other.photosUrl, photosUrl) &&
+            const DeepCollectionEquality().equals(other.company, company) &&
             const DeepCollectionEquality().equals(other.sugar, sugar) &&
             const DeepCollectionEquality()
                 .equals(other.animalProteins, animalProteins) &&
@@ -2998,6 +3110,7 @@ class _$Build implements Build {
         runtimeType,
         const DeepCollectionEquality().hash(id),
         const DeepCollectionEquality().hash(barcode),
+        const DeepCollectionEquality().hash(withBarcode),
         const DeepCollectionEquality().hash(name),
         const DeepCollectionEquality().hash(categoryPrimary),
         const DeepCollectionEquality().hash(categorySecondary),
@@ -3012,6 +3125,7 @@ class _$Build implements Build {
         const DeepCollectionEquality().hash(dateCreation),
         const DeepCollectionEquality().hash(dateLastUpdate),
         const DeepCollectionEquality().hash(photosUrl),
+        const DeepCollectionEquality().hash(company),
         const DeepCollectionEquality().hash(sugar),
         const DeepCollectionEquality().hash(animalProteins),
         const DeepCollectionEquality().hash(plantProteins),
@@ -3061,10 +3175,11 @@ class _$Build implements Build {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -3072,9 +3187,10 @@ class _$Build implements Build {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -3115,20 +3231,22 @@ class _$Build implements Build {
     required TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -3170,6 +3288,7 @@ class _$Build implements Build {
     return buildEmpty(
         id,
         barcode,
+        withBarcode,
         name,
         categoryPrimary,
         categorySecondary,
@@ -3184,6 +3303,7 @@ class _$Build implements Build {
         dateCreation,
         dateLastUpdate,
         photosUrl,
+        company,
         sugar,
         animalProteins,
         plantProteins,
@@ -3228,10 +3348,11 @@ class _$Build implements Build {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -3239,9 +3360,10 @@ class _$Build implements Build {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -3282,20 +3404,22 @@ class _$Build implements Build {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -3337,6 +3461,7 @@ class _$Build implements Build {
     return buildEmpty?.call(
         id,
         barcode,
+        withBarcode,
         name,
         categoryPrimary,
         categorySecondary,
@@ -3351,6 +3476,7 @@ class _$Build implements Build {
         dateCreation,
         dateLastUpdate,
         photosUrl,
+        company,
         sugar,
         animalProteins,
         plantProteins,
@@ -3395,10 +3521,11 @@ class _$Build implements Build {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
             List<Portion> portions,
             bool verification,
@@ -3406,9 +3533,10 @@ class _$Build implements Build {
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -3449,20 +3577,22 @@ class _$Build implements Build {
     TResult Function(
             String id,
             String barcode,
+            bool withBarcode,
             String name,
             String categoryPrimary,
             String categorySecondary,
-            EnTypeLocale localeBase,
+            ETypeLocaleBase localeBase,
             List<String> keyWords,
-            List<Portion> portions,
+            @PortionConverter() List<Portion> portions,
             bool verification,
             int calories,
             double proteins,
             double carbs,
             double fats,
-            DateTime dateCreation,
-            DateTime dateLastUpdate,
-            String photosUrl,
+            @DateTimeConverter() DateTime dateCreation,
+            @DateTimeConverter() DateTime dateLastUpdate,
+            List<String> photosUrl,
+            String company,
             double sugar,
             double animalProteins,
             double plantProteins,
@@ -3506,6 +3636,7 @@ class _$Build implements Build {
       return buildEmpty(
           id,
           barcode,
+          withBarcode,
           name,
           categoryPrimary,
           categorySecondary,
@@ -3520,6 +3651,7 @@ class _$Build implements Build {
           dateCreation,
           dateLastUpdate,
           photosUrl,
+          company,
           sugar,
           animalProteins,
           plantProteins,
@@ -3601,20 +3733,22 @@ abstract class Build implements Product {
   const factory Build(
       {String id,
       String barcode,
+      required bool withBarcode,
       String name,
       String categoryPrimary,
       String categorySecondary,
-      EnTypeLocale localeBase,
+      ETypeLocaleBase localeBase,
       List<String> keyWords,
-      List<Portion> portions,
+      @PortionConverter() List<Portion> portions,
       bool verification,
       int calories,
       double proteins,
       double carbs,
       double fats,
-      required DateTime dateCreation,
-      required DateTime dateLastUpdate,
-      String photosUrl,
+      @DateTimeConverter() required DateTime dateCreation,
+      @DateTimeConverter() required DateTime dateLastUpdate,
+      List<String> photosUrl,
+      String company,
       double sugar,
       double animalProteins,
       double plantProteins,
@@ -3659,16 +3793,19 @@ abstract class Build implements Product {
   @override
   String get barcode;
   @override
+  bool get withBarcode;
+  @override
   String get name;
   @override
   String get categoryPrimary;
   @override
   String get categorySecondary;
   @override
-  EnTypeLocale get localeBase;
+  ETypeLocaleBase get localeBase;
   @override
   List<String> get keyWords;
   @override
+  @PortionConverter()
   List<Portion> get portions;
   @override
   bool get verification;
@@ -3681,11 +3818,15 @@ abstract class Build implements Product {
   @override
   double get fats;
   @override
+  @DateTimeConverter()
   DateTime get dateCreation;
   @override
+  @DateTimeConverter()
   DateTime get dateLastUpdate;
   @override
-  String get photosUrl;
+  List<String> get photosUrl;
+  @override
+  String get company;
   @override
   double get sugar;
   @override
