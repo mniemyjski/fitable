@@ -5,6 +5,7 @@ import 'package:fitable/app/account/repositories/account_repository.dart';
 import 'package:fitable/app/account/repositories/avatar_repository.dart';
 import 'package:fitable/app/auth/bloc/auth_bloc.dart';
 import 'package:fitable/app/auth/repositories/auth_repository.dart';
+import 'package:fitable/app/home/repositories/product_repository.dart';
 import 'package:fitable/app/settings/cubit/dark_mode_cubit.dart';
 import 'package:fitable/app/settings/cubit/locale_cubit.dart';
 import 'package:fitable/config/themes/custom_theme.dart';
@@ -58,6 +59,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<AvatarRepository>(
           create: (_) => getIt<AvatarRepository>(),
+        ),
+        RepositoryProvider<ProductRepository>(
+          create: (_) => getIt<ProductRepository>(),
         ),
       ],
       child: MultiBlocProvider(
