@@ -1,0 +1,282 @@
+str,pl,en
+email,e-mail,e-mail
+password,hasło,password
+not_implemented,Nie zaimplementowano,Not implemented
+forgot_your_password,Zapomniałeś hasła?,Forgot your password?
+sign_in,Zaloguj się,Sign in
+sign_up,Zarejestruj się,Sign up
+create_account,Utwórz konta,Create an account
+need_register,Nie masz konta? Zarejestruj się,Need an account? Register
+have_account_sign_in,Masz konto? Zaloguj się,Have an account? Sign in
+sign_out,Wyloguj,Sign out
+home,Podsumowanie,Home
+diets,Diety,Diets
+recipes,Przepisy,Recipes
+community,Społeczność,Community
+board,Tablica,Board
+goals,Cele,Goals
+statistics,Statystyki,Statistics
+settings,Ustawienia,Settings
+sign_in_with_google,Zaloguj się przez Google,Sign in with Google
+sign_in_with_facebook,Zaloguj się przez Facebook,Sign in with Facebook
+sign_in_with_email,Zaloguj się przez Email,Sign in with Email
+name,Nazwa,Name
+date_birth,Data urodzenia,Date Birth
+height,Wzrost,Height
+gender,Płeć,Gender
+daytime_activities,Dzienna aktywność,Daytime Activities
+very_low,Bardzo niska,Very low
+low,Niska,Low
+normal,Normalna,Normal
+medium,Średnia,Medium
+high,Wysoka,High
+weight,Waga,Weight
+target_weight,Docelowa waga,Target weight
+target_fat,Docelowa tkanka tłuszczowa,Target fat
+save,Zapisz,Save
+male,Mężczyzna,Male
+female,Kobieta,Female
+localeApp,Język aplikacji,Locale app
+localeBase,Baza prdouktów,Locale base
+healthSync,HealthSync,HealthSync
+autoPlay,Auto Play,Auto Play
+mute,Wycisz video,Mute
+dark_mode,Dark Mode,Dark Mode
+youtube,YouTube,YouTube
+instagram,Instagram,Instagram
+facebook,Facebook,Facebook
+bio,O użytkowniku,About the user
+private,Prywatny,Private
+public,Publiczny,Public
+access,Ustawienia prywatności, Access
+access_date_birth,Widoczność daty urodzenia,Access Date of Birth
+access_height,Widocznosć wzrostu,Access Height
+access_gender,Widocznosć płci,Access Gender
+access_meals,Widoczność posiłków,Access Meals
+access_stats,Widocznosc statystyk,Access Stats
+coach,Trener,Coach
+friends,Znajomi,Friends
+today,Dzisiaj,Today
+yesterday,Wczoraj,Yesterday
+tomorrow,Jutro,Tomorrow
+monday,poniedziałek,Monday
+tuesday,wtorek,Tuesday
+wednesday,środa,Wednesday
+thursday,czwartek,Thursday
+friday,piątek,Friday
+saturday,sobota,Saturday
+sunday,niedziela,Sunday
+no_activities_description,"Brak aktywności, praca siedząca",no_activities_description
+low_activities_description,Niska aktywność (praca siedząca i 1-2 treningi w tygodniu),low_activities_description
+normal_activities_description,Średnia aktywność (praca siedząca i treningi 3-4 razy w tygodniu),normal_activities_description
+medium_activities_description,Wysoka aktywność (praca fizyczna i 3-4 treningi w tygodniu),medium_activities_description
+high_activities_description,"Bardzo wysoka aktywność (zawodowi sportowcy, osoby codziennie trenujące)",high_activities_description
+formula_bmr,Wzór BMR,Formula BMR
+standard,Standardowy,Standard
+advanced,Zaawansowany,Advanced
+formula_standard_description,"Wymagana znajomość wagi, wzrostu, daty urodzenia oraz płci"," daty urodzenia oraz płci"
+formula_advance_description,Wymagana znajomość wagi oraz poziomu tkanki tłuszczowej,formula_advance_description
+target_steps,Cel kroków,Target Steps
+target_burn_calories,Cel spalonych kalorii,Target Burn Calories
+macro,Makroskładniki,Macronutrients
+speed_change_weight,Szybkość zmiany wagi,Speed change weight
+kcal,Kcal,Kcal
+p,B,P
+c,W,C
+f,T,F
+breakfast,Śniadanie,Breakfast
+lunch,II Śniadanie,Lunch
+dinner,Obiad,Dinner
+supper,Kolacja,Supper
+snack,Przekąska,Snack
+favorites,Ulubione,Favorites
+products,Produkty,Products
+your_recipes,Twoje Przepisy,Your Recipes
+no_favorites,Brak ulubionych,No Favorites
+nutritional_values_out_of_100,Wartości odżywcze na 100,Nutritional values out of 100
+product_name,Nazwa produktu,Product Name
+category_primary,Kategoria główna,Category primary
+category_secondary,Kategoria drugorzędna,Category secondary
+body_fats,Tkanka Tłuszczowa,Fat tissue
+calories,Kalorie,Calories
+proteins,Białko,Proteins
+carbs,Węglowodany,Carbs
+fat,Tłuszcz,Fat
+fats,Tłuszcze,Fats
+kcal,Kcal,Kcal
+p,B,P
+c,W,C
+f,T,F
+sugar,Cukier,Sugar
+animal_proteins,Zwierzęce,Animal Proteins
+plant_proteins,Roślinne,Plant Proteins
+saturated,Nasycone,Saturated
+unsaturated,Nienasycone,Unsaturated
+omega3,Omega 3,Omega 3
+omega6,Omega 6,Omega 6
+fiber,Błonnik,Fiber
+caffeine,Kofeina,Caffeine
+cholesterol,Cholesterol,Cholesterol
+salt,Sól,Salt
+vitamins,Witaminy,Vitamins
+vitamin_a,Witamina A,Vitamin A
+vitamin_c,Witamina C,Vitamin C
+vitamin_d,Witamina D,Vitamin D
+vitamin_e,Witamina E,Vitamin E
+vitamin_k,Witamina K,Vitamin K
+vitamin_b1,Witamina B1,Vitamin B1
+vitamin_b2,Witamina B2,Vitamin B2
+vitamin_b3,Witamina B3,Vitamin B3
+vitamin_b5,Witamina B5,Vitamin B5
+vitamin_b6,Witamina B6,Vitamin B6
+vitamin_b7,Witamina B7,Vitamin B7
+vitamin_b9,Witamina B8,Vitamin B9
+vitamin_b12,Witamina B12,Vitamin B12
+potassium,Potas,Potassium
+sodium,Sód,Sodium
+calcium,Wapń,Calcium
+magnesium,Magnez,Magnesium
+phosphorus,Fosfor,Phosphorus
+iron,Żelazo,Iron
+copper,Miedź,Copper
+zinc,Cynk,Zinc
+selenium,Selen,Selenium
+manganese,Mangan,Manganese
+iodine,Jod,Iodine
+chromium,Chrom,Chromium
+more_about_the_product,Uzupełnij więcej o produkcie,more_about_the_product
+unit,Jednostka,Unit
+micro,Mikroskładniki,Micro
+others,Inne,Others
+fruits_vegetables_mushrooms,"Owoce, warzywa i grzyby",fruits_vegetables_mushrooms
+dairy_eggs,Nabiał i jaja,"Diary and eggs "
+meat,Mięso,Meat
+groceries,Artykuły spożywcze,Groceries
+frozen_foods,Mrożonki,Frozen foods
+supplements,Suplementy,Supplements
+drinks,Napoje,Drinks
+other,Inne,Other
+fruits,Owoce,Fruits
+vegetables,Warzywa,Vegetables
+mushrooms,Grzyby,Mushrooms
+milk_cream,Melko i śmietana," Milk and cream"
+butter_margarine,Masło i margaryna,Butter and margarine
+yogurt_desserts,Jogurty i serki," Yogurt and desserts"
+cheeses,Sery,Cheeses
+cottage_cheeses,Serki wiejskie,Cottage cheeses
+eggs,Jaja,Eggs
+poultry,Drób,Poultry
+beef,Wołowina,Beef
+pork,Wieprzowina,Pork
+rabbit,Królik,Rabbit
+venison,Dziczyzna,Venison
+fishes_seafood,Owoce morza,Fishes seafood
+sausages,Wędlina i kiełbasy,Sausages
+ready_meals,Gotowe produkty,Ready meals
+canned,Konserwy,Canned
+preserves,Przetwory,Preserves
+spices,Przyprawy,Spices
+sauces_oils_vinegar,Sosy oleje i oliwa z oliwek,Sauces oils vinegar
+loose_grain_products,Produkty sypkie i zbożowe,Loose grain products
+snacks_sweets,Słodkie przekąski,Snacks sweets
+bread,Chleb,Bread
+ready_meals,Produkty gotowe,Ready meals
+fishes_seafood,Ryby,Fishes seafood
+vegetables_fruits,Owoce i warzywa,Vegetables fruits
+portions,Porcje,Portions
+key_words,Słowa kluczowe,Key words
+portion,Porcja,Portion
+package,Opakowanie,Package
+portion,Porcja,Portion
+glass,Szklanka,a glass
+teaspoon,Łyżeczka,Teaspoon
+spoon,Łyżka,Spoon
+search_term_must_be_longer,Wyszukiwane hasło musi być dłuższe niż trzy litery,Search term must be longer than three letters
+bug_report,Zgłoś Błąd,Bug Report
+minerals,Minerały,Minerals
+total_value_macronutrients_must_be_description,Łączna wartość % makroskładników musi wynosić 100%,The total value of the % macronutrients must be 100%
+total,Podsumowanie,Total
+add,Dodaj,Add
+add_body_weight,Dodaj wage ciała,Add body weight
+add_body_muscle,Dodaj masę mieśniową,Add body muscle
+add_body_fat,Dodaj tkanke tłuszczą,Add body fat
+add_body_circumferences,Dodaj obwód ciała,Add body circumferences
+neck,Szyja,Neck
+chest,Klatka piersiowa,Chest
+biceps,Biceps,Biceps
+waist,Talia,Waist
+abdomen,Brzuch,Abdomen
+hips,Biodro,Hips
+thigh,Udo,Thigh
+calf,Łydka,Calf
+body_fat,Tkanka tłuszczowa,Body fat
+calculate_body_fat,Wyliczyć tkankę tłuszczową?,Calculate body fat?
+STEPS,Kroków,Steps
+BURN_CALORIES,Spalone kalorie,Burn calories
+BODY_WEIGHT,Waga ciała,Body weight
+BODY_FAT,Tkanka tłuszczowa,Body fats
+time,Czas,Time
+description,Opis,Description
+recipe_name,Nazwa Przepisu,Recipe Name
+visible,Widoczność,Visible
+enter_youtube_id,Wprowadź <id> lub <link> swojego filmu,Enter <id> or <link> your video
+massages,Wiadomości,Massages
+ingredients,Składniki,Ingredients
+notifications,Powiadomienia,Notifications
+workouts,Treningi,Workouts
+new,Nowe,New
+best,Najlepsze,Best
+popular,Popularne,Popular
+meal_type,Typ posiłku,Meal Type
+recipe_details,Szczegóły przepisu,Recipe Details
+ketogenic,Ketogeniczne,Ketogenic
+low_fats,Niskotłuszczowe,Low fats,
+high_protein,Wysokobiałkowe,High Protein
+search_recipes,Szukaj tylko przepisów,Search recipes
+search_products,Szukaj tylko produktów,Search products
+search_product_only_with_barcode,Szukaj tylko produktów z kodem kreskowym,
+search_verification_product_only,Szukaj tylko zweryfikowanych produktów,Search verification products only
+profile,Profil,Profile
+see_everything,Zobacz wszystko,See Everything
+followed,Obserwowani,Followed
+followers,Obserwujący,Followers
+no_following,Brak obserwowanych,No following
+no_followers,Brak obserwujących,No followers
+delete_account,Usuń konto,Delete account
+exercises,Ćwiczenia,Exercises
+only_look_for_coaches,Szukaj tylko trenerów,Only look for coaches
+coach,Trener,Coach
+help,Pomoc,Help
+skip,Pomiń,Skip
+next,Następny,Next
+done,Zakończ,Done
+portion_cannot_be_empty,Poracja nie może być pusta,portion_cannot_be_empty
+name_is_not_avilablea,Nazwa nie jest dostępna,Name is not avilablea
+pl,PL,PL
+en,EN,EN
+send,Wyślij,Send
+report_correction,Zgłoś korektę,Report correction
+report_bug,Zgłoś błąd,Report bug
+cancel,Anuluj,Cancel
+describe_error,Opisz dokładny powód zgłoszenia,Describe the exact reason for the report
+change,Zmień,Change
+is_aready_issue,"Wcześniej zgłoszony przez Ciebie błąd nie został jeszcze zweryfikowany, czy chcesz zmienić zgłoszenie?",is_aready_issue
+suggested,Sugerowane,Suggested
+gluten_free,Gluten free,Gluten free
+create_new_recipe,Utworz nowy przepis,Create new recipe
+edit,Edytuj,Edit
+delete_recipe,Usuń przepis,Delete recipe
+are_you_sure_delete_recipe,Tej operacji nie bedzie można cofnąć. Czy na pewno chcesz usunąć ten przepis?,This operation cannot be undone. Are you sure you want to delete this recipe?
+yes,Tak,Yes
+no,Nie,No
+create,Utwórz,Create
+send_photos,Wyślij zdjęcia,Send photos
+create_product,Utwórz produkt,create product
+product_not_found,"Produkt nie został znaleziony.",product_not_found
+product_not_found_desc_1,"Możesz go utworzyć lub zrobić zdjęcia a my dodamy go w najbliższym możliwym terminie.",product_not_found_desc
+product_not_found_desc_2,"Otrzymaliśmy zdjecia tego produktu ale nie zdążyliśmy go jeszcze wprowadzić, możesz poczekać albo wprowadzić go sam.",product_not_found_desc_2
+image_product,Zdjęcie produktu,Image product
+image_macro,Zdjęcie makroskładników,Image macro
+image_support,Zdjęcie pomocniczne,Image support
+images_not_empty,Zdjęcia produktu i zdjęcie makrodskładników nie może byc puste.,images_not_empty
+ok,ok,ok
