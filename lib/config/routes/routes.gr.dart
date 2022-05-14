@@ -20,6 +20,7 @@ import '../../app/account/screens/my_account_screen.dart' as _i6;
 import '../../app/community/screen/community_screen.dart' as _i13;
 import '../../app/favorites/screens/favorites_screen.dart' as _i14;
 import '../../app/favorites/widgets/favorite_tab_bar.dart' as _i26;
+import '../../app/home/models/portions/portion_model.dart' as _i27;
 import '../../app/home/models/product/product_model.dart' as _i25;
 import '../../app/home/screens/create_product_screen.dart' as _i9;
 import '../../app/home/screens/diets_screen.dart' as _i16;
@@ -132,8 +133,10 @@ class AppRouter extends _i22.RootStackRouter {
           routeData: routeData, child: const _i19.ExerciseScreen());
     },
     PortionsRoute.name: (routeData) {
+      final args = routeData.argsAs<PortionsRouteArgs>();
       return _i22.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i20.PortionsScreen());
+          routeData: routeData,
+          child: _i20.PortionsScreen(key: args.key, list: args.list));
     },
     KeyWordsRoute.name: (routeData) {
       final args = routeData.argsAs<KeyWordsRouteArgs>();
@@ -393,10 +396,26 @@ class ExerciseRoute extends _i22.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i20.PortionsScreen]
-class PortionsRoute extends _i22.PageRouteInfo<void> {
-  const PortionsRoute() : super(PortionsRoute.name, path: '/portions-screen');
+class PortionsRoute extends _i22.PageRouteInfo<PortionsRouteArgs> {
+  PortionsRoute({_i23.Key? key, required List<_i27.Portion> list})
+      : super(PortionsRoute.name,
+            path: '/portions-screen',
+            args: PortionsRouteArgs(key: key, list: list));
 
   static const String name = 'PortionsRoute';
+}
+
+class PortionsRouteArgs {
+  const PortionsRouteArgs({this.key, required this.list});
+
+  final _i23.Key? key;
+
+  final List<_i27.Portion> list;
+
+  @override
+  String toString() {
+    return 'PortionsRouteArgs{key: $key, list: $list}';
+  }
 }
 
 /// generated route for
