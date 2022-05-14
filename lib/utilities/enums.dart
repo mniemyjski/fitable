@@ -11,4 +11,13 @@ class Enums {
       return null;
     }
   }
+
+  static toList(List<dynamic> enumValues) {
+    try {
+      return enumValues.map((e) => toText(e)).toList();
+    } catch (e) {
+      Logger().wtf('enum error!!!');
+      return null;
+    }
+  }
 }
