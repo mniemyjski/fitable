@@ -7,8 +7,8 @@ part of 'recipe_model.dart';
 // **************************************************************************
 
 _$_Recipe _$$_RecipeFromJson(Map<String, dynamic> json) => _$_Recipe(
-      uid: json['uid'] as String,
       id: json['id'] as String,
+      uid: json['uid'] as String,
       localeBase: json['localeBase'] as String,
       authorName: json['authorName'] as String,
       name: json['name'] as String,
@@ -35,8 +35,8 @@ _$_Recipe _$$_RecipeFromJson(Map<String, dynamic> json) => _$_Recipe(
     );
 
 Map<String, dynamic> _$$_RecipeToJson(_$_Recipe instance) => <String, dynamic>{
-      'uid': instance.uid,
       'id': instance.id,
+      'uid': instance.uid,
       'localeBase': instance.localeBase,
       'authorName': instance.authorName,
       'name': instance.name,

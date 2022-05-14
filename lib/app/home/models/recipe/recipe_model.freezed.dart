@@ -22,8 +22,8 @@ class _$RecipeTearOff {
   const _$RecipeTearOff();
 
   _Recipe call(
-      {required String uid,
-      required String id,
+      {required String id,
+      required String uid,
       required String localeBase,
       required String authorName,
       required String name,
@@ -43,8 +43,8 @@ class _$RecipeTearOff {
       required DateTime dateCreation,
       required DateTime dateLastUpdate}) {
     return _Recipe(
-      uid: uid,
       id: id,
+      uid: uid,
       localeBase: localeBase,
       authorName: authorName,
       name: name,
@@ -76,8 +76,8 @@ const $Recipe = _$RecipeTearOff();
 
 /// @nodoc
 mixin _$Recipe {
-  String get uid => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
   String get localeBase => throw _privateConstructorUsedError;
   String get authorName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -107,8 +107,8 @@ abstract class $RecipeCopyWith<$Res> {
   factory $RecipeCopyWith(Recipe value, $Res Function(Recipe) then) =
       _$RecipeCopyWithImpl<$Res>;
   $Res call(
-      {String uid,
-      String id,
+      {String id,
+      String uid,
       String localeBase,
       String authorName,
       String name,
@@ -139,8 +139,8 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? uid = freezed,
     Object? id = freezed,
+    Object? uid = freezed,
     Object? localeBase = freezed,
     Object? authorName = freezed,
     Object? name = freezed,
@@ -161,13 +161,13 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? dateLastUpdate = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: uid == freezed
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
       localeBase: localeBase == freezed
           ? _value.localeBase
@@ -251,8 +251,8 @@ abstract class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       __$RecipeCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String uid,
-      String id,
+      {String id,
+      String uid,
       String localeBase,
       String authorName,
       String name,
@@ -284,8 +284,8 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? uid = freezed,
     Object? id = freezed,
+    Object? uid = freezed,
     Object? localeBase = freezed,
     Object? authorName = freezed,
     Object? name = freezed,
@@ -306,13 +306,13 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
     Object? dateLastUpdate = freezed,
   }) {
     return _then(_Recipe(
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: uid == freezed
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
       localeBase: localeBase == freezed
           ? _value.localeBase
@@ -394,8 +394,8 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Recipe implements _Recipe {
   const _$_Recipe(
-      {required this.uid,
-      required this.id,
+      {required this.id,
+      required this.uid,
       required this.localeBase,
       required this.authorName,
       required this.name,
@@ -419,9 +419,9 @@ class _$_Recipe implements _Recipe {
       _$$_RecipeFromJson(json);
 
   @override
-  final String uid;
-  @override
   final String id;
+  @override
+  final String uid;
   @override
   final String localeBase;
   @override
@@ -461,7 +461,7 @@ class _$_Recipe implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(uid: $uid, id: $id, localeBase: $localeBase, authorName: $authorName, name: $name, keyWords: $keyWords, photosUrl: $photosUrl, description: $description, videoUrl: $videoUrl, access: $access, ingredients: $ingredients, portions: $portions, timePreparation: $timePreparation, verification: $verification, ratingsAvg: $ratingsAvg, ratingsCount: $ratingsCount, favoritesCount: $favoritesCount, commentsCount: $commentsCount, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate)';
+    return 'Recipe(id: $id, uid: $uid, localeBase: $localeBase, authorName: $authorName, name: $name, keyWords: $keyWords, photosUrl: $photosUrl, description: $description, videoUrl: $videoUrl, access: $access, ingredients: $ingredients, portions: $portions, timePreparation: $timePreparation, verification: $verification, ratingsAvg: $ratingsAvg, ratingsCount: $ratingsCount, favoritesCount: $favoritesCount, commentsCount: $commentsCount, dateCreation: $dateCreation, dateLastUpdate: $dateLastUpdate)';
   }
 
   @override
@@ -469,8 +469,8 @@ class _$_Recipe implements _Recipe {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Recipe &&
-            const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality()
                 .equals(other.localeBase, localeBase) &&
             const DeepCollectionEquality()
@@ -506,8 +506,8 @@ class _$_Recipe implements _Recipe {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        const DeepCollectionEquality().hash(uid),
         const DeepCollectionEquality().hash(id),
+        const DeepCollectionEquality().hash(uid),
         const DeepCollectionEquality().hash(localeBase),
         const DeepCollectionEquality().hash(authorName),
         const DeepCollectionEquality().hash(name),
@@ -541,8 +541,8 @@ class _$_Recipe implements _Recipe {
 
 abstract class _Recipe implements Recipe {
   const factory _Recipe(
-      {required String uid,
-      required String id,
+      {required String id,
+      required String uid,
       required String localeBase,
       required String authorName,
       required String name,
@@ -565,9 +565,9 @@ abstract class _Recipe implements Recipe {
   factory _Recipe.fromJson(Map<String, dynamic> json) = _$_Recipe.fromJson;
 
   @override
-  String get uid;
-  @override
   String get id;
+  @override
+  String get uid;
   @override
   String get localeBase;
   @override
